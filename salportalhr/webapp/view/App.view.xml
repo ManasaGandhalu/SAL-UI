@@ -1,4 +1,4 @@
-<mvc:View
+<!-- <mvc:View
     controllerName="com.sal.salportalhr.controller.App"
     xmlns:mvc="sap.ui.core.mvc"
     displayBlock="true"
@@ -13,4 +13,17 @@
             </pages>
         </App>
     </Shell>
+</mvc:View> -->
+
+
+<mvc:View
+	displayBlock="true"
+	height="100%"
+	xmlns="sap.f"
+	xmlns:mvc="sap.ui.core.mvc">
+		<FlexibleColumnLayout
+		id="flexibleColumnLayout"
+		stateChange=".onStateChanged"
+		backgroundDesign="Solid"
+		/>
 </mvc:View>

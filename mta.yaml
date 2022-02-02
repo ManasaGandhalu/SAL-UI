@@ -46,9 +46,23 @@ modules:
       - comsalsalportalhr.zip
       name: comsalsalportalhr
       target-path: resources/
+    - artifacts:
+      - comsapflexicolumn.zip
+      name: comsapflexicolumn
+      target-path: resources/
 - name: comsalsalportalhr
   type: html5
   path: salportalhr
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsapflexicolumn
+  type: html5
+  path: flexicolumn
   build-parameters:
     build-result: dist
     builder: custom
@@ -67,5 +81,23 @@ resources:
     service-plan: app-host
 - name: employee-portal-uaa
   type: org.cloudfoundry.existing-service
+- name: employee-portal-dest-srv
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: false
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-name: employee-portal-dest-srv
+    service-plan: lite
 parameters:
   deploy_mode: html5-repo
