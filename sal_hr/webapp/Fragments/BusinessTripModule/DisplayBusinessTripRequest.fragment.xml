@@ -9,7 +9,7 @@
     </form:SimpleForm>
 
     <form:SimpleForm title="{i18n>BusinessTravelDetails}" layout="ColumnLayout" class="style-RemoveTitleHeight" columnsM="2" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
-        <Label text="{i18n>7}"/>
+        <Label text="{i18n>RequestType}"/>
         <Text id="idDisplayReqType" text="{= ${DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_requestType} === '1' ? 'Raise Initial Request (1)' : 'Return and Closure (2)'}"/>
 
         <Label text="{i18n>PerDiemPayComponent}"/>

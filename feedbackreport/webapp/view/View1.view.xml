@@ -9,21 +9,21 @@
 
         <IconTabBar id="idIconTabBar"  select="onIconTabSelect" headerMode="Inline" expanded="true" class="sapUiResponsiveContentPadding">
                 <items>
-                    <IconTabFilter  text="{i18n>Rating}" >
+                    <IconTabFilter class="titleClass" text="{i18n>Rating}" >
                      
             
-				<content>
-                                            <HBox class="DateRangeCss"  alignContent="Right">
+				
+ <VBox class="MarginCss"  >
  <DateRangeSelection id="DRS2" width="20rem" change="onFilterDateChange" dateValue="{LocalViewModel>/FromDate}" secondDateValue="{LocalViewModel>/ToDate}"/>
-   </HBox>
+   </VBox> 
 				
 					
 				
-				</content>
-                 <HBox alignContent="Center">
+			
+                 <VBox class="MarginCss">
 			  <viz:Popover id="idPopOver"></viz:Popover>
 
-        <viz:VizFrame id="idVizFrame" uiConfig="{applicationSet:'fiori'}" vizType='donut' vizProperties="{title: { text : 'Rating '}}"
+        <viz:VizFrame id="idVizFrame" uiConfig="{applicationSet:'fiori'}" vizType='donut' vizProperties="{plotArea: { drawingEffect: 'glossy'}, title:{ text:'Rating'},dataLabel:{visible:true,showTotal:true}}"  
 												selectData="1" deselectData="2">
 												<viz:dataset>
 													<viz.data:FlattenedDataset 
@@ -44,26 +44,25 @@
 												</viz:feeds>
 											</viz:VizFrame>
 
-  </HBox >
+  </VBox >
                     </IconTabFilter>
                     <IconTabFilter  text="{i18n>Suggestions}" >
-                        <ScrollContainer height="40%" width="100%" class="sapUiSmallMarginTop" vertical="true" focusable="true">
-       
+                   
        <Table id="idSuggestionsTable"
 		        inset="false"
 
 
                   items="{ path: '/Suggestion', sorter: [{path: 'createdBy', descending: 'true'}] }"
-		       growing="true" growingScrollToLoad="true" growingThreshold="5">
+		       growing="true" growingScrollToLoad="true" growingThreshold="10">
 	
 	
 		<columns>
 			<Column
 				>
-				<Text text="Employee Id" />
+				<Label design="Bold"  text="Employee Id" />
 			</Column>
 			<Column>
-				<Text text="Suggestion" />
+				<Label design="Bold" text="Suggestion" />
 			</Column>
 			
 		</columns>
@@ -81,25 +80,25 @@
 			</ColumnListItem>
 		</items>
 	</Table>
-       </ScrollContainer>
+  
                     </IconTabFilter>
                      <IconTabFilter  text="{i18n>Complaints}" >
 
-                      <ScrollContainer height="40%" width="100%" class="sapUiSmallMarginTop" vertical="true" focusable="true">
+                     
        
        <Table id="idComplainsTable"
 		        inset="false"
 
-                items="{ path: '/Answer', filters: [{ path: 'questionId', operator: 'EQ', value1: '5' }], sorter: [{path: 'createdBy', descending: 'true'}] }" growing="true" growingScrollToLoad="true" growingThreshold="5">
+                items="{ path: '/Answer', filters: [{ path: 'questionId', operator: 'EQ', value1: '5' }], sorter: [{path: 'createdBy', descending: 'true'}] }" growing="true" growingScrollToLoad="true" growingThreshold="10">
 	
 	
 		<columns>
 			<Column
 				>
-				<Text text="Employee Id" />
+				<Label design="Bold" text="Employee Id" />
 			</Column>
 			<Column>
-				<Text text="Complain" />
+				<Label design="Bold" text="Complain" />
 			</Column>
 			
 		</columns>
@@ -117,37 +116,12 @@
 			</ColumnListItem>
 		</items>
 	</Table>
-       </ScrollContainer>
+    
                        
                     </IconTabFilter>
                 </items>
             </IconTabBar>
 
-        <!-- <OverflowToolbar>
-				<content>
-					<Title text="Ratings" level="H1" />
-					<ToolbarSpacer />
-					
-				
-				</content>
-			</OverflowToolbar> -->
-
-       
-
-        
-			<!-- <OverflowToolbar class="sapUiLargeMarginTop">
-				<content>
-					<Title text="Suggestions" level="H1" />
-					<ToolbarSpacer />
-					
-				
-				</content>
-			</OverflowToolbar>
-	 -->
-        	
-      
-    	
-        
         </content>
     </Page>
 </mvc:View>

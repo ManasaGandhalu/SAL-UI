@@ -20,8 +20,8 @@
 
                             </Select>
    
-                            <HBox class="DateRangeCss"  alignContent="Right">
- <DateRangeSelection id="DRS2" width="20rem" change="onFilterDateChange" dateValue="{LocalViewModel>/FromDate}" secondDateValue="{LocalViewModel>/ToDate}"/>
+                            <HBox>
+ <DateRangeSelection class="DateRangeCss" id="DRS2" width="20rem" change="onFilterDateChange" dateValue="{LocalViewModel>/FromDate}" secondDateValue="{LocalViewModel>/ToDate}"/>
    </HBox>
 
                         </HBox>    

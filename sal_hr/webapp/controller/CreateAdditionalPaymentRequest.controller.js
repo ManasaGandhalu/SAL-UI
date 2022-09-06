@@ -80,14 +80,14 @@ sap.ui.define([
                     sUserID = this.getOwnerComponent().getModel("EmpInfoModel").getData().userId;
                 }
 
-                var sEffectiveStartDate = this.getView().byId("idIssueDate").getDateValue();
+                var sEffectiveStartDate =  this.getFormattedDateValue("idIssueDate");
+
+               
                 var sCurrency = this.getView().byId("idInpCurrencyCode").getSelectedKey();
                 var sType = this.getView().byId("idInpType").getSelectedKey();
                 // var saltCostCenter = this.getView().byId("idInpAltCostCenter").getSelectedKey();
                 var sValue = this.getView().byId("idValueINP").getValue();
-                var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({ pattern: "yyyy-MM-dd" }),
-                    oDate = dateFormat.format(new Date(sEffectiveStartDate));
-                oDate = oDate + "T00:00:00";
+              
                 return {
                     "payComponentCode": sType,
                     "userId": sUserID,

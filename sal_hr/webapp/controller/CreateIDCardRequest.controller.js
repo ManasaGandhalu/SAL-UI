@@ -59,13 +59,7 @@ sap.ui.define([
 
             onRaiseRequestPress: function () {
                 var sEntityPath = "/SF_IDReplacement",
-                    oPayloadObj = this.fnGetIDReplacementRequestPayload(),
-                    dateFormat = sap.ui.core.format.DateFormat.getDateInstance({ pattern: "yyyy-MM-dd" }),
-                    oeffectiveStartDate = dateFormat.format(new Date(oPayloadObj.effectiveStartDate));
-
-                oeffectiveStartDate = oeffectiveStartDate + "T00:00:00";
-
-                oPayloadObj.effectiveStartDate = oeffectiveStartDate;
+                    oPayloadObj = this.fnGetIDReplacementRequestPayload();
 
                 this.getView().setBusy(true);
                 this.mainModel.create(sEntityPath, oPayloadObj, {
@@ -89,17 +83,27 @@ sap.ui.define([
                     }.bind(this)
                 })
             },
+            getFormattedDateValue:  function(idDate) {
+                if(!idDate) {
+                    return null;
+                }
+                var date = this.getView().byId(idDate).getText();
+                var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({ pattern: "yyyy-MM-dd" }),
+                date = dateFormat.format(new Date(date));
+                date += "T00:00:00";
+                return date;
+            },
 
             fnGetIDReplacementRequestPayload: function () {
                 var oDataObj = this.getView().getBindingContext().getObject(),
-                    sEffectiveStartDate = this.getView().byId("idEffectDatePicker").getText();
+                    sEffectiveStartDate = this.getFormattedDateValue("idEffectDatePicker");
 
                 return {
                     "User": oDataObj.userId,
-                    "effectiveStartDate": new Date(sEffectiveStartDate),
+                    "effectiveStartDate": sEffectiveStartDate,
                     "cust_idReplacementDetails": {
                         "cust_bloodGroup": oDataObj.bloodGroup,
-                        "cust_idReplacement_effectiveStartDate": new Date(sEffectiveStartDate),
+                        "cust_idReplacement_effectiveStartDate": sEffectiveStartDate,
 
                         "externalCode": "46986",
                         "cust_idReplacement_User": oDataObj.userId,

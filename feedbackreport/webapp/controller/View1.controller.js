@@ -66,5 +66,24 @@ sap.ui.define([
                     }.bind(this),
                 });
             },
+
+            onAfterRendering: function () {
+                var vizchart = this.getView().byId("idVizFrame");
+			vizchart.setVizProperties({
+				plotArea: {
+					adjustScale: true,
+					dataLabel: {
+						showTotal: true
+
+					}
+                },
+                legend: {
+					
+					visible: true,
+					showFullLabel: true
+				}}
+            );
+            }
+
         });
     });

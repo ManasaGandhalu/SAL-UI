@@ -1,1 +1,14 @@
 /* Enter your custom styles here */
+
+
+
+.sapMITBFilter .sapMITBText .sapMITHTextContent {
+   
+    font-weight: bold;
+}
+
+
+.MarginCss 
+{
+    margin-left: 40rem;
+} 
