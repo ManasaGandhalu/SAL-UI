@@ -81,6 +81,9 @@
                     <Column importance="High" popinDisplay="Inline">
                         <Label text="{i18n>TargetedSLA}" class="tblHeaderText" />
                     </Column>
+                    <Column importance="High" popinDisplay="Inline">
+                        <Label text="{i18n>RemainingSLA}" class="tblHeaderText" />
+                    </Column>
                     <Column hAlign="End" width="10rem" importance="High">
                         <Label text="{i18n>Status}" class="tblHeaderText" />
                     </Column>
@@ -97,6 +100,7 @@
                             <Text text="{path : 'requestDate',type:'sap.ui.model.type.Date',formatOptions: {pattern: 'MM/dd/yyyy'}}" type="Bold" />
                             <Text text="{= ${assignedTo} !== null ? ${assignedTo} : 'NA'}"/>
                             <ObjectIdentifier title="{= ${slaTargetDate} !== null ? ${path : 'slaTargetDate',type:'sap.ui.model.type.Date',formatOptions: {pattern: 'MM/dd/yyyy HH:mm:ss'},formatter:'.formatter.handleNoData'} : 'NA'}" />
+                           <ObjectStatus text="{parts:['slaMinutes','slaCounter'],formatter:'.formatter.ticketSLACounter'}" />
                            <ObjectStatus text="{parts:['status','externalStatus'],formatter:'.formatter.ticketStatusText1'}" state="{path:'status',formatter:'.formatter.ticketStatus'}" />
                         </cells>
                     </ColumnListItem>

@@ -453,5 +453,19 @@ sap.ui.define([], function () {
             var oNow = new Date(localDate);
             return oDateFormat.format(oNow);
         },
+    
+    ticketSLACounter: function(slaMinutes, slaCounter) {
+        var hours = 0, min = 0;
+        if(slaMinutes != null) {
+            if(slaCounter) {
+                hours = slaMinutes/60;
+                min = slaMinutes % 60;
+                return `${hours} hr ${min} min`;
+            }
+            hours = slaMinutes/60;
+            min = slaMinutes % 60;
+        }
+        return `${hours} hr ${min} min`;
+    }
   };
 });
