@@ -81,7 +81,6 @@ sap.ui.define([
                         this.getView().setBusy(false);
                         this._fnSetUserName(oData);
                         this._fnSetDisplayEditBusinessTripModel(oData);
-                        this.setTimelineSteps();
                     }.bind(this),
                     error: function (oError) {
                         this.getView().setBusy(false);

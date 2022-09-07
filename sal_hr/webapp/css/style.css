@@ -137,3 +137,20 @@
     color: #999;
     text-decoration: line-through;
 }
+
+.wfPendingData .sapFGLI {
+	background: transparent !important;
+	box-shadow: none !important;
+}
+
+.wfPendingData .sapMListHdrText {
+	background-color: transparent !important;
+}
+
+.wfPendingData .sapFGridListGroup>.sapMLIB.sapMGHLI {
+    padding-left: 0px;
+}
+
+.wfPendingData .sapMFlexItemAlignAuto {
+	margin: 0px !important;
+}

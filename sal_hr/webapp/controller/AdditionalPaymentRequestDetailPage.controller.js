@@ -101,6 +101,10 @@ sap.ui.define(
 
                 callWorkflowPendindDataService: function (wfID) {
                     if (!wfID) {
+                        var oWorkflowPendingDataModel = new JSONModel({
+                            items: []
+                        });
+                        this.getView().setModel(oWorkflowPendingDataModel, "WorkflowPendingDataModel");
                         return false;
                     }
 
@@ -123,7 +127,7 @@ sap.ui.define(
                                 var oWorkflowPendingDataModel = new JSONModel({
                                     items: items
                                 });
-                                this.getView().setModel(oWorkflowPendingDataModel, "WorkflowPendingDataModel")
+                                this.getView().setModel(oWorkflowPendingDataModel, "WorkflowPendingDataModel");
                             }
                         }
                         .bind(this),

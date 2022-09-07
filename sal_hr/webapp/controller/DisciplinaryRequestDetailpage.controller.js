@@ -69,7 +69,6 @@ sap.ui.define([
                         else{
                             this.getView().getModel("LocalViewModel").setProperty("/uploadAttachmentVisible", true);
                         }
-                        this.setTimelineSteps();
                     }.bind(this),
                     error: function (oError) {
                     }.bind(this),

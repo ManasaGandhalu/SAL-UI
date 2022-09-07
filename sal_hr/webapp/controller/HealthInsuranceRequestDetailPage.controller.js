@@ -85,7 +85,6 @@ sap.ui.define(
               success: function (oData) {
                 this.getView().setBusy(false);
                 this.fnSetDisplayHealthInsuranceModel(oData);
-                this.setTimelineSteps();
               }.bind(this),
               error: function () {
                 this.getView().setBusy(false);
