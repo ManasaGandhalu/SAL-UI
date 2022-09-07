@@ -70,7 +70,6 @@ sap.ui.define([
                         this.getView().setBusy(false);
                         this.fnSetUserName(oData);
                         this._fnSetDisplayEditAirpassModel(oData);
-                        this.setTimelineSteps();
                     }.bind(this),
                     error: function (oError) {
                         this.getView().setBusy(false);

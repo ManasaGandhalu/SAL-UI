@@ -110,6 +110,7 @@ sap.ui.define([
                     oData.results[0].ticketWorkflowParticipants = oTicketWorkflowParticipantData;
                     this.getView().setBusy(false);
                     this._bindView(oData);
+                    window.setTimeout(this.setTimelineSteps.bind(this), 200);
                 }.bind(this),
                 error: function (oError) {
                     debugger;

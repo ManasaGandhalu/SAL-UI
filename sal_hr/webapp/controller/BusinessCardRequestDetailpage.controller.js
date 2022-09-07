@@ -75,7 +75,6 @@ sap.ui.define([
                             this.getView().setBusy(false);
                             this.fnSetCreateBusinessCardLocalModel();
                             this.onCallHistoryData(object.ticketCode);
-                            this.setTimelineSteps();
                         }.bind(this)
                     }
                 });

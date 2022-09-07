@@ -454,18 +454,34 @@ sap.ui.define([], function () {
             return oDateFormat.format(oNow);
         },
     
-    ticketSLACounter: function(slaMinutes, slaCounter) {
+    ticketSLACounter: function(slaMinutes, slaCounter, slaViolated) {
+        if(slaMinutes == 0 || slaMinutes == null) {
+            if(slaViolated) {
+                return 'SLA Violated';
+            } else {
+                return 'SLA Completed';
+            }
+        }
         var hours = 0, min = 0;
         if(slaMinutes != null) {
             if(slaCounter) {
-                hours = slaMinutes/60;
+                hours = Math.floor(slaMinutes/60);
                 min = slaMinutes % 60;
                 return `${hours} hr ${min} min`;
             }
-            hours = slaMinutes/60;
+            hours = Math.floor(slaMinutes/60);
             min = slaMinutes % 60;
         }
         return `${hours} hr ${min} min`;
+    },
+
+    ticketSLAState: function(slaMinutes, slaViolated) {
+        if(slaViolated) {
+            return 'Error';
+        } else if(slaMinutes == 0 || slaMinutes == null) {
+            return 'Success';
+        }
+        return 'Warning';
     }
   };
 });

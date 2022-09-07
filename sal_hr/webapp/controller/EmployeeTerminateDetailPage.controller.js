@@ -79,7 +79,6 @@ sap.ui.define([
                         dataReceived: function () {
                             this.getView().setBusy(false);
                             this.onCallHistoryData(object.ticketCode);
-                            this.setTimelineSteps();
                         }.bind(this)
                     }
                 });
