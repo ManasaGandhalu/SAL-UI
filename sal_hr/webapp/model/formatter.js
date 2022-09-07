@@ -467,12 +467,12 @@ sap.ui.define([], function () {
             if(slaCounter) {
                 hours = Math.floor(slaMinutes/60);
                 min = slaMinutes % 60;
-                return `${hours} hr ${min} min`;
+                return `${hours}hr ${min}min`;
             }
             hours = Math.floor(slaMinutes/60);
             min = slaMinutes % 60;
         }
-        return `${hours} hr ${min} min`;
+        return `${hours}hr ${min}min`;
     },
 
     ticketSLAState: function(slaMinutes, slaViolated) {
@@ -482,6 +482,16 @@ sap.ui.define([], function () {
             return 'Success';
         }
         return 'Warning';
+    },
+
+    ticketSLAIcon: function(slaMinutes, slaViolated) {
+        if(slaViolated) {
+            return 'sap-icon://alert';
+        } else if(slaMinutes == 0 || slaMinutes == null) {
+            return 'sap-icon://complete';
+        }
+        return 'sap-icon://history';
     }
+
   };
 });
