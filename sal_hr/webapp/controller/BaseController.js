@@ -127,7 +127,7 @@ sap.ui.define([
         setTimelineSteps: function() {
             var processFlows = $(".ticketProcessFlow span[data-sap-ui-icon-content]");
             $.each(processFlows, function(index, elem) {
-                elem.setAttribute("data-sap-ui-icon-content", index+1);
+                elem.setAttribute("data-sap-ui-icon-content", elem.parentElement.ariaPosInSet);
             });
         },
         _getSFUser: function (sId) {

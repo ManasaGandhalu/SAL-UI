@@ -154,3 +154,11 @@
 .wfPendingData .sapMFlexItemAlignAuto {
 	margin: 0px !important;
 }
+
+.sapUiVlt {
+	padding: 5px;
+}
+
+.sapUiVlt.sapUiNoContentPadding{
+	width: 100%;
+}

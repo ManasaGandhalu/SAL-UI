@@ -7,7 +7,7 @@
         <Panel backgroundDesign="Transparent">
 	
 
-		<f:GridList
+		<f:GridList class="wfPendingData"
 			
 			items="{
 				path: 'WorkflowPendingDataModel>/items',
