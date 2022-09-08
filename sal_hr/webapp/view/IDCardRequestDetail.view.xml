@@ -18,9 +18,9 @@
                         <Link id="idHumanResourceLink" text="{LocalViewModel>/PageTitle}" press="handleClose"/>
                     </Breadcrumbs>
                 </f:breadcrumbs>
-                <f:expandedContent>
+                <!-- <f:expandedContent>
                     <Label text="Request {headerModel>/ticketCode}"/>
-                </f:expandedContent>
+                </f:expandedContent> -->
 
                 <!--Withdraw not be visible for Manager Tile -->
                 <f:actions>

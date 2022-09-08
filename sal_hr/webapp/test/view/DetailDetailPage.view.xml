@@ -17,9 +17,9 @@
                         <Link id="idHumanResourceLink" text="{LocalViewModel>/PageTitle}" press="handleClose"/>
                     </Breadcrumbs>
                 </f:breadcrumbs>
-                <f:expandedContent>
+                <!-- <f:expandedContent>
                     <Label id="idRquestId" text="RequestID:{headerModel>/ticketCode}"/>
-                </f:expandedContent>
+                </f:expandedContent> -->
                 <f:actions>
                     <Button text="Modify" type="Emphasized" press="onEditPress" visible="{= ${LocalViewModel>/Modify} === true ? true : false }"/>
                     <Button text="Withdraw" type="Emphasized" press="onWithdrawPress" visible="{= ${LocalViewModel>/Modify} === true ? true : false }"/>
