@@ -18,9 +18,9 @@
                         <Link id="idHumanResourceLink" text="{LocalViewModel>/PageTitle}" press="handleClose"/>
                     </Breadcrumbs>
                 </f:breadcrumbs>
-                <f:expandedContent>
+                <!-- <f:expandedContent>
                     <Label text="Request {headerModel>/ticketCode}"/>
-                </f:expandedContent>
+                </f:expandedContent> -->
 
                 <!--Approve and Reject visible for Manager Tile -->
           <f:actions>

@@ -16,9 +16,9 @@
                         <Link id="idHumanResourceLink" press="handleClose" text="{LocalViewModel>/PageTitle}"/>
                     </Breadcrumbs>
                 </f:breadcrumbs>
-                <f:expandedContent>
+                <!-- <f:expandedContent>
                     <Label text="{i18n>RequestID} {headerModel>/ticketCode}"/>
-                </f:expandedContent>
+                </f:expandedContent> -->
 
                 <!--Modify and Withdraw not be visible for Manager Tile -->
               <f:actions>
