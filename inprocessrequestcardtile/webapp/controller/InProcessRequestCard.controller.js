@@ -55,8 +55,8 @@ sap.ui.define(
                   },
                   plotArea: {
                     dataLabel: {
-                      visible: false,
-                      showTotal: true,
+                      "visible": false,
+                      "type": "value"
                     },
                   },
                   title: {
