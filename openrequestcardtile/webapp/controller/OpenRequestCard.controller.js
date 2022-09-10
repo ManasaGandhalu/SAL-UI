@@ -152,6 +152,11 @@ sap.ui.define([
 
                     }
                 })) || "";
+
+                if(this.semanticObject === 'itsm_semantic') {
+                    hash+=`&/detail/${sSubModuleID}/detailDetail/${sExternalCode}/${sTicketID}/EndColumnFullScreen`;
+                }
+                
                 oCrossAppNavigator.toExternal({
                     target: {
                         shellHash: hash
