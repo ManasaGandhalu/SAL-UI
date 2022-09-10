@@ -2,7 +2,8 @@ sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/json/JSONModel",
     "sap/ui/core/Fragment",
-    'sap/ui/model/Sorter'
+    'sap/ui/model/Sorter',
+    "com/sal/donerequestcardtile/donerequestcardtile/model/formatter",
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
@@ -11,6 +12,7 @@ sap.ui.define([
         "use strict";
 
         return Controller.extend("com.sal.donerequestcardtile.donerequestcardtile.controller.DoneRequestCard", {
+            formatter: formatter,
             onInit: function () {
                 var oCardData = {
                     "donut": {

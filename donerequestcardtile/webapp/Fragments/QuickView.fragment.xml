@@ -11,6 +11,7 @@
         items="{path: 'FragmetModel>/',
                 sorter: {
 				path: 'subModuleId',
+                formatter:'.formatter.changeText
 				descending: false,
 				group: true
 			}}"
