@@ -16,8 +16,8 @@
 			},groupHeaderFactory: '.getGroupHeader'}"
 		>
 		<StandardListItem
-        	title="{FragmetModel>ticketCode}"
-			description="{FragmetModel>summary}"
+        	title="ID:{FragmetModel>ticketCode}"
+			description="Summary:{FragmetModel>summary}"
 			 />
 	</SelectDialog>
 </core:FragmentDefinition>
