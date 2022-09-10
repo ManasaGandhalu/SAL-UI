@@ -13,7 +13,7 @@
 				path: 'subModuleId',
 				descending: false,
 				group: true
-			},groupHeaderFactory: '.getGroupHeader'}"
+			}}"
 		>
 		<StandardListItem
         	title="ID:{FragmetModel>ticketCode}"
