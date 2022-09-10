@@ -8,7 +8,12 @@
 		search=".onSearch"
 		confirm=".onConfirmOpenRequest"
 		cancel=".onDialogClose1"
-        items="{path: 'FragmetModel>/'}"
+        items="{path: 'FragmetModel>/',
+                sorter: {
+				path: 'subModuleId',
+				descending: false,
+				group: true
+			},groupHeaderFactory: '.getGroupHeader'}"
 		>
 		<StandardListItem
         	title="ID:{FragmetModel>ticketCode}"

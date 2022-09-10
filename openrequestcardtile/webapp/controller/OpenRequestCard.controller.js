@@ -232,6 +232,12 @@ sap.ui.define([
                         }
                     })
                 }
+            },
+            getGroupHeader: function (oGroup){
+                return new GroupHeaderListItem({
+                    title: oGroup.key,
+                    upperCase: false
+                });
             }
         });
     });
