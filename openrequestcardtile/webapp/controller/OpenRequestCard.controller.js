@@ -202,7 +202,7 @@ sap.ui.define([
                         }
                     })
                 }
-                else  if(selectedSlice === "ITSM"){
+                else if(selectedSlice === "ITSM"){
                     this.semanticObject = "itsm_semantic";
                     this.action = "display";
                     var sStatusFilter = new sap.ui.model.Filter({
@@ -226,6 +226,41 @@ sap.ui.define([
                             this._oOpenAPDialog.setModel(oFragmetModel, "FragmetModel");
                             this._oOpenAPDialog.getModel("FragmetModel").setProperty("/titleName",selectedSlice);
                             this._oOpenAPDialog.open();
+                        }.bind(this),
+                        error:function(){
+    
+                        }
+                    })
+                }else if(selectedSlice === "Procurement"){
+                    this.semanticObject = "procurement_semantic";
+                    this.action = "display";
+    
+                    var sStatusFilter = new sap.ui.model.Filter({
+                        path: "status",
+                        operator: sap.ui.model.FilterOperator.EQ,
+                        value1: "PENDING"
+                    });
+                    var sModuleFilter = new sap.ui.model.Filter({
+                        path: "moduleId",
+                        operator: sap.ui.model.FilterOperator.EQ,
+                        value1: "2"
+                    });
+                    var filter = [];
+                    filter.push(sStatusFilter,sModuleFilter);
+                    this.getOwnerComponent().getModel().read("/Tickets",
+                    {
+                        urlParameters: {
+                            $expand: "subModule"
+                            
+                        },
+                    
+                        sorters: [ new Sorter("createdAt", true)],
+                        filters: [filter],
+                        success:function(oData){
+                            var oFragmetModel = new JSONModel(oData.results);
+                            this._oLabelAPDialog.setModel(oFragmetModel, "FragmetModel");
+                            this._oLabelAPDialog.getModel("FragmetModel").setProperty("/titleName",selectedSlice);
+                            this._oLabelAPDialog.open();
                         }.bind(this),
                         error:function(){
     
