@@ -194,6 +194,10 @@ sap.ui.define([
                     filter.push(sStatusFilter,sModuleFilter);
                     this.getOwnerComponent().getModel().read("/Tickets",
                     {
+                        urlParameters: {
+                            $expand: "subModule"
+                            
+                        },
                         sorters: [ new Sorter("createdAt", true)],
                         filters: [filter],
                         success:function(oData){
@@ -224,6 +228,10 @@ sap.ui.define([
                     filter.push(sStatusFilter,sModuleFilter);
                     this.getOwnerComponent().getModel().read("/Tickets",
                     {
+                        urlParameters: {
+                            $expand: "subModule"
+                            
+                        },
                         sorters: [ new Sorter("createdAt", true)],
                         filters: [filter],
                         success:function(oData){

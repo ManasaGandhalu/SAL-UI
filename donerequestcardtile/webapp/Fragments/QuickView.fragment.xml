@@ -16,8 +16,8 @@
 			}}"
 		>
 		<StandardListItem
-        	title="ID:{FragmetModel>ticketCode}"
-			description="Summary:{FragmetModel>summary}"
+        	title="ID: FragmetModel>ticketCode}"
+			description="Summary: {FragmetModel>summary}"
 			 />
 	</SelectDialog>
 </core:FragmentDefinition>

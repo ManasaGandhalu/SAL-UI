@@ -10,8 +10,7 @@
 		cancel=".onDialogClose"
         items="{path: 'FragmetModel>/',
                 sorter: {
-				path: 'subModule/name',
-              
+				path: 'subModule/name',             
 				descending: false,
 				group: true
 			}}"
