@@ -568,6 +568,10 @@ sap.ui.define([
                     })
                     break;
             }
+            let params = new URLSearchParams(location.search);
+            params.delete('submoduleId');
+            params.delete('ticketId');
+            history.replaceState(null, '', '?' + params + location.hash);
         },
         fillWorkflowParticipantDetails: function(oTicketWorkflowParticipantData) {
             if(oTicketWorkflowParticipantData) {
