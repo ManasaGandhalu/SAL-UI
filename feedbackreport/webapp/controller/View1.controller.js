@@ -75,7 +75,7 @@ sap.ui.define([
                         dataLabel: {
                             showTotal: true
                         },
-                        colorPalette: ['#179C6F','#F26018','#FA8072']
+                        colorPalette: ['#107e3e','#df6e0c','#b00']
                     },
                     legend: {
 
