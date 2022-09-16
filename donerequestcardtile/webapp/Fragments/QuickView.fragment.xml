@@ -16,7 +16,7 @@
 			}}"
 		>
 		<StandardListItem
-        	title="ID: FragmetModel>ticketCode}"
+        	title="ID: {FragmetModel>ticketCode}"
 			description="Summary: {FragmetModel>summary}"
 			 />
 	</SelectDialog>
