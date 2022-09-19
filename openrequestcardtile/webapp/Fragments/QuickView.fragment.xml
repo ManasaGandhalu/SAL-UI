@@ -8,11 +8,16 @@
 		search=".onSearch"
 		confirm=".onConfirmOpenRequest"
 		cancel=".onDialogClose1"
-        items="{path: 'FragmetModel>/'}"
+        items="{path: 'FragmetModel>/',
+                sorter: {
+				path: 'subModule/name',
+				descending: false,
+				group: true
+			}}"
 		>
 		<StandardListItem
-        	title="{FragmetModel>ticketCode}"
-			description="{FragmetModel>summary}"
+        	title="ID: {FragmetModel>ticketCode}"
+			description="Summary: {FragmetModel>summary}"
 			 />
 	</SelectDialog>
 </core:FragmentDefinition>

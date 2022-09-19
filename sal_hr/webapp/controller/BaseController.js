@@ -107,10 +107,19 @@ sap.ui.define([
                     $orderby:'stepNumber'
                 },
                 success: function (oTicketWorkflowParticipantData) {
+                    // setting status for SKIPPED workflow steps
+                    var pIndex = oTicketWorkflowParticipantData.results.findIndex(o => o.status = "PENDING");
+                    var nIndex = oTicketWorkflowParticipantData.results.findIndex(o => o.status != "PENDING");
+                    if(pIndex >= 0 && pIndex < nIndex) {
+                        for (let i = pIndex; i < nIndex; i++) {
+                            oTicketWorkflowParticipantData.results[i].status = 'SKIPPED';
+                        }
+                    }
+
                     oData.results[0].ticketWorkflowParticipants = oTicketWorkflowParticipantData;
                     this.getView().setBusy(false);
                     this._bindView(oData);
-                    window.setTimeout(this.setTimelineSteps.bind(this), 200);
+                    window.setTimeout(this.setTimelineSteps.bind(this), 1000);
                 }.bind(this),
                 error: function (oError) {
                     debugger;
@@ -559,6 +568,10 @@ sap.ui.define([
                     })
                     break;
             }
+            let params = new URLSearchParams(location.search);
+            params.delete('submoduleId');
+            params.delete('ticketId');
+            history.replaceState(null, '', '?' + params + location.hash);
         },
         fillWorkflowParticipantDetails: function(oTicketWorkflowParticipantData) {
             if(oTicketWorkflowParticipantData) {

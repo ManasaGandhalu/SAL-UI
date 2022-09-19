@@ -201,6 +201,9 @@ sap.ui.define([], function () {
         case "PENDING":
           returnStatus = "Warning";
           break;
+        case "SKIPPED":
+          returnStatus = "Information";
+          break;
         default:
           returnStatus = "None";
       }

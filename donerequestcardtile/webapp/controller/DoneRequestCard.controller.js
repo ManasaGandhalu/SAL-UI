@@ -3,14 +3,16 @@ sap.ui.define([
     "sap/ui/model/json/JSONModel",
     "sap/ui/core/Fragment",
     'sap/ui/model/Sorter'
+    
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, JSONModel, Fragment, Sorter) {
+    function (Controller, JSONModel, Fragment, Sorter, formatter) {
         "use strict";
 
         return Controller.extend("com.sal.donerequestcardtile.donerequestcardtile.controller.DoneRequestCard", {
+           
             onInit: function () {
                 var oCardData = {
                     "donut": {
@@ -56,7 +58,7 @@ sap.ui.define([
                                 "plotArea": {
                                     "dataLabel": {
                                         "visible": true,
-                                        "showTotal": true
+                                        "type": "value"
                                     }
                                 },
                                 "title": {
@@ -154,6 +156,11 @@ sap.ui.define([
 
                     }
                 })) || "";
+
+                if(this.semanticObject === 'itsm_semantic') {
+                    hash+=`&/detail/${sSubModuleID}/detailDetail/${sExternalCode}/${sTicketID}/EndColumnFullScreen`;
+                }
+                
                 oCrossAppNavigator.toExternal({
                     target: {
                         shellHash: hash
@@ -192,6 +199,11 @@ sap.ui.define([
                     // this.getOwnerComponent().getModel().read("/Tickets",
                     this.getOwnerComponent().getModel().read(`/Tickets`,
                     {
+                        urlParameters: {
+                            $expand: "subModule"
+                            
+                        },
+                    
                         sorters: [ new Sorter("createdAt", true)],
                         filters: [filter],
                         success:function(oData){
@@ -224,6 +236,11 @@ sap.ui.define([
                     // this.getOwnerComponent().getModel().read("/tickets",
                     this.getOwnerComponent().getModel().read(`/Tickets`,
                     {
+                        
+                            urlParameters: {
+                                $expand: "subModule"
+                                
+                            },
                         sorters: [ new Sorter("createdAt", true)],
                         filters: [filter],
                         success:function(oData){
@@ -236,7 +253,47 @@ sap.ui.define([
     
                         }
                     })
-                }
+                }else if(selectedSlice === "Procurement"){
+                    this.semanticObject = "procurement_semantic";
+                    this.action = "display";
+                    var sStatusFilter = new sap.ui.model.Filter({
+                        path: "status",
+                        operator: sap.ui.model.FilterOperator.EQ,
+                        value1: "APPROVED"
+                    });
+                    var sModuleFilter = new sap.ui.model.Filter({
+                        path: "moduleId",
+                        operator: sap.ui.model.FilterOperator.EQ,
+                        value1: "2"
+                    });
+                    var filter = [];
+                    filter.push(sStatusFilter,sModuleFilter);
+                        // this.getOwnerComponent().getModel().read("/tickets",
+                        this.getOwnerComponent().getModel().read(`/Tickets`,
+                        {
+                            urlParameters: {
+                                $expand: "subModule"
+                                
+                            },
+                            sorters: [ new Sorter("createdAt", true)],
+                            filters: [filter],
+                            success:function(oData){
+                                var oFragmetModel = new JSONModel(oData.results);
+                                this._oDoneAPIialog.setModel(oFragmetModel, "FragmetModel");
+                                this._oDoneAPIialog.getModel("FragmetModel").setProperty("/titleName",selectedSlice);
+                                this._oDoneAPIialog.open();
+                            }.bind(this),
+                            error:function(){
+        
+                            }
+                        })
+                    }
+            },
+            getGroupHeader: function (oGroup){
+                return new GroupHeaderListItem({
+                    title: oGroup.key,
+                    upperCase: false
+                });
             }
         });
     });

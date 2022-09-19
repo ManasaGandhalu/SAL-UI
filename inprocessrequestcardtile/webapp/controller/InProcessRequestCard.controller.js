@@ -1,14 +1,15 @@
 sap.ui.define(
-  ["sap/ui/core/mvc/Controller", "sap/ui/model/json/JSONModel", 	"sap/ui/core/Fragment",  'sap/ui/model/Sorter'],
+  ["sap/ui/core/mvc/Controller", "sap/ui/model/json/JSONModel", 	"sap/ui/core/Fragment",  'sap/ui/model/Sorter', 'com/sal/cards/inprocessrequestcardtile/model/formatter'],
   /**
    * @param {typeof sap.ui.core.mvc.Controller} Controller
    */
-  function (Controller, JSONModel, Fragment, Sorter) {
+  function (Controller, JSONModel, Fragment, Sorter, formatter) {
     "use strict";
 
     return Controller.extend(
       "com.sal.cards.inprocessrequestcardtile.controller.InProcessRequestCard",
       {
+        formatter: formatter,
         onInit: function () {
         
 
@@ -56,7 +57,7 @@ sap.ui.define(
                   plotArea: {
                     dataLabel: {
                       visible: true,
-                      showTotal: true,
+                      type: "value",
                     },
                   },
                   title: {
@@ -106,7 +107,9 @@ sap.ui.define(
               // urlParameters: {
               //     "IsUserManager": "true"
               // },
+              
               success: function (oData) {
+                  debugger;
                 var cardManifests = new JSONModel();
                 oCardData.donut["sap.card"].content.data.json.measures =
                   oData.results;
@@ -181,6 +184,11 @@ sap.ui.define(
 
                 }
             })) || "";
+
+            if(this.semanticObject === 'itsm_semantic') {
+                hash+=`&/detail/${sSubModuleID}/detailDetail/${sExternalCode}/${sTicketID}/EndColumnFullScreen`;
+            }
+
             oCrossAppNavigator.toExternal({
                 target: {
                     shellHash: hash
@@ -217,8 +225,12 @@ sap.ui.define(
                 });
                 var filter = [];
                 filter.push(sStatusFilter,sModuleFilter);
-                this.getOwnerComponent().getModel().read("/Tickets",
+                this.getOwnerComponent().getModel().read("/Tickets",             
                 {
+                    urlParameters: {
+                        $expand: "subModule"
+                        
+                    },
                     sorters: [ new Sorter("createdAt", true)],
                     filters: [filter],
                     success:function(oData){
@@ -251,6 +263,46 @@ sap.ui.define(
                 filter.push(sStatusFilter,sModuleFilter);
                 this.getOwnerComponent().getModel().read("/Tickets",
                 {
+                    urlParameters: {
+                        $expand: "subModule"
+                        
+                    },
+                
+                    sorters: [ new Sorter("createdAt", true)],
+                    filters: [filter],
+                    success:function(oData){
+                        var oFragmetModel = new JSONModel(oData.results);
+			            this._oLabelAPDialog.setModel(oFragmetModel, "FragmetModel");
+                        this._oLabelAPDialog.getModel("FragmetModel").setProperty("/titleName",selectedSlice);
+			            this._oLabelAPDialog.open();
+                    }.bind(this),
+                    error:function(){
+
+                    }
+                })
+            } else if(selectedSlice === "Procurement"){
+                this.semanticObject = "procurement_semantic";
+                this.action = "display";
+
+                var sStatusFilter = new sap.ui.model.Filter({
+                    path: "status",
+                    operator: sap.ui.model.FilterOperator.EQ,
+                    value1: "PENDING"
+                });
+                var sModuleFilter = new sap.ui.model.Filter({
+                    path: "moduleId",
+                    operator: sap.ui.model.FilterOperator.EQ,
+                    value1: "2"
+                });
+                var filter = [];
+                filter.push(sStatusFilter,sModuleFilter);
+                this.getOwnerComponent().getModel().read("/Tickets",
+                {
+                    urlParameters: {
+                        $expand: "subModule"
+                        
+                    },
+                
                     sorters: [ new Sorter("createdAt", true)],
                     filters: [filter],
                     success:function(oData){
@@ -264,7 +316,13 @@ sap.ui.define(
                     }
                 })
             }
-        }
+        },
+        getGroupHeader: function (oGroup){
+			return new GroupHeaderListItem({
+				title: oGroup.key,
+				upperCase: false
+			});
+		}
       }
     );
   }

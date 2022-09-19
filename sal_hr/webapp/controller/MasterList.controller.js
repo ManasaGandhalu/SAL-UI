@@ -87,6 +87,7 @@ sap.ui.define(
           }
 
           var subModuleId = params.get("submoduleId"),
+                //  ticketId = null;
             ticketId = params.get("ticketId");
           if (subModuleId) {
             this._navToDetail(subModuleId, ticketId);
