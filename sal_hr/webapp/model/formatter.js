@@ -457,9 +457,9 @@ sap.ui.define([], function () {
             return oDateFormat.format(oNow);
         },
     
-    ticketSLACounter: function(slaMinutes, slaCounter, slaViolated) {
+    ticketSLACounter: function(slaMinutes, slaCounter, slaViolated, slaTargetDate, slaActualDate) {
         if(slaMinutes == 0 || slaMinutes == null) {
-            if(slaViolated) {
+            if(slaViolated || slaActualDate == null || slaActualDate > slaTargetDate) {
                 return 'SLA Violated';
             } else {
                 return 'SLA Completed';
@@ -478,20 +478,24 @@ sap.ui.define([], function () {
         return `${hours}hr ${min}min`;
     },
 
-    ticketSLAState: function(slaMinutes, slaViolated) {
-        if(slaViolated) {
-            return 'Error';
-        } else if(slaMinutes == 0 || slaMinutes == null) {
-            return 'Success';
+    ticketSLAState: function(slaMinutes, slaViolated, slaTargetDate, slaActualDate) {
+        if(slaMinutes == 0 || slaMinutes == null) {
+            if(slaViolated || slaActualDate == null || slaActualDate > slaTargetDate) {
+                return 'Error';
+            } else {
+                return 'Success';
+            }
         }
         return 'Warning';
     },
 
-    ticketSLAIcon: function(slaMinutes, slaViolated) {
-        if(slaViolated) {
-            return 'sap-icon://alert';
-        } else if(slaMinutes == 0 || slaMinutes == null) {
-            return 'sap-icon://complete';
+    ticketSLAIcon: function(slaMinutes, slaViolated, slaTargetDate, slaActualDate) {
+        if(slaMinutes == 0 || slaMinutes == null) {
+            if(slaViolated || slaActualDate == null || slaActualDate > slaTargetDate) {
+                return 'sap-icon://alert';
+            } else {
+                return 'sap-icon://complete';
+            }
         }
         return 'sap-icon://history';
     }
