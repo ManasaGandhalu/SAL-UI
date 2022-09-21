@@ -1,127 +1,83 @@
 <mvc:View controllerName="com.sal.feedbackreport.controller.View1"
-    xmlns:mvc="sap.ui.core.mvc" xmlns:viz="sap.viz.ui5.controls" 
-	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" xmlns:T="sap.ui.commons"  xmlns:viz.data="sap.viz.ui5.data" displayBlock="true"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+    xmlns:T="sap.ui.commons"
+    xmlns:viz.data="sap.viz.ui5.data" displayBlock="true"
     xmlns="sap.m">
     <Page id="page" showHeader="false">
         <content>
 
 
 
-        <IconTabBar id="idIconTabBar"  select="onIconTabSelect" headerMode="Inline" expanded="true" class="sapUiResponsiveContentPadding">
+            <IconTabBar id="idIconTabBar" select="onIconTabSelect" headerMode="Inline" expanded="true" class="sapUiResponsiveContentPadding">
                 <items>
-                    <IconTabFilter class="titleClass" text="{i18n>Rating}" >
-                     
-            
-				
- <VBox class="MarginCss"  >
- <DateRangeSelection id="DRS2" width="20rem" change="onFilterDateChange" dateValue="{LocalViewModel>/FromDate}" secondDateValue="{LocalViewModel>/ToDate}"/>
-   </VBox> 
-				
-					
-				
-			
-                 <VBox class="MarginCss">
-			  <viz:Popover id="idPopOver"></viz:Popover>
-
-        <viz:VizFrame id="idVizFrame" uiConfig="{applicationSet:'fiori'}" vizType='donut' vizProperties="{plotArea: { drawingEffect: 'glossy'}, title:{ text:'Rating'},dataLabel:{visible:true,showTotal:true}}"  
-												selectData="1" deselectData="2">
-												<viz:dataset>
-													<viz.data:FlattenedDataset 
-                                                    
-                                                    
-                                                    data="{RatingDataModel>/}" >
-														<viz.data:dimensions>
-															<viz.data:DimensionDefinition name="label" axis="1" value="{label}"/>
-														</viz.data:dimensions>
-														<viz.data:measures>
-															<viz.data:MeasureDefinition name="value" value="{value}"/>
-														</viz.data:measures>
-													</viz.data:FlattenedDataset>
-												</viz:dataset>
-												<viz:feeds>
-													<viz.feeds:FeedItem uid="size" type="Measure" values="value"/>
-													<viz.feeds:FeedItem uid="color" type="Dimension" values="label"/>
-												</viz:feeds>
-											</viz:VizFrame>
-
-  </VBox >
+                    <IconTabFilter class="titleClass" text="{i18n>Rating}">
+                        <VBox class="MarginCss">
+                            <DateRangeSelection id="DRS2" width="20rem" change="onFilterDateChange" dateValue="{LocalViewModel>/FromDate}" secondDateValue="{LocalViewModel>/ToDate}"/>
+                        </VBox>
+                        <VBox class="MarginCss">
+                            <viz:Popover id="idPopOver"></viz:Popover>
+                            <viz:VizFrame id="idVizFrame" uiConfig="{applicationSet:'fiori'}" vizType='donut' vizProperties="{plotArea: { drawingEffect: 'glossy'}, title:{ text:'Rating'},dataLabel:{visible:true,showTotal:true}}" selectData="1" deselectData="2">
+                                <viz:dataset>
+                                    <viz.data:FlattenedDataset data="{RatingDataModel>/}">
+                                        <viz.data:dimensions>
+                                            <viz.data:DimensionDefinition name="label" axis="1" value="{label}"/>
+                                        </viz.data:dimensions>
+                                        <viz.data:measures>
+                                            <viz.data:MeasureDefinition name="value" value="{value}"/>
+                                        </viz.data:measures>
+                                    </viz.data:FlattenedDataset>
+                                </viz:dataset>
+                                <viz:feeds>
+                                    <viz.feeds:FeedItem uid="size" type="Measure" values="value"/>
+                                    <viz.feeds:FeedItem uid="color" type="Dimension" values="label"/>
+                                </viz:feeds>
+                            </viz:VizFrame>
+                        </VBox >
                     </IconTabFilter>
-                    <IconTabFilter  text="{i18n>Suggestions}" >
-                   
-       <Table id="idSuggestionsTable"
-		        inset="false"
-
-
-                  items="{ path: '/Suggestion', sorter: [{path: 'createdBy', descending: 'true'}] }"
-		       growing="true" growingScrollToLoad="true" growingThreshold="10">
-	
-	
-		<columns>
-			<Column
-				>
-				<Label design="Bold"  text="Employee Id" />
-			</Column>
-			<Column>
-				<Label design="Bold" text="Suggestion" />
-			</Column>
-			
-		</columns>
-		<items>
-			<ColumnListItem vAlign="Middle">
-				<cells>
-				
-					<Text
-						text="{createdBy}" />
-					<Text
-						text="{suggestion}" />
-				
-						
-				</cells>
-			</ColumnListItem>
-		</items>
-	</Table>
-  
+                    <IconTabFilter text="{i18n>Suggestions}">
+                        <Table id="idSuggestionsTable" inset="false" items="{ path: '/Suggestion', sorter: [{path: 'createdBy', descending: 'true'}] }" growing="true" growingScrollToLoad="true" growingThreshold="10">
+                            <columns>
+                                <Column>
+                                    <Label design="Bold" text="Employee Id" />
+                                </Column>
+                                <Column>
+                                    <Label design="Bold" text="Suggestion" />
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem vAlign="Middle">
+                                    <cells>
+                                        <Text text="{createdBy}" />
+                                        <Text text="{suggestion}" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
                     </IconTabFilter>
-                     <IconTabFilter  text="{i18n>Complaints}" >
-
-                     
-       
-       <Table id="idComplainsTable"
-		        inset="false"
-
-                items="{ path: '/Answer', filters: [{ path: 'questionId', operator: 'EQ', value1: '5' }], sorter: [{path: 'createdBy', descending: 'true'}] }" growing="true" growingScrollToLoad="true" growingThreshold="10">
-	
-	
-		<columns>
-			<Column
-				>
-				<Label design="Bold" text="Employee Id" />
-			</Column>
-			<Column>
-				<Label design="Bold" text="Complain" />
-			</Column>
-			
-		</columns>
-		<items>
-			<ColumnListItem vAlign="Middle">
-				<cells>
-				
-					<Text
-						text="{createdBy}" />
-					<Text
-						text="{answerText}" />
-				
-						
-				</cells>
-			</ColumnListItem>
-		</items>
-	</Table>
-    
-                       
+                    <IconTabFilter text="{i18n>Complaints}">
+                        <Table id="idComplainsTable" inset="false" items="{ path: '/Answer', filters: [{ path: 'questionId', operator: 'EQ', value1: '5' }], sorter: [{path: 'createdBy', descending: 'true'}] }" growing="true" growingScrollToLoad="true" growingThreshold="10">
+                            <columns>
+                                <Column>
+                                    <Label design="Bold" text="Employee Id" />
+                                </Column>
+                                <Column>
+                                    <Label design="Bold" text="Complain" />
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem vAlign="Middle">
+                                    <cells>
+                                        <Text text="{createdBy}" />
+                                        <Text text="{answerText}" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
                     </IconTabFilter>
                 </items>
             </IconTabBar>
-
         </content>
     </Page>
 </mvc:View>

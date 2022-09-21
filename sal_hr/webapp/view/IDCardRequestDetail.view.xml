@@ -72,7 +72,7 @@
                         <ObjectAttribute title="Timeline"/>
                        	<ui:MicroProcessFlow class="ticketProcessFlow" content="{headerModel>/ticketWorkflowParticipants/results}">
 		                    <ui:content>
-			                    <ui:MicroProcessFlowItem  state="{path: 'headerModel>status', formatter:'.formatter.ticketStatus'}" press="itemPress" />
+			                    <ui:MicroProcessFlowItem title="{headerModel>status}" state="{path: 'headerModel>status', formatter:'.formatter.ticketStatus'}" press="itemPress" />
                             </ui:content>
 	                    </ui:MicroProcessFlow>
 

@@ -12,16 +12,16 @@ sap.ui.define([
         return Controller.extend("com.sal.feedbackreport.controller.View1", {
             onInit: function () {
                 var oCurrentDate = new Date(),
-                oFromDate = oCurrentDate.getDate() - 7;
-               oFromDate = new Date(oCurrentDate.setDate(oFromDate));
-               var oLocalViewModel = new JSONModel({
-                FromDate: oFromDate,
-                ToDate: new Date()
-            });
-            var oVizFrame = this.oVizFrame = this.getView().byId("idVizFrame");
-            var oPopOver = this.getView().byId("idPopOver");
-            oPopOver.connect(oVizFrame.getVizUid());
-            oPopOver.setFormatString(ChartFormatter.DefaultPattern);
+                    oFromDate = oCurrentDate.getDate() - 7;
+                oFromDate = new Date(oCurrentDate.setDate(oFromDate));
+                var oLocalViewModel = new JSONModel({
+                    FromDate: oFromDate,
+                    ToDate: new Date()
+                });
+                var oVizFrame = this.oVizFrame = this.getView().byId("idVizFrame");
+                var oPopOver = this.getView().byId("idPopOver");
+                oPopOver.connect(oVizFrame.getVizUid());
+                oPopOver.setFormatString(ChartFormatter.DefaultPattern);
                 this.getView().setModel(oLocalViewModel, "LocalViewModel");
                 this.onCallChartData();
             },
@@ -30,33 +30,33 @@ sap.ui.define([
                 this.getView().getModel("LocalViewModel").setProperty("/ToDate", oEvent.getSource().getSecondDateValue());
                 this.getView().getModel("LocalViewModel").refresh();
                 var oFromDate = this.getView().getModel("LocalViewModel").getProperty("/FromDate"),
-                oToDate = this.getView().getModel("LocalViewModel").getProperty("/ToDate"),
+                    oToDate = this.getView().getModel("LocalViewModel").getProperty("/ToDate"),
 
 
-                dateFormat = sap.ui.core.format.DateFormat.getDateInstance({ pattern: "yyyy-MM-dd" }),
-                oStartDate = dateFormat.format(new Date(oFromDate)),
-                oEndDate = dateFormat.format(new Date(oToDate)),
-                sStartDate = oStartDate + "T00:00:00.000Z",
-                // sEndDate = oEndDate + "T00:00:00.000Z";
+                    dateFormat = sap.ui.core.format.DateFormat.getDateInstance({ pattern: "yyyy-MM-dd" }),
+                    oStartDate = dateFormat.format(new Date(oFromDate)),
+                    oEndDate = dateFormat.format(new Date(oToDate)),
+                    sStartDate = oStartDate + "T00:00:00.000Z",
+                    // sEndDate = oEndDate + "T00:00:00.000Z";
 
-                // sEndateHrsMinsSeonds = `${oToDate.getHours()}:${oToDate.getMinutes()}:${oToDate.getSeconds()}`;
+                    // sEndateHrsMinsSeonds = `${oToDate.getHours()}:${oToDate.getMinutes()}:${oToDate.getSeconds()}`;
 
-                sEndDate =   oStartDate === oEndDate ? oEndDate + "T23:59:59.000Z" : oEndDate + "T00:00:00.000Z"; 
+                    sEndDate = oStartDate === oEndDate ? oEndDate + "T23:59:59.000Z" : oEndDate + "T00:00:00.000Z";
                 this.onCallChartData(sStartDate, sEndDate);
             },
-            onCallChartData: function (sStartDate, sEndDate ) {
+            onCallChartData: function (sStartDate, sEndDate) {
                 this.getView().setBusy(true);
                 this.getOwnerComponent().getModel().read("/HrAvgRatings", {
                     urlParameters: {
                         "$expand": "ratings",
                         "from": sStartDate ? sStartDate : "",
-                        "to": sEndDate ? sEndDate : "" 
-                     
+                        "to": sEndDate ? sEndDate : ""
+
                     },
                     success: function (oData, oResponse) {
                         this.getView().setBusy(false);
-                    var oResponseData = oData.results.length === 0 ? [] : oData.results[0].ratings.results;
-                        
+                        var oResponseData = oData.results.length === 0 ? [] : oData.results[0].ratings.results;
+
                         var oRatingDataModel = new JSONModel(oResponseData);
                         this.getView().setModel(oRatingDataModel, "RatingDataModel");
                     }.bind(this),
@@ -69,20 +69,21 @@ sap.ui.define([
 
             onAfterRendering: function () {
                 var vizchart = this.getView().byId("idVizFrame");
-			vizchart.setVizProperties({
-				plotArea: {
-					adjustScale: true,
-					dataLabel: {
-						showTotal: true
+                vizchart.setVizProperties({
+                    plotArea: {
+                        adjustScale: true,
+                        dataLabel: {
+                            showTotal: true
+                        },
+                        colorPalette: ['#107e3e','#df6e0c','#b00']
+                    },
+                    legend: {
 
-					}
-                },
-                legend: {
-					
-					visible: true,
-					showFullLabel: true
-				}}
-            );
+                        visible: true,
+                        showFullLabel: true
+                    }
+                }
+                );
             }
 
         });
