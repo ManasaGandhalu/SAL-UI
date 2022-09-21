@@ -59,6 +59,7 @@ sap.ui.define([
 
                         var oRatingDataModel = new JSONModel(oResponseData);
                         this.getView().setModel(oRatingDataModel, "RatingDataModel");
+                        this.updateChartView(oResponseData);
                     }.bind(this),
                     error: function (oError) {
                         this.getView().setBusy(false);
@@ -67,15 +68,28 @@ sap.ui.define([
                 });
             },
 
-            onAfterRendering: function () {
+            updateChartView: function (oRatings) {
                 var vizchart = this.getView().byId("idVizFrame");
+                var colors = [];
+                //'#107e3e','#df6e0c','#b00'
+                if(oRatings != null && oRatings.length > 0) {
+                    for(var i = 0; i < oRatings.length; i++) {
+                        if(oRatings[i].label == "Excellent") {
+                            colors.push('#107e3e');
+                        } else if(oRatings[i].label == "Needs Improvement") {
+                            colors.push('#b00');
+                        } else {
+                            colors.push('#df6e0c');
+                        }
+                    }
+                }
                 vizchart.setVizProperties({
                     plotArea: {
                         adjustScale: true,
                         dataLabel: {
                             showTotal: true
                         },
-                        colorPalette: ['#107e3e','#df6e0c','#b00']
+                        colorPalette: colors
                     },
                     legend: {
 
