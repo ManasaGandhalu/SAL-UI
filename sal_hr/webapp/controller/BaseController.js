@@ -119,7 +119,7 @@ sap.ui.define([
                     oData.results[0].ticketWorkflowParticipants = oTicketWorkflowParticipantData;
                     this.getView().setBusy(false);
                     this._bindView(oData);
-                    window.setTimeout(this.setTimelineSteps.bind(this), 200);
+                    window.setTimeout(this.setTimelineSteps.bind(this), 1000);
                 }.bind(this),
                 error: function (oError) {
                     debugger;
@@ -136,7 +136,7 @@ sap.ui.define([
         setTimelineSteps: function() {
             var processFlows = $(".ticketProcessFlow span[data-sap-ui-icon-content]");
             $.each(processFlows, function(index, elem) {
-                elem.setAttribute("data-sap-ui-icon-content", elem.parentElement.ariaPosInSet);
+                elem.setAttribute("data-sap-ui-icon-content", elem.parentElement.getAttribute("aria-posinset"));
             });
         },
         _getSFUser: function (sId) {
