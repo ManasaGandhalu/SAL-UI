@@ -3,10 +3,17 @@
     xmlns:core="sap.ui.core"
     xmlns:upload="sap.m.upload">
 
-    <form:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="2" columnsXL="2" singleContainerFullSize="false" class="style-RemoveTitleHeight" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+     <Dialog id="idEditBusinessDialog"  busyIndicatorDelay='0' contentWidth="70%">
+		<buttons>
+		<Button text="Save" press="onPressEditSave" />
+			<Button text="Back" press="onCloseBTEditForm"/>
+		</buttons>
+		<content>
+
+    <!-- <form:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="2" columnsXL="2" singleContainerFullSize="false" class="style-RemoveTitleHeight" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
         <Label text="{i18n>whenWouldYouLiketoText}?" required="true"/>
         <DatePicker id="idEditEffectDatePicker" value="{path:'DisplayEditBusinessTripModel>/effectiveStartDate', type:'sap.ui.model.type.Date', formatOptions: {pattern: 'MM/dd/yyyy'}}" minDate="{LocalViewModel>/currentDate}"/>
-    </form:SimpleForm>
+    </form:SimpleForm> -->
 
     <form:SimpleForm title="{i18n>BusinessTravelDetails}" layout="ColumnLayout" class="style-RemoveTitleHeight" columnsM="2" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
         <Label text="{i18n>RequestType}" required="true"/>
@@ -20,7 +27,8 @@
         </Select>
 
         <Label text="{i18n>PerDiemPayComponent}" required="true"/>
-        <Input id="idEditPayComp" value="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_perDiemPayComp}" type="Number" enabled="false"/>
+        <!-- <Input id="idEditPayComp" value="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_perDiemPayComp}" type="Number" enabled="false"/> -->
+       <Input id="idEditPayComp" value="Business Trip Per-Diem Off Cycle" enabled="false"/>
 
         <Label text="{i18n>TotalTravelAmount}" required="true"/>
         <Input id="idEditTravelAmt" value="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_totalAmount}" type="Number" enabled="false"/>
@@ -38,7 +46,7 @@
         </Select>
 
         <Label text="{i18n>AirlinetickettobebookedbyHR}?" required="true"/>
-        <Select id="idEditHRBook" selectedKey="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_isCompany}" change="onTimeTyeChange">
+        <Select id="idEditHRBook" selectedKey="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_isCompany}" change="onAirLineTicketChange">
             <core:Item key="true" text="Yes"/>
             <core:Item key="false" text="No"/>
         </Select>
@@ -85,15 +93,17 @@
         <TimePicker id="idEditTravelTime" value="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_travelTime}" valueFormat="HH:mm" displayFormat="HH:mm" maskMode="On" />
 
         <Label text="{i18n>DestinationCountry}"/>
-        <Select id="idEditDestCountry" showSecondaryValues="true" items="{path: '/SF_Country',
-                                                            
+       
+        <Select
+            id="idEditDestCountry"
+            selectedKey="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_destination}"
+            items="{path: '/SF_Country',                                          
                                                          sorter : {
                                                              path : 'externalName_defaultValue' 
-                                                        } }" change="onDestCountryChange" selectedKey="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_destination}">
-
-            <core:ListItem key="{code}" text="{code}" additionalText="{externalName_defaultValue}"/>
+                                                        } }"
+            change="onDestCountryChange"   >
+            <core:Item key="{code}" text="{externalName_defaultValue}" />
         </Select>
-
         <Label visible="{= ${LocalViewModel>/cityVisible} === true ? true : false }" text="{i18n>CitySaudi}"/>
         <Select visible="{= ${LocalViewModel>/cityVisible} === true ? true : false }" id="idEditCity" selectedKey="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_city}" change="onCitySaudiChange" items="{ path: '/SF_PickListValueV2',
                                                             filters: [
@@ -148,8 +158,8 @@
         <Label text="{i18n>ArrivalTime}"/>
         <Input id="idEditArrivalTime" value="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_businessTravelArrTime}"/>
 
-        <Label text="{i18n>PayComponent}"/>
-        <Input id="idEditPayCom" value="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_businessTravelPayComp}" enabled="false"/>
+        <!-- <Label text="{i18n>PayComponent}"/> -->
+        <!-- <Input id="idEditPayCom" value="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_businessTravelPayComp}" enabled="false"/> -->
 
         <Label text="{i18n>TicketAmount}"/>
         <Input id="idEditTicketAmt" value="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_ticketAmount}"/>
@@ -177,8 +187,8 @@
                     <Label text="{i18n>ArrivalTime}" />
                     <Input id="idEditTrainingArrivalTime" value="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_trainingTravelArrTime}" />
 
-                    <Label text="{i18n>PayComponent}"/>
-                    <Input id="idEditTrainingPayCom" value="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_trainingTravelPayComp}" enabled="false"/>
+                    <!-- <Label text="{i18n>PayComponent}"/> -->
+                    <!-- <Input id="idEditTrainingPayCom" value="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_trainingTravelPayComp}" enabled="false"/> -->
 
                     <Label text="{i18n>TicketAmount}" />
                     <Input id="idEditTrainingTicketAmt" value="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_ticketAmount}" type="Number" change="fnCalculateTotalPerDiem"/>
@@ -194,7 +204,8 @@
             </OverflowToolbar>
         </upload:toolbar>
         <upload:items>
-            <upload:UploadSetItem fileName="{BusinessTripAttachmentModel>/businessTravelAttachment/fileName}" mediaType="{BusinessTripAttachmentModel>/businessTravelAttachment/mimeType}"/>
+            <upload:UploadSetItem fileName="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/businessTravelattachmentFileName}" mediaType="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/businessTravelattachmentMimeType}"/>
+          <!-- <upload:UploadSetItem fileName="{BusinessTripAttachmentModel>/businessTravelAttachment/fileName}" mediaType="{BusinessTripAttachmentModel>/businessTravelAttachment/mimeType}"/> -->
         </upload:items>
     </upload:UploadSet>
 
@@ -207,7 +218,8 @@
             </OverflowToolbar>
         </upload:toolbar>
         <upload:items>
-            <upload:UploadSetItem fileName="{BusinessTripAttachmentModel>/trainingTravelAttachment/fileName}" mediaType="{BusinessTripAttachmentModel>/trainingTravelAttachment/mimeType}"/>
+            <!-- <upload:UploadSetItem fileName="{BusinessTripAttachmentModel>/trainingTravelAttachment/fileName}" mediaType="{BusinessTripAttachmentModel>/trainingTravelAttachment/mimeType}"/> -->
+            <upload:UploadSetItem fileName="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/trainingTravelattachmentFileName}" mediaType="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/trainingTravelattachmentMimeType}"/>
         </upload:items>
     </upload:UploadSet>
 
@@ -238,7 +250,8 @@
             </OverflowToolbar>
         </upload:toolbar>
         <upload:items>
-            <upload:UploadSetItem fileName="{BusinessTripAttachmentModel>/visaCopyAttachment/fileName}" mediaType="{BusinessTripAttachmentModel>/visaCopyAttachment/mimeType}"/>
+            <!-- <upload:UploadSetItem fileName="{BusinessTripAttachmentModel>/visaCopyAttachment/fileName}" mediaType="{BusinessTripAttachmentModel>/visaCopyAttachment/mimeType}"/> -->
+         <upload:UploadSetItem fileName="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/visaCopyattachmentFileName}" mediaType="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/visaCopyattachmentMimeType}"/>
         </upload:items>
     </upload:UploadSet>
 
@@ -250,7 +263,8 @@
             </OverflowToolbar>
         </upload:toolbar>
         <upload:items>
-            <upload:UploadSetItem fileName="{BusinessTripAttachmentModel>/receiptEmbassyAttachment/fileName}" mediaType="{BusinessTripAttachmentModel>/receiptEmbassyAttachment/mimeType}"/>
+            <!-- <upload:UploadSetItem fileName="{BusinessTripAttachmentModel>/receiptEmbassyAttachment/fileName}" mediaType="{BusinessTripAttachmentModel>/receiptEmbassyAttachment/mimeType}"/> -->
+        <upload:UploadSetItem fileName="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/receiptEmbassyattachmentFileName}" mediaType="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/receiptEmbassyattachmentMimeType}"/>
         </upload:items>
     </upload:UploadSet>
     <form:SimpleForm title="{i18n>EmployeeInformation}" layout="ColumnLayout" class="style-RemoveTitleHeight" columnsM="2" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
@@ -266,4 +280,7 @@
         <Label text="{i18n>EmergencyPhoneNumber}"/>
         <Input id="idEditEmergencyPhn" value="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_emerPhoneNum}"/>
     </form:SimpleForm>
+
+     </content>
+	</Dialog>
 </core:FragmentDefinition>

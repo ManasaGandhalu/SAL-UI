@@ -3,10 +3,17 @@
     xmlns:core="sap.ui.core"
     xmlns:upload="sap.m.upload">
 
-    <form:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="2" columnsXL="2" singleContainerFullSize="false" class="style-RemoveTitleHeight" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+    <Dialog id="idCreateBusinessDialog"  busyIndicatorDelay='0' contentWidth="70%">
+		<buttons>
+		
+			<Button id="idCancel" text="Back" press="onCloseBTDisplayForm"/>
+		</buttons>
+		<content>
+
+    <!-- <form:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="2" columnsXL="2" singleContainerFullSize="false" class="style-RemoveTitleHeight" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
         <Label text="{i18n>whenWouldYouLiketoText}?"/>
         <Text id="idDisplayEffectDatePicker" text="{path:'DisplayEditBusinessTripModel>/effectiveStartDate', type:'sap.ui.model.type.Date', formatOptions: {pattern: 'MM/dd/yyyy'}}"/>
-    </form:SimpleForm>
+    </form:SimpleForm> -->
 
     <form:SimpleForm title="{i18n>BusinessTravelDetails}" layout="ColumnLayout" class="style-RemoveTitleHeight" columnsM="2" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
         <Label text="{i18n>RequestType}"/>
@@ -81,8 +88,8 @@
         <Label text="{i18n>ArrivalTime}" />
         <Text id="idDisplayArrivalTime" text="{= ${DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_businessTravelArrTime} ? ${DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_businessTravelArrTime} : '-'}"/>
 
-        <Label text="{i18n>PayComponent}"/>
-        <Text id="idDisplayPayCom" text="{= ${DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_businessTravelPayComp} ? ${DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_businessTravelPayComp} : '-'}"/>
+        <!-- <Label text="{i18n>PayComponent}"/> -->
+        <!-- <Text id="idDisplayPayCom" text="{= ${DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_businessTravelPayComp} ? ${DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_businessTravelPayComp} : '-'}"/> -->
 
         <Label text="{i18n>TicketAmount}"/>
         <Text id="idDisplayTicketAmt" text="{= ${DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_ticketAmount} ? ${DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_ticketAmount} : '-'}"/>
@@ -111,8 +118,8 @@
                     <Label text="{i18n>ArrivalTime}" />
                     <Text id="idDisplyTrainingArrivalTime" text="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_trainingTravelArrTime}" />
 
-                    <Label text="{i18n>PayComponent}"/>
-                    <Text id="idDisplyTrainingPayCom" text="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_trainingTravelPayComp}" />
+                    <!-- <Label text="{i18n>PayComponent}"/> -->
+                    <!-- <Text id="idDisplyTrainingPayCom" text="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_trainingTravelPayComp}" /> -->
 
                     <Label text="{i18n>TicketAmount}" />
                     <Text id="idDisplyTrainingTicketAmt" text="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_ticketAmount}" />
@@ -200,4 +207,7 @@
         <Label text="{i18n>EmergencyPhoneNumber}" />
         <Text id="idDisplayEmergencyPhn" text="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_emerPhoneNum}" />
     </form:SimpleForm>
+
+    </content>
+	</Dialog>
 </core:FragmentDefinition>

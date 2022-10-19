@@ -218,7 +218,7 @@ sap.ui.define([
                 }
             };
         }),
-        fnGetBusinessTripEmpInfo: function(sExternalCode) {
+        fnGetBusinessTripEmpInfo: function(sExternalCode,sPath) {
             debugger;
             this.empModel = this.getOwnerComponent().getModel();
             var sKey = this.getView().getModel().createKey("/EmpInfo", {
@@ -230,7 +230,7 @@ sap.ui.define([
                     "moreInfo": true
                 },
                 success: function (oData) {
-                    this.fnSetEmployeeBusinessTripModel(oData);
+                    this.fnSetEmployeeBusinessTripModel(oData,sPath);
                 }.bind(this),
                 error: function (oError) {
                     this.getView().setBusy(false);

@@ -36,6 +36,7 @@ sap.ui.define([
 
             // This Function is used to set the custom parameter for Tickets table binding according to user type as Manager or not?
             onUpdateTicketsBindingStart: function (oEvent) {
+                debugger;
                 var sIsUserManager = this.getOwnerComponent().getModel("EmpInfoModel").getProperty("/IsUserManager").toString();
                 oEvent.getSource().getBinding("items").sCustomParams = "IsUserManager=" + sIsUserManager;
                 oEvent.getSource().getBinding("items").mCustomParams.IsUserManager = sIsUserManager;
@@ -49,6 +50,9 @@ sap.ui.define([
                 });
 
                 var bIsUserManager = this.getOwnerComponent().getModel("EmpInfoModel").getProperty("/IsUserManager").toString();
+
+              
+
                 this.getView().bindElement({
                     path: sKey,
                     parameters: {
@@ -330,6 +334,30 @@ sap.ui.define([
                     this.byId("idTicketTable").getBinding("items").filter(new Filter(oFilterSearch, true));
                     //this.byId("idTicketTable").getBinding("items").filter(oFilterSearch, "Application");
                 }
+            },
+            onSelectBTFilter:function(oEvent){
+                debugger;
+               
+                  var sSelectedKey = oEvent.getSource().getSelectedKey();
+                  var oFilterSearch = [];
+                  
+                
+                 
+                    if(sSelectedKey === "All"){
+                        oFilterSearch = [];
+                        this.byId("idTicketTable").getBinding("items").filter(new Filter(oFilterSearch, true));
+                  }else {
+                    oFilterSearch.push(new Filter("externalCode2", FilterOperator.EQ, sSelectedKey));
+
+                    this.byId("idTicketTable").getBinding("items").filter(new Filter(oFilterSearch, true));
+                  
+                  }
+
+                  
+                  
+               
+
+               
             }
 
 

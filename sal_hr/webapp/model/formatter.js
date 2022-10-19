@@ -498,6 +498,18 @@ sap.ui.define([], function () {
             }
         }
         return 'sap-icon://history';
+    },
+
+    formatBusinessDates: function(sDate){
+
+        if(sDate){
+            var sDate = sDate.split("T")[0];
+            return sDate;
+        }
+
+        
+
+
     }
 
   };
