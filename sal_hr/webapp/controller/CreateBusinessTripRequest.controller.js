@@ -1,11 +1,14 @@
 sap.ui.define([
     "./BaseController",
     "sap/ui/model/json/JSONModel",
+    "com/sal/salhr/model/formatter"
 ],
 
-    function (BaseController, JSONModel) {
+    function (BaseController, JSONModel, formatter) {
         "use strict";
+
         return BaseController.extend("com.sal.salhr.controller.CreateBusinessTripRequest", {
+            formatter: formatter,
             onInit: function () {
                 this.oRouter = this.getRouter();
                 this.oRouter.getRoute("BusinessTripRequest").attachPatternMatched(this._onObjectMatched, this);
@@ -37,14 +40,15 @@ sap.ui.define([
 
                 this.getView().getModel("layoutModel").setProperty("/layout", sLayout);
 
-             
+
                 this.fnSetCreateBusinessTripModel();
-            
-                
+                this.fnCreateTableModel();
+
+
 
             },
             fnSetCreateBusinessTripModel: function () {
-              
+
                 this.EmpInfoObj = this.getOwnerComponent().getModel("EmpInfoModel").getData();
 
 
@@ -58,17 +62,16 @@ sap.ui.define([
 
                 var oCreateBusinessObj = {
                     "externalCode": sExternalCode,
-                 
                     "effectiveStartDate": new Date(),
                     "cust_toDutyTravelItem": [
                         {
                             "cust_userId": sExternalCode,
-                            
-                        "cust_dutyTravelMain_externalCode": sExternalCode,
-                          
-                        "cust_dutyTravelMain_effectiveStartDate": new Date(),
 
-                            "externalCode": sExternalCode,
+                            "cust_dutyTravelMain_externalCode": sExternalCode,
+
+                            "cust_dutyTravelMain_effectiveStartDate": new Date(),
+
+                            "externalCode": "0",
                             "externalName": null,
                             "cust_requestType": "1",
                             "cust_perDiemPayComp": "9256",
@@ -171,33 +174,33 @@ sap.ui.define([
                             "travelattachment1FileName": "travelattachment1.txt",
                             "isTravelAttach1New": false,
                             "travelattachment1UserId": sExternalCode,
-        
-        
+
+
                             "businessTravelattachmentFileContent": "businessTravelattachment create",
                             "businessTravelattachmentFileName": "businessTravelAttachment.txt",
                             "isbusinessTravelAttachNew": false,
                             "businessTravelattachmentUserId": sExternalCode,
-        
+
                             "trainingTravelattachmentFileContent": "trainingTravelattachment create",
                             "trainingTravelattachmentFileName": "trainingTravelattachment.txt",
                             "istrainingTravelAttachNew": false,
                             "trainingTravelattachmentUserId": sExternalCode,
-        
+
                             "receiptEmbassyattachmentFileContent": "receiptEmbassy 3create",
                             "receiptEmbassyattachmentFileName": "receiptEmbassy.txt",
                             "isreceiptEmbassyAttachNew": false,
                             "receiptEmbassyattachmentUserId": sExternalCode,
-        
+
                             "visaCopyattachmentFileContent": "visaCopy 6 create",
                             "visaCopyattachmentFileName": "visaCopy.txt",
                             "isvisaCopyAttachNew": false,
                             "visaCopyattachmentUserId": sExternalCode
 
-                         
+
 
                         }
                     ],
-                
+
 
                 },
 
@@ -205,12 +208,21 @@ sap.ui.define([
                     oCreateBusinessTripModel = new JSONModel(oCreateBusinessObj);
 
                 this.getView().setModel(oCreateBusinessTripModel, "CreateBusinessTripModel");
+
                 // this.getView().byId("idDestCountry").fireChange();
-                 this.onDestCountryChange();
+
+            },
+            fnCreateTableModel: function () {
+
+
+
+                var oModel = new JSONModel([]);
+
+                this.getView().setModel(oModel, "BusinessTripTableModel");
             },
 
 
-            onRaiseRequestPress: function () {
+            onAddBusinessRecords: function () {
                 debugger;
                 var sPath = "/SF_DutyTravelMain",
                     sValidationErrorMsg = this.fnValidateBusinessTripPayload(),
@@ -228,24 +240,24 @@ sap.ui.define([
                     sStartDate = oStartDate + "T00:00:00";
                     oPayload.effectiveStartDate = sStartDate;
 
-                    var sTravelDate = this.getView().byId("idTravelDate").getDateValue(),
+                    var sTravelDate = sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idTravelDate").getDateValue(),
                         oTravelDate = dateFormat.format(new Date(sTravelDate));
                     sTravelDate = oTravelDate + "T00:00:00";
                     oPayload.cust_toDutyTravelItem[0].cust_assignStartDate = sTravelDate;
 
 
-                    var sReturnDate = this.getView().byId("idReturnDate").getDateValue(),
+                    var sReturnDate = sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idReturnDate").getDateValue(),
                         oReturnDate = dateFormat.format(new Date(sReturnDate));
                     sReturnDate = oReturnDate + "T00:00:00";
                     oPayload.cust_toDutyTravelItem[0].cust_assignEndDate = sReturnDate;
 
 
-                    var sBusinessTravelDate = this.getView().byId("idFlightTravelDate").getDateValue(),
+                    var sBusinessTravelDate = sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idFlightTravelDate").getDateValue(),
                         oBusinessTravelDate = dateFormat.format(new Date(sBusinessTravelDate));
                     sBusinessTravelDate = oBusinessTravelDate + "T00:00:00";
                     oPayload.cust_toDutyTravelItem[0].cust_businessTravelDate = sBusinessTravelDate;
 
-                    var sTrainingTravelDate = this.getView().byId("idTrainingFlightTravelDate").getDateValue(),
+                    var sTrainingTravelDate = sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idTrainingFlightTravelDate").getDateValue(),
                         oTrainingTravelDate = dateFormat.format(new Date(sTrainingTravelDate));
                     sTrainingTravelDate = oTrainingTravelDate + "T00:00:00";
                     oPayload.cust_toDutyTravelItem[0].cust_trainingTravelDate = sTrainingTravelDate;
@@ -256,27 +268,28 @@ sap.ui.define([
                         oPayload.cust_toDutyTravelItem[0].cust_travelTime = "PT" + oPayload.cust_toDutyTravelItem[0].cust_travelTime.split(":")[0] + "H" + oPayload.cust_toDutyTravelItem[0].cust_travelTime.split(":")[1] + "M00S";
                     }
 
+                    if (this.newItem === true) {
+                        var oModel = this.getViewModel("BusinessTripTableModel");
+                        var aItems = oModel.getData().map(function (oItem) {
+                            return Object.assign({}, oItem);
+                        });
+                        //    aItems.push(oPayload);
+                        // oPayload.cust_toDutyTravelItem[0].externalCode = aItems.length.toString();
+                        aItems.push(oPayload.cust_toDutyTravelItem[0]);
+                         
+
+                        oModel.setData(aItems);
+                    }else {
+                        var sPath = this.sSelectedItem.getPath().slice("/".length);
+                        // oPayload.cust_toDutyTravelItem[0].externalCode = sPath;
+                        this.sSelectedItem.getModel().getData()[sPath] = oPayload.cust_toDutyTravelItem[0];
+                        // this.sSelectedItem.getModel().setData(oPayload.cust_toDutyTravelItem[0]);
+                        this.getViewModel("BusinessTripTableModel").refresh();
+                    }
 
 
-                    this.mainModel.create(sPath, oPayload, {
-                        success: function (oData, oResponse) {
-                            sap.m.MessageBox.success("Request Submitted Successfully.");
-                            this.getView().setBusy(false);
-                            this.getView().getModel().refresh();
-                            this.oRouter.navTo("detail", {
-                                parentMaterial: this.sParentID,
-                                layout: "TwoColumnsMidExpanded"
-
-                            });
-                        }.bind(this),
-                        error: function (oError) {
-                            this.getView().setBusy(false);
-                            sap.m.MessageBox.error(JSON.parse(JSON.parse(oError.responseText).error.message.value).error.message.value.split("]")[1]);
-                            this.getView().getModel().refresh();
 
 
-                        }.bind(this)
-                    })
                 } else {
                     sap.m.MessageBox.error(sValidationErrorMsg);
                 }
@@ -294,12 +307,12 @@ sap.ui.define([
                 this.getView().setBusy(true);
 
                 var sValidationErrorMsg = "",
-                    oEffectStartDatePicker = this.byId("idEffectDatePicker"),
-                    oTravelDatePicker = this.byId("idTravelDate"),
-                    oReturnDatePicker = this.byId("idReturnDate"),
-                    sDestinationCountry = this.getView().byId("idDestCountry"),
-                 
-                    sTravelJustification = this.byId("idTravelJustification");
+                    oEffectStartDatePicker = this.getView().byId("idEffectDatePicker"),
+                    oTravelDatePicker = sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idTravelDate"),
+                    oReturnDatePicker = sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idReturnDate"),
+                    sDestinationCountry = sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idDestCountry"),
+
+                    sTravelJustification = sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idTravelJustification");
                 if (!oEffectStartDatePicker.getValue()) {
                     oEffectStartDatePicker.setValueState("Error");
                     oEffectStartDatePicker.setValueStateText("Please select Efective Start date");
@@ -343,7 +356,7 @@ sap.ui.define([
                     sDestinationCountry.setValueState("None");
                 }
 
-        
+
 
                 // Validate Travel Justification
                 if (!sTravelJustification.getValue()) {
@@ -354,9 +367,9 @@ sap.ui.define([
                     sTravelJustification.setValueState("None");
                 }
 
-               
+
                 //   # Visa Copy Mandatory check
-                if (this.byId("idVisaType").getSelectedKey() === "V") {
+                if (sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idVisaType").getSelectedKey() === "V") {
                     // # Visa Copy Mandatory check
                     if (!this.getView().getModel("CreateBusinessTripModel").getProperty("/cust_toDutyTravelItem/0/isvisaCopyAttachNew")) {
                         sValidationErrorMsg = "Please upload Visa Copy.";
@@ -387,7 +400,7 @@ sap.ui.define([
                     layout: "TwoColumnsMidExpanded"
 
                 });
-            
+
                 this.onResetPress();
 
             },
@@ -612,7 +625,10 @@ sap.ui.define([
             },
             onDestCountryChange: function (oEvent) {
 
-                var sDestCountry = oEvent ? oEvent.getSource().getSelectedKey() : this.getView().byId("idDestCountry").getSelectedKey() ,
+                // var sDestCountry = oEvent ? oEvent.getSource().getSelectedKey() : this.getView().byId("idDestCountry").getSelectedKey() ,
+                //     sPayGrade = this.EmpInfoObj.payGrade;
+
+                var sDestCountry = oEvent ? oEvent.getSource().getSelectedKey() : sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idDestCountry").getSelectedKey(),
                     sPayGrade = this.EmpInfoObj.payGrade;
 
                 var sCountryVisibleSet = sDestCountry === "SAU" ? this.getView().getModel("LocalViewModel").setProperty("/cityVisible", true) : this.getView().getModel("LocalViewModel").setProperty("/cityVisible", false);
@@ -621,7 +637,7 @@ sap.ui.define([
 
                 var sCitySaudiVisibleSet = sDestCountry === "SAU" ? this.getView().getModel("LocalViewModel").setProperty("/otherCityVisible", true) : this.getView().getModel("LocalViewModel").setProperty("/otherCityVisible", false);
 
-                var sIOKValueSet = sDestCountry === "SAU" ? this.byId("idInsOutKingdom").setSelectedKey("IN") : this.byId("idInsOutKingdom").setSelectedKey("OUT");
+                var sIOKValueSet = sDestCountry === "SAU" ? sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idInsOutKingdom").setSelectedKey("IN") : sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idInsOutKingdom").setSelectedKey("OUT");
 
                 this.getView().getModel().read("/SF_DutyTravel_PerDiem",
                     {
@@ -629,7 +645,7 @@ sap.ui.define([
                             "$filter": "(cust_country eq '" + sDestCountry + "' and cust_salaryGrade eq '" + sPayGrade + "')"
                         },
                         success: function (oData) {
-                            this.getView().byId("idPerDiem").setValue(oData.results[0].cust_amount);
+                            sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idPerDiem").setValue(oData.results[0].cust_amount);
                             this.fnCalculateTotalPerDiem();
                         }.bind(this),
                         error: function (oError) {
@@ -649,8 +665,8 @@ sap.ui.define([
             },
             fnCalculateTotalPerDiem: function () {
 
-                var sTotalPerDiem = Number(this.byId("idPerDiem").getValue()) + Number(this.getView().getModel("CreateBusinessTripModel").getProperty("/cust_toDutyTravelItem/0/cust_ticketAmount")) + Number(this.byId("idVisaAmt").getValue());
-             
+                var sTotalPerDiem = Number(sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idPerDiem").getValue()) + Number(this.getView().getModel("CreateBusinessTripModel").getProperty("/cust_toDutyTravelItem/0/cust_ticketAmount")) + Number(sap.ui.core.Fragment.byId("idCreateBusinessDialog","idVisaAmt").getValue());
+
                 this.getView().getModel("CreateBusinessTripModel").setProperty("/cust_toDutyTravelItem/0/cust_totalPerDiem", sTotalPerDiem);
                 this.getView().getModel("CreateBusinessTripModel").setProperty("/cust_toDutyTravelItem/0/cust_totalAmount", sTotalPerDiem);
 
@@ -658,10 +674,13 @@ sap.ui.define([
             },
             onTravelDateChange: function (oEvent) {
                 var sTravelDate = oEvent.getSource().getValue();
-                this.getView().byId("idReturnDate").setValue(sTravelDate);
+                // this.getView().byId("idReturnDate").setValue(sTravelDate);
+                sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idReturnDate").setValue(sTravelDate);
+
             },
             onReturnDateChange: function (oEvent) {
-                var sTravelDate = this.getView().byId("idTravelDate").getDateValue();
+                // var sTravelDate = this.getView().byId("idTravelDate").getDateValue();
+                var sTravelDate = sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idTravelDate").getDateValue();
                 var sReturnDate = oEvent.getSource().getDateValue();
 
 
@@ -672,10 +691,96 @@ sap.ui.define([
                 } else {
                     oEvent.getSource().setValueState();
                     oEvent.getSource().setValueStateText("");
-                    this.getView().byId("idTravelDate").setValueState();
-                    this.getView().byId("idTravelDate").setValueStateText("");
+                    sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idTravelDate").setValueState();
+                    sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idTravelDate").setValueStateText("");
+                    // this.getView().byId("idTravelDate").setValueState();
+                    // this.getView().byId("idTravelDate").setValueStateText("");
 
                 }
+            },
+            onAddBusinessTripPress: function () {
+
+                if (!this._oCreateBusinessDialog) {
+                    this._oCreateBusinessDialog = sap.ui.xmlfragment("idCreateBusinessDialog", "com.sal.salhr.Fragments.BusinessTripModule.CreateBusinessTripRequest", this);
+                    this.getView().addDependent(this._oCreateBusinessDialog);
+                }
+                // this.oFragmetModel = new JSONModel(oContext.getObject());
+                // this._oCreateBusinessDialog.setModel(this.oFragmetModel, "oFragmetModel");
+
+
+                this.fnSetCreateBusinessTripModel();
+                this.onDestCountryChange();
+                var oCreateBusinessTripModel = this.getView().getModel("CreateBusinessTripModel");
+                this._oCreateBusinessDialog.setModel(oCreateBusinessTripModel, "CreateBusinessTripModel");
+                this._oCreateBusinessDialog.open();
+                this.newItem = true;
+            },
+
+            onCloseBTForm: function () {
+                this._oCreateBusinessDialog.close();
+            },
+            onPressSave: function (oEvent) {
+                debugger;
+                this.onAddBusinessRecords();
+                this._oCreateBusinessDialog.close();
+                this.getView().setBusy(false);
+
+            },
+            onRaiseRequestPress: function () {
+
+                var scust_toDutyTravelItem = this.getViewModel("BusinessTripTableModel").getData();
+
+                var oPayload = {
+                    "externalCode": this.EmpInfoObj.userId,
+                    "effectiveStartDate": new Date(),
+                    "cust_toDutyTravelItem": scust_toDutyTravelItem
+                }
+
+                this.mainModel.create("/SF_DutyTravelMain", oPayload, {
+                    success: function (oData, oResponse) {
+                        sap.m.MessageBox.success("Request Submitted Successfully.");
+                        this.getView().setBusy(false);
+                        this.getView().getModel().refresh();
+                        this.oRouter.navTo("detail", {
+                            parentMaterial: this.sParentID,
+                            layout: "TwoColumnsMidExpanded"
+
+                        });
+                    }.bind(this),
+                    error: function (oError) {
+                        this.getView().setBusy(false);
+                        sap.m.MessageBox.error(JSON.parse(JSON.parse(oError.responseText).error.message.value).error.message.value.split("]")[1]);
+                        this.getView().getModel().refresh();
+
+
+                    }.bind(this)
+                })
+
+            },
+            onDeleteItemPress: function (oEvent) {
+
+                var iRowNumberToDelete = parseInt(oEvent.getSource().getBindingContext("BusinessTripTableModel").getPath().slice("/".length));
+                var aTableData = this.getViewModel("BusinessTripTableModel").getProperty("/");
+                aTableData.splice(iRowNumberToDelete, 1);
+                this.getView().getModel("BusinessTripTableModel").refresh();
+            },
+            onEditItemPress: function (oEvent) {
+                this.sSelectedItem = oEvent.getSource().getBindingContext("BusinessTripTableModel");
+                var sFields = this.sSelectedItem.getObject();
+
+                sFields.cust_assignEndDate = new Date(sFields.cust_assignEndDate);
+                sFields.cust_assignStartDate = new Date(sFields.cust_assignStartDate);
+
+                var sData = {
+                    "externalCode": this.EmpInfoObj,
+                    "effectiveStartDate": new Date(),
+                    "cust_toDutyTravelItem": [sFields]
+                };
+
+                this.getView().getModel("CreateBusinessTripModel").setData(sData);
+                this.getView().getModel("CreateBusinessTripModel").refresh();
+                this._oCreateBusinessDialog.open();
+                this.newItem = false;
             }
 
 
