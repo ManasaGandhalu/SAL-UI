@@ -165,7 +165,7 @@ sap.ui.define([
                  this.getView().setBusy(false);
             },
 
-            _fnSetDisplayEditBusinessTripModel: function (oEvent) {
+            _fnSetDisplayEditBusinessTripModel: function (oEvent,sTicketId) {
                 this.sPath = oEvent.getSource().getBindingContext("BusinessTripTableModel").getPath().slice("/".length);
                 this.sSelectedItem = oEvent.getSource().getBindingContext("BusinessTripTableModel").getModel().getData();
 
@@ -185,10 +185,10 @@ sap.ui.define([
                var sAirTicketCheck =  this.sSelectedItem[this.sPath].cust_isCompany;
                if(sAirTicketCheck === true){
                 this.sSelectedItem[this.sPath].cust_expenseTypeTrainingTravel = "N";
-                sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditTicketAmt").setEnabled(false);
+                sTicketId.setEnabled(false);
                }else {
                 this.sSelectedItem[this.sPath].cust_expenseTypeTrainingTravel = "B";
-                sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditTicketAmt").setEnabled(true);
+                sTicketId.setEnabled(true);
                }
               
 
@@ -1079,8 +1079,8 @@ sap.ui.define([
                     this._oDisplayBusinessDialog = sap.ui.xmlfragment("idDisplayBusinessDialog", "com.sal.salhr.Fragments.BusinessTripModule.DisplayBusinessTripRequest", this);
                     this.getView().addDependent(this._oDisplayBusinessDialog);
                 }
-               
-                this._fnSetDisplayEditBusinessTripModel(oEvent);
+               var sTicketId = sap.ui.core.Fragment.byId("idEditBusinessDialog", "idDisplayTicketAmt");
+                this._fnSetDisplayEditBusinessTripModel(oEvent,sTicketId);
 
                 
 
@@ -1111,8 +1111,8 @@ sap.ui.define([
                         this._oEditBusinessDialog = sap.ui.xmlfragment("idEditBusinessDialog", "com.sal.salhr.Fragments.BusinessTripModule.EditBusinessTripRequest", this);
                         this.getView().addDependent(this._oEditBusinessDialog);
                     }
-    
-                    this._fnSetDisplayEditBusinessTripModel(oEvent);
+                   var sTicketId = sap.ui.core.Fragment.byId("idEditBusinessDialog", "idEditTicketAmt");
+                    this._fnSetDisplayEditBusinessTripModel(oEvent,sTicketId);
     
                     var oDisplayEditBusinessTripModel = this.getView().getModel("DisplayEditBusinessTripModel"),
                     oBusinessTripAttachmentModel =  this.getView().getModel("BusinessTripAttachmentModel");

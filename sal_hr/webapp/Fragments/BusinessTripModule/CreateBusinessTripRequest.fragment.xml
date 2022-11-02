@@ -29,15 +29,15 @@
             <core:ListItem key="{externalCode}" text="{label_defaultValue}" additionalText="{externalCode}" />
         </Select>
 
-        <Label text="{i18n>PerDiemPayComponent}" required="true" />
-        <Input id="idPayComp" value="Business Trip Per-Diem Off Cycle" enabled="false" />
+        <Label text="{i18n>PerDiemPayComponent}" required="true"/>
+        <Input id="idPayComp" value=" " enabled="false" />
 
         <Label text="{i18n>TotalTravelAmount}" required="true" />
         <Input id="idTravelAmt" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_totalAmount}" type="Number" enabled="false" />
     </form:SimpleForm>
     <form:SimpleForm title="{i18n>TravelRequest}" layout="ColumnLayout" class="style-RemoveTitleHeight" columnsM="2" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
         <Label text="{i18n>TripCategory}" required="true" />
-        <Select
+        <ComboBox
             id="idTripCategory"
             change="onTripCategoryChange"
             items="{ path: '/SF_PickListValueV2',
@@ -49,22 +49,22 @@
             selectedKey="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_tripCategory}"
         >
             <core:ListItem key="{externalCode}" text="{label_defaultValue}" additionalText="{externalCode}" />
-        </Select>
+        </ComboBox>
 
-        <Label text="{i18n>AirlinetickettobebookedbyHR}?" required="true" />
-        <Select id="idHRBook" change="onHRBookChange">
+        <Label text="{i18n>AirlinetickettobebookedbyHR}?" required="true"  />
+        <ComboBox id="idHRBook" change="onAirTicketHRChange" selectedKey="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_isCompany}">
             <core:Item key="true" text="Yes" />
             <core:Item key="false" text="No" />
-        </Select>
+        </ComboBox>
 
         <Label text="{i18n>HotelBookingRequired}?" />
-        <Select id="idHotlBook" change="onHotelBookChange" selectedKey="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_hotelBooking}">
+        <ComboBox id="idHotlBook" change="onHotelBookChange" selectedKey="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_hotelBooking}">
             <core:Item key="true" text="Yes" />
             <core:Item key="false" text="No" />
-        </Select>
+        </ComboBox>
 
         <Label text="{i18n>ExpenseTypeBusinessTravel}" visible="{= ${LocalViewModel>/businessTravel} === true ? true : false }" />
-        <Select
+        <ComboBox
             id="idBusinessExpense"
             change="onBusinessExpenseChange"
             visible="{= ${LocalViewModel>/businessTravel} === true ? true : false }"
@@ -76,10 +76,10 @@
                                        }"
         >
             <core:ListItem key="{externalCode}" text="{label_defaultValue}" additionalText="{externalCode}" />
-        </Select>
+        </ComboBox>
 
         <Label text="{i18n>ExpenseTypeTrainingTravel}" visible="{= ${LocalViewModel>/trainingTravel} === true ? true : false }" />
-        <Select
+        <ComboBox
             id="idTrainingExpense"
             change="onTrainingExpenseChange"
             visible="{= ${LocalViewModel>/trainingTravel} === true ? true : false }"
@@ -91,7 +91,7 @@
                                        }"
         >
             <core:ListItem key="{externalCode}" text="{label_defaultValue}" additionalText="{externalCode}" />
-        </Select>
+        </ComboBox>
 
         <Label text="{i18n>TravelBusinessJustification}" required="true" />
         <TextArea id="idTravelJustification" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_assignJustification}" />
@@ -120,7 +120,7 @@
         <TimePicker id="idAirlineTicket" valueFormat="HH:mm" displayFormat="HH:mm" maskMode="On" value="{path:'CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_travelTime'}" />
 
         <Label text="{i18n>DestinationCountry}" required="true" />
-        <Select
+        <ComboBox
             id="idDestCountry"
             selectedKey="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_destination}"
             items="{path: '/SF_Country',                                          
@@ -130,10 +130,10 @@
             change="onDestCountryChange"
         >
             <core:Item key="{code}" text="{externalName_defaultValue}" />
-        </Select>
+        </ComboBox>
 
         <Label visible="{= ${LocalViewModel>/cityVisible} === true ? true : false }" text="{i18n>CitySaudi}" />
-        <Select
+        <ComboBox
             visible="{= ${LocalViewModel>/cityVisible} === true ? true : false }"
             id="idCity"
             selectedKey="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_city}"
@@ -151,7 +151,7 @@
                                                         } }"
         >
             <core:Item key="{externalCode}" text="{label_defaultValue}" />
-        </Select>
+        </ComboBox>
 
         <Label visible="{= ${LocalViewModel>/otherCityVisible} === true ? true : false }" text="{i18n>OtherCity}" />
         <Input visible="{= ${LocalViewModel>/otherCityVisible} === true ? true : false }" id="idOtherCity" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_SAUotherCity}" />
@@ -161,10 +161,10 @@
         <Label text="{i18n>InsideOtsideKingdom}" required="true" />
         <!-- <Input id="idInsOutKingdom" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_inOutKingdom}" enabled="false" /> -->
 
-        <Select id="idInsOutKingdom" change="onInsideOutsideChange" enabled="false" selectedKey="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_inOutKingdom}">
+        <ComboBox id="idInsOutKingdom" change="onInsideOutsideChange" enabled="false" selectedKey="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_inOutKingdom}">
             <core:Item key="IN" text="Inside Kingdom (IN)" />
             <core:Item key="OUT" text="Outside Kingdom (OUT)" />
-        </Select>
+        </ComboBox>
 
         <Label text="{i18n>PerDiem}" />
         <Input id="idPerDiem" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_perDiem}" enabled="false" />
