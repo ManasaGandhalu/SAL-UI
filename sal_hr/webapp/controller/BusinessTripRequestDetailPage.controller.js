@@ -192,9 +192,11 @@ sap.ui.define([
                if(sTicketId){
                 if(sAirTicketCheck === true){
                     this.sSelectedItem[this.sPath].cust_expenseTypeTrainingTravel = "N";
+                    this.sSelectedItem[this.sPath].cust_expenseTypeBusinessTravel = "N";
                     sTicketId.setEnabled(false);
                    }else {
-                    this.sSelectedItem[this.sPath].cust_expenseTypeTrainingTravel = "B";
+                    this.sSelectedItem[this.sPath].cust_expenseTypeTrainingTravel = "T";
+                    this.sSelectedItem[this.sPath].cust_expenseTypeBusinessTravel = "B";
                     sTicketId.setEnabled(true);
                    }
                }
@@ -411,6 +413,9 @@ sap.ui.define([
                     // this.getView().getModel("DisplayEditBusinessTripModel").setProperty("/cust_toDutyTravelItem/0/cust_travelTime", (hours + ":" + minutes));
                 
                     this.getView().getModel("DisplayEditBusinessTripModel").getData().cust_toDutyTravelItem[sPath].cust_travelTime = (hours + ":" + minutes);
+                   
+                    this.getView().byId("idBusinessTripTable").getBinding("items").refresh(true);
+                
                 }
             },
 
@@ -596,6 +601,7 @@ sap.ui.define([
                     // });
 
                     this.getView().getModel("BusinessTripTableModel").getData()[this.sPath] = oPayloadObj.cust_toDutyTravelItem[0];
+                    this.getView().byId("idBusinessTripTable").getBinding("items").refresh(true);
                     this._oEditBusinessDialog.close();
                     this.getView().setBusy(false);
                     
