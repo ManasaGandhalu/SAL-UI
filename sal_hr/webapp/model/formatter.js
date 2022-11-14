@@ -458,46 +458,55 @@ sap.ui.define([], function () {
         },
     
     ticketSLACounter: function(slaMinutes, slaCounter, slaViolated, slaTargetDate, slaActualDate) {
-        if(slaMinutes == 0 || slaMinutes == null) {
-            if(slaViolated || slaActualDate == null || slaActualDate > slaTargetDate) {
-                return 'SLA Violated';
-            } else {
-                return 'SLA Completed';
-            }
-        }
-        var hours = 0, min = 0;
-        if(slaMinutes != null) {
-            if(slaCounter) {
-                hours = Math.floor(slaMinutes/60);
-                min = slaMinutes % 60;
-                return `${hours}hr ${min}min`;
-            }
-            hours = Math.floor(slaMinutes/60);
-            min = slaMinutes % 60;
-        }
-        return `${hours}hr ${min}min`;
+      if(!slaTargetDate) {
+        return 'NA';
+      }
+      if(slaMinutes == 0 || slaMinutes == null) {
+          if(slaViolated || slaActualDate == null || slaActualDate > slaTargetDate) {
+              return 'SLA Violated';
+          } else {
+              return 'SLA Completed';
+          }
+      }
+      var hours = 0, min = 0;
+      if(slaMinutes != null) {
+          if(slaCounter) {
+              hours = Math.floor(slaMinutes/60);
+              min = slaMinutes % 60;
+              return `${hours}hr ${min}min`;
+          }
+          hours = Math.floor(slaMinutes/60);
+          min = slaMinutes % 60;
+      }
+      return `${hours}hr ${min}min`;
     },
 
     ticketSLAState: function(slaMinutes, slaViolated, slaTargetDate, slaActualDate) {
-        if(slaMinutes == 0 || slaMinutes == null) {
-            if(slaViolated || slaActualDate == null || slaActualDate > slaTargetDate) {
-                return 'Error';
-            } else {
-                return 'Success';
-            }
-        }
-        return 'Warning';
+      if(!slaTargetDate) {
+        return 'None';
+      }
+      if(slaMinutes == 0 || slaMinutes == null) {
+          if(slaViolated || slaActualDate == null || slaActualDate > slaTargetDate) {
+              return 'Error';
+          } else {
+              return 'Success';
+          }
+      }
+      return 'Warning';
     },
 
     ticketSLAIcon: function(slaMinutes, slaViolated, slaTargetDate, slaActualDate) {
-        if(slaMinutes == 0 || slaMinutes == null) {
-            if(slaViolated || slaActualDate == null || slaActualDate > slaTargetDate) {
-                return 'sap-icon://alert';
-            } else {
-                return 'sap-icon://complete';
-            }
-        }
-        return 'sap-icon://history';
+      if(!slaTargetDate) {
+        return '';
+      }
+      if(slaMinutes == 0 || slaMinutes == null) {
+          if(slaViolated || slaActualDate == null || slaActualDate > slaTargetDate) {
+              return 'sap-icon://alert';
+          } else {
+              return 'sap-icon://complete';
+          }
+      }
+      return 'sap-icon://history';
     },
 
     formatBusinessDates: function(sDate){
