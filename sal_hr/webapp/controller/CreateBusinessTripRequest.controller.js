@@ -44,7 +44,8 @@ sap.ui.define([
                 this.fnSetCreateBusinessTripModel();
                 this.fnCreateTableModel();
 
-
+                this.startTravelDate = new Date().toLocaleDateString();
+                this.endTravelDate = new Date().toLocaleDateString();
 
             },
             fnSetCreateBusinessTripModel: function () {
@@ -830,19 +831,48 @@ sap.ui.define([
                 var sCitySaudiVisibleSet = sCitySaudi === "OTH" ? this.getView().getModel("LocalViewModel").setProperty("/otherCityVisible", true) : this.getView().getModel("LocalViewModel").setProperty("/otherCityVisible", false);
 
             },
+            // fnCalculateTotalPerDiem: function () {
+
+            //     var sTotalPerDiem = Number(sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idPerDiem").getValue()) + Number(this.getView().getModel("CreateBusinessTripModel").getProperty("/cust_toDutyTravelItem/0/cust_ticketAmount")) + Number(sap.ui.core.Fragment.byId("idCreateBusinessDialog","idVisaAmt").getValue());
+
+            //     this.getView().getModel("CreateBusinessTripModel").setProperty("/cust_toDutyTravelItem/0/cust_totalPerDiem", sTotalPerDiem);
+            //     this.getView().getModel("CreateBusinessTripModel").setProperty("/cust_toDutyTravelItem/0/cust_totalAmount", sTotalPerDiem);
+
+
+            // },
+
             fnCalculateTotalPerDiem: function () {
 
-                var sTotalPerDiem = Number(sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idPerDiem").getValue()) + Number(this.getView().getModel("CreateBusinessTripModel").getProperty("/cust_toDutyTravelItem/0/cust_ticketAmount")) + Number(sap.ui.core.Fragment.byId("idCreateBusinessDialog","idVisaAmt").getValue());
+                var diffTime = Math.abs(new Date(this.endTravelDate) - new Date(this.startTravelDate));
+                var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));  
+                diffDays = (diffDays === 0) ? 1: diffDays;  
 
+                var sTotalPerDiem = (Number(sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idPerDiem").getValue())*diffDays) + Number(this.getView().getModel("CreateBusinessTripModel").getProperty("/cust_toDutyTravelItem/0/cust_ticketAmount")) + Number(sap.ui.core.Fragment.byId("idCreateBusinessDialog","idVisaAmt").getValue());
                 this.getView().getModel("CreateBusinessTripModel").setProperty("/cust_toDutyTravelItem/0/cust_totalPerDiem", sTotalPerDiem);
                 this.getView().getModel("CreateBusinessTripModel").setProperty("/cust_toDutyTravelItem/0/cust_totalAmount", sTotalPerDiem);
 
-
             },
+
+
+
+            // onTravelDateChange: function (oEvent) {
+            //     var sTravelDate = oEvent.getSource().getValue();
+               
+            //     sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idReturnDate").setValue(sTravelDate);
+
+            // },
+
+
             onTravelDateChange: function (oEvent) {
+
                 var sTravelDate = oEvent.getSource().getValue();
-                // this.getView().byId("idReturnDate").setValue(sTravelDate);
+
                 sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idReturnDate").setValue(sTravelDate);
+                this.startTravelDate = oEvent.getParameter("newValue");
+
+                if(this.getView().getModel("CreateBusinessTripModel").getProperty("/cust_toDutyTravelItem/0/cust_destination") !== '') {
+                    this.fnCalculateTotalPerDiem();
+                }
 
             },
             onReturnDateChange: function (oEvent) {
