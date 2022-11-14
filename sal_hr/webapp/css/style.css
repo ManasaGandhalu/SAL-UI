@@ -188,3 +188,28 @@
     background-color: #f4f4f4;
     color: #6a6d70;
 }
+
+.ticketProcessFlow .sapSuiteUiCommonsMicroProcessFlowItemPressed:hover .sapSuiteUiCommonsMicroProcessFlowItemWarning.sapSuiteUiCommonsMicroProcessFlowItem {
+	border-color: #df6e0c;
+    background-color: #df6e0c;
+}
+
+.ticketProcessFlow .sapSuiteUiCommonsMicroProcessFlowItemPressed:hover .sapSuiteUiCommonsMicroProcessFlowItemError.sapSuiteUiCommonsMicroProcessFlowItem {
+	border-color: #b00;
+    background-color: #b00;
+}
+
+.ticketProcessFlow .sapSuiteUiCommonsMicroProcessFlowItemPressed:hover .sapSuiteUiCommonsMicroProcessFlowItemSuccess.sapSuiteUiCommonsMicroProcessFlowItem {
+	border-color: #107e3e;
+    background-color: #107e3e;
+}
+
+.ticketProcessFlow .sapSuiteUiCommonsMicroProcessFlowItemPressed:hover .sapSuiteUiCommonsMicroProcessFlowItemInformation.sapSuiteUiCommonsMicroProcessFlowItem {
+	border-color: #0a6ed1;
+    background-color: #0a6ed1;
+}
+
+.ticketProcessFlow .sapSuiteUiCommonsMicroProcessFlowItemPressed:hover .sapSuiteUiCommonsMicroProcessFlowItemNone.sapSuiteUiCommonsMicroProcessFlowItem {
+	border-color: #6a6d70;
+    background-color: #f4f4f4;
+}
