@@ -8,7 +8,8 @@
                 </f:heading>
 
                 <f:navigationActions>
-                    <Button text="{i18n>RaiseRequest}" press="onPressRaiseRequest" type="Emphasized" visible="{parts:[{path: 'EmpInfoModel>/IsUserManager'}],formatter:'.formatter.fnSetRaiseRequestVisibilty'}" />
+                    <Button text="Closure Requests" press="onPressBTClosureRequest" type="Emphasized" visible="{=${ID} === 2}" />
+                     <Button text="{i18n>RaiseRequest}" press="onPressRaiseRequest" type="Emphasized" visible="{parts:[{path: 'EmpInfoModel>/IsUserManager'}],formatter:'.formatter.fnSetRaiseRequestVisibilty'}" />
                     <Button id="idDetailFullScreenBTN" icon="sap-icon://full-screen" press="handleDetailFullScreen" type="Transparent" />
                     <Button id="idCloseButton" icon="sap-icon://decline" type="Transparent" press="handleDetailClose" />
                 </f:navigationActions>
@@ -67,7 +68,7 @@
                             <Title text="{name}" level="H2" />
                             <ToolbarSpacer />
                             <SearchField placeholder="{i18n>SearchforID}" width="30%" search=".onSearch" />
-                            <ComboBox visible="{=${ID} === 2}" selectedKey="All" change="onSelectBTFilter">
+                            <ComboBox id="idBTRequestType" visible="{=${ID} === 2}" selectedKey="All" change="onSelectBTFilter">
                                 <core:Item key="All" text="All" />
                                 <core:Item key="Raise Initial Request" text="Initial Requests" />
                                 <core:Item key="Return and Closure" text="Closure Requests" />

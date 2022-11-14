@@ -3,7 +3,7 @@
     xmlns:core="sap.ui.core"
     xmlns:upload="sap.m.upload">
 
-    <Dialog id="idCreateBusinessDialog"  busyIndicatorDelay='0' contentWidth="70%">
+    <Dialog  busyIndicatorDelay='0' contentWidth="70%">
 		<buttons>
 		
 			<Button id="idCancel" text="Back" press="onCloseBTDisplayForm"/>

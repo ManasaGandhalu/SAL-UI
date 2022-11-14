@@ -44,7 +44,8 @@ sap.ui.define([
                 this.fnSetCreateBusinessTripModel();
                 this.fnCreateTableModel();
 
-
+                this.startTravelDate = new Date().toLocaleDateString();
+                this.endTravelDate = new Date().toLocaleDateString();
 
             },
             fnSetCreateBusinessTripModel: function () {
@@ -58,6 +59,151 @@ sap.ui.define([
                     sCostCenter = this.EmpInfoObj.costCentre,
                     sPhnNum = this.EmpInfoObj.emergencyNumber;
 
+
+
+                // var oCreateBusinessObj = {
+                //     "externalCode": sExternalCode,
+                //     "effectiveStartDate": new Date(),
+                //     "cust_toDutyTravelItem": [
+                //         {
+                //             "cust_userId": sExternalCode,
+
+                //             "cust_dutyTravelMain_externalCode": sExternalCode,
+
+                //             "cust_dutyTravelMain_effectiveStartDate": new Date(),
+
+                //             "externalCode": "0",
+                //             "externalName": null,
+                //             "cust_requestType": "1",
+                //             "cust_perDiemPayComp": "9256",
+                //             "cust_totalAmount": null,
+                //             "cust_tripCategory": "B",
+                //             "cust_isCompany": true,
+                //             "cust_hotelBooking": false,
+                //             "cust_assignJustification": "",
+                //             "cust_expenseTypeBusinessTravel": null,
+                //             "cust_expenseTypeTrainingTravel": null,
+                //             "cust_businessTicketAmount": null,
+                //             "cust_trainingExpenseAmount": null,
+
+                //             "cust_empName": sFirstName,
+                //             "cust_payGrade": sPayGrade,
+                //             "cust_costCenter": sCostCenter,
+                //             "cust_emerPhoneNum": sPhnNum,
+
+                //             "cust_assignStartDate": new Date(),
+                //             "cust_assignEndDate": new Date(),
+                //             "cust_travelTime": null,
+                //             "cust_destination": "SAU",
+                //             "cust_city": null,
+                //             "cust_SAUotherCity": null,
+                //             "cust_cityAll": null,
+                //             "cust_inOutKingdom": "IN",
+                //             "cust_perDiem": null,
+                //             "cust_totalPerDiem": null,
+
+                //             "cust_businessTravelDate": new Date(),
+                //             "cust_businessTravelFrom": null,
+                //             "cust_businessTravelTo": null,
+                //             "cust_businessTravelFlightNum": null,
+                //             "cust_businessTravelDepTime": null,
+                //             "cust_businessTravelArrTime": null,
+                //             "cust_businessTravelPayComp": null,
+
+                //             "cust_trainingTravelDate": new Date(),
+                //             "cust_trainingTravelFrom": null,
+                //             "cust_trainingTravelTo": null,
+                //             "cust_trainingTravelFlightNum": null,
+                //             "cust_trainingTravelDepTime": null,
+                //             "cust_trainingTravelArrTime": null,
+                //             "cust_trainingTravelPayComp": null,
+
+                //             "cust_ticketAmount": null,
+                //             "cust_expenseTypeVisaFee": null,
+                //             "cust_visaFeePayComp": null,
+                //             "cust_visaFeeExpenseAmount": null,
+
+                //             "cust_travelSDate1": new Date(),
+                //             "cust_travelEDate1": new Date(),
+                //             "cust_travelTime1": null,
+                //             "cust_desti1": null,
+                //             "cust_citySau1": null,
+                //             "cust_SAUotherCity2": null,
+                //             "cust_city1": null,
+                //             "cust_inOutKingdom1": null,
+                //             "cust_perDiem1": null,
+                //             "cust_totalPerDiem1": null,
+                //             "cust_TravelDate1": null,
+                //             "cust_TravelFrom1": null,
+                //             "cust_TravelTo1": null,
+                //             "cust_TravelFlightNum1": null,
+                //             "cust_TravelDepTime1": null,
+                //             "cust_TravelArrTime1": null,
+                //             "cust_TravelPayComp1": null,
+                //             "cust_ticketAmount1": null,
+                //             "cust_expenseTypeVisaFee1": null,
+                //             "cust_visaFeePayComp1": null,
+                //             "cust_visaFeeExpenseAmount1": null,
+
+                //             "cust_travelSDate2": new Date(),
+                //             "cust_travelEDate2": new Date(),
+                //             "cust_travelTime2": null,
+                //             "cust_desti2": null,
+                //             "cust_citySau2": null,
+                //             "cust_SAUotherCity3": null,
+                //             "cust_city2": null,
+                //             "cust_inOutKingdom2": null,
+                //             "cust_perDiem2": null,
+                //             "cust_totalPerDiem2": null,
+                //             "cust_TravelDate2": null,
+                //             "cust_TravelFrom2": null,
+                //             "cust_TravelTo2": null,
+                //             "cust_TravelFlightNum2": null,
+                //             "cust_TravelDepTime2": null,
+                //             "cust_TravelArrTime2": null,
+                //             "cust_TravelPayComp2": null,
+                //             "cust_ticketAmount2": null,
+                //             "cust_expenseTypeVisaFee2": null,
+                //             "cust_visaFeePayComp2": null,
+                //             "cust_visaFeeExpenseAmount2": null,
+
+                //             "cust_status": null,
+                //             "cust_returnDate": null,
+                //             "cust_paymentType": null,
+                //             "mdfSystemRecordStatus": "N",
+                //             "travelattachment1FileContent": "create travelattachment1 attache",
+                //             "travelattachment1FileName": "travelattachment1.txt",
+                //             "isTravelAttach1New": false,
+                //             "travelattachment1UserId": sExternalCode,
+
+
+                //             "businessTravelattachmentFileContent": "businessTravelattachment create",
+                //             "businessTravelattachmentFileName": "businessTravelAttachment.txt",
+                //             "isbusinessTravelAttachNew": false,
+                //             "businessTravelattachmentUserId": sExternalCode,
+
+                //             "trainingTravelattachmentFileContent": "trainingTravelattachment create",
+                //             "trainingTravelattachmentFileName": "trainingTravelattachment.txt",
+                //             "istrainingTravelAttachNew": false,
+                //             "trainingTravelattachmentUserId": sExternalCode,
+
+                //             "receiptEmbassyattachmentFileContent": "receiptEmbassy 3create",
+                //             "receiptEmbassyattachmentFileName": "receiptEmbassy.txt",
+                //             "isreceiptEmbassyAttachNew": false,
+                //             "receiptEmbassyattachmentUserId": sExternalCode,
+
+                //             "visaCopyattachmentFileContent": "visaCopy 6 create",
+                //             "visaCopyattachmentFileName": "visaCopy.txt",
+                //             "isvisaCopyAttachNew": false,
+                //             "visaCopyattachmentUserId": sExternalCode
+
+
+
+                //         }
+                //     ],
+
+
+                // },
 
 
                 var oCreateBusinessObj = {
@@ -74,11 +220,11 @@ sap.ui.define([
                             "externalCode": "0",
                             "externalName": null,
                             "cust_requestType": "1",
-                            "cust_perDiemPayComp": "9256",
+                            "cust_perDiemPayComp": "",
                             "cust_totalAmount": null,
-                            "cust_tripCategory": "B",
-                            "cust_isCompany": true,
-                            "cust_hotelBooking": false,
+                            "cust_tripCategory": "",
+                            "cust_isCompany": null,
+                            "cust_hotelBooking": null,
                             "cust_assignJustification": "",
                             "cust_expenseTypeBusinessTravel": null,
                             "cust_expenseTypeTrainingTravel": null,
@@ -93,11 +239,11 @@ sap.ui.define([
                             "cust_assignStartDate": new Date(),
                             "cust_assignEndDate": new Date(),
                             "cust_travelTime": null,
-                            "cust_destination": "SAU",
+                            "cust_destination": "",
                             "cust_city": null,
                             "cust_SAUotherCity": null,
                             "cust_cityAll": null,
-                            "cust_inOutKingdom": "IN",
+                            "cust_inOutKingdom": "",
                             "cust_perDiem": null,
                             "cust_totalPerDiem": null,
 
@@ -205,6 +351,11 @@ sap.ui.define([
                 },
 
 
+
+
+
+
+
                     oCreateBusinessTripModel = new JSONModel(oCreateBusinessObj);
 
                 this.getView().setModel(oCreateBusinessTripModel, "CreateBusinessTripModel");
@@ -274,7 +425,7 @@ sap.ui.define([
                             return Object.assign({}, oItem);
                         });
                         //    aItems.push(oPayload);
-                        // oPayload.cust_toDutyTravelItem[0].externalCode = aItems.length.toString();
+                        oPayload.cust_toDutyTravelItem[0].cust_perDiem = Number(oPayload.cust_toDutyTravelItem[0].cust_perDiem);
                         aItems.push(oPayload.cust_toDutyTravelItem[0]);
                          
 
@@ -282,16 +433,22 @@ sap.ui.define([
                     }else {
                         var sPath = this.sSelectedItem.getPath().slice("/".length);
                         // oPayload.cust_toDutyTravelItem[0].externalCode = sPath;
+
+                        oPayload.cust_toDutyTravelItem[0].cust_perDiem = Number(oPayload.cust_toDutyTravelItem[0].cust_perDiem);
                         this.sSelectedItem.getModel().getData()[sPath] = oPayload.cust_toDutyTravelItem[0];
                         // this.sSelectedItem.getModel().setData(oPayload.cust_toDutyTravelItem[0]);
                         this.getViewModel("BusinessTripTableModel").refresh();
                     }
 
+                   
 
-
-
+                    this._oCreateBusinessDialog.close();
+                    this.getView().setBusy(false);
+               
+               
                 } else {
                     sap.m.MessageBox.error(sValidationErrorMsg);
+                    this.getView().setBusy(false);
                 }
             },
 
@@ -302,6 +459,10 @@ sap.ui.define([
                 this.getView().getModel("CreateBusinessTripModel").setProperty("/cust_toDutyTravelItem/0/cust_hotelBooking", sValue);
 
 
+            },
+            onAirTicketHRChange:function(evt) {
+                var sValue = JSON.parse(evt.getSource().getSelectedKey());
+                this.getView().getModel("CreateBusinessTripModel").setProperty("/cust_toDutyTravelItem/0/cust_isCompany", sValue);
             },
             fnValidateBusinessTripPayload: function () {
                 this.getView().setBusy(true);
@@ -405,26 +566,30 @@ sap.ui.define([
 
             },
             onResetPress: function () {
+                var sData = [];
                 this.getView().setBusy(true);
 
                 this.fnSetCreateBusinessTripModel();
 
-                this.getView().byId("UploadBoardingPass").removeAllItems();
-                this.getView().byId("UploadBoardingPass").getDefaultFileUploader().setEnabled(true);
+                this.getViewModel("BusinessTripTableModel").setData(sData);
+                this.getViewModel("BusinessTripTableModel").refresh(true);
 
-                this.getView().byId("UploadVisaCopy").removeAllItems();
-                if (this.byId("idVisaType").getSelectedKey() === "N") {
-                    this.getView().byId("UploadVisaCopy").getDefaultFileUploader().setEnabled(false);
-                    this.getView().getModel("LocalViewModel").setProperty("/visaFee", false);
-                } else {
-                    this.getView().byId("UploadVisaCopy").getDefaultFileUploader().setEnabled(true);
-                    this.getView().getModel("LocalViewModel").setProperty("/visaFee", true);
-                }
+                // this.getView().byId("UploadBoardingPass").removeAllItems();
+                // this.getView().byId("UploadBoardingPass").getDefaultFileUploader().setEnabled(true);
+
+                // this.getView().byId("UploadVisaCopy").removeAllItems();
+                // if (this.byId("idVisaType").getSelectedKey() === "N") {
+                //     this.getView().byId("UploadVisaCopy").getDefaultFileUploader().setEnabled(false);
+                //     this.getView().getModel("LocalViewModel").setProperty("/visaFee", false);
+                // } else {
+                //     this.getView().byId("UploadVisaCopy").getDefaultFileUploader().setEnabled(true);
+                //     this.getView().getModel("LocalViewModel").setProperty("/visaFee", true);
+                // }
 
 
 
-                this.getView().byId("UploadEmbassy").removeAllItems();
-                this.getView().byId("UploadEmbassy").getDefaultFileUploader().setEnabled(true);
+                // this.getView().byId("UploadEmbassy").removeAllItems();
+                // this.getView().byId("UploadEmbassy").getDefaultFileUploader().setEnabled(true);
 
                 this.getView().setBusy(false);
 
@@ -437,7 +602,8 @@ sap.ui.define([
                 var sReqKey = this.getView().byId("idReqType").getSelectedKey();
                 if (sReqKey === "1") {
                     this.byId("idHRBook").setEnabled(true);
-                    this.byId("idHRBook").setValue("Yes");
+                    // this.byId("idHRBook").setValue("Yes");
+                    this.byId("idHRBook").setValue("");
                     this.byId("idPayComp").setEnabled(false);
                     this.byId("idTravelAmt").setEnabled(false);
                     this.byId("idTravelDate").setEnabled(true);
@@ -450,6 +616,8 @@ sap.ui.define([
                     this.byId("idTotalPErDiem").setEnabled(false);
                     this.byId("idPayCompVisa").setEnabled(true);
                     this.byId("idPayCom").setEnabled(false);
+
+                    this.byId("idPayCom").setValue("Business Trip Per-Diem Off Cycle");
 
                     this.getView().getModel("LocalViewModel").setProperty("/businessTravel", false);
                     this.getView().getModel("LocalViewModel").setProperty("/trainingTravel", false);
@@ -604,7 +772,7 @@ sap.ui.define([
                     this.getView().getModel("LocalViewModel").setProperty("/businessCategory", true);
                     this.getView().getModel("LocalViewModel").setProperty("/trainingCategory", false);
                     this.getView().getModel("CreateBusinessTripModel").setProperty("/cust_toDutyTravelItem/0/cust_perDiemPayComp", "9256");
-                    this.byId("idPayComp").setValue("Business Trip Per-Diem Off Cycle");
+                    sap.ui.core.Fragment.byId("idCreateBusinessDialog","idPayComp").setValue("Business Trip Per-Diem Off Cycle");
 
                 } else {
                     this.getView().getModel("LocalViewModel").setProperty("/businessTravel", false);
@@ -612,11 +780,11 @@ sap.ui.define([
                     this.getView().getModel("LocalViewModel").setProperty("/businessCategory", false);
                     this.getView().getModel("LocalViewModel").setProperty("/trainingCategory", true);
                     this.getView().getModel("CreateBusinessTripModel").setProperty("/cust_toDutyTravelItem/0/cust_perDiemPayComp", "9257");
-                    this.byId("idPayComp").setValue("Training Trip Per-Diem Off-Cycle");
+                    sap.ui.core.Fragment.byId("idCreateBusinessDialog","idPayComp").setValue("Training Trip Per-Diem Off-Cycle");
 
                 }
 
-                if (this.byId("idReqType").getSelectedKey() === "1") {
+                if (sap.ui.core.Fragment.byId("idCreateBusinessDialog","idReqType").getSelectedKey() === "1") {
                     this.getView().getModel("LocalViewModel").setProperty("/businessTravel", false);
                     this.getView().getModel("LocalViewModel").setProperty("/trainingTravel", false);
                 }
@@ -663,19 +831,48 @@ sap.ui.define([
                 var sCitySaudiVisibleSet = sCitySaudi === "OTH" ? this.getView().getModel("LocalViewModel").setProperty("/otherCityVisible", true) : this.getView().getModel("LocalViewModel").setProperty("/otherCityVisible", false);
 
             },
+            // fnCalculateTotalPerDiem: function () {
+
+            //     var sTotalPerDiem = Number(sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idPerDiem").getValue()) + Number(this.getView().getModel("CreateBusinessTripModel").getProperty("/cust_toDutyTravelItem/0/cust_ticketAmount")) + Number(sap.ui.core.Fragment.byId("idCreateBusinessDialog","idVisaAmt").getValue());
+
+            //     this.getView().getModel("CreateBusinessTripModel").setProperty("/cust_toDutyTravelItem/0/cust_totalPerDiem", sTotalPerDiem);
+            //     this.getView().getModel("CreateBusinessTripModel").setProperty("/cust_toDutyTravelItem/0/cust_totalAmount", sTotalPerDiem);
+
+
+            // },
+
             fnCalculateTotalPerDiem: function () {
 
-                var sTotalPerDiem = Number(sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idPerDiem").getValue()) + Number(this.getView().getModel("CreateBusinessTripModel").getProperty("/cust_toDutyTravelItem/0/cust_ticketAmount")) + Number(sap.ui.core.Fragment.byId("idCreateBusinessDialog","idVisaAmt").getValue());
+                var diffTime = Math.abs(new Date(this.endTravelDate) - new Date(this.startTravelDate));
+                var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));  
+                diffDays = (diffDays === 0) ? 1: diffDays;  
 
+                var sTotalPerDiem = (Number(sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idPerDiem").getValue())*diffDays) + Number(this.getView().getModel("CreateBusinessTripModel").getProperty("/cust_toDutyTravelItem/0/cust_ticketAmount")) + Number(sap.ui.core.Fragment.byId("idCreateBusinessDialog","idVisaAmt").getValue());
                 this.getView().getModel("CreateBusinessTripModel").setProperty("/cust_toDutyTravelItem/0/cust_totalPerDiem", sTotalPerDiem);
                 this.getView().getModel("CreateBusinessTripModel").setProperty("/cust_toDutyTravelItem/0/cust_totalAmount", sTotalPerDiem);
 
-
             },
+
+
+
+            // onTravelDateChange: function (oEvent) {
+            //     var sTravelDate = oEvent.getSource().getValue();
+               
+            //     sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idReturnDate").setValue(sTravelDate);
+
+            // },
+
+
             onTravelDateChange: function (oEvent) {
+
                 var sTravelDate = oEvent.getSource().getValue();
-                // this.getView().byId("idReturnDate").setValue(sTravelDate);
+
                 sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idReturnDate").setValue(sTravelDate);
+                this.startTravelDate = oEvent.getParameter("newValue");
+
+                if(this.getView().getModel("CreateBusinessTripModel").getProperty("/cust_toDutyTravelItem/0/cust_destination") !== '') {
+                    this.fnCalculateTotalPerDiem();
+                }
 
             },
             onReturnDateChange: function (oEvent) {
@@ -709,7 +906,7 @@ sap.ui.define([
 
 
                 this.fnSetCreateBusinessTripModel();
-                this.onDestCountryChange();
+                // this.onDestCountryChange();
                 var oCreateBusinessTripModel = this.getView().getModel("CreateBusinessTripModel");
                 this._oCreateBusinessDialog.setModel(oCreateBusinessTripModel, "CreateBusinessTripModel");
                 this._oCreateBusinessDialog.open();
@@ -722,11 +919,17 @@ sap.ui.define([
             onPressSave: function (oEvent) {
                 debugger;
                 this.onAddBusinessRecords();
-                this._oCreateBusinessDialog.close();
+               
                 this.getView().setBusy(false);
 
             },
             onRaiseRequestPress: function () {
+
+                if(this.getView().byId("idBusinessTripTable").getItems().length === 0){
+                    sap.m.MessageBox.error("Please add atleast one Business Trip details");
+                }else{
+
+                
 
                 var scust_toDutyTravelItem = this.getViewModel("BusinessTripTableModel").getData();
 
@@ -755,6 +958,7 @@ sap.ui.define([
 
                     }.bind(this)
                 })
+            }   
 
             },
             onDeleteItemPress: function (oEvent) {

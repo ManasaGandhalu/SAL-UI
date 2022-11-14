@@ -48,6 +48,10 @@ sap.ui.define([
                 var sKey = oComponentModel.createKey("/MasterSubModules", {
                     ID: this.sParentID
                 });
+                var oFilterSearch = [];
+                this.byId("idTicketTable").getBinding("items").filter(new Filter(oFilterSearch, true));
+                this.getView().byId("idBTRequestType").setSelectedKey("All");
+
 
                 var bIsUserManager = this.getOwnerComponent().getModel("EmpInfoModel").getProperty("/IsUserManager").toString();
 
@@ -358,6 +362,14 @@ sap.ui.define([
                
 
                
+            },
+            onPressBTClosureRequest:function(){
+                var oFilterSearch = [];
+                oFilterSearch.push(new Filter("externalCode2", FilterOperator.EQ, "Return and Closure"));
+                oFilterSearch.push(new Filter("status", FilterOperator.EQ, "APPROVED"));
+                this.byId("idTicketTable").getBinding("items").filter(new Filter(oFilterSearch, true));
+
+                this.getView().byId("idBTRequestType").setSelectedKey("Return and Closure");
             }
 
 

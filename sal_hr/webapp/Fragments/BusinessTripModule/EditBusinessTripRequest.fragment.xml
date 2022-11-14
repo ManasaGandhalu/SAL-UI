@@ -69,8 +69,8 @@
         <Label text="{i18n>TravelBusinessJustification}" required="true"/>
         <TextArea id="idEditTravelJustification" value="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_assignJustification}"/>
 
-        <Label  visible="{= ${LocalViewModel>/ExpenseTypeBusinessTravelVisible} === true ? true : false }" text="{i18n>ExpenseTypeBusinessTravel}" />
-        <Select selectedKey="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_expenseTypeBusinessTravel}"  visible="{= ${LocalViewModel>/ExpenseTypeBusinessTravelVisible} === true ? true : false }" id="idEditBusinesExpense" change="onBusinessExpenseChange"  items="{ path: '/SF_PickListValueV2',
+        <Label  visible="{= ${LocalViewModel>/businessTravel} === true ? true : false }" text="{i18n>ExpenseTypeBusinessTravel}" />
+        <Select selectedKey="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_expenseTypeBusinessTravel}"  visible="{= ${LocalViewModel>/businessTravel} === true ? true : false }" id="idEditBusinesExpense" change="onBusinessExpenseChange"  items="{ path: '/SF_PickListValueV2',
                                 sorter : {
                                     path : 'label_defaultValue' 
                                 },
