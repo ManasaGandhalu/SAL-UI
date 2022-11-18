@@ -41,11 +41,11 @@
                     </VBox>
                     <VBox justifyContent="Center" class="sapUiSmallMarginEnd" visible="{=${ID} === 2}">
                         <Label text="Initial Requests" class="tblHeaderText" />
-                        <Text text="{totalInitial}" class="sapUiTinyMarginTop dataValueRejectColor " />
+                        <Text text="{totalInitial}" class="sapUiTinyMarginTop dataValuePrimaryColor " />
                     </VBox>
                     <VBox justifyContent="Center" class="sapUiSmallMarginEnd" visible="{=${ID} === 2}">
                         <Label text="Closure Requests" class="tblHeaderText" />
-                        <Text text="{totalClosure}" class="sapUiTinyMarginTop dataValueRejectColor " />
+                        <Text text="{totalClosure}" class="sapUiTinyMarginTop dataValuePrimaryColor " />
                     </VBox>
                 </FlexBox>
             </f:DynamicPageHeader>

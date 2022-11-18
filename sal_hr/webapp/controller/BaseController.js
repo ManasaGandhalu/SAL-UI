@@ -99,6 +99,7 @@ sap.ui.define([
         _getTicketWorkflowParticipant:function(oData) {
             var workflowReqId = oData.results[0].workflowRequestId;
             var ticketId = oData.results[0].ID;
+            var wfCurrentStep = oData.results[0].wfCurrentStep;
             var oComponentModel = this.getComponentModel();
             oComponentModel.read("/TicketWorkflowParticipant", {
                 urlParameters: {
@@ -113,6 +114,12 @@ sap.ui.define([
                     if(pIndex >= 0 && pIndex < nIndex) {
                         for (let i = pIndex; i < nIndex; i++) {
                             oTicketWorkflowParticipantData.results[i].status = 'SKIPPED';
+                        }
+                    }
+                    for(var i = 0; i < oTicketWorkflowParticipantData.results.length; i++) {
+                        var stepNumber = oTicketWorkflowParticipantData.results[i].stepNumber
+                        if(stepNumber > wfCurrentStep) {
+                            oTicketWorkflowParticipantData.results[i].status = 'NOT INITIATED';
                         }
                     }
 
@@ -134,9 +141,9 @@ sap.ui.define([
 
         },
         setTimelineSteps: function() {
-            var processFlows = $(".ticketProcessFlow span[data-sap-ui-icon-content]");
+            var processFlows = $(".ticketProcessFlow .sapSuiteUiCommonsMicroProcessFlowItem");
             $.each(processFlows, function(index, elem) {
-                elem.setAttribute("data-sap-ui-icon-content", elem.parentElement.getAttribute("aria-posinset"));
+                $(elem).text(elem.getAttribute("aria-posinset"));
             });
         },
         _getSFUser: function (sId) {
