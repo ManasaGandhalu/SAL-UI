@@ -876,10 +876,9 @@ sap.ui.define([
 
             },
             onReturnDateChange: function (oEvent) {
-                // var sTravelDate = this.getView().byId("idTravelDate").getDateValue();
                 var sTravelDate = sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idTravelDate").getDateValue();
                 var sReturnDate = oEvent.getSource().getDateValue();
-
+                this.endTravelDate = oEvent.getParameter("newValue");
 
                 if (new Date(sReturnDate).getTime() < new Date(sTravelDate).getTime()) {
                     oEvent.getSource().setValueState("Error");
@@ -893,6 +892,9 @@ sap.ui.define([
                     // this.getView().byId("idTravelDate").setValueState();
                     // this.getView().byId("idTravelDate").setValueStateText("");
 
+                }
+                if(this.getView().getModel("CreateBusinessTripModel").getProperty("/cust_toDutyTravelItem/0/cust_destination") !== '') {
+                    this.fnCalculateTotalPerDiem();
                 }
             },
             onAddBusinessTripPress: function () {
