@@ -783,6 +783,8 @@ sap.ui.define([
                     parentMaterial: this.sParentID,
                     layout: sLayout
                 });
+
+                this.onCancelPress();
             },
 
             onBreadCrumbNavPress: function () {
@@ -1047,6 +1049,7 @@ sap.ui.define([
                     this.getView().getModel("LocalViewModel").setProperty("/businessTravel", false);
                     this.getView().getModel("LocalViewModel").setProperty("/trainingTravel", false);
                     this.getView().getModel("DisplayEditBusinessTripModel").getData().cust_toDutyTravelItem[0].cust_expenseTypeBusinessTravel = "B";
+                    this.getView().getModel("DisplayEditBusinessTripModel").getData().cust_toDutyTravelItem[0].cust_expenseTypeTrainingTravel = "T";
                 } else {
                     
                     this.getView().getModel("LocalViewModel").setProperty("/ExpenseTypeBusinessTravelVisible", true);
@@ -1057,9 +1060,10 @@ sap.ui.define([
                     sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditCityCountry").setEnabled(false);
                     sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditCity").setEnabled(false);
                     sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditPayCompVisa").setEnabled(false);
-                    this.getView().getModel("LocalViewModel").setProperty("/businessTravel", true);
+                    this.getView().getModel("LocalViewModel").setProperty("/businessTravel", false);
                     this.getView().getModel("LocalViewModel").setProperty("/trainingTravel", false);
                     this.getView().getModel("DisplayEditBusinessTripModel").getData().cust_toDutyTravelItem[0].cust_expenseTypeBusinessTravel = "N";
+                    this.getView().getModel("DisplayEditBusinessTripModel").getData().cust_toDutyTravelItem[0].cust_expenseTypeTrainingTravel = "N";
                 }
             },
             fnCalculateTotalPerDiem: function (sPerDiem,sVisaAmt,sItem) {
@@ -1558,6 +1562,7 @@ sap.ui.define([
                 this._oEditBusinessDialog.close();
             },
             onBusinessTripsSavePress:function(){
+                this.getView().setBusy(true);
                 var oBusinessTripItems = this.getView().getModel("BusinessTripTableModel").getData(),
                 sKey = this.getView().getModel().createKey("/SF_DutyTravelMain", {
                     effectiveStartDate: this.object.effectiveStartDate,
@@ -1609,6 +1614,22 @@ sap.ui.define([
                    delete oBusinessTripItems[i].payGrade;
                    delete oBusinessTripItems[i].costCentre;
                    delete oBusinessTripItems[i].emergencyNumber;
+                  
+                   if(oBusinessTripItems[i].businessTravelattachmentMimeType){
+                    delete oBusinessTripItems[i].businessTravelattachmentMimeType;
+                   }
+
+                   if(oBusinessTripItems[i].trainingTravelattachmentMimeType){
+                    delete oBusinessTripItems[i].trainingTravelattachmentMimeType;
+                   }
+
+                   if(oBusinessTripItems[i].visaCopyattachmentMimeType){
+                    delete oBusinessTripItems[i].visaCopyattachmentMimeType;
+                   }
+                   if(oBusinessTripItems[i].receiptEmbassyattachmentMimeType){
+                    delete oBusinessTripItems[i].receiptEmbassyattachmentMimeType;
+                   }
+
 
                   
                 }
@@ -1630,6 +1651,8 @@ sap.ui.define([
                         success: function (oResponse) {
                             this.getView().setBusy(false);
                             MessageBox.success("Requested changes updated successfully.");
+                            this.onCancelPress();
+                            this.getView().setBusy(false);
                             this.oRouter.navTo("detail", {
                                 parentMaterial: this.sParentID,
                                 layout: "TwoColumnsMidExpanded"
