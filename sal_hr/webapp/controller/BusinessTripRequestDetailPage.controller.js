@@ -200,6 +200,12 @@ sap.ui.define([
                     sTicketId.setEnabled(true);
                    }
                }
+
+               var sReqType = this.sSelectedItem[this.sPath].cust_requestType;
+               if(sReqType === "1"){
+                this.getView().getModel("LocalViewModel").setProperty("/businessTravel", false);
+                this.getView().getModel("LocalViewModel").setProperty("/trainingTravel", false);
+               }
               
               
 
@@ -1060,8 +1066,19 @@ sap.ui.define([
                     sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditCityCountry").setEnabled(false);
                     sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditCity").setEnabled(false);
                     sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditPayCompVisa").setEnabled(false);
-                    this.getView().getModel("LocalViewModel").setProperty("/businessTravel", false);
-                    this.getView().getModel("LocalViewModel").setProperty("/trainingTravel", false);
+                    sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditHRBook").setValue("No");
+
+
+
+                    if (sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditTripCategory").getSelectedKey() === "B") {
+                        this.getView().getModel("LocalViewModel").setProperty("/businessTravel", true);
+                        this.getView().getModel("LocalViewModel").setProperty("/trainingTravel", false);
+                    } else {
+                        this.getView().getModel("LocalViewModel").setProperty("/businessTravel", false);
+                        this.getView().getModel("LocalViewModel").setProperty("/trainingTravel", true);
+                    }
+
+              
                     this.getView().getModel("DisplayEditBusinessTripModel").getData().cust_toDutyTravelItem[0].cust_expenseTypeBusinessTravel = "N";
                     this.getView().getModel("DisplayEditBusinessTripModel").getData().cust_toDutyTravelItem[0].cust_expenseTypeTrainingTravel = "N";
                 }

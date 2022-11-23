@@ -56,7 +56,7 @@
             <core:Item key="Yes" text="Yes"/>
             <core:Item key="No" text="No"/>
         </Select>
-        <!-- <Label text="{i18n>ExpenseTypeTrainingTravel}" visible="{= ${LocalViewModel>/trainingTravel} === true ? true : false }"/>
+        <Label text="{i18n>ExpenseTypeTrainingTravel}" visible="{= ${LocalViewModel>/trainingTravel} === true ? true : false }"/>
         <Select id="idEditTrainingExpense" selectedKey="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_expenseTypeTrainingTravel}"  change="onTrainingExpenseChange" visible="{= ${LocalViewModel>/trainingTravel} === true ? true : false }" items="{ path: '/SF_PickListValueV2',
                                 sorter : {
                                     path : 'label_defaultValue' 
@@ -64,12 +64,12 @@
                                 filters : [ { path : 'PickListV2_id', operator : 'EQ', value1 : 'dutyTravelExpTypeTraining'} ]
                                        }">
             <core:ListItem key="{externalCode}" text="{label_defaultValue}" additionalText="{externalCode}"/>
-        </Select> -->
+        </Select>
 
         <Label text="{i18n>TravelBusinessJustification}" required="true"/>
         <TextArea id="idEditTravelJustification" value="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_assignJustification}"/>
 
-        <!-- <Label  visible="{= ${LocalViewModel>/businessTravel} === true ? true : false }" text="{i18n>ExpenseTypeBusinessTravel}" />
+        <Label  visible="{= ${LocalViewModel>/businessTravel} === true ? true : false }" text="{i18n>ExpenseTypeBusinessTravel}" />
         <Select selectedKey="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_expenseTypeBusinessTravel}"  visible="{= ${LocalViewModel>/businessTravel} === true ? true : false }" id="idEditBusinesExpense" change="onBusinessExpenseChange"  items="{ path: '/SF_PickListValueV2',
                                 sorter : {
                                     path : 'label_defaultValue' 
@@ -77,7 +77,7 @@
                                 filters : [ { path : 'PickListV2_id', operator : 'EQ', value1 : 'dutyTravelExpTypeTravel'} ]
                                        }">
             <core:ListItem key="{externalCode}" text="{label_defaultValue}" additionalText="{externalCode}"/>
-        </Select> -->
+        </Select>
 
         
     </form:SimpleForm>
