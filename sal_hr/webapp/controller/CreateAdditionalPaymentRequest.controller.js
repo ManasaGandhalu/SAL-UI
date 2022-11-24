@@ -25,6 +25,8 @@ sap.ui.define([
 
                 this.getView().setModel(oLocalViewModel, "LocalViewModel");
 
+                
+
             },
 
             _onObjectMatched: function (oEvent) {
@@ -35,6 +37,7 @@ sap.ui.define([
                 this.getView().getModel("layoutModel").setProperty("/layout", sLayout);
                 this.EmpInfoObj = this.getOwnerComponent().getModel("EmpInfoModel").getData();
                 this.managerID = this.EmpInfoObj.userId;
+                this.fnPaymentModel();
             },
 
 
@@ -264,6 +267,42 @@ sap.ui.define([
                     return;
                 }
                 this.byId("idEmployeeNameINP").setValue(oSelectedItem.getBindingContext().getObject().userId);
+            },
+            onRewardChange:function(oEvt){
+                debugger;
+                var sValue = oEvt.getSource().getSelectedItem().getBindingContext("PaymentModel").getObject().payComponentValue;                
+                    this.getView().byId("idValueINP").setValue(sValue);
+               
+
+            },
+            fnPaymentModel:function(){
+                var sMarriageFilter = new sap.ui.model.Filter({
+                    path: 'toupper(name)',
+                    operator: 'StartsWith',
+                    value1: '\'MARRIAGE REWARD OFF\''
+                });
+                var sNewBornFilter = new sap.ui.model.Filter({
+                    path: 'toupper(name)',
+                    operator: 'StartsWith',
+                    value1: '\'NEW BORN REWARD\'' 
+                });
+                var filter = [];
+                filter.push(sMarriageFilter, sNewBornFilter);
+                this.getOwnerComponent().getModel().read("/SF_FOPayComponent",
+                    {                
+                        filters: [filter],
+                        success: function (oData) {
+                            var oPaymentModel = new JSONModel(oData.results);
+                            this.getView().setModel(oPaymentModel, "PaymentModel");     
+                                        
+                        }.bind(this),
+                        error: function () {
+
+                        }
+                    });
             }
+
+          
+            
         });
     });      
