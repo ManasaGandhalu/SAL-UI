@@ -46,14 +46,14 @@
 
                     <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
                         <Label required="true" id="idBValueLBL" text="{i18n>Value}"/>
-                        <Input editable="false" liveChange="OnLiveChangeValue" id="idValueINP" />
+                        <Input editable="false" liveChange="OnLiveChangeValue" id="idValueINP" type="Number"/>
 
                         <Label required="true" id="idCurrencyCodeLBL" text="{i18n>CurrencyCode}"/>
                         <Select id="idInpCurrencyCode" selectedKey="SAR" items="{ path: '/SF_Currency',
                                                 sorter : {
                                                  path : 'code' 
                                              }
-                                                   }" change="onTimeTyeChange">
+                                                   }" editable="false">
                             <core:Item key="{code}" text="{code}" />
                         </Select>
                     </fm:SimpleForm>

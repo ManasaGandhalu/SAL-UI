@@ -247,6 +247,7 @@ sap.ui.define(
 
                 raiseRequest: function(sEntityPath, oPayload, resolve) {
                     var sValidationErrorMsg = this.fnValidateSalaryIncPayload();
+                    var sErrMsg;
                     if (sValidationErrorMsg === "") {
                         var newKey = sEntityPath + `(seqNumber=${oPayload.seqNumber}L,startDate=datetime'${oPayload.startDate}',userId='${oPayload.userId}')`;
                         newKey = newKey.replace(/:/g, "%3A");
@@ -260,7 +261,9 @@ sap.ui.define(
                                 success: resolve.bind(this),
                                 error: function (oError) {
                                     this.getView().setBusy(false);
-                                    sap.m.MessageBox.error(this.parseResponseError(oError.responseText));
+                                    // sap.m.MessageBox.error(this.parseResponseError(oError.responseText));
+                                    sErrMsg = this.parseResponseError(oError.responseText);
+                                    sap.m.MessageBox.error(sErrMsg.split("???")[1]);
                                     this.getView().getModel().refresh();
                                 }.bind(this),
                             });
@@ -270,7 +273,8 @@ sap.ui.define(
                                 success: resolve.bind(this),
                                 error: function (oError) {
                                     this.getView().setBusy(false);
-                                    sap.m.MessageBox.error(this.parseResponseError(oError.responseText));
+                                    sErrMsg = this.parseResponseError(oError.responseText);
+                                    sap.m.MessageBox.error(sErrMsg.split("???")[1]);
                                     this.getView().getModel().refresh();
                                 }.bind(this),
                             });

@@ -30,7 +30,7 @@
                                                 sorter : {
                                                  path : 'code' 
                                              }
-                                                   }" change="onTimeTyeChange">
+                                                   }" editable="false">
                         <core:Item key="{code}" text="{code}" />
                         </Select>
                          </fm:SimpleForm>

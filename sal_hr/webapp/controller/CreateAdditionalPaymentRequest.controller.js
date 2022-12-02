@@ -270,8 +270,16 @@ sap.ui.define([
             },
             onRewardChange:function(oEvt){
                 debugger;
-                var sValue = oEvt.getSource().getSelectedItem().getBindingContext("PaymentModel").getObject().payComponentValue;                
+                var sSelectedReward = oEvt.getSource().getSelectedKey();
+                if(sSelectedReward === "9219"){
+                    this.getView().byId("idValueINP").setValue("");
+                    this.getView().byId("idValueINP").setEditable(true)
+                }else {
+                    var sValue = Number(oEvt.getSource().getSelectedItem().getBindingContext("PaymentModel").getObject().payComponentValue);                
+                    this.getView().byId("idValueINP").setEditable(false)
                     this.getView().byId("idValueINP").setValue(sValue);
+                }
+               
                
 
             },
@@ -286,8 +294,14 @@ sap.ui.define([
                     operator: 'StartsWith',
                     value1: '\'NEW BORN REWARD\'' 
                 });
+
+                var sFuelFilter = new sap.ui.model.Filter({
+                    path: 'toupper(name)',
+                    operator: 'StartsWith',
+                    value1: '\'FUEL ALLOWANCE OFF\'' 
+                });
                 var filter = [];
-                filter.push(sMarriageFilter, sNewBornFilter);
+                filter.push(sMarriageFilter, sNewBornFilter, sFuelFilter);
                 this.getOwnerComponent().getModel().read("/SF_FOPayComponent",
                     {                
                         filters: [filter],

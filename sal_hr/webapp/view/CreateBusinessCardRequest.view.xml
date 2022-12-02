@@ -45,13 +45,13 @@
                     </fm:SimpleForm>
                     <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
                         <Label text="Mobile" />
-                         <Input type="Number" editable="false" liveChange="onChangeMobile" id="idCreateMobile" value="{CreateBusinessCardModel>/sMobile}">
+                         <Input type="Number" liveChange="onChangeMobile" id="idCreateMobile" value="{CreateBusinessCardModel>/sMobile}">
                             <layoutData>
                                 <l:GridData span="XL2 L3 M4 S4" />
                             </layoutData>
                         </Input>
                          <Label required="false" text="Office Number" />
-                        <Input  id="idCreateOfficeNo" editable="false" value="{CreateBusinessCardModel>/sOfficeNo}">
+                        <Input  id="idCreateOfficeNo" value="{CreateBusinessCardModel>/sOfficeNo}">
                             <layoutData>
                                 <l:GridData span="XL2 L3 M4 S4" />
                             </layoutData>

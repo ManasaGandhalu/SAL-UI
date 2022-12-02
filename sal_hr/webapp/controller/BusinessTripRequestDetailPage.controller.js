@@ -55,6 +55,10 @@ sap.ui.define([
                     this._getTicketData(this.sChildID);
                 }
                 // this.onReqTypeChange();
+
+
+                this.startTravelDate = new Date().toLocaleDateString();
+                this.endTravelDate = new Date().toLocaleDateString();
             },
 
             _bindView: function (data) {
@@ -941,6 +945,17 @@ sap.ui.define([
                     oReturnDate.setValueState("None");
                 }
 
+
+                
+                // Validte Return Date should not be greater than 15 days
+
+                var Difference_In_Days = new Date(oReturnDate.getDateValue()).getTime() - new Date(oTravelDate.getDateValue()).getTime();
+                if(Difference_In_Days/(1000 * 3600 * 24) > 15){
+                    oReturnDate.setValueState("Error");
+                    oReturnDate.setValueStateText("Travel request cannot be raised for more than 15 days for a single business trip");
+                    sValidationErrorMsg = "Travel request cannot be raised for more than 15 days for a single business trip";
+                } 
+
                 // validate Inside or Out Kingdom Field
                 var oInsOutKingdom = sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditInsOutKingdom");
                 if (!oInsOutKingdom.getSelectedKey()) {
@@ -1084,14 +1099,18 @@ sap.ui.define([
                 }
             },
             fnCalculateTotalPerDiem: function (sPerDiem,sVisaAmt,sItem) {
+
+                var diffTime = Math.abs(new Date(this.endTravelDate) - new Date(this.startTravelDate));
+                var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));  
+                diffDays = (diffDays === 0) ? 1: diffDays;  
                 
                 if(sItem === "CreateItem"){
-                    var sTotalPerDiem = Number(sPerDiem.getValue()) + Number(this.getView().getModel("CreateBusinessTripModel").getProperty("/cust_toDutyTravelItem/0/cust_ticketAmount")) + Number(sVisaAmt.getValue());
+                    var sTotalPerDiem = Number(sPerDiem.getValue()*diffDays) + Number(this.getView().getModel("CreateBusinessTripModel").getProperty("/cust_toDutyTravelItem/0/cust_ticketAmount")) + Number(sVisaAmt.getValue());
                     //    sTotalPerDiem = String(sTotalPerDiem);
                     this.getView().getModel("CreateBusinessTripModel").setProperty("/cust_toDutyTravelItem/0/cust_totalPerDiem", sTotalPerDiem);
                     this.getView().getModel("CreateBusinessTripModel").setProperty("/cust_toDutyTravelItem/0/cust_totalAmount", sTotalPerDiem);
                 }else {
-                    var sTotalPerDiem = Number(sPerDiem.getValue()) + Number(this.getView().getModel("DisplayEditBusinessTripModel").getProperty("/cust_toDutyTravelItem/0/cust_ticketAmount")) + Number(sVisaAmt.getValue());
+                    var sTotalPerDiem = Number(sPerDiem.getValue()*diffDays) + Number(this.getView().getModel("DisplayEditBusinessTripModel").getProperty("/cust_toDutyTravelItem/0/cust_ticketAmount")) + Number(sVisaAmt.getValue());
                     //    sTotalPerDiem = String(sTotalPerDiem);
                     this.getView().getModel("DisplayEditBusinessTripModel").setProperty("/cust_toDutyTravelItem/0/cust_totalPerDiem", sTotalPerDiem);
                     this.getView().getModel("DisplayEditBusinessTripModel").setProperty("/cust_toDutyTravelItem/0/cust_totalAmount", sTotalPerDiem);
@@ -1527,6 +1546,16 @@ sap.ui.define([
                     }
                 }
 
+                
+                // Validte Return Date should not be greater than 15 days
+
+                var Difference_In_Days = new Date(oReturnDatePicker.getDateValue()).getTime() - new Date(oTravelDatePicker.getDateValue()).getTime();
+                if(Difference_In_Days/(1000 * 3600 * 24) > 15){
+                    oReturnDatePicker.setValueState("Error");
+                    oReturnDatePicker.setValueStateText("Travel request cannot be raised for more than 15 days for a single business trip");
+                    sValidationErrorMsg = "Travel request cannot be raised for more than 15 days for a single business trip";
+                } 
+
 
                 // validate Destination Country Field
 
@@ -1702,6 +1731,94 @@ sap.ui.define([
                 }else {
                     sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditTicketAmt").setEnabled(true);
                     this.getView().getModel("DisplayEditBusinessTripModel").getData().cust_toDutyTravelItem[0].cust_expenseTypeBusinessTravel = "B";
+                }
+            },
+            onTravelDateChange: function (oEvent) {
+
+                var sTravelDate = oEvent.getSource().getValue();
+                var sPerDiem = sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idPerDiem");
+                var sVisaamt = sap.ui.core.Fragment.byId("idCreateBusinessDialog","idVisaAmt");
+                var sItem = "CreateItem";
+
+                sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idReturnDate").setValue(sTravelDate);
+                this.startTravelDate = oEvent.getParameter("newValue");
+
+                if(this.getView().getModel("CreateBusinessTripModel").getProperty("/cust_toDutyTravelItem/0/cust_destination") !== '') {
+                    this.fnCalculateTotalPerDiem(sPerDiem,sVisaamt,sItem);
+                }
+
+            },
+            onReturnDateChange: function (oEvent) {
+                var sTravelDate = sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idTravelDate").getDateValue();
+                var sReturnDate = oEvent.getSource().getDateValue();
+                this.endTravelDate = oEvent.getParameter("newValue");
+                var Difference_In_Days = new Date(sReturnDate).getTime() - new Date(sTravelDate).getTime();
+                var sPerDiem = sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idPerDiem");
+                var sVisaamt = sap.ui.core.Fragment.byId("idCreateBusinessDialog","idVisaAmt");
+                var sItem = "CreateItem";
+
+                if (new Date(sReturnDate).getTime() < new Date(sTravelDate).getTime()) {
+                    oEvent.getSource().setValueState("Error");
+                    oEvent.getSource().setValueStateText("Return Date should be later than Travel Date");
+
+                }else if(Difference_In_Days /(1000 * 3600 * 24) > 15){
+                    oEvent.getSource().setValueState("Error");
+                    oEvent.getSource().setValueStateText("Travel request cannot be raised for more than 15 days for a single business trip");
+                } else {
+                    oEvent.getSource().setValueState();
+                    oEvent.getSource().setValueStateText("");
+                    sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idTravelDate").setValueState();
+                    sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idTravelDate").setValueStateText("");
+                    // this.getView().byId("idTravelDate").setValueState();
+                    // this.getView().byId("idTravelDate").setValueStateText("");
+
+                }
+                if(this.getView().getModel("CreateBusinessTripModel").getProperty("/cust_toDutyTravelItem/0/cust_destination") !== '') {
+                    this.fnCalculateTotalPerDiem(sPerDiem,sVisaamt,sItem);
+                }
+            },
+            onTravelDateEditChange: function (oEvent) {
+
+                var sTravelDate = oEvent.getSource().getValue();
+                var sPerDiem = sap.ui.core.Fragment.byId("idEditBusinessDialog", "idEditPerDiem");
+                var sVisaamt = sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditVisaAmt");
+                var sItem = "EditItem";
+
+                sap.ui.core.Fragment.byId("idEditBusinessDialog", "idEditReturnDate").setValue(sTravelDate);
+                this.startTravelDate = oEvent.getParameter("newValue");
+
+                if(this.getView().getModel("DisplayEditBusinessTripModel").getProperty("/cust_toDutyTravelItem/0/cust_destination") !== '') {
+                    this.fnCalculateTotalPerDiem(sPerDiem,sVisaamt,sItem);
+                }
+
+            },
+            onReturnDateEditChange: function (oEvent) {
+                var sTravelDate = sap.ui.core.Fragment.byId("idEditBusinessDialog", "idEditTravelDate").getDateValue();
+                var sReturnDate = oEvent.getSource().getDateValue();
+                this.endTravelDate = oEvent.getParameter("newValue");
+                var Difference_In_Days = new Date(sReturnDate).getTime() - new Date(sTravelDate).getTime();
+                var sPerDiem = sap.ui.core.Fragment.byId("idEditBusinessDialog", "idEditPerDiem");
+                var sVisaamt = sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditVisaAmt");
+                var sItem = "EditItem";
+
+                if (new Date(sReturnDate).getTime() < new Date(sTravelDate).getTime()) {
+                    oEvent.getSource().setValueState("Error");
+                    oEvent.getSource().setValueStateText("Return Date should be later than Travel Date");
+
+                }else if(Difference_In_Days /(1000 * 3600 * 24) > 15){
+                    oEvent.getSource().setValueState("Error");
+                    oEvent.getSource().setValueStateText("Travel request cannot be raised for more than 15 days for a single business trip");
+                } else {
+                    oEvent.getSource().setValueState();
+                    oEvent.getSource().setValueStateText("");
+                    sap.ui.core.Fragment.byId("idEditBusinessDialog", "idEditTravelDate").setValueState();
+                    sap.ui.core.Fragment.byId("idEditBusinessDialog", "idEditTravelDate").setValueStateText("");
+                    // this.getView().byId("idTravelDate").setValueState();
+                    // this.getView().byId("idTravelDate").setValueStateText("");
+
+                }
+                if(this.getView().getModel("DisplayEditBusinessTripModel").getProperty("/cust_toDutyTravelItem/0/cust_destination") !== '') {
+                    this.fnCalculateTotalPerDiem(sPerDiem,sVisaamt,sItem);
                 }
             }
         });
