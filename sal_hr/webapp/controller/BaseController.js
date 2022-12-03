@@ -109,7 +109,7 @@ sap.ui.define([
                 },
                 success: function (oTicketWorkflowParticipantData) {
                     // setting status for SKIPPED workflow steps
-                    var pIndex = oTicketWorkflowParticipantData.results.findIndex(o => o.status = "PENDING");
+                    var pIndex = oTicketWorkflowParticipantData.results.findIndex(o => o.status == "PENDING");
                     var nIndex = oTicketWorkflowParticipantData.results.findIndex(o => o.status != "PENDING");
                     if(pIndex >= 0 && pIndex < nIndex) {
                         for (let i = pIndex; i < nIndex; i++) {
@@ -117,7 +117,7 @@ sap.ui.define([
                         }
                     }
                     for(var i = 0; i < oTicketWorkflowParticipantData.results.length; i++) {
-                        var stepNumber = oTicketWorkflowParticipantData.results[i].stepNumber
+                        var stepNumber = oTicketWorkflowParticipantData.results[i].stepNumber;
                         if(stepNumber > wfCurrentStep) {
                             oTicketWorkflowParticipantData.results[i].status = 'NOT INITIATED';
                         }
