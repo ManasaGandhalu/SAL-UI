@@ -14,7 +14,7 @@
 
             <columns>
                 <Column demandPopin="true" minScreenWidth="Tablet">
-                    <Label text="Request Type" required="false" />
+                    <Label text="Action Type" required="false" />
                 </Column>
                 <Column demandPopin="true" minScreenWidth="Tablet">
                     <Label text="Request Date" required="false" />

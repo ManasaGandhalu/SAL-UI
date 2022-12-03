@@ -506,6 +506,16 @@ sap.ui.define([
                     }
                 }
 
+                // Validte Return Date should not be greater than 15 days
+
+                var Difference_In_Days = new Date(oReturnDatePicker.getDateValue()).getTime() - new Date(oTravelDatePicker.getDateValue()).getTime();
+                if(Difference_In_Days/(1000 * 3600 * 24) > 15){
+                    oReturnDatePicker.setValueState("Error");
+                    oReturnDatePicker.setValueStateText("Travel request cannot be raised for more than 15 days for a single business trip");
+                    sValidationErrorMsg = "Travel request cannot be raised for more than 15 days for a single business trip";
+                } 
+
+
 
                 // validate Destination Country Field
 
@@ -876,15 +886,18 @@ sap.ui.define([
 
             },
             onReturnDateChange: function (oEvent) {
-                // var sTravelDate = this.getView().byId("idTravelDate").getDateValue();
                 var sTravelDate = sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idTravelDate").getDateValue();
                 var sReturnDate = oEvent.getSource().getDateValue();
-
+                this.endTravelDate = oEvent.getParameter("newValue");
+                var Difference_In_Days = new Date(sReturnDate).getTime() - new Date(sTravelDate).getTime();
 
                 if (new Date(sReturnDate).getTime() < new Date(sTravelDate).getTime()) {
                     oEvent.getSource().setValueState("Error");
                     oEvent.getSource().setValueStateText("Return Date should be later than Travel Date");
 
+                }else if(Difference_In_Days/(1000 * 3600 * 24) > 15){
+                    oEvent.getSource().setValueState("Error");
+                    oEvent.getSource().setValueStateText("Travel request cannot be raised for more than 15 days for a single business trip");
                 } else {
                     oEvent.getSource().setValueState();
                     oEvent.getSource().setValueStateText("");
@@ -893,6 +906,9 @@ sap.ui.define([
                     // this.getView().byId("idTravelDate").setValueState();
                     // this.getView().byId("idTravelDate").setValueStateText("");
 
+                }
+                if(this.getView().getModel("CreateBusinessTripModel").getProperty("/cust_toDutyTravelItem/0/cust_destination") !== '') {
+                    this.fnCalculateTotalPerDiem();
                 }
             },
             onAddBusinessTripPress: function () {

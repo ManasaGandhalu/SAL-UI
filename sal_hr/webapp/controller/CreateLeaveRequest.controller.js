@@ -419,8 +419,8 @@ sap.ui.define([
 
                         break;
                     case "HD1":
-                        that.getView().getModel("LocalViewModel").setProperty('/uploadAttachment', true);
-                        this.attachReq = true;
+                        that.getView().getModel("LocalViewModel").setProperty('/uploadAttachment', false);
+                        this.attachReq = false;
                         that.getView().getModel("LocalViewModel").setProperty('/meetingType', false);
                         that.getView().getModel("LocalViewModel").setProperty('/availBal', true);
                         that.getView().getModel("LocalViewModel").setProperty('/halfDayType', true);

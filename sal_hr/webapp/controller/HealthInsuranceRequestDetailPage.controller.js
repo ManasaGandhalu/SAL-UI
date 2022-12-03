@@ -118,8 +118,7 @@ sap.ui.define(
         },
         fnSetDisplayHealthInsuranceModel: function (oData) {
           this.getView().setBusy(true);
-          var aCust_healthInsuranceDetails =
-              oData.cust_healthInsuranceDetails.results,
+          var aCust_healthInsuranceDetails = oData.cust_healthInsuranceDetails.results,
             oDisplayEditBusinessTripObj = {
               externalCode: oData.externalCode,
               UserNav: oData.UserNav,
@@ -131,31 +130,30 @@ sap.ui.define(
                       item.cust_relationshipNav.results[0].externalCode,
                     externalCode: item.externalCode,
                     DependentName: item.cust_dependentName,
-                    DependentGender:
-                      item.cust_genderNav.results[0].externalCode,
+                    DependentGender: item.cust_genderNav.results[0].externalCode,
                     NationalID: item.cust_nationalID,
                     DependentNationalAddress: item.cust_address,
                     DependentDOB: item.cust_dateOfBirth,
                     DeliveryLoc: item.cust_location,
                     Scheme: item.cust_scheme,
-                    attachment1FileContent: item.cust_attachment1Nav
-                      ? item.cust_attachment1Nav.fileContent
-                      : null,
-                    attachment1FileName: item.cust_attachment1Nav
-                      ? item.cust_attachment1Nav.fileName
-                      : null,
-                    attachment2FileContent: item.cust_attachment2Nav
-                      ? item.cust_attachment2Nav.fileContent
-                      : null,
-                    attachment2FileName: item.cust_attachment2Nav
-                      ? item.cust_attachment2Nav.fileName
-                      : null,
+                    attachment1FileContent: item.cust_attachment1Nav? item.cust_attachment1Nav.fileContent: null,
+                    attachment1FileName: item.cust_attachment1Nav? item.cust_attachment1Nav.fileName: null,
+                    attachment1FileExt: item.cust_attachment1Nav? item.cust_attachment1Nav.fileExtension: null,
+                    attachment1MimeType: item.cust_attachment1Nav? item.cust_attachment1Nav.mimeType: null,
+                    attachment2FileContent: item.cust_attachment2Nav? item.cust_attachment2Nav.fileContent: null,
+                    attachment2FileName: item.cust_attachment2Nav? item.cust_attachment2Nav.fileName: null,
+                    attachment2FileExt: item.cust_attachment2Nav? item.cust_attachment2Nav.fileExtension: null,
+                    attachment2MimeType: item.cust_attachment2Nav? item.cust_attachment2Nav.mimeType: null,
+
+
                     attachment3FileContent: item.cust_attachment3Nav
                       ? item.cust_attachment3Nav.fileContent
                       : null,
                     attachment3FileName: item.cust_attachment3Nav
                       ? item.cust_attachment3Nav.fileName
                       : null,
+                      attachment3FileExt: item.cust_attachment3Nav? item.cust_attachment3Nav.fileExtension: null,
+                      attachment3MimeType: item.cust_attachment3Nav? item.cust_attachment3Nav.mimeType: null,
                     isAttach1New: false,
                     isAttach2New: false,
                     isAttach3New: false,
@@ -326,7 +324,7 @@ sap.ui.define(
         },
         onSavePress: function () {
           var sTicketID = this.object.ID;
-          var sEffectiveStartDate =   this.getFormattedDateValue("idEditEffectiveStartDate");
+          var sEffectiveStartDate = this.getFormattedDateValue("idEditEffectiveStartDate");
           var sUserID = this.getOwnerComponent()
             .getModel("EmpInfoModel")
             .getData().userId;
@@ -339,8 +337,8 @@ sap.ui.define(
               .getModel()
               .update(sEntityPath, oPayloadObj, {
                 urlParameters: {
-                   
-                    "ticketId": sTicketID
+
+                  "ticketId": sTicketID
                 },
                 success: function (oResponse) {
                   this.getView().setBusy(false);
@@ -426,7 +424,7 @@ sap.ui.define(
           var sUserID = this.getOwnerComponent()
             .getModel("EmpInfoModel")
             .getData().userId;
-          var sEffectiveStartDate =   this.getFormattedDateValue("idEditEffectiveStartDate");
+          var sEffectiveStartDate = this.getFormattedDateValue("idEditEffectiveStartDate");
           var cust_healthInsuranceDetails = aData.map(function (item) {
             return {
               externalCode: item.externalCode,
@@ -461,25 +459,29 @@ sap.ui.define(
           };
         },
         onDownLoadPress: function (oEvent) {
-          var oItemRowObj = oEvent
-            .getSource()
-            .getBindingContext("DisplayHealthInsuranceModel")
-            .getObject();
+          var oItemRowObj = oEvent.getSource().getBindingContext("DisplayHealthInsuranceModel").getObject();
+          
           var sLinkText = oEvent.getSource().getTooltip_Text().trim();
-          var fContent =
-            sLinkText === "Download(1)"
-              ? oItemRowObj.attachment1FileContent
-              : sLinkText === "Download(2)"
-              ? oItemRowObj.attachment2FileContent
-              : oItemRowObj.attachment3FileContent;
-          var fileext = oFileObj.fileExtension;
-          var mimeType = oFileObj.mimeType;
-          var fName =
-            sLinkText === "Download(1)"
-              ? oItemRowObj.attachment1FileName
-              : sLinkText === "Download(2)"
-              ? oItemRowObj.attachment2FileName
-              : oItemRowObj.attachment3FileName;
+          var fContent = sLinkText === "Download(1)" ? oItemRowObj.attachment1FileContent : sLinkText === "Download(2)"
+            ? oItemRowObj.attachment2FileContent
+            : oItemRowObj.attachment3FileContent;
+            var oFileObjExt = sLinkText === "Download(1)" ? oItemRowObj.attachment1FileExt : sLinkText === "Download(2)"
+            ? oItemRowObj.attachment2FileExt
+            : oItemRowObj.attachment3FileExt;
+            
+
+            var oFileObjMimeType = sLinkText === "Download(1)" ? oItemRowObj.attachment1MimeType : sLinkText === "Download(2)"
+            ? oItemRowObj.attachment2MimeType
+            : oItemRowObj.attachment3MimeType;
+
+          // var fileext = oFileObj.fileExtension;
+          var fileext = oFileObjExt;
+          // var mimeType = oFileObj.mimeType;
+          var mimeType = oFileObjMimeType;
+
+          var fName = sLinkText === "Download(1)" ? oItemRowObj.attachment1FileName : sLinkText === "Download(2)"
+            ? oItemRowObj.attachment2FileName
+            : oItemRowObj.attachment3FileName;
           fName = fName.split(".")[0];
           debugger;
           if (
@@ -500,13 +502,15 @@ sap.ui.define(
             a.download = fName;
             a.dispatchEvent(new MouseEvent("click"));
           } else {
-            var decodedContent = atob(fContent);
-            sap.ui.core.util.File.save(
-              decodedContent,
-              fName,
-              fileext,
-              mimeType
-            );
+            // var decodedContent = atob(fContent);
+            // sap.ui.core.util.File.save(
+            //   decodedContent,
+            //   fName,
+            //   fileext,
+            //   mimeType
+            // );
+
+            this.fnDownloadAttachment(fContent, mimeType, fName, fileext);
           }
         },
         handleFullScreen: function (oEvent) {

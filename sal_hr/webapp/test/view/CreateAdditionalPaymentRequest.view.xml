@@ -1,20 +1,14 @@
-<mvc:View controllerName="com.sal.salhr.controller.CreateAdditionalPaymentRequest"
-    xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m"
-    xmlns:f="sap.f"
-    xmlns:l="sap.ui.layout"
-    xmlns:core="sap.ui.core"
-    xmlns:fm="sap.ui.layout.form" height="100%">
+<mvc:View controllerName="com.sal.salhr.controller.CreateAdditionalPaymentRequest" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:f="sap.f" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:fm="sap.ui.layout.form" height="100%">
     <f:DynamicPage id="dynamicPageId" headerExpanded="true" showFooter="true">
         <!-- DynamicPage Title -->
         <f:title>
             <f:DynamicPageTitle id="idDynamicPageTitle">
                 <f:heading>
-                    <Title id="idPageTitle" text="New Additional Payment Request" class="sapUiSmallMarginBegin"/>
+                    <Title id="idPageTitle" text="New Additional Payment Request" class="sapUiSmallMarginBegin" />
                 </f:heading>
                 <f:breadcrumbs>
                     <Breadcrumbs id="idBreadcrumbs" currentLocationText="New Additional Payment Request" class="sapUiSmallMarginBegin">
-                        <Link id="idHumanResourceLink" text="{i18n>HumanResource}" press="onCreateCancelPress"/>
+                        <Link id="idHumanResourceLink" text="{i18n>HumanResource}" press="onCreateCancelPress" />
                     </Breadcrumbs>
                 </f:breadcrumbs>
             </f:DynamicPageTitle>
@@ -24,20 +18,20 @@
                 <l:content>
                     <!--  Employee Name for Manager App Tile -->
                     <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
-                        <Label text="{i18n>EmployeeName}" required="true" visible="{EmpInfoModel>/IsUserManager}"/>
-                        <Input id="idEmployeeNameINP" required="true" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpRequest" visible="{EmpInfoModel>/IsUserManager}"/>
+                        <Label text="{i18n>EmployeeName}" required="true" visible="{EmpInfoModel>/IsUserManager}" />
+                        <Input id="idEmployeeNameINP" required="true" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpRequest" visible="{EmpInfoModel>/IsUserManager}" />
                     </fm:SimpleForm>
 
                     <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
                         <Label id="idDateLBL" required="true" text="{i18n>IssueDate}" />
                         <DatePicker id="idIssueDate" value="{path:'LocalViewModel>/currentDate', type:'sap.ui.model.type.Date', formatOptions: {
                                                     pattern: 'MM/dd/yyyy'
-                                                }}" change="handleChange"/>
-
-
+                                                }}" change="handleChange" />
 
                         <Label id="idLblCreateType" required="true" text="{i18n>Type}" />
-                        <Select id="idInpType" items="{ path: '/SF_FOPayComponent',
+                        <Select
+                            id="idInpType"
+                            items="{ path: '/SF_FOPayComponent',
                                                             filters: [
                                                                         {
                                                                              path: 'toupper(name)',
@@ -45,43 +39,51 @@
                                                                              value1: '\'MARRIAGE REWARD\''
                                                                          },
                                                                          {
-                                                                             path: 'toupper(name)',
+                                                                              path: 'toupper(name)',
                                                                              operator: 'StartsWith',
-                                                                             value1: '\'NEW BORN\''
+                                                                             value1: '\'NEW BORN\'' 
                                                                          }
                                                                      ],
-                                                            sorter:{
-                                                                 path : 'name' 
-                                                            }         
-                                               
-                                                   }" change="onTimeTyeChange">
+                                                         sorter : {
+                                                             path : 'name' 
+                                                        } }"
+                            change="onTimeTyeChange"
+                        >
                             <core:Item key="{externalCode}" text="{name} ({externalCode})" />
                         </Select>
                     </fm:SimpleForm>
 
                     <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
-                        <Label required="true" id="idBValueLBL" text="{i18n>Value}"/>
+                        <Label required="true" id="idBValueLBL" text="{i18n>Value}" />
                         <Input type="Number" liveChange="OnLiveChangeValue" id="idValueINP" />
 
-                        <Label required="true" id="idCurrencyCodeLBL" text="{i18n>CurrencyCode}"/>
-                        <Select id="idInpCurrencyCode" selectedKey="SAR" items="{ path: '/SF_Currency',
+                        <Label required="true" id="idCurrencyCodeLBL" text="{i18n>CurrencyCode}" />
+                        <Select
+                            id="idInpCurrencyCode"
+                            selectedKey="SAR"
+                            items="{ path: '/SF_Currency',
                                                 sorter : {
                                                  path : 'code' 
                                              }
-                                                   }" change="onTimeTyeChange">
+                                                   }"
+                            change="onTimeTyeChange"
+                        >
                             <core:Item key="{code}" text="{code}" />
                         </Select>
                     </fm:SimpleForm>
                     <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
-                        <Label id="idALTCostCenterLBL" text="{i18n>AlternativeCostCenter}"/>
-                        <Select id="idInpAltCostCenter" items="{ path: '/SF_FOCostCenter',
+                        <Label id="idALTCostCenterLBL" text="{i18n>AlternativeCostCenter}" />
+                        <Select
+                            id="idInpAltCostCenter"
+                            items="{ path: '/SF_FOCostCenter',
                                                 sorter : {
                                                  path : 'name' 
                                              }
-                                                   }" change="onTimeTyeChange">
+                                                   }"
+                            change="onTimeTyeChange"
+                        >
                             <core:Item key="{externalCode}" text="{name} ({externalCode})" />
                         </Select>
-
                     </fm:SimpleForm>
                 </l:content>
             </l:VerticalLayout>
@@ -89,10 +91,10 @@
         <!-- DynamicPage Footer -->
         <f:footer>
             <OverflowToolbar id="idOverflowToolbar" visible="true">
-                <ToolbarSpacer id="idToolbarSpacer"/>
-                <Button id="idResetBTN" text="{i18n>Reset}" type="Ghost" press="onResetPress"/>
-                <Button id="idCancelBTN" text="{i18n>Cancel}" type="Ghost" press="onCreateCancelPress"/>
-                <Button id="idRaiseRequestBTN" text="{i18n>RaiseRequest}" press="onRaiseRequestPress" class="RaiseRequestButton"/>
+                <ToolbarSpacer id="idToolbarSpacer" />
+                <Button id="idResetBTN" text="{i18n>Reset}" type="Ghost" press="onResetPress" />
+                <Button id="idCancelBTN" text="{i18n>Cancel}" type="Ghost" press="onCreateCancelPress" />
+                <Button id="idRaiseRequestBTN" text="{i18n>RaiseRequest}" press="onRaiseRequestPress" class="RaiseRequestButton" />
             </OverflowToolbar>
         </f:footer>
     </f:DynamicPage>
