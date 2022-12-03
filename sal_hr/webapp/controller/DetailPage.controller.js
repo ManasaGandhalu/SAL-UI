@@ -344,17 +344,22 @@ sap.ui.define([
                
                   var sSelectedKey = oEvent.getSource().getSelectedKey();
                   var oFilterSearch = [];
+                  var sExternalCode;
                   
                 
                  
                     if(sSelectedKey === "All"){
                         oFilterSearch = [];
                         this.byId("idTicketTable").getBinding("items").filter(new Filter(oFilterSearch, true));
+                  } else if (sSelectedKey === "Pending for Closure") {
+                    sExternalCode = "Raise Initial Request";
+                    this.onPressBTFilterRequest(sExternalCode);  
+                  }else if (sSelectedKey === "Closed Requests") {
+                    sExternalCode = "Return and Closure";
+                    this.onPressBTFilterRequest(sExternalCode);  
                   }else {
                     oFilterSearch.push(new Filter("externalCode2", FilterOperator.EQ, sSelectedKey));
-
                     this.byId("idTicketTable").getBinding("items").filter(new Filter(oFilterSearch, true));
-                  
                   }
 
                   
@@ -363,13 +368,21 @@ sap.ui.define([
 
                
             },
-            onPressBTClosureRequest:function(){
+            onPressBTFilterRequest:function(sExternalCode){
                 var oFilterSearch = [];
-                oFilterSearch.push(new Filter("externalCode2", FilterOperator.EQ, "Return and Closure"));
+                oFilterSearch.push(new Filter("externalCode2", FilterOperator.EQ, sExternalCode));
                 oFilterSearch.push(new Filter("status", FilterOperator.EQ, "APPROVED"));
                 this.byId("idTicketTable").getBinding("items").filter(new Filter(oFilterSearch, true));
 
-                this.getView().byId("idBTRequestType").setSelectedKey("Return and Closure");
+                this.getView().byId("idBTRequestType").setSelectedKey(sExternalCode);
+            },
+            onPressBTClosureRequest:function(){
+                var oFilterSearch = [];
+                oFilterSearch.push(new Filter("externalCode2", FilterOperator.EQ, "Raise Initial Request"));
+                oFilterSearch.push(new Filter("status", FilterOperator.EQ, "APPROVED"));
+                this.byId("idTicketTable").getBinding("items").filter(new Filter(oFilterSearch, true));
+
+                this.getView().byId("idBTRequestType").setSelectedKey("Pending for Closure");
             }
 
 

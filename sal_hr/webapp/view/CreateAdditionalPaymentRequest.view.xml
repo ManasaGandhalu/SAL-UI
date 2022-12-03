@@ -37,31 +37,23 @@
 
 
                         <Label id="idLblCreateType" required="true" text="{i18n>Type}" />
-                        <Select id="idInpType" items="{ path: '/SF_FOPayComponent',
-                            filters: [
-                                { path: 'externalCode',
-                                    operator: 'eq',
-                                    value1: '9220'},
-                                { path: 'externalCode',
-                                    operator: 'eq',
-                                      value1: '9221'}],
-                                      sorter:{ path : 'name' 
-                                                            }    
-                                                   }" change="onTimeTyeChange">
-                            <core:Item key="{externalCode}" text="{name} ({externalCode})" />
-                        </Select>
+                         <ComboBox id="idInpType"  items="{ path: 'PaymentModel>/'}"
+                                                        
+                                                         change="onRewardChange" >
+                            <core:ListItem key="{PaymentModel>externalCode}" text="{PaymentModel>name} ({PaymentModel>externalCode})"  />
+                        </ComboBox>
                     </fm:SimpleForm>
 
                     <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
                         <Label required="true" id="idBValueLBL" text="{i18n>Value}"/>
-                        <Input type="Number" liveChange="OnLiveChangeValue" id="idValueINP" />
+                        <Input editable="false" liveChange="OnLiveChangeValue" id="idValueINP" type="Number"/>
 
                         <Label required="true" id="idCurrencyCodeLBL" text="{i18n>CurrencyCode}"/>
                         <Select id="idInpCurrencyCode" selectedKey="SAR" items="{ path: '/SF_Currency',
                                                 sorter : {
                                                  path : 'code' 
                                              }
-                                                   }" change="onTimeTyeChange">
+                                                   }" editable="false">
                             <core:Item key="{code}" text="{code}" />
                         </Select>
                     </fm:SimpleForm>

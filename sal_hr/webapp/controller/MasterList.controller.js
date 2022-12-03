@@ -59,14 +59,17 @@ sap.ui.define(
       },
       _onObjectMatched: function (oEvent) {
         debugger;
+
         this.getView().setBusy(true);
+
+
 
         var sLayout = oEvent.getParameter("arguments").layout;
 
-        
+
         this.getView().getModel("layoutModel").setProperty("/layout", sLayout);
 
-        this.getView().setBusy(false);
+
         var startupParams = this.getOwnerComponent().getComponentData()
           .startupParameters;
         // get Startup params from Owner Component
@@ -75,6 +78,7 @@ sap.ui.define(
             startupParams.submoduleId[0],
             startupParams.ticketId[0]
           );
+          // this.getView().setBusy(false);
         } else {
           var params = new URLSearchParams(
             decodeURIComponent(window.location.href)
@@ -84,13 +88,15 @@ sap.ui.define(
             params = new URLSearchParams(
               decodeURIComponent(window.parent.location.href)
             );
+            this.getView().setBusy(false);
           }
 
           var subModuleId = params.get("submoduleId"),
-                //  ticketId = null;
+            //  ticketId = null;
             ticketId = params.get("ticketId");
           if (subModuleId) {
             this._navToDetail(subModuleId, ticketId);
+            this.getView().setBusy(false);
           }
         }
       },
@@ -141,7 +147,7 @@ sap.ui.define(
         this.fnGetRoleAccess(sManagerTile, subModuleId, oItem);
       },
 
-      
+
 
       onSearch: function (oEvent) {
         var aFilters = [];
@@ -172,7 +178,7 @@ sap.ui.define(
       },
 
       fnGetRoleAccess: function (sManagerTile, subModuleId, oItem) {
-          debugger;
+        debugger;
         this.sManagerTile = sManagerTile;
         var sURL = "";
         var oComponentModel = this.getComponentModel();

@@ -39,11 +39,23 @@
                         <Label text="{i18n>Rejected}" class="tblHeaderText" />
                         <Text text="{totalRejected}" class="sapUiTinyMarginTop dataValueRejectColor " />
                     </VBox>
-                    <VBox justifyContent="Center" class="sapUiSmallMarginEnd" visible="{=${ID} === 2}">
+
+                    <VBox justifyContent="Center" class="sapUiLargeMarginBegin">
+                        <Label text="" class="tblHeaderText" />
+                        <Text text="" class="sapUiTinyMarginTop dataValueRejectColor " />
+                    </VBox>
+
+                     <VBox justifyContent="Center" class="sapUiLargeMarginBegin">
+                        <Label text="" class="tblHeaderText" />
+                        <Text text="" class="sapUiTinyMarginTop dataValueRejectColor " />
+                    </VBox>
+
+
+                    <VBox justifyContent="Center" class="sapUiLargeMarginBegin sapUiSmallMarginEnd" visible="{=${ID} === 2}">
                         <Label text="Initial Requests" class="tblHeaderText" />
                         <Text text="{totalInitial}" class="sapUiTinyMarginTop dataValuePrimaryColor " />
                     </VBox>
-                    <VBox justifyContent="Center" class="sapUiSmallMarginEnd" visible="{=${ID} === 2}">
+                    <VBox justifyContent="Center"  visible="{=${ID} === 2}">
                         <Label text="Closure Requests" class="tblHeaderText" />
                         <Text text="{totalClosure}" class="sapUiTinyMarginTop dataValuePrimaryColor " />
                     </VBox>
@@ -71,7 +83,9 @@
                             <ComboBox id="idBTRequestType" visible="{=${ID} === 2}" selectedKey="All" change="onSelectBTFilter">
                                 <core:Item key="All" text="All" />
                                 <core:Item key="Raise Initial Request" text="Initial Requests" />
-                                <core:Item key="Return and Closure" text="Closure Requests" />
+                                <core:Item key="Return and Closure" text="Return and Closure" />
+                                 <core:Item key="Pending for Closure" text="Pending for Closure" />
+                                <core:Item key="Closed Requests" text="Closed Requests" />
                             </ComboBox>
                             <Button icon="sap-icon://sort" press="onSort" />
                             <Button id="idSelectFilter" icon="sap-icon://filter" press="onPressFilter" />
