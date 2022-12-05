@@ -49,7 +49,8 @@
                         <Input id="idIncumbentPosition" value="{jobInfoNav>/results/0/managerId}"/> -->
 
                         <Label text="Position" />
-                        <Input id="idPosition"  width="100%" valueHelpOnly="true" value="{ parts : [{ path: 'jobModel>/positionNav/externalName_defaultValue'}, {path: 'jobModel>/position'} ], formatter: '.formatter.formatLabel' }"   showValueHelp="true" valueHelpRequest="onPositionRequest" />
+                        <Input id="id
+                        ]Position"  width="100%" valueHelpOnly="true" value="{ parts : [{ path: 'jobModel>/positionNav/externalName_defaultValue'}, {path: 'jobModel>/position'} ], formatter: '.formatter.formatLabel' }"   showValueHelp="true" valueHelpRequest="onPositionRequest" />
 
                         <Label text="Time in Position" />
                         <Input enabled="false" value="{path : 'jobModel>/startDate', formatter: '.formatter.formatTimeInPosition' }" />
