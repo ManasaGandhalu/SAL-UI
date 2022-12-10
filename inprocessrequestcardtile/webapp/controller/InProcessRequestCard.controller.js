@@ -48,7 +48,7 @@ sap.ui.define(
                   ],
                 },
                 content: {
-                  chartType: "Donut",
+                  chartType: "donut",
                   legend: {
                     visible: true,
                     position: "Bottom",

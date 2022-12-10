@@ -307,16 +307,16 @@
                 </Panel>
                 <Panel visible="{= ${LocalViewModel>/componesationInfoVisible} ? true : false }">
                     <fm:SimpleForm title="Compensation Information" layout="ColumnLayout" class="style-RemoveTitleHeight" columnsM="2" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
-                        <Label text="Company" required="true" />
+                        <Label text="Company" required="true" visible="false" />
                         
-                        <Label text="Pay Group" required="true" />
-                        <ComboBox id="idCompPayGroup" enabled="{= ${LocalViewModel>/payGroupEnabled} ? true : false }" items="{PayGroupModel>/}" selectedKey="{compensationModel>/payGroup}">
+                        <Label text="Pay Group" required="true" visible="false"/>
+                        <ComboBox id="idCompPayGroup" enabled="{= ${LocalViewModel>/payGroupEnabled} ? true : false }" items="{PayGroupModel>/}" selectedKey="{compensationModel>/payGroup}" visible="false">
                             <core:Item key="{PayGroupModel>externalCode}" text="{PayGroupModel>name} ({PayGroupModel>externalCode})"/>
                         </ComboBox>
 
 
-                        <Label text="is Eligible for Car" />
-                        <ComboBox id="idEligibleForCar" enabled="false" selectedKey="{compensationModel>/isEligibleForCar}">
+                        <Label text="is Eligible for Car" visible="false" />
+                        <ComboBox id="idEligibleForCar" enabled="false" selectedKey="{compensationModel>/isEligibleForCar}" visible="false">
                             <core:Item key="true" text="Yes"/>
                             <core:Item key="false" text="No"/>
                         </ComboBox>
@@ -330,25 +330,25 @@
                         <Label text="Monthly Basic" />
                         <Input value="{compensationModel>/customDouble1}" />
 
-                        <Label text="Country" required="true" />
-                        <ComboBox id="idCompCountry" items="{ path: '/SF_Country'}" selectedKey="{compensationModel>/customString2}">
+                        <Label text="Country" required="true" visible="false"/>
+                        <ComboBox id="idCompCountry" items="{ path: '/SF_Country'}" selectedKey="{compensationModel>/customString2}" visible="false">
                             <core:Item key="{numericCountryCode}" text="{externalName_defaultValue}"/>
                         </ComboBox>
 
-                        <Label text="Pay Type" />
+                        <Label text="Pay Type" visible="false"/>
                         <ComboBox items="{ path: '/SF_PicklistOption',sorter : {
                                 path : 'picklistLabels/label' 
-                            }, filters: [{ path: 'picklist/picklistId', operator: 'EQ', value1: 'PayType' }] }" selectedKey="{compensationModel>/payType}">
+                            }, filters: [{ path: 'picklist/picklistId', operator: 'EQ', value1: 'PayType' }] }" selectedKey="{compensationModel>/payType}" visible="false">
                             <core:Item key="{id}" text="{localeLabel}"/>
                         </ComboBox>
 
-                        <Label text="Scheme Change Date" />
+                        <Label text="Scheme Change Date" visible="false"/>
                         <DatePicker id="idSchemeChangeDate" value="{path:'compensationModel>/customDate1', type:'sap.ui.model.type.Date', formatOptions: {
                                                   pattern: 'MM/dd/yyyy'
-                                                }}" />
+                                                }}" visible="false"/>
 
-                        <Label text="Change from Commision to Variable" required="true" />
-                        <Input id="idCommision" value="{compensationModel>/customString3}"/>
+                        <Label text="Change from Commision to Variable" required="true" visible="false" />
+                        <Input id="idCommision" value="{compensationModel>/customString3}" visible="false"/>
                     </fm:SimpleForm>
                     <!-- <VBox>
                        <Table id="idConsumedTable" growing="true" growingThreshold="10">

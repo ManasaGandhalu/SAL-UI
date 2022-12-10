@@ -47,7 +47,7 @@ sap.ui.define([
                                 ]
                             },
                             "content": {
-                                "chartType": "Donut",
+                                "chartType": "donut",
                                 "legend": {
                                     "visible": true,
                                     "position": "Bottom",
@@ -60,7 +60,7 @@ sap.ui.define([
                                     }
                                 },
                                 "title": {
-                                    "text": "Rejected requests by Type",
+                                    "text": "Approved requests by Type",
                                     "visible": true
                                 },
                                 "measureAxis": "size",
@@ -75,14 +75,14 @@ sap.ui.define([
                                     {
                                         "label": "Measure Name",
                                         "value": "{name}",
-                                        "tootip":"{name}"
+                                        "tooltip":"{name}"
                                     }
                                 ],
                                 "measures": [
                                     {
                                         "label": "Value",
-                                        "value": "{totalRejected}",
-                                        "tootip":"{name}"
+                                        "value": "{totalApproved}",
+                                        "tooltip":"{name}"
                                     }
                                 ],
                                 "actionableArea": "Chart",
@@ -96,6 +96,7 @@ sap.ui.define([
                                     }
                                 ]
                             }
+                           
                         }
                     }
                 };
