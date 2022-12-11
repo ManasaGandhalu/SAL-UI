@@ -39,6 +39,8 @@ modules:
   - name: employee-portal-repo-host
     parameters:
       content-target: true
+      config:
+       sizeLimit: 4
   build-parameters:
     build-result: resources
     requires:
