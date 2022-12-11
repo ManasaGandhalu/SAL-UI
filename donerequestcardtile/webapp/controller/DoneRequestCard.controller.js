@@ -3,7 +3,7 @@ sap.ui.define([
     "sap/ui/model/json/JSONModel",
     "sap/ui/core/Fragment",
     'sap/ui/model/Sorter'
-    
+
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
@@ -12,7 +12,7 @@ sap.ui.define([
         "use strict";
 
         return Controller.extend("com.sal.donerequestcardtile.donerequestcardtile.controller.DoneRequestCard", {
-           
+
             onInit: function () {
                 var oCardData = {
                     "donut": {
@@ -49,7 +49,7 @@ sap.ui.define([
                                 ]
                             },
                             "content": {
-                                "chartType": "Donut",
+                                "chartType": "donut",
                                 "legend": {
                                     "visible": true,
                                     "position": "Bottom",
@@ -73,28 +73,22 @@ sap.ui.define([
                                     },
                                     "path": "/measures"
                                 },
-                                "dimensions": [
-                                    {
-                                        "label": "Measure Name",
-                                        "value": "{name}",
-                                        "tooltip":"{name}"
-                                    }
-                                ],
-                                "measures": [
-                                    {
-                                        "label": "Value",
-                                        "value": "{totalApproved}",
-                                        "tooltip":"{name}"
-                                    }
-                                ],
+                                "dimensions": [{
+                                    "label": "Measure Name",
+                                    "value": "{name}"
+                                }],
+                                "measures": [{
+                                    "label": "totalApproved",
+                                    "value": "{totalApproved}"
+                                }],
                                 "actionableArea": "Chart",
                                 "actions": [
                                     {
                                         "type": "Navigation",
                                         "parameters": {
-                                           "text":"{name}"
+                                            "text": "{name}"
                                         }
-                                        
+
                                     }
                                 ]
                             }
@@ -107,12 +101,20 @@ sap.ui.define([
                     //     "IsUserManager": "true"
                     // },
                     success: function (oData) {
-                        var cardManifests = new JSONModel();
-                        oCardData.donut["sap.card"].content.data.json.measures = oData.results;
-                        oCardData.donut["sap.card"].content.data.path = "/measures";
-                        
-                         // Set Values for Header
-                         oCardData.donut["sap.card"].header.data.json.NumberCount = oData.results[0].totalApproved + oData.results[1].totalApproved + oData.results[2].totalApproved ;
+                        var cardManifests = new JSONModel(),
+                            aMeasureData = [];
+                        for (var i = 0; i < oData.results.length; i++) {
+                            aMeasureData.push({
+                                "name": oData.results[i].name,
+                                "totalApproved": oData.results[i].totalApproved + i + 2
+                            });
+                        }
+
+                        oCardData.donut["sap.card"].content.data.json.measures = aMeasureData;
+                        // oCardData.donut["sap.card"].content.data.path = "/measures";
+
+                        // Set Values for Header
+                        oCardData.donut["sap.card"].header.data.json.NumberCount = oData.results[0].totalApproved + oData.results[1].totalApproved + oData.results[2].totalApproved;
                         // oCardData.donut["sap.card"].content.data.json.NumberCount =  "0";
                         // oCardData.donut["sap.card"].content.data.json.Unit = "";
                         // oCardData.donut["sap.card"].content.data.json.Trend= "";
@@ -132,8 +134,7 @@ sap.ui.define([
             },
 
 
-            onConfirmDoneRequest : function(oEvent)
-            {
+            onConfirmDoneRequest: function (oEvent) {
                 var oSelectedItem = oEvent.getParameter("selectedItem");
                 var obj = oSelectedItem.getBindingContext("FragmetModel").getObject();
                 this.triggerCrossApp(obj.subModuleId, obj.ID, obj.externalCode);
@@ -141,26 +142,26 @@ sap.ui.define([
 
             triggerCrossApp: function (sSubModuleID, sTicketID, sExternalCode) {
                 debugger;
-           
+
                 var oCrossAppNavigator = sap.ushell.Container.getService("CrossApplicationNavigation"); // get a handle on the global XAppNav service
                 var hash = (oCrossAppNavigator && oCrossAppNavigator.hrefForExternal({
                     target: {
                         semanticObject: this.semanticObject,
-                        action:  this.action
+                        action: this.action
                     },
                     params: {
 
-                        "submoduleId" : sSubModuleID, 
-                        "ticketId" : sTicketID,
+                        "submoduleId": sSubModuleID,
+                        "ticketId": sTicketID,
                         "externalCode": sExternalCode
 
                     }
                 })) || "";
 
-                if(this.semanticObject === 'itsm_semantic') {
-                    hash+=`&/detail/${sSubModuleID}/detailDetail/${sExternalCode}/${sTicketID}/EndColumnFullScreen`;
+                if (this.semanticObject === 'itsm_semantic') {
+                    hash += `&/detail/${sSubModuleID}/detailDetail/${sExternalCode}/${sTicketID}/EndColumnFullScreen`;
                 }
-                
+
                 oCrossAppNavigator.toExternal({
                     target: {
                         shellHash: hash
@@ -171,17 +172,17 @@ sap.ui.define([
             onAction: function (oEvent) {
                 var selectedSlice = oEvent.getParameters().manifestParameters.text;
                 var that = this;
-               
+
                 if (!this._oDoneAPIialog) {
                     this._oDoneAPIialog = sap.ui.xmlfragment("idDoneDialog", "com.sal.donerequestcardtile.donerequestcardtile.Fragments.QuickView", this);
                     that.getView().addDependent(this._oDoneAPIialog);
                 }
                 this.fnGetSelectedSliceData(selectedSlice);
-                
-    
+
+
             },
-            fnGetSelectedSliceData:function(selectedSlice){
-                if(selectedSlice === "HR"){
+            fnGetSelectedSliceData: function (selectedSlice) {
+                if (selectedSlice === "HR") {
                     this.semanticObject = "HR_semantic";
                     this.action = "display";
                     var sStatusFilter = new sap.ui.model.Filter({
@@ -195,65 +196,65 @@ sap.ui.define([
                         value1: "1"
                     });
                     var filter = [];
-                    filter.push(sStatusFilter,sModuleFilter);
+                    filter.push(sStatusFilter, sModuleFilter);
                     // this.getOwnerComponent().getModel().read("/Tickets",
                     this.getOwnerComponent().getModel().read(`/Tickets`,
-                    {
-                        urlParameters: {
-                            $expand: "subModule"
-                            
-                        },
-                    
-                        sorters: [ new Sorter("createdAt", true)],
-                        filters: [filter],
-                        success:function(oData){
-                            var oFragmetModel = new JSONModel(oData.results);
-                            this._oDoneAPIialog.setModel(oFragmetModel, "FragmetModel");
-                            this._oDoneAPIialog.getModel("FragmetModel").setProperty("/titleName",selectedSlice);
-                            this._oDoneAPIialog.open();
-                        }.bind(this),
-                        error:function(){
-    
-                        }
-                    });
-                }
-
-              else  if(selectedSlice === "ITSM"){
-                this.semanticObject = "itsm_semantic";
-                this.action = "display";
-                var sStatusFilter = new sap.ui.model.Filter({
-                    path: "status",
-                    operator: sap.ui.model.FilterOperator.EQ,
-                    value1: "APPROVED"
-                });
-                var sModuleFilter = new sap.ui.model.Filter({
-                    path: "moduleId",
-                    operator: sap.ui.model.FilterOperator.EQ,
-                    value1: "4"
-                });
-                var filter = [];
-                filter.push(sStatusFilter,sModuleFilter);
-                    // this.getOwnerComponent().getModel().read("/tickets",
-                    this.getOwnerComponent().getModel().read(`/Tickets`,
-                    {
-                        
+                        {
                             urlParameters: {
                                 $expand: "subModule"
-                                
+
                             },
-                        sorters: [ new Sorter("createdAt", true)],
-                        filters: [filter],
-                        success:function(oData){
-                            var oFragmetModel = new JSONModel(oData.results);
-                            this._oDoneAPIialog.setModel(oFragmetModel, "FragmetModel");
-                            this._oDoneAPIialog.getModel("FragmetModel").setProperty("/titleName",selectedSlice);
-                            this._oDoneAPIialog.open();
-                        }.bind(this),
-                        error:function(){
-    
-                        }
-                    })
-                }else if(selectedSlice === "Procurement"){
+
+                            sorters: [new Sorter("createdAt", true)],
+                            filters: [filter],
+                            success: function (oData) {
+                                var oFragmetModel = new JSONModel(oData.results);
+                                this._oDoneAPIialog.setModel(oFragmetModel, "FragmetModel");
+                                this._oDoneAPIialog.getModel("FragmetModel").setProperty("/titleName", selectedSlice);
+                                this._oDoneAPIialog.open();
+                            }.bind(this),
+                            error: function () {
+
+                            }
+                        });
+                }
+
+                else if (selectedSlice === "ITSM") {
+                    this.semanticObject = "itsm_semantic";
+                    this.action = "display";
+                    var sStatusFilter = new sap.ui.model.Filter({
+                        path: "status",
+                        operator: sap.ui.model.FilterOperator.EQ,
+                        value1: "APPROVED"
+                    });
+                    var sModuleFilter = new sap.ui.model.Filter({
+                        path: "moduleId",
+                        operator: sap.ui.model.FilterOperator.EQ,
+                        value1: "4"
+                    });
+                    var filter = [];
+                    filter.push(sStatusFilter, sModuleFilter);
+                    // this.getOwnerComponent().getModel().read("/tickets",
+                    this.getOwnerComponent().getModel().read(`/Tickets`,
+                        {
+
+                            urlParameters: {
+                                $expand: "subModule"
+
+                            },
+                            sorters: [new Sorter("createdAt", true)],
+                            filters: [filter],
+                            success: function (oData) {
+                                var oFragmetModel = new JSONModel(oData.results);
+                                this._oDoneAPIialog.setModel(oFragmetModel, "FragmetModel");
+                                this._oDoneAPIialog.getModel("FragmetModel").setProperty("/titleName", selectedSlice);
+                                this._oDoneAPIialog.open();
+                            }.bind(this),
+                            error: function () {
+
+                            }
+                        })
+                } else if (selectedSlice === "Procurement") {
                     this.semanticObject = "procurement_semantic";
                     this.action = "display";
                     var sStatusFilter = new sap.ui.model.Filter({
@@ -267,29 +268,29 @@ sap.ui.define([
                         value1: "2"
                     });
                     var filter = [];
-                    filter.push(sStatusFilter,sModuleFilter);
-                        // this.getOwnerComponent().getModel().read("/tickets",
-                        this.getOwnerComponent().getModel().read(`/Tickets`,
+                    filter.push(sStatusFilter, sModuleFilter);
+                    // this.getOwnerComponent().getModel().read("/tickets",
+                    this.getOwnerComponent().getModel().read(`/Tickets`,
                         {
                             urlParameters: {
                                 $expand: "subModule"
-                                
+
                             },
-                            sorters: [ new Sorter("createdAt", true)],
+                            sorters: [new Sorter("createdAt", true)],
                             filters: [filter],
-                            success:function(oData){
+                            success: function (oData) {
                                 var oFragmetModel = new JSONModel(oData.results);
                                 this._oDoneAPIialog.setModel(oFragmetModel, "FragmetModel");
-                                this._oDoneAPIialog.getModel("FragmetModel").setProperty("/titleName",selectedSlice);
+                                this._oDoneAPIialog.getModel("FragmetModel").setProperty("/titleName", selectedSlice);
                                 this._oDoneAPIialog.open();
                             }.bind(this),
-                            error:function(){
-        
+                            error: function () {
+
                             }
                         })
-                    }
+                }
             },
-            getGroupHeader: function (oGroup){
+            getGroupHeader: function (oGroup) {
                 return new GroupHeaderListItem({
                     title: oGroup.key,
                     upperCase: false

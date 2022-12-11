@@ -121,6 +121,7 @@ sap.ui.define(
                 },
 
                 getUserJobInfo: function(userId) {
+                    this.getView().setBusy(true);
                     var oComponentModel = this.getComponentModel(),
                         that = this;
                     
@@ -152,6 +153,9 @@ sap.ui.define(
                                 that.getView().setBusy(false);
                                 var oJobModel = new JSONModel(oData.results[0]);
                                 that.oJobModel = oJobModel;
+                                // ******************** New *****************************
+                                that.getView().getModel("LocalViewModel").setProperty("/checkBoxVisible", true);
+                                // ************************************************************
                             },
                             error: function (oError) {
                                 that.getView().setBusy(false);
@@ -760,6 +764,8 @@ sap.ui.define(
                     }
                     var obj = oSelectedItem.getBindingContext().getObject();
 
+                    this.setJobOrgInfoModel(obj);
+
                     this.getView().getModel("jobModel").setProperty("/positionNav", obj);
                     this.getView().getModel("jobModel").setProperty("/position", obj["code"]);
 
@@ -909,9 +915,11 @@ sap.ui.define(
                     if (!oSelectedItem) {
                         return;
                     }
-                    this.getView()
-                        .getModel("LocalViewModel")
-                        .setProperty("/checkBoxVisible", true);
+                    // ************* old ****************************
+                    // this.getView()
+                    //     .getModel("LocalViewModel")
+                    //     .setProperty("/checkBoxVisible", true);
+                    // *******************************************************    
                     var obj = oSelectedItem.getBindingContext().getObject();
                     this.byId("idSalIncPRN").setValue(`${obj["defaultFullName"]} (${obj["userId"]})`);
                     this.byId("idSalIncPRN").setValueState("None");
@@ -1572,6 +1580,32 @@ sap.ui.define(
                         }
                     }.bind(this));
                     
+                },
+
+                setJobOrgInfoModel:function(obj){
+                    var oJobModel =  this.getView().getModel("jobModel");
+                    
+                //************ Set Organization Panel ******************************
+                    oJobModel.setProperty("/company", obj.company);
+                    oJobModel.setProperty("/businessUnit", obj.businessUnit);
+                    oJobModel.setProperty("/division", obj.division);
+                    oJobModel.setProperty("/department", obj.department);
+                    oJobModel.setProperty("/location", obj.location);
+                    oJobModel.setProperty("/cust_locationGroup", obj.cust_locationGroup);
+                    oJobModel.setProperty("/costCenter", obj.costCenter);
+                    oJobModel.setProperty("/cust_section", obj.cust_section);
+                  
+                // ************** Set Job Information Panel ******************************    
+                    oJobModel.setProperty("/managerId",this.oJobModel.managerId);
+                    oJobModel.setProperty("/jobCode", obj.jobCode);
+                    oJobModel.setProperty("/jobLevel", obj.jobLevel);
+                    oJobModel.setProperty("/jobTitle", obj.jobTitle);
+                    oJobModel.setProperty("/payGrade", obj.payGrade);
+                    oJobModel.setProperty("/jobTitle", obj.jobTitle);
+                    oJobModel.setProperty("/employeeClass", obj.employeeClass);
+                  
+                    oJobModel.refresh(true);
+
                 },
 
                 setCompensationModel: function(oCompensationModel) {

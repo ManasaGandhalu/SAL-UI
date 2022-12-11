@@ -3,9 +3,20 @@
 		 items="{path: '/SF_Position', 
          sorter : {
             path : 'externalName_defaultValue' 
-         }, parameters : {
-                select : 'code,externalName_defaultValue'
-            }}" liveChange="onLiveChange1" search=".onPositionValueHelpSearch" confirm=".onPositionConfirm" cancel=".onValueHelpClose1">
+         }}" liveChange="onLiveChange1" search=".onPositionValueHelpSearch" confirm=".onPositionConfirm" cancel=".onValueHelpClose1">
 		<StandardListItem title="{externalName_defaultValue} ({code})" description="{userId}"/>
 	</SelectDialog>
 </core:FragmentDefinition>
+
+
+<!-- <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<SelectDialog resizable="false" contentHeight="40%" contentWidth="30%" id="positionSelectDialog" title="Select Position" growing="true" growingThreshold="15"
+		 items="{path: '/SF_Position', 
+         sorter : {
+            path : 'externalName_defaultValue' 
+         }, parameters : {
+                select : 'code,externalName_defaultValue,effectiveStartDate'
+            }}" liveChange="onLiveChange1" search=".onPositionValueHelpSearch" confirm=".onPositionConfirm" cancel=".onValueHelpClose1">
+		<StandardListItem title="{externalName_defaultValue} ({code})" description="{userId}"/>
+	</SelectDialog>
+</core:FragmentDefinition> -->
