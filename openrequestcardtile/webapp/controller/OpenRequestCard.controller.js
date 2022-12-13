@@ -21,9 +21,9 @@ sap.ui.define([
                         "sap.card": {
                             "type": "Analytical",
                             "header": {
-                                "type": "Numeric",
-                                "title": "My Rejected Requests",
-                                "subTitle": "Total requests that are Rejected",
+                                // "type": "Numeric",
+                                "title": "",
+                                // "subTitle": "Total requests that are Rejected",
                                 "data": {
                                     "json": {
                                         "NumberCount": "0",
@@ -60,7 +60,7 @@ sap.ui.define([
                                     }
                                 },
                                 "title": {
-                                    "text": "Approved requests by Type",
+                                    "text": "Rejected requests by Type",
                                     "visible": true
                                 },
                                 "measureAxis": "size",
@@ -81,7 +81,7 @@ sap.ui.define([
                                 "measures": [
                                     {
                                         "label": "Value",
-                                        "value": "{totalApproved}",
+                                        "value": "{totalRejected}",
                                         "tooltip":"{name}"
                                     }
                                 ],
@@ -111,7 +111,9 @@ sap.ui.define([
                         oCardData.donut["sap.card"].content.data.path = "/measures";
                         
                          // Set Values for Header
-                         oCardData.donut["sap.card"].header.data.json.NumberCount = oData.results[0].totalRejected + oData.results[1].totalRejected + oData.results[2].totalRejected;
+                        var iTotalRequest = Number(oData.results[0].totalRejected) + Number(oData.results[1].totalRejected) + Number(oData.results[2].totalRejected);
+                        oCardData.donut["sap.card"].header.title = "My Total Rejected Requests (" + iTotalRequest + ")";
+                        //  oCardData.donut["sap.card"].header.data.json.NumberCount = oData.results[0].totalRejected + oData.results[1].totalRejected + oData.results[2].totalRejected;
                         // oCardData.donut["sap.card"].content.data.json.NumberCount =  "0";
                         // oCardData.donut["sap.card"].content.data.json.Unit = "";
                         // oCardData.donut["sap.card"].content.data.json.Trend= "";

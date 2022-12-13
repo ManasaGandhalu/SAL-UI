@@ -23,9 +23,9 @@ sap.ui.define([
                         "sap.card": {
                             "type": "Analytical",
                             "header": {
-                                "type": "Numeric",
-                                "title": "My Approved Requests",
-                                "subTitle": "Total requests that are Approved",
+                                // "type": "Numeric",
+                                "title": "",
+                                // "subTitle": "Total requests that are Approved",
                                 "data": {
                                     "json": {
                                         "NumberCount": "0",
@@ -101,20 +101,15 @@ sap.ui.define([
                     //     "IsUserManager": "true"
                     // },
                     success: function (oData) {
-                        var cardManifests = new JSONModel(),
-                            aMeasureData = [];
-                        for (var i = 0; i < oData.results.length; i++) {
-                            aMeasureData.push({
-                                "name": oData.results[i].name,
-                                "totalApproved": oData.results[i].totalApproved + i + 2
-                            });
-                        }
-
-                        oCardData.donut["sap.card"].content.data.json.measures = aMeasureData;
+                        var cardManifests = new JSONModel();
+                           
+                        oCardData.donut["sap.card"].content.data.json.measures = oData.results;
                         // oCardData.donut["sap.card"].content.data.path = "/measures";
 
                         // Set Values for Header
-                        oCardData.donut["sap.card"].header.data.json.NumberCount = oData.results[0].totalApproved + oData.results[1].totalApproved + oData.results[2].totalApproved;
+                        var iTotalRequest = Number(oData.results[0].totalApproved) + Number(oData.results[1].totalApproved) + Number(oData.results[2].totalApproved);
+                        oCardData.donut["sap.card"].header.title = "My Total Approved Requests (" + iTotalRequest + ")";
+                        // oCardData.donut["sap.card"].header.data.json.NumberCount = oData.results[0].totalApproved + oData.results[1].totalApproved + oData.results[2].totalApproved;
                         // oCardData.donut["sap.card"].content.data.json.NumberCount =  "0";
                         // oCardData.donut["sap.card"].content.data.json.Unit = "";
                         // oCardData.donut["sap.card"].content.data.json.Trend= "";
