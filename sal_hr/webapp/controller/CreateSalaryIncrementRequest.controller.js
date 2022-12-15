@@ -267,7 +267,8 @@ sap.ui.define(
                                     this.getView().setBusy(false);
                                     // sap.m.MessageBox.error(this.parseResponseError(oError.responseText));
                                     sErrMsg = this.parseResponseError(oError.responseText);
-                                    sap.m.MessageBox.error(sErrMsg.split("???")[1]);
+                                    var sErrorMsg= sErrMsg.indexOf("???") > 0 ? sErrMsg.split("???")[1] : sErrMsg;
+                                    sap.m.MessageBox.error(sErrorMsg);
                                     this.getView().getModel().refresh();
                                 }.bind(this),
                             });
@@ -278,7 +279,8 @@ sap.ui.define(
                                 error: function (oError) {
                                     this.getView().setBusy(false);
                                     sErrMsg = this.parseResponseError(oError.responseText);
-                                    sap.m.MessageBox.error(sErrMsg.split("???")[1]);
+                                    var sErrorMsg= sErrMsg.indexOf("???") > 0 ? sErrMsg.split("???")[1] : sErrMsg;
+                                    sap.m.MessageBox.error(sErrorMsg);
                                     this.getView().getModel().refresh();
                                 }.bind(this),
                             });
@@ -362,6 +364,10 @@ sap.ui.define(
                     delete sNewPayload.userNav;
                     delete sNewPayload.wfRequestNav;
                     delete sNewPayload.workerCategoryNav;
+                    delete sNewPayload.cust_locationGroup;
+                    delete sNewPayload.payRange;
+                    delete sNewPayload.cust_section;
+                    delete sNewPayload.jobLevel;
                     return sNewPayload;
                 },
                 fnGetCompensationRequestPayload: function () {
@@ -1602,7 +1608,7 @@ sap.ui.define(
                     oJobModel.setProperty("/jobTitle", obj.jobTitle);
                     oJobModel.setProperty("/payGrade", obj.payGrade);
                     oJobModel.setProperty("/jobTitle", obj.jobTitle);
-                    oJobModel.setProperty("/employeeClass", obj.employeeClass);
+                    // oJobModel.setProperty("/employeeClass", obj.employeeClass);
                   
                     oJobModel.refresh(true);
 
