@@ -49,7 +49,7 @@ sap.ui.define(
                     var oTimezonesModel = this.getOwnerComponent().getModel("timezonesData");
                     oTimezonesModel.setSizeLimit(500);
                     this.getView().setModel(oTimezonesModel, "TimezonesModel");
-                    // this.initDropdowns();
+                    this.initDropdowns();
                 },
                 _onObjectMatched: function (oEvent) {
                     this.sParentID = oEvent.getParameter("arguments").parentMaterial;
@@ -58,15 +58,15 @@ sap.ui.define(
                     this.getView()
                         .getModel("layoutModel")
                         .setProperty("/layout", sLayout);
-
+                    
                     this.EmpInfoObj = this.getOwnerComponent()
                         .getModel("EmpInfoModel")
                         .getData();
-
+                    
                     // this.EmpInfoObj.IsUserManager = true;
-                    if (!this.EmpInfoObj.IsUserManager) {
+                    if(!this.EmpInfoObj.IsUserManager) {
                         // not authorized
-                        if (!this.PRNFlag) {
+                        if(!this.PRNFlag) {
                             MessageBox.error("You do not have permission to perform this action");
                             this.oRouter.navTo("detail", {
                                 parentMaterial: this.sParentID,
@@ -75,13 +75,12 @@ sap.ui.define(
                             return;
                         }
                     }
-
+                    
                     this.onResetPress();
                     this.managerID = this.EmpInfoObj.userId;
                     // this.managerID = '12000843';
                 },
                 onSelectCompensation: function (oEve) {
-                    this.getView().byId("selectDialog").getBinding("items").refresh(true)
                     if (oEve.getSource().getSelected()) {
                         this.getView()
                             .getModel("LocalViewModel")
@@ -94,14 +93,11 @@ sap.ui.define(
                     }
                 },
                 onSelectJobInfo: function (oEve) {
-
-                    this.getView().byId("idPosition").getBinding("items").refresh(true)
-
                     if (oEve.getSource().getSelected()) {
                         this.getView()
                             .getModel("LocalViewModel")
                             .setProperty("/jobInfoVisible", true);
-                        // this.setJobModel(this.oJobModel);
+                        this.setJobModel(this.oJobModel);
                     } else {
                         this.getView()
                             .getModel("LocalViewModel")
@@ -124,24 +120,24 @@ sap.ui.define(
                     this.getUserCompInfo(sUserID);
                 },
 
-                getUserJobInfo: function (userId) {
+                getUserJobInfo: function(userId) {
                     this.getView().setBusy(true);
                     var oComponentModel = this.getComponentModel(),
                         that = this;
-
+                    
                     var sJobKey = "/SF_EmpJob";
 
                     var oFilter = new Filter(
                         [
                             new Filter(
-                                "userId",
-                                FilterOperator.EQ,
-                                userId
-                            ), new Filter(
-                                "effectiveLatestChange",
-                                FilterOperator.EQ,
-                                true
-                            )], true
+                            "userId",
+                            FilterOperator.EQ,
+                            userId
+                        ), new Filter(
+                            "effectiveLatestChange",
+                            FilterOperator.EQ,
+                            true
+                        )], true 
                     );
 
                     this.getView()
@@ -150,21 +146,16 @@ sap.ui.define(
                             filters: [oFilter],
                             urlParameters: {
                                 $top: 1,
-                                $expand: "positionNav, costCenterNav, jobCodeNav, managerUserNav, businessUnitNav, companyNav, divisionNav, departmentNav, customString10Nav, locationNav, costCenterNav, customString12Nav, employeeClassNav, payGroupNav, payGradeNav, payScaleAreaNav, payScaleGroupNav, payScaleLevelNav, payScaleTypeNav, contractTypeNav, employeeNoticePeriodNav, employeeTypeNav,employmentTypeNav",
+                                $expand: "positionNav, costCenterNav, jobCodeNav, managerUserNav",
                                 $orderby: "startDate desc"
                             },
                             success: function (oData) {
                                 that.getView().setBusy(false);
                                 var oJobModel = new JSONModel(oData.results[0]);
-                                var sPayGrade = oData.results[0].payGrade;
-                                // that.oJobModel = oJobModel;
-                                that.getView().setModel(oJobModel, "jobModel");  
-                                that.getView().getModel("jobModel").refresh(true);      
-                                                   
+                                that.oJobModel = oJobModel;
+                                // ******************** New *****************************
                                 that.getView().getModel("LocalViewModel").setProperty("/checkBoxVisible", true);
-                                that.setPosition(oData.results[0].position);
-                                that.onSelectPayGrade(sPayGrade);
-                               
+                                // ************************************************************
                             },
                             error: function (oError) {
                                 that.getView().setBusy(false);
@@ -176,60 +167,20 @@ sap.ui.define(
                             },
                         });
                 },
-                setPosition:function(sPosition){
-                    var that = this;
-                    var oPositionFilter = new Filter(
-                        [
-                            new Filter(
-                                "code",
-                                FilterOperator.EQ,
-                                sPosition
-                            )], true
-                    );
 
-
-                    this.getView().getModel().read("/SF_Position", {
-                        filters: [oPositionFilter],
-                        urlParameters: {
-                            $top: 1,
-                            $expand: "businessUnitNav, companyNav, costCenterNav, cust_locationGroupNav, cust_sectionNav, departmentNav, divisionNav, jobCodeNav, jobLevelNav, locationNav, payGradeNav, payRangeNav"
-                          
-                        },
-                        success: function (oData) {
-                            that.getView().setBusy(false);
-                            if(oData.results){
-                                that.getView().getModel("jobModel").setProperty("/jobModel>/positionNav/code",oData.results[0].code);    
-                                that.getView().getModel("jobModel").setProperty("/jobModel>/positionNav/externalName_defaultValue",oData.results[0].externalName_defaultValue); 
-                            }
-                                    
-                            that.getView().getModel("LocalViewModel").setProperty("/checkBoxVisible", true);                        
-                           
-                        },
-                        error: function (oError) {
-                            that.getView().setBusy(false);
-                            // initialize new model
-                            that.oJobModel = new JSONModel({
-                                countryOfCompany: "SAU"
-                            });
-                            // sap.m.MessageBox.error(that.parseResponseError(oError.responseText));
-                        },
-                    });
-
-
-                },
-                getUserCompInfo: function (userId) {
+                getUserCompInfo: function(userId) {
                     var oComponentModel = this.getComponentModel(),
-                        that = this;
+                    that = this;
 
                     var sCompKey = "/SF_EmpCompensation";
 
                     var oFilter = new Filter(
                         [
                             new Filter(
-                                "userId",
-                                FilterOperator.EQ,
-                                userId
-                            )], true
+                            "userId",
+                            FilterOperator.EQ,
+                            userId
+                        )], true 
                     );
 
                     this.getView()
@@ -251,7 +202,7 @@ sap.ui.define(
                                 that.oCompensationModel = new JSONModel({
                                     customString2: "SAU"
                                 });
-
+                              
                             },
                         });
                 },
@@ -266,12 +217,12 @@ sap.ui.define(
 
                     if (sjobInfo === true) {
                         sEntityPath = "/SF_EmpJob",
-                            oJobPayload = this.fnGetJobRequestPayload();
-                        this.raiseRequest(sEntityPath, oJobPayload, function (oData1, oResponse1) {
+                        oJobPayload = this.fnGetJobRequestPayload();
+                        this.raiseRequest(sEntityPath, oJobPayload, function(oData1, oResponse1) {
                             // jobInfo saved now saving compInfo
                             if (sCompensationInfo === true) {
                                 sEntityPath = "/SF_EmpCompensation",
-                                    oCompPayload = this.fnGetCompensationRequestPayload();
+                                oCompPayload = this.fnGetCompensationRequestPayload();
                                 this.raiseRequest(sEntityPath, oCompPayload, this.redirectToListPage);
                             } else {
                                 // compInfo not required to be saved
@@ -282,13 +233,13 @@ sap.ui.define(
                     } else {
                         if (sCompensationInfo === true) {
                             sEntityPath = "/SF_EmpCompensation",
-                                oCompPayload = this.fnGetCompensationRequestPayload();
+                            oCompPayload = this.fnGetCompensationRequestPayload();
                             this.raiseRequest(sEntityPath, oCompPayload, this.redirectToListPage);
                         }
                     }
                 },
 
-                redirectToListPage: function (oData, oResponse) {
+                redirectToListPage: function(oData, oResponse) {
                     sap.m.MessageBox.success("Request Submitted Successfully.");
                     this.getView().setBusy(false);
                     this.getView().getModel().refresh();
@@ -298,17 +249,17 @@ sap.ui.define(
                     });
                 },
 
-                raiseRequest: function (sEntityPath, oPayload, resolve) {
+                raiseRequest: function(sEntityPath, oPayload, resolve) {
                     var sValidationErrorMsg = this.fnValidateSalaryIncPayload();
                     var sErrMsg;
                     if (sValidationErrorMsg === "") {
                         var newKey = sEntityPath + `(seqNumber=${oPayload.seqNumber}L,startDate=datetime'${oPayload.startDate}',userId='${oPayload.userId}')`;
                         newKey = newKey.replace(/:/g, "%3A");
                         var oldKey = sEntityPath;
-                        if (oPayload.__metadata) {
+                        if(oPayload.__metadata) {
                             oldKey = sEntityPath + oPayload.__metadata.uri.split(sEntityPath)[1];
                         }
-                        if (oldKey == newKey) {
+                        if(oldKey == newKey) {
                             // update scenario
                             this.mainModel.update(oldKey, oPayload, {
                                 success: resolve.bind(this),
@@ -316,14 +267,7 @@ sap.ui.define(
                                     this.getView().setBusy(false);
                                     // sap.m.MessageBox.error(this.parseResponseError(oError.responseText));
                                     sErrMsg = this.parseResponseError(oError.responseText);
-                                    // var sErrorMsg = sErrMsg.indexOf("???") > 0 ? sErrMsg.split("???")[1] : sErrMsg;
-                                   
-                                    var sErrorMsg;
-                                    if(sErrMsg.indexOf("???") > 0){
-                                        sErrorMsg = sErrMsg.split("???")[1];
-                                    }else if(sErrMsg.indexOf(":") > 0 ){
-                                        sErrorMsg = sErrMsg.split(":")[1];
-                                    }
+                                    var sErrorMsg= sErrMsg.indexOf("???") > 0 ? sErrMsg.split("???")[1] : sErrMsg;
                                     sap.m.MessageBox.error(sErrorMsg);
                                     this.getView().getModel().refresh();
                                 }.bind(this),
@@ -335,14 +279,7 @@ sap.ui.define(
                                 error: function (oError) {
                                     this.getView().setBusy(false);
                                     sErrMsg = this.parseResponseError(oError.responseText);
-                                    // var sErrorMsg = sErrMsg.indexOf("???") > 0 ? sErrMsg.split("???")[1] : sErrMsg;
-                                   var sErrorMsg;
-                                    if(sErrMsg.indexOf("???") > 0){
-                                        sErrorMsg = sErrMsg.split("???")[1];
-                                    }else if(sErrMsg.indexOf(":") > 0 ){
-                                        sErrorMsg = sErrMsg.split(":")[1];
-                                    }
-
+                                    var sErrorMsg= sErrMsg.indexOf("???") > 0 ? sErrMsg.split("???")[1] : sErrMsg;
                                     sap.m.MessageBox.error(sErrorMsg);
                                     this.getView().getModel().refresh();
                                 }.bind(this),
@@ -357,7 +294,7 @@ sap.ui.define(
                 fnGetJobRequestPayload: function () {
                     var sJobData = this.getView().getModel("jobModel").getData() ? this.getView().getModel("jobModel").getData() : {},
                         sNewPayload = $.extend(true, {}, sJobData);
-
+                        
                     sNewPayload.startDate = this.getFormattedDateValue("idStartDate");
 
                     if (sNewPayload.workingDaysPerWeek == undefined || sNewPayload.workingDaysPerWeek == null) {
@@ -365,7 +302,7 @@ sap.ui.define(
                     } else if (sNewPayload.workingDaysPerWeek > 7) {
                         sNewPayload.workingDaysPerWeek = 7;
                     }
-                    sNewPayload.payGrade = sNewPayload.payGradeFlx;
+
                     delete sNewPayload.assessmentStatusNav;
                     delete sNewPayload.businessUnitNav;
                     delete sNewPayload.codeOfJobForEldpNav;
@@ -431,7 +368,6 @@ sap.ui.define(
                     delete sNewPayload.payRange;
                     delete sNewPayload.cust_section;
                     delete sNewPayload.jobLevel;
-                    delete sNewPayload.payGradeFlx;
                     return sNewPayload;
                 },
                 fnGetCompensationRequestPayload: function () {
@@ -439,7 +375,7 @@ sap.ui.define(
                         .getModel("compensationModel")
                         .getData(),
                         sNewPayload = $.extend(true, {}, sCompData);
-
+               
 
                     sNewPayload.startDate = this.getFormattedDateValue("idStartDate");
                     sNewPayload.customDate1 = this.getFormattedDateValue("idSchemeChangeDate");
@@ -463,7 +399,6 @@ sap.ui.define(
                     delete sNewPayload.wfRequestNav;
                     delete sNewPayload.empPayCompRecurringNav;
                     delete sNewPayload.payTypeNav;
-                    
                     sNewPayload.isEligibleForCar = JSON.parse(
                         sNewPayload.isEligibleForCar
                     );
@@ -476,21 +411,91 @@ sap.ui.define(
                             .byId("idCompensationInfo")
                             .getSelected();
                     var sValidationErrorMsg = "",
-
                         oStartDatePicker = this.byId("idStartDate"),
-
+                       
+                        oCompany = this.byId("idCompany"),
+                        oLocation = this.byId("idLocation"),
                       
+                        sPayScaleType = this.byId("idPayScaleType"),
+                        sPayScaleArea = this.byId("idPayScaleArea"),
+                        sContractType = this.byId("idContractType"),
+                        sCompCountry = this.byId("idCompCountry"),
+                        sCommision = this.byId("idCommision"),
+                        sCompanyPayGroup = this.byId("idCompPayGroup"),
                         oPRNId = this.byId("idSalIncPRN");
-                  
-
-                    if (sCompensationInfo === true) {
-                        // validate Monthly Basic
-                      var sMonthly = this.getView().byId("idMonthlyBasic").getValue();
-                      if(!sMonthly){
-                        sValidationErrorMsg = "Please fill the all required fields.";
-                      }
+                    if (sjobInfo === true) {
+                        
+                        if (!oCompany.getSelectedKey()) {
+                            oCompany.setValueState("Error");
+                            oCompany.setValueStateText("Please select Company.");
+                            sValidationErrorMsg = "Please fill the all required fields.";
+                        } else {
+                            oCompany.setValueState("None");
+                        }
+                        // validate Location Field
+                        if (!oLocation.getSelectedKey()) {
+                            oLocation.setValueState("Error");
+                            oLocation.setValueStateText("Please select Location.");
+                            sValidationErrorMsg = "Please fill the all required fields.";
+                        } else {
+                            oLocation.setValueState("None");
+                        }
 
                       
+
+
+                        // validate Pay Scale Type
+                        if (!sPayScaleType.getSelectedKey()) {
+                            sPayScaleType.setValueState("Error");
+                            sPayScaleType.setValueStateText("Please select Pay Scale Type.");
+                            sValidationErrorMsg = "Please fill the all required fields.";
+                        } else {
+                            sPayScaleType.setValueState("None");
+                        }
+                        // validate Pay Scale Area
+                        if (!sPayScaleArea.getSelectedKey()) {
+                            sPayScaleArea.setValueState("Error");
+                            sPayScaleArea.setValueStateText("Please select Pay Scale Area.");
+                            sValidationErrorMsg = "Please fill the all required fields.";
+                        } else {
+                            sPayScaleArea.setValueState("None");
+                        }
+                        // validate Contract Type
+                        if (!sContractType.getSelectedKey()) {
+                            sContractType.setValueState("Error");
+                            sContractType.setValueStateText("Please select Contract Type.");
+                            sValidationErrorMsg = "Please fill the all required fields.";
+                        } else {
+                            sContractType.setValueState("None");
+                        }
+
+                    } 
+                    
+                    if (sCompensationInfo === true) {
+                        // validate Comp Pay Group
+                        if (!sCompanyPayGroup.getSelectedKey()) {
+                            sCompanyPayGroup.setValueState("Error");
+                            sCompanyPayGroup.setValueStateText("Please select Company.");
+                            sValidationErrorMsg = "Please fill the all required fields.";
+                        } else {
+                            sCompanyPayGroup.setValueState("None");
+                        }
+                        // Validate Comp Country
+                        if (!sCompCountry.getSelectedKey()) {
+                            sCompCountry.setValueState("Error");
+                            sCompCountry.setValueStateText("Please enter Country");
+                            sValidationErrorMsg = "Please fill the all required fields.";
+                        } else {
+                            sCompCountry.setValueState("None");
+                        }
+                        // Validate Commision
+                        if (!sCommision.getValue()) {
+                            sCommision.setValueState("Error");
+                            sCommision.setValueStateText("Please enter Country");
+                            sValidationErrorMsg = "Please fill the all required fields.";
+                        } else {
+                            sCommision.setValueState("None");
+                        }
                     }
                     // Validate Effective Start Date
                     if (!oStartDatePicker.getValue()) {
@@ -759,84 +764,23 @@ sap.ui.define(
 
                 onPositionConfirm: function (oEvent) {
                     var oSelectedItem = oEvent.getParameter("selectedItem");
-                    var obj = oSelectedItem.getBindingContext().getObject({expand:"businessUnitNav, companyNav, costCenterNav, cust_locationGroupNav, cust_sectionNav, departmentNav, divisionNav, jobCodeNav, jobLevelNav, locationNav, payGradeNav, payRangeNav, employeeClassNav"});
-                    
-                    // Organization Information
+                    oEvent.getSource().getBinding("items").filter([]);
+                    if (!oSelectedItem) {
+                        return;
+                    }
+                    var obj = oSelectedItem.getBindingContext().getObject();
 
-                    this.getView().getModel("jobModel").setProperty("/companyNav", obj.companyNav);
-                    this.getView().getModel("jobModel").setProperty("/businessUnitNav", obj.businessUnitNav);
-                    this.getView().getModel("jobModel").setProperty("/divisionNav", obj.divisionNav);
-                    this.getView().getModel("jobModel").setProperty("/departmentNav", obj.departmentNav);
-                    this.getView().getModel("jobModel").setProperty("/customString10Nav", obj.cust_sectionNav);
-                    this.getView().getModel("jobModel").setProperty("/customString12Nav", obj.cust_locationGroupNav);
-                    this.getView().getModel("jobModel").setProperty("/locationNav", obj.locationNav);
-                    this.getView().getModel("jobModel").setProperty("/costCenterNav", obj.costCenterNav);
+                    this.setJobOrgInfoModel(obj);
 
-                    // Job Information
-                    this.getView().getModel("jobModel").setProperty("/jobCodeNav", obj.jobCodeNav);
-                    this.getView().getModel("jobModel").setProperty("/jobTitle", obj.jobTitle);
-                    this.getView().getModel("jobModel").setProperty("/payGrade", obj.payGrade);
-                    this.getView().getModel("jobModel").setProperty("/employeeClassNav", obj.employeeClassNav);
-
-
-                    this.getView().getModel("jobModel").refresh(true);
-                    this.onSetPayGroup(obj);
-                    this.onSelectPayGrade(obj.payGrade);
-
-                 
-
-                },
-
-                onSetPayGroup:function(obj){
-
-                    var sCompany = obj.company;
-
-
-                      // load paygroup dropdown
-                      var oFilter = new Filter(
-                        [
-                            new Filter(
-                                "status",
-                                FilterOperator.EQ,
-                                'A'
-                            ), new Filter(
-                                "cust_toLegalEntity/externalCode",
-                                FilterOperator.EQ,
-                                sCompany
-                            )], true
-                    );
-                    this.getView()
-                        .getModel()
-                        .read("/SF_FOPayGroup", {
-                            filters: [oFilter],
-                            urlParameters: {
-                                $orderby: "name"
-                            },
-                            success: function (oData) {
-                                var oModel = new JSONModel(oData.results);
-                                this.getView().setModel(oModel, "PayGroupModel");
-                                oLocalViewModel.setProperty("/payGroupEnabled", true);
-                                this.getView().byId("idPayGroup").setBusy(false);
-                                this.getView().byId("idCompPayGroup").setBusy(false);
-                                if (callback) {
-                                    callback();
-                                }
-                            }.bind(this),
-                            error: function (oError) {
-                                this.getView().byId("idPayGroup").setBusy(false);
-                                this.getView().byId("idCompPayGroup").setBusy(false);
-                                sap.m.MessageBox.error(
-                                    JSON.parse(oError.responseText).error.message.value
-                                );
-                            }.bind(this),
-                        });
+                    this.getView().getModel("jobModel").setProperty("/positionNav", obj);
+                    this.getView().getModel("jobModel").setProperty("/position", obj["code"]);
 
                 },
 
                 onPositionValueHelpSearch: function (oEvent) {
                     var sValue = oEvent.getParameter("value").trim();
                     var oFilter = [];
-                    if (sValue && sValue.length > 0) {
+                    if(sValue && sValue.length > 0) {
                         oFilter = [new Filter(
                             [
                                 new Filter({
@@ -861,7 +805,7 @@ sap.ui.define(
                 onJobClassificationValueHelpSearch: function (oEvent) {
                     var sValue = oEvent.getParameter("value").trim();
                     var oFilter = [];
-                    if (sValue && sValue.length > 0) {
+                    if(sValue && sValue.length > 0) {
                         oFilter = [new Filter(
                             [
                                 new Filter({
@@ -1004,7 +948,7 @@ sap.ui.define(
                     var oLocalViewModel = this.getView().getModel("LocalViewModel");
                     this.getView().byId("idDivision").setSelectedKey(null);
                     this.getView().byId("idDivision").fireChange();
-                    if (!selectedItem) {
+                    if(!selectedItem) {
                         oLocalViewModel.setProperty("/divisionEnabled", false);
                         return;
                     }
@@ -1012,45 +956,45 @@ sap.ui.define(
                     this.onSelectBusinessUnit(businessUnit, null);
                 },
 
-                onSelectBusinessUnit: function (businessUnit, callback) {
+                onSelectBusinessUnit: function(businessUnit, callback) {
                     var oLocalViewModel = this.getView().getModel("LocalViewModel");
                     this.getView().byId("idDivision").setBusy(true);
                     // load division dropdown
                     var oFilter = new Filter(
                         [
                             new Filter(
-                                "status",
-                                FilterOperator.EQ,
-                                'A'
-                            ), new Filter(
-                                "cust_toBusinessUnit/externalCode",
-                                FilterOperator.EQ,
-                                businessUnit
-                            )], true
+                            "status",
+                            FilterOperator.EQ,
+                            'A'
+                        ), new Filter(
+                            "cust_toBusinessUnit/externalCode",
+                            FilterOperator.EQ,
+                            businessUnit
+                        )], true 
                     );
                     this.getView()
-                        .getModel()
-                        .read("/SF_Division", {
-                            filters: [oFilter],
-                            urlParameters: {
-                                $orderby: "name"
-                            },
-                            success: function (oData) {
-                                var oModel = new JSONModel(oData.results);
-                                this.getView().setModel(oModel, "DivisionModel");
-                                oLocalViewModel.setProperty("/divisionEnabled", true);
-                                this.getView().byId("idDivision").setBusy(false);
-                                if (callback) {
-                                    callback();
-                                }
-                            }.bind(this),
-                            error: function (oError) {
-                                this.getView().byId("idDivision").setBusy(false);
-                                sap.m.MessageBox.error(
-                                    JSON.parse(oError.responseText).error.message.value
-                                );
-                            }.bind(this),
-                        });
+                    .getModel()
+                    .read("/SF_Division", {
+                        filters: [oFilter],
+                        urlParameters: {
+                            $orderby: "name"
+                        },
+                        success: function (oData) {
+                            var oModel = new JSONModel(oData.results);
+                            this.getView().setModel(oModel, "DivisionModel");
+                            oLocalViewModel.setProperty("/divisionEnabled", true);
+                            this.getView().byId("idDivision").setBusy(false);
+                            if(callback) {
+                                callback();
+                            }
+                        }.bind(this),
+                        error: function (oError) {
+                            this.getView().byId("idDivision").setBusy(false);
+                            sap.m.MessageBox.error(
+                                JSON.parse(oError.responseText).error.message.value
+                            );
+                        }.bind(this),
+                    });
                 },
 
                 onDivisionChange: function (oEvent) {
@@ -1058,7 +1002,7 @@ sap.ui.define(
                     var oLocalViewModel = this.getView().getModel("LocalViewModel");
                     this.getView().byId("idDepartment").setSelectedKey(null);
                     this.getView().byId("idDepartment").fireChange();
-                    if (!selectedItem) {
+                    if(!selectedItem) {
                         oLocalViewModel.setProperty("/departmentEnabled", false);
                         return;
                     }
@@ -1073,14 +1017,14 @@ sap.ui.define(
                     var oFilter = new Filter(
                         [
                             new Filter(
-                                "status",
-                                FilterOperator.EQ,
-                                'A'
-                            ), new Filter(
-                                "cust_toDivision/externalCode",
-                                FilterOperator.EQ,
-                                division
-                            )], true
+                            "status",
+                            FilterOperator.EQ,
+                            'A'
+                        ), new Filter(
+                            "cust_toDivision/externalCode",
+                            FilterOperator.EQ,
+                            division
+                        )], true 
                     );
                     this.getView()
                         .getModel()
@@ -1094,7 +1038,7 @@ sap.ui.define(
                                 this.getView().setModel(oModel, "DepartmentModel");
                                 oLocalViewModel.setProperty("/departmentEnabled", true);
                                 this.getView().byId("idDepartment").setBusy(false);
-                                if (callback) {
+                                if(callback) {
                                     callback();
                                 }
                             }.bind(this),
@@ -1112,7 +1056,7 @@ sap.ui.define(
                     var oLocalViewModel = this.getView().getModel("LocalViewModel");
                     this.getView().byId("idSection").setSelectedKey(null);
                     this.getView().byId("idSection").fireChange();
-                    if (!selectedItem) {
+                    if(!selectedItem) {
                         oLocalViewModel.setProperty("/sectionEnabled", false);
                         return;
                     }
@@ -1120,23 +1064,23 @@ sap.ui.define(
                     this.onSelectDepartment(department, null);
                 },
 
-                onSelectDepartment: function (department, callback) {
+                onSelectDepartment: function(department, callback) {
                     var oLocalViewModel = this.getView().getModel("LocalViewModel");
                     this.getView().byId("idSection").setBusy(true);
                     // load section dropdown
                     var oFilter = new Filter(
                         [
                             new Filter(
-                                "mdfSystemStatus",
-                                FilterOperator.EQ,
-                                'A'
-                            ), new Filter(
-                                "cust_toDepartment/externalCode",
-                                FilterOperator.EQ,
-                                department
-                            )], true
+                            "mdfSystemStatus",
+                            FilterOperator.EQ,
+                            'A'
+                        ), new Filter(
+                            "cust_toDepartment/externalCode",
+                            FilterOperator.EQ,
+                            department
+                        )], true 
                     );
-
+                    
                     this.getView()
                         .getModel()
                         .read("/SF_Section", {
@@ -1149,7 +1093,7 @@ sap.ui.define(
                                 this.getView().setModel(oModel, "SectionModel");
                                 oLocalViewModel.setProperty("/sectionEnabled", true);
                                 this.getView().byId("idSection").setBusy(false);
-                                if (callback) {
+                                if(callback) {
                                     callback();
                                 }
                             }.bind(this),
@@ -1166,7 +1110,7 @@ sap.ui.define(
                     var oLocalViewModel = this.getView().getModel("LocalViewModel");
                     this.getView().byId("idPayScaleGroup").setSelectedKey(null);
                     this.getView().byId("idPayScaleGroup").fireChange();
-                    if (!selectedItem) {
+                    if(!selectedItem) {
                         oLocalViewModel.setProperty("/payGroupEnabled", false);
                         return;
                     }
@@ -1174,20 +1118,20 @@ sap.ui.define(
                     this.onSelectPayScaleType(sPayScaleType, null);
                 },
 
-                onSelectPayScaleType: function (sPayScaleType, callback) {
+                onSelectPayScaleType: function(sPayScaleType, callback) {
                     var oLocalViewModel = this.getView().getModel("LocalViewModel");
                     this.getView().byId("idPayScaleGroup").setBusy(true);
                     // load location dropdown
                     var oFilter = new Filter(
                         [
-                            new Filter(
-                                "payScaleType",
-                                FilterOperator.EQ,
-                                sPayScaleType
-                            )], true
+                           new Filter(
+                            "payScaleType",
+                            FilterOperator.EQ,
+                            sPayScaleType
+                        )], true 
                     );
-
-
+                    
+                
                     this.getView()
                         .getModel()
                         .read("/SF_PayScaleGroup", {
@@ -1200,7 +1144,7 @@ sap.ui.define(
                                 this.getView().setModel(oModel, "PayScaleGroupModel");
                                 oLocalViewModel.setProperty("/payGroupEnabled", true);
                                 this.getView().byId("idPayScaleGroup").setBusy(false);
-                                if (callback) {
+                                if(callback) {
                                     callback();
                                 }
                             }.bind(this),
@@ -1218,7 +1162,7 @@ sap.ui.define(
                     var oLocalViewModel = this.getView().getModel("LocalViewModel");
                     this.getView().byId("idPayScaleLevel").setSelectedKey(null);
                     this.getView().byId("idPayScaleLevel").fireChange();
-                    if (!selectedItem) {
+                    if(!selectedItem) {
                         oLocalViewModel.setProperty("/payScaleLevelEnabled", false);
                         return;
                     }
@@ -1226,20 +1170,20 @@ sap.ui.define(
                     this.onSelectPayGroup(sPayGroup, null);
                 },
 
-                onSelectPayGroup: function (sPayGroup, callback) {
+                onSelectPayGroup: function(sPayGroup, callback) {
                     var oLocalViewModel = this.getView().getModel("LocalViewModel");
                     this.getView().byId("idPayScaleLevel").setBusy(true);
                     // load location dropdown
                     var oFilter = new Filter(
                         [
-                            new Filter(
-                                "payScaleGroup/code",
-                                FilterOperator.EQ,
-                                sPayGroup
-                            )], true
+                           new Filter(
+                            "payScaleGroup/code",
+                            FilterOperator.EQ,
+                            sPayGroup
+                        )], true 
                     );
-
-
+                    
+                
                     this.getView()
                         .getModel()
                         .read("/SF_PayScaleLevel", {
@@ -1252,7 +1196,7 @@ sap.ui.define(
                                 this.getView().setModel(oModel, "PayScaleLevelModel");
                                 oLocalViewModel.setProperty("/payScaleLevelEnabled", true);
                                 this.getView().byId("idPayScaleLevel").setBusy(false);
-                                if (callback) {
+                                if(callback) {
                                     callback();
                                 }
                             }.bind(this),
@@ -1264,14 +1208,14 @@ sap.ui.define(
                             }.bind(this),
                         });
                 },
-
+            
 
                 onEmployeeClassChange: function (oEvent) {
                     var selectedItem = oEvent.oSource.getSelectedItem();
                     var oLocalViewModel = this.getView().getModel("LocalViewModel");
                     this.getView().byId("idEmployeeType").setSelectedKey(null);
                     this.getView().byId("idEmployeeType").fireChange();
-                    if (!selectedItem) {
+                    if(!selectedItem) {
                         oLocalViewModel.setProperty("/empTypeEnabled", false);
                         return;
                     }
@@ -1279,20 +1223,20 @@ sap.ui.define(
                     this.onSelectEmployeeClass(sEmployeeClass, null);
                 },
 
-                onSelectEmployeeClass: function (sEmployeeClass, callback) {
+                onSelectEmployeeClass: function(sEmployeeClass, callback) {
                     var oLocalViewModel = this.getView().getModel("LocalViewModel");
                     this.getView().byId("idEmployeeType").setBusy(true);
                     // load location dropdown
                     var oFilter = new Filter(
                         [
                             new Filter(
-                                "parentPicklistOption/id",
-                                FilterOperator.EQ,
-                                sEmployeeClass
-                            )], true
+                            "parentPicklistOption/id",
+                            FilterOperator.EQ,
+                            sEmployeeClass
+                        )], true 
                     );
 
-
+                    
                     this.getView()
                         .getModel()
                         .read("/SF_PicklistOption", {
@@ -1305,7 +1249,7 @@ sap.ui.define(
                                 this.getView().setModel(oModel, "EmployeeTypeModel");
                                 oLocalViewModel.setProperty("/empTypeEnabled", true);
                                 this.getView().byId("idEmployeeType").setBusy(false);
-                                if (callback) {
+                                if(callback) {
                                     callback();
                                 }
                             }.bind(this),
@@ -1320,43 +1264,50 @@ sap.ui.define(
 
                 onPayGradeChange: function (oEvent) {
                     var selectedItem = oEvent.oSource.getSelectedItem();
+                    var oLocalViewModel = this.getView().getModel("LocalViewModel");
+                    this.getView().byId("idPayRange").setSelectedKey(null);
+                    this.getView().byId("idPayRange").fireChange();
+                    if(!selectedItem) {
+                        oLocalViewModel.setProperty("/payRangeEnabled", false);
+                        return;
+                    }
                     var sPayGrade = selectedItem.getKey();
                     this.onSelectPayGrade(sPayGrade, null);
                 },
-               
 
-                onSelectPayGrade: function (sPayGrade, callback) {
-                            
+                onSelectPayGrade: function(sPayGrade, callback) {
+                    var oLocalViewModel = this.getView().getModel("LocalViewModel");
+                    this.getView().byId("idPayRange").setBusy(true);
                     // load location dropdown
                     var oFilter = new Filter(
                         [
                             new Filter(
-                                "status",
-                                FilterOperator.EQ,
-                                'A'
-                            ), new Filter(
-                                "payGradeFlxNav/externalCode",
-                                FilterOperator.EQ,
-                                sPayGrade
-                            )], true
+                            "status",
+                            FilterOperator.EQ,
+                            'A'
+                        ), new Filter(
+                            "payGradeFlxNav/externalCode",
+                            FilterOperator.EQ,
+                            sPayGrade
+                        )], true 
                     );
 
+               
 
-                    this.getView().getModel().read("/SF_PayRange", {
+
+                    this.getView()
+                        .getModel()
+                        .read("/SF_PayRange", {
                             filters: [oFilter],
                             urlParameters: {
                                 $orderby: "name"
                             },
                             success: function (oData) {
-                                // var oModel = new JSONModel(oData.results[0]);
-                                // this.getView().setModel(oModel, "PayRangeModel");
-                                this.getView().getModel("jobModel").setProperty("/payGrade",oData.results[0].name);
-                                this.getView().getModel("jobModel").setProperty("/payGradeFlx",oData.results[0].payGradeFlx);
-
-                                this.setPayScaleFields(oData.results[0]);
-                              
+                                var oModel = new JSONModel(oData.results[0]);
+                                this.getView().setModel(oModel, "PayRangeModel");
+                                // oLocalViewModel.setProperty("/payRangeEnabled", true);
                                 this.getView().byId("idPayRange").setBusy(false);
-                                if (callback) {
+                                if(callback) {
                                     callback();
                                 }
                             }.bind(this),
@@ -1369,165 +1320,12 @@ sap.ui.define(
                         });
                 },
 
-                setPayScaleFields:function(payRangeObj){
-                    
-                    this.sPayScaleAreaValue = payRangeObj.payGradeFlx.split("-")[0];
-
-                    var oPayScaleAreaFilter = new Filter(
-                        [
-                            new Filter(
-                                "externalName_defaultValue",
-                                FilterOperator.StartsWith,
-                                this.sPayScaleAreaValue
-                            )], true
-                    );
-
-
-                    this.getView().getModel().read("/SF_PayScaleArea", {
-                        filters: [oPayScaleAreaFilter],
-                        success: function (oData) {
-                            if(oData){
-                                this.sPayScaleArea = oData.results[0].payScaleArea;
-                                this.sPayScaleAreaCode = oData.results[0].code;
-                                this.sPayScaleAreName = oData.results[0].externalName_defaultValue
-                                this.getView().getModel("jobModel").setProperty("/payScaleAreaNav/externalName_defaultValue",this.sPayScaleAreName);
-                                this.getView().getModel("jobModel").setProperty("/payScaleAreaNav/code",this.sPayScaleAreaCode);
-                                this.getPayScaleType();
-                            }
-                          
-                        }.bind(this),
-                        error: function (oError) {
-                            sap.m.MessageBox.error(
-                                JSON.parse(oError.responseText).error.message.value
-                            );
-                        }.bind(this),
-                    });
-
-                },
-                getPayScaleType:function(){
-                    var sPayScaleName = this.getView().byId("idPayGrade").getSelectedItem().getText().split("-")[0];
-
-                    var oPayScaleTypeFilter = new Filter(
-                        [
-                            new Filter(
-                                "externalName_defaultValue",
-                                FilterOperator.EQ,
-                                sPayScaleName
-                            )], true
-                    );
-
-                    this.getView().getModel().read("/SF_PayScaleType", {
-                        filters: [oPayScaleTypeFilter],
-                       
-                        success: function (oData) {
-                           if(oData){
-                            var sPayScaleTypeexternalName_defaultValue = oData.results[0].externalName_defaultValue;
-                            this.sPayScaleTypeCode = oData.results[0].code;
-                            this.getView().getModel("jobModel").setProperty("/payScaleTypeNav/externalName_defaultValue",sPayScaleTypeexternalName_defaultValue);
-                            this.getView().getModel("jobModel").setProperty("/payScaleTypeNav/code",this.sPayScaleTypeCode);
-                            this.getPayScaleGroup(this.sPayScaleAreaCode,this.sPayScaleTypeCode);
-                        }
-                          
-
-                        }.bind(this),
-                        error: function (oError) {
-                           
-                            sap.m.MessageBox.error(
-                                JSON.parse(oError.responseText).error.message.value
-                            );
-                        }.bind(this),
-                    });
-
-                },
-                getPayScaleGroup:function(sPayScaleAreaCode,sPayScaleTypeCode){
-
-                    var sPayScaleGroup = this.getView().byId("idPayGrade").getSelectedItem().getText().split("(")[0].split("-").reverse()[1];
-
-                    var oPayScaleGroupFilter = new Filter(
-                        [
-                            new Filter(
-                                "payScaleArea",
-                                FilterOperator.EQ,
-                                sPayScaleAreaCode
-                            ), new Filter(
-                                "payScaleType",
-                                FilterOperator.EQ,
-                                sPayScaleTypeCode
-                            ),new Filter(
-                                "payScaleGroup",
-                                FilterOperator.EQ,
-                                sPayScaleGroup
-                            )], true
-                    );
-
-                    this.getView().getModel().read("/SF_PayScaleGroup", {
-                        filters: [oPayScaleGroupFilter],
-                        success: function (oData) {
-                            if(oData){
-                                this.sPayScaleGroupcode = oData.results[0].code;
-                                this.sPayScaleType = oData.results[0].payScaleType;
-                                this.sPayScaleGroupName = oData.results[0].externalName_defaultValue
-                                this.getView().getModel("jobModel").setProperty("/payScaleGroupNav/externalName_defaultValue",this.sPayScaleGroupName);
-                                this.getView().getModel("jobModel").setProperty("/payScaleGroupNav/code",this.sPayScaleGroupcode);
-                               this.getPayScaleLevel(this.sPayScaleGroupcode);
-                            }
-                          
-                        }.bind(this),
-                        error: function (oError) {
-                            sap.m.MessageBox.error(
-                                JSON.parse(oError.responseText).error.message.value
-                            );
-                        }.bind(this),
-                    });
-
-
-                },
-                getPayScaleLevel:function(sPayScaleGroupCode){
-
-                    var sPayRangeFlxValue = this.getView().getModel("jobModel").getData().payGradeFlx.split("-")[1];
-
-                    var oPayScaleLevelFilter = new Filter(
-                        [
-                            new Filter(
-                                "externalName_defaultValue",
-                                FilterOperator.EQ,
-                                sPayRangeFlxValue
-                            ), new Filter(
-                                "code",
-                                FilterOperator.StartsWith,
-                                sPayScaleGroupCode
-                            )], true
-                    );
-
-
-                    this.getView().getModel().read("/SF_PayScaleLevel", {
-                        filters: [oPayScaleLevelFilter],
-                        success: function (oData) {
-                            if(oData){
-                                
-                                this.getView().getModel("jobModel").setProperty("/payScaleLevelNav/externalName_defaultValue",oData.results[0].externalName_defaultValue);
-                                this.getView().getModel("jobModel").setProperty("/payScaleLevelNav/code",oData.results[0].code);
-                             
-                            }
-                          
-                        }.bind(this),
-                        error: function (oError) {
-                            sap.m.MessageBox.error(
-                                JSON.parse(oError.responseText).error.message.value
-                            );
-                        }.bind(this),
-                    });
-
-
-
-                },
-               
                 onLocationGroupChange: function (oEvent) {
                     var selectedItem = oEvent.oSource.getSelectedItem();
                     var oLocalViewModel = this.getView().getModel("LocalViewModel");
                     this.getView().byId("idLocation").setSelectedKey(null);
                     this.getView().byId("idLocation").fireChange();
-                    if (!selectedItem) {
+                    if(!selectedItem) {
                         oLocalViewModel.setProperty("/locationEnabled", false);
                         return;
                     }
@@ -1535,21 +1333,21 @@ sap.ui.define(
                     this.onSelectLocationGroup(locationGroup, null);
                 },
 
-                onSelectLocationGroup: function (locationGroup, callback) {
+                onSelectLocationGroup: function(locationGroup, callback) {
                     var oLocalViewModel = this.getView().getModel("LocalViewModel");
                     this.getView().byId("idLocation").setBusy(true);
                     // load location dropdown
                     var oFilter = new Filter(
                         [
                             new Filter(
-                                "status",
-                                FilterOperator.EQ,
-                                'A'
-                            ), new Filter(
-                                "locationGroupFlxNav/externalCode",
-                                FilterOperator.EQ,
-                                locationGroup
-                            )], true
+                            "status",
+                            FilterOperator.EQ,
+                            'A'
+                        ), new Filter(
+                            "locationGroupFlxNav/externalCode",
+                            FilterOperator.EQ,
+                            locationGroup
+                        )], true 
                     );
                     this.getView()
                         .getModel()
@@ -1563,7 +1361,7 @@ sap.ui.define(
                                 this.getView().setModel(oModel, "LocationModel");
                                 oLocalViewModel.setProperty("/locationEnabled", true);
                                 this.getView().byId("idLocation").setBusy(false);
-                                if (callback) {
+                                if(callback) {
                                     callback();
                                 }
                             }.bind(this),
@@ -1576,21 +1374,21 @@ sap.ui.define(
                         });
                 },
 
-                onLocationChange: function (oEvent) {
+                onLocationChange: function(oEvent) {
                     var selectedItem = oEvent.oSource.getSelectedItem();
-                    if (!selectedItem) {
+                    if(!selectedItem) {
                         return;
                     }
                     var location = selectedItem.getBindingContext("LocationModel").getObject();
                     this.getView().getModel("jobModel").setProperty("/timezone", location.timezone);
                 },
 
-                onCompanyChange: function (oEvent) {
+                onCompanyChange: function(oEvent) {
                     var selectedItem = oEvent.oSource.getSelectedItem();
                     var oLocalViewModel = this.getView().getModel("LocalViewModel");
                     this.getView().byId("idPayGroup").setSelectedKey(null);
                     this.getView().byId("idCompPayGroup").setSelectedKey(null);
-                    if (!selectedItem) {
+                    if(!selectedItem) {
                         oLocalViewModel.setProperty("/payGroupEnabled", false);
                         return;
                     }
@@ -1598,7 +1396,7 @@ sap.ui.define(
                     this.onSelectCompany(company, null);
                 },
 
-                onSelectCompany: function (company, callback) {
+                onSelectCompany: function(company, callback) {
                     var oLocalViewModel = this.getView().getModel("LocalViewModel");
                     this.getView().byId("idPayGroup").setBusy(true);
                     this.getView().byId("idCompPayGroup").setBusy(true);
@@ -1606,14 +1404,14 @@ sap.ui.define(
                     var oFilter = new Filter(
                         [
                             new Filter(
-                                "status",
-                                FilterOperator.EQ,
-                                'A'
-                            ), new Filter(
-                                "cust_toLegalEntity/externalCode",
-                                FilterOperator.EQ,
-                                company
-                            )], true
+                            "status",
+                            FilterOperator.EQ,
+                            'A'
+                        ), new Filter(
+                            "cust_toLegalEntity/externalCode",
+                            FilterOperator.EQ,
+                            company
+                        )], true 
                     );
                     this.getView()
                         .getModel()
@@ -1628,7 +1426,7 @@ sap.ui.define(
                                 oLocalViewModel.setProperty("/payGroupEnabled", true);
                                 this.getView().byId("idPayGroup").setBusy(false);
                                 this.getView().byId("idCompPayGroup").setBusy(false);
-                                if (callback) {
+                                if(callback) {
                                     callback();
                                 }
                             }.bind(this),
@@ -1642,7 +1440,7 @@ sap.ui.define(
                         });
                 },
 
-                initDropdowns: function () {
+                initDropdowns: function() {
                     function filter(sTerm, oItem) {
                         // A case-insensitive 'string contains' filter
                         return oItem.getText().match(new RegExp(sTerm, "i")) || oItem.getKey().match(new RegExp(sTerm, "i"));
@@ -1678,7 +1476,7 @@ sap.ui.define(
                     this.getView().byId("idCompCountry").setFilterFunction(filter);
                 },
 
-                setJobModel: function (oJobModel) {
+                setJobModel: function(oJobModel) {
                     this.getView().setModel(oJobModel, "jobModel");
 
                     var businessUnit = oJobModel.getProperty("/businessUnit");
@@ -1690,34 +1488,34 @@ sap.ui.define(
                     var company = oJobModel.getProperty("/company");
                     var payGroup = oJobModel.getProperty("/payGroup");
 
-                    //   ----------
-                    var sPayGrade = oJobModel.getProperty("/payGrade");
-                    var sPayRange = oJobModel.getProperty("/customString9");
+                 //   ----------
+                 var sPayGrade = oJobModel.getProperty("/payGrade"); 
+                 var sPayRange = oJobModel.getProperty("/customString9"); 
 
-                    //  ---------------
-                    var sEmployeeClass = oJobModel.getProperty("/employeeClass");
-                    var sEmpType = oJobModel.getProperty("/employmentType");
-
-
-                    //---------------------------------------
-                    var spayScaleType = oJobModel.getProperty("/payScaleType");
-                    var sPayScaleGroup = oJobModel.getProperty("/payScaleGroup");
-                    var sPayScaleLevel = oJobModel.getProperty("/payScaleLevel");
+                  //  ---------------
+                  var sEmployeeClass = oJobModel.getProperty("/employeeClass"); 
+                  var sEmpType= oJobModel.getProperty("/employmentType"); 
 
 
-                    if (businessUnit) {
+                  //---------------------------------------
+                  var spayScaleType = oJobModel.getProperty("/payScaleType"); 
+                  var sPayScaleGroup = oJobModel.getProperty("/payScaleGroup"); 
+                  var sPayScaleLevel = oJobModel.getProperty("/payScaleLevel"); 
+
+
+                    if(businessUnit) {
                         //select BU
                         this.getView().byId("idBU").setSelectedKey(businessUnit);
-                        this.onSelectBusinessUnit(businessUnit, function () {
-                            if (division) {
+                        this.onSelectBusinessUnit(businessUnit, function() {
+                            if(division) {
                                 //select division
                                 this.getView().byId("idDivision").setSelectedKey(division);
-                                this.onSelectDivision(division, function () {
-                                    if (department) {
+                                this.onSelectDivision(division, function() {
+                                    if(department) {
                                         //select department
                                         this.getView().byId("idDepartment").setSelectedKey(department);
-                                        this.onSelectDepartment(department, function () {
-                                            if (section) {
+                                        this.onSelectDepartment(department, function() {
+                                            if(section) {
                                                 //select section
                                                 this.getView().byId("idSection").setSelectedKey(section);
                                             }
@@ -1727,29 +1525,29 @@ sap.ui.define(
                             }
                         }.bind(this));
                     }
-                    if (locationGroup) {
+                    if(locationGroup) {
                         this.getView().byId("idLocationGroup").setSelectedKey(locationGroup);
-                        this.onSelectLocationGroup(locationGroup, function () {
-                            if (location) {
+                        this.onSelectLocationGroup(locationGroup, function(){
+                            if(location) {
                                 this.getView().byId("idLocation").setSelectedKey(location);
                             }
                         }.bind(this));
                     }
+                    
 
-
-                    if (sPayGrade) {
+                    if(sPayGrade) {
                         this.getView().byId("idPayGrade").setSelectedKey(sPayGrade);
-                        this.onSelectPayGrade(sPayGrade, function () {
-                            if (sPayRange) {
+                        this.onSelectPayGrade(sPayGrade, function(){
+                            if(sPayRange) {
                                 this.getView().byId("idPayRange").setSelectedKey(sPayRange);
                             }
                         }.bind(this));
                     }
 
-                    if (sEmployeeClass) {
+                    if(sEmployeeClass) {
                         this.getView().byId("idEmployeeClass").setSelectedKey(sEmployeeClass);
-                        this.onSelectEmployeeClass(sEmployeeClass, function () {
-                            if (sEmpType) {
+                        this.onSelectEmployeeClass(sEmployeeClass, function(){
+                            if(sEmpType) {
                                 this.getView().byId("idEmploymentType").setSelectedKey(sEmpType);
                             }
                         }.bind(this));
@@ -1761,39 +1559,39 @@ sap.ui.define(
 
 
 
-                    if (spayScaleType) {
+                    if(spayScaleType) {
                         //select PayScaleType
                         this.getView().byId("idPayScaleType").setSelectedKey(spayScaleType);
-                        this.onSelectPayScaleType(spayScaleType, function () {
-                            if (sPayScaleGroup) {
+                        this.onSelectPayScaleType(spayScaleType, function() {
+                            if(sPayScaleGroup) {
                                 //select PayGroup
                                 this.getView().byId("idPayScaleGroup").setSelectedKey(sPayScaleGroup);
-                                this.onSelectPayGroup(sPayScaleGroup, function () {
-                                    if (sPayScaleLevel) {
+                                this.onSelectPayGroup(sPayScaleGroup, function() {
+                                    if(sPayScaleLevel) {
                                         //select Pay Scale level
                                         this.getView().byId("idPayScaleLevel").setSelectedKey(sPayScaleLevel);
-
+                                       
                                     }
                                 }.bind(this));
                             }
                         }.bind(this));
                     }
 
-
+                  
 
                     this.getView().byId("idCompany").setSelectedKey(company);
-                    this.onSelectCompany(company, function () {
-                        if (payGroup) {
+                    this.onSelectCompany(company, function() {
+                        if(payGroup) {
                             this.getView().byId("idPayGroup").setSelectedKey(payGroup);
                         }
                     }.bind(this));
-
+                    
                 },
 
-                setJobOrgInfoModel: function (obj) {
-                    var oJobModel = this.getView().getModel("jobModel");
-
-                    //************ Set Organization Panel ******************************
+                setJobOrgInfoModel:function(obj){
+                    var oJobModel =  this.getView().getModel("jobModel");
+                    
+                //************ Set Organization Panel ******************************
                     oJobModel.setProperty("/company", obj.company);
                     oJobModel.setProperty("/businessUnit", obj.businessUnit);
                     oJobModel.setProperty("/division", obj.division);
@@ -1802,9 +1600,9 @@ sap.ui.define(
                     oJobModel.setProperty("/cust_locationGroup", obj.cust_locationGroup);
                     oJobModel.setProperty("/costCenter", obj.costCenter);
                     oJobModel.setProperty("/cust_section", obj.cust_section);
-
-                    // ************** Set Job Information Panel ******************************    
-                    oJobModel.setProperty("/managerId", this.oJobModel.managerId);
+                  
+                // ************** Set Job Information Panel ******************************    
+                    oJobModel.setProperty("/managerId",this.oJobModel.managerId);
                     oJobModel.setProperty("/jobCode", obj.jobCode);
                     oJobModel.setProperty("/jobCodeNav/name", obj.jobTitle);
                     oJobModel.setProperty("/jobLevel", obj.jobLevel);
@@ -1812,27 +1610,27 @@ sap.ui.define(
                     oJobModel.setProperty("/payGrade", obj.payGrade);
                     oJobModel.setProperty("/jobTitle", obj.jobTitle);
                     // oJobModel.setProperty("/employeeClass", obj.employeeClass);
-
+                  
                     oJobModel.refresh(true);
 
                 },
 
-                setCompensationModel: function (oCompensationModel) {
+                setCompensationModel: function(oCompensationModel) {
                     this.getView().setModel(oCompensationModel, "compensationModel");
 
                     var payGroup = oCompensationModel.getProperty("/payGroup");
                     oCompensationModel.setProperty("/customDate1", new Date());
-
-                    var company = this.getView().getModel("jobModel").getData().company;
-                    if (!company) {
+                    
+                    var company = this.oJobModel.getProperty("/company");
+                    if(!company) {
                         company = "3000";
                     }
 
-                    if (company) {
+                    if(company) {
                         this.getView().byId("idCompany").setSelectedKey(company);
-                        this.onSelectCompany(company, function () {
-                            if (payGroup) {
-                                this.getView().byId("idCompPayGroup").setSelectedKey(payGroup);
+                        this.onSelectCompany(company, function() {
+                            if(payGroup) {
+                                this.getView().byId("idCompPayGroup").setSelectedKey(payGroup); 
                             }
                         }.bind(this));
                     }

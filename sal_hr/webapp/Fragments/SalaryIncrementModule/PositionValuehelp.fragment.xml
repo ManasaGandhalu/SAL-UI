@@ -3,7 +3,7 @@
 		 items="{path: '/SF_Position', 
          sorter : {
             path : 'externalName_defaultValue' 
-         }}" liveChange="onLiveChange1" search=".onPositionValueHelpSearch" confirm=".onPositionConfirm" cancel=".onValueHelpClose1">
+         }, filters: [{ path: 'effectiveStatus', operator: 'EQ', value1: 'A' },{ path: 'vacant', operator: 'EQ', value1: true }]}" liveChange="onLiveChange1" search=".onPositionValueHelpSearch" confirm=".onPositionConfirm" cancel=".onValueHelpClose1">
 		<StandardListItem title="{externalName_defaultValue} ({code})" description="{userId}"/>
 	</SelectDialog>
 </core:FragmentDefinition>
