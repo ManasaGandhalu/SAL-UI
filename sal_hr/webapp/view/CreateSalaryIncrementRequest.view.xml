@@ -40,12 +40,16 @@
                         <!-- <Input id="idPosition" width="100%" valueHelpOnly="true" value="{ parts : [{ path: 'jobModel>/positionNav/externalName_defaultValue'}, {path: 'jobModel>/position'} ], formatter: '.formatter.formatLabel' }" showValueHelp="true" valueHelpRequest="onPositionRequest" /> -->
                         
 
-                          <Select id="idPosition" items="{ path: '/SF_Position',
-                                                            sorter : {path : 'externalName_defaultValue' },
-                                                            filters: [{ path: 'effectiveStatus', operator: 'EQ', value1: 'A' },{ path: 'vacant', operator: 'EQ', value1: true }],
-                                                            parameters : {
-                expand : 'businessUnitNav, companyNav, costCenterNav, cust_locationGroupNav, cust_sectionNav, departmentNav, divisionNav, jobCodeNav, jobLevelNav, locationNav, payGradeNav, payRangeNav'}}" change="onPositionConfirm" >
-                            <core:Item key="{jobModel>/positionNav/code}" text="{jobModel>/positionNav/externalName_defaultValue} ({jobModel>/positionNav/code})" />
+                          <!-- <Select id="idPosition" items="{ path: '/SF_Position', -->
+                                                            <!-- sorter : {path : 'externalName_defaultValue' }, -->
+                                                            <!-- parameters : { -->
+                <!-- expand : 'businessUnitNav, companyNav, costCenterNav, cust_locationGroupNav, cust_sectionNav, departmentNav, divisionNav, jobCodeNav, jobLevelNav, locationNav, payGradeNav, payRangeNav'}}" change="onPositionConfirm" selectedKey="{jobModel>/position}"> -->
+                            <!-- <core:Item key="{code}" text="{externalName_defaultValue} ({code})" /> -->
+                        <!-- </Select> -->
+
+                        
+                        <Select id="idPosition" items="{PositionModel>/}" selectedKey="{jobModel>/position}" change="onPositionConfirm">
+                            <core:Item key="{PositionModel>code}" text="{PositionModel>externalName_defaultValue} ({PositionModel>code})"/>
                         </Select>
                         
                         <Label text="Time in Position" />

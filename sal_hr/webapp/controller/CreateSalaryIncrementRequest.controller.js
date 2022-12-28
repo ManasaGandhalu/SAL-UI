@@ -81,12 +81,12 @@ sap.ui.define(
                     // this.managerID = '12000843';
                 },
                 onSelectCompensation: function (oEve) {
-                    this.getView().byId("selectDialog").getBinding("items").refresh(true)
+                 
                     if (oEve.getSource().getSelected()) {
                         this.getView()
                             .getModel("LocalViewModel")
                             .setProperty("/componesationInfoVisible", true);
-                        this.setCompensationModel(this.oCompensationModel);
+                        // this.setCompensationModel(this.oCompensationModel);
                     } else {
                         this.getView()
                             .getModel("LocalViewModel")
@@ -95,7 +95,7 @@ sap.ui.define(
                 },
                 onSelectJobInfo: function (oEve) {
 
-                    this.getView().byId("idPosition").getBinding("items").refresh(true)
+                
 
                     if (oEve.getSource().getSelected()) {
                         this.getView()
@@ -161,7 +161,7 @@ sap.ui.define(
                                 that.getView().setModel(oJobModel, "jobModel");  
                                 that.getView().getModel("jobModel").refresh(true);      
                                                    
-                                that.getView().getModel("LocalViewModel").setProperty("/checkBoxVisible", true);
+                                // that.getView().getModel("LocalViewModel").setProperty("/checkBoxVisible", true);
                                 that.setPosition(oData.results[0].position);
                                 that.onSelectPayGrade(sPayGrade);
                                
@@ -178,28 +178,49 @@ sap.ui.define(
                 },
                 setPosition:function(sPosition){
                     var that = this;
-                    var oPositionFilter = new Filter(
-                        [
-                            new Filter(
-                                "code",
-                                FilterOperator.EQ,
-                                sPosition
-                            )], true
-                    );
-
+                    
+                    var oPositionFilter = new Filter({
+                        filters: [
+                          new Filter({
+                            path: 'effectiveStatus',
+                            operator: FilterOperator.EQ,
+                            value1: 'A'
+                          }),
+                          new Filter({
+                            path: 'vacant',
+                            operator: FilterOperator.EQ,
+                            value1: true
+                          })
+                          
+                        ],
+                        and: true|false
+                      });
+                    
+                  
 
                     this.getView().getModel().read("/SF_Position", {
                         filters: [oPositionFilter],
                         urlParameters: {
-                            $top: 1,
-                            $expand: "businessUnitNav, companyNav, costCenterNav, cust_locationGroupNav, cust_sectionNav, departmentNav, divisionNav, jobCodeNav, jobLevelNav, locationNav, payGradeNav, payRangeNav"
-                          
+                            $expand: "businessUnitNav, companyNav, costCenterNav, cust_locationGroupNav, cust_sectionNav, departmentNav, divisionNav, jobCodeNav, jobLevelNav, locationNav, payGradeNav, payRangeNav"          
                         },
                         success: function (oData) {
                             that.getView().setBusy(false);
-                            if(oData.results){
-                                that.getView().getModel("jobModel").setProperty("/jobModel>/positionNav/code",oData.results[0].code);    
-                                that.getView().getModel("jobModel").setProperty("/jobModel>/positionNav/externalName_defaultValue",oData.results[0].externalName_defaultValue); 
+                            if(oData.results.length > 0){
+                                var sRecord = "Absent";
+                                for(var i=0; i<oData.results.length;i++){
+
+                                    if(sPosition === oData.results[i].code){
+                                        sRecord = "Present";
+                                    }
+                                }
+                                 if(sRecord === "Absent"){
+                                    oData.results.push(that.getView().getModel("jobModel").getData().positionNav);
+                                    that.getView().byId("idPosition").setSelectedKey(sPosition);
+                                 }
+
+                                var oModel = new JSONModel(oData.results);
+                                that.getView().setModel(oModel, "PositionModel");
+                                
                             }
                                     
                             that.getView().getModel("LocalViewModel").setProperty("/checkBoxVisible", true);                        
@@ -243,7 +264,8 @@ sap.ui.define(
                             success: function (oData) {
                                 that.getView().setBusy(false);
                                 var oCompensationModel = new JSONModel(oData.results[0]);
-                                that.oCompensationModel = oCompensationModel;
+                                // that.oCompensationModel = oCompensationModel;
+                                that.getView().setModel(oCompensationModel, "compensationModel");
                             },
                             error: function (oError) {
                                 that.getView().setBusy(false);
@@ -759,8 +781,8 @@ sap.ui.define(
 
                 onPositionConfirm: function (oEvent) {
                     var oSelectedItem = oEvent.getParameter("selectedItem");
-                    var obj = oSelectedItem.getBindingContext().getObject({expand:"businessUnitNav, companyNav, costCenterNav, cust_locationGroupNav, cust_sectionNav, departmentNav, divisionNav, jobCodeNav, jobLevelNav, locationNav, payGradeNav, payRangeNav, employeeClassNav"});
-                    
+                    // var obj = oSelectedItem.getBindingContext().getObject({expand:"businessUnitNav, companyNav, costCenterNav, cust_locationGroupNav, cust_sectionNav, departmentNav, divisionNav, jobCodeNav, jobLevelNav, locationNav, payGradeNav, payRangeNav, employeeClassNav"});
+                    var obj = oSelectedItem.getBindingContext("PositionModel").getObject();
                     // Organization Information
 
                     this.getView().getModel("jobModel").setProperty("/companyNav", obj.companyNav);
@@ -788,6 +810,8 @@ sap.ui.define(
                 },
 
                 onSetPayGroup:function(obj){
+
+                    var oLocalViewModel = this.getView().getModel("LocalViewModel");
 
                     var sCompany = obj.company;
 
