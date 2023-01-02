@@ -96,7 +96,7 @@
                 "type": "sap.ui.model.odata.v2.ODataModel",
                 "settings": {
                     "defaultOperationMode": "Server",
-                    "defaultBindingMode": "TwoWay",
+                    "defaultBindingMode": "OneWay",
                     "defaultCountMode": "Inline",
                     "refreshAfterChange": true,
                     "useBatch": false,
