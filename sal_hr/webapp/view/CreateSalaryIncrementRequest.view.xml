@@ -146,7 +146,13 @@
                         />
 
                         <Label text="Country" />
-                        <ComboBox enabled="false" id="idJobCountry" items="{ path: '/SF_Country', sorter : {
+                        <ComboBox enabled="false" id="idJobCountry" items="{ path: '/SF_Country', filters: [
+                                                                        {
+                                                                             path: 'code',
+                                                                             operator: 'NE',
+                                                                             value1: 'ISR'
+                                                                         }
+                                                                     ],       sorter : {
                                 path : 'externalName_defaultValue' 
                             } }" selectedKey="{jobModel>/countryOfCompany}" visible="false">
                             <core:Item key="{code}" text="{externalName_defaultValue} ({code})" />
@@ -267,7 +273,13 @@
                         <Input id="idMonthlyBasic" value="{compensationModel>/customDouble1}" type="Number"/>
 
                         <Label text="Country" required="true" visible="false" />
-                        <ComboBox id="idCompCountry" items="{ path: '/SF_Country'}" selectedKey="{compensationModel>/customString2}" visible="false">
+                        <ComboBox id="idCompCountry" items="{ path: '/SF_Country',filters: [
+                                                                        {
+                                                                             path: 'code',
+                                                                             operator: 'NE',
+                                                                             value1: 'ISR'
+                                                                         }
+                                                                     ]       }" selectedKey="{compensationModel>/customString2}" visible="false">
                             <core:Item key="{numericCountryCode}" text="{externalName_defaultValue}" />
                         </ComboBox>
 

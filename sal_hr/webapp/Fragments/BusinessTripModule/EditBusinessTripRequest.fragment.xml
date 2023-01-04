@@ -97,7 +97,13 @@
         <Select
             id="idEditDestCountry"
             selectedKey="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_destination}"
-            items="{path: '/SF_Country',                                          
+            items="{path: '/SF_Country',          filters: [
+                                                                        {
+                                                                             path: 'code',
+                                                                             operator: 'NE',
+                                                                             value1: 'ISR'
+                                                                         }
+                                                                     ],                                       
                                                          sorter : {
                                                              path : 'externalName_defaultValue' 
                                                         } }"
