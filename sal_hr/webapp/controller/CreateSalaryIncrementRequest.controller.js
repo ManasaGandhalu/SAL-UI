@@ -126,6 +126,7 @@ sap.ui.define(
 
                 getUserJobInfo: function (userId) {
                     this.getView().setBusy(true);
+                    this.jobLoading = true;
                     var oComponentModel = this.getComponentModel(),
                         that = this;
 
@@ -154,7 +155,10 @@ sap.ui.define(
                                 $orderby: "startDate desc"
                             },
                             success: function (oData) {
-                                that.getView().setBusy(false);
+                                that.jobLoading = false;
+                                if(!that.isEmpInfoLoading()) {
+                                    that.getView().setBusy(false);
+                                }
                                 var oJobModel = new JSONModel(oData.results[0]);
                                 var sPayGrade = oData.results[0].payGrade;
                                 // that.oJobModel = oJobModel;
@@ -167,7 +171,10 @@ sap.ui.define(
                                
                             },
                             error: function (oError) {
-                                that.getView().setBusy(false);
+                                that.jobLoading = false;
+                                if(!that.isEmpInfoLoading()) {
+                                    that.getView().setBusy(false);
+                                }
                                 // initialize new model
                                 that.oJobModel = new JSONModel({
                                     countryOfCompany: "SAU"
@@ -175,6 +182,9 @@ sap.ui.define(
                                 // sap.m.MessageBox.error(that.parseResponseError(oError.responseText));
                             },
                         });
+                },
+                isEmpInfoLoading: function() {
+                    return this.jobLoading || this.compLoading;
                 },
                 setPosition:function(sPosition){
                     var that = this;
@@ -239,6 +249,8 @@ sap.ui.define(
 
                 },
                 getUserCompInfo: function (userId) {
+                    this.getView().setBusy(true);
+                    this.compLoading = true;
                     var oComponentModel = this.getComponentModel(),
                         that = this;
 
@@ -262,13 +274,19 @@ sap.ui.define(
                                 $orderby: "startDate desc"
                             },
                             success: function (oData) {
-                                that.getView().setBusy(false);
+                                that.compLoading = false;
+                                if(!that.isEmpInfoLoading()) {
+                                    that.getView().setBusy(false);
+                                }
                                 var oCompensationModel = new JSONModel(oData.results[0]);
                                 // that.oCompensationModel = oCompensationModel;
                                 that.getView().setModel(oCompensationModel, "compensationModel");
                             },
                             error: function (oError) {
-                                that.getView().setBusy(false);
+                                that.compLoading = false;
+                                if(!that.isEmpInfoLoading()) {
+                                    that.getView().setBusy(false);
+                                }
                                 // initialize new model
                                 that.oCompensationModel = new JSONModel({
                                     customString2: "SAU"
@@ -332,44 +350,27 @@ sap.ui.define(
                         }
                         if (oldKey == newKey) {
                             // update scenario
-                            this.mainModel.update(oldKey, oPayload, {
-                                success: resolve.bind(this),
-                                error: function (oError) {
-                                    this.getView().setBusy(false);
-                                    // sap.m.MessageBox.error(this.parseResponseError(oError.responseText));
-                                    sErrMsg = this.parseResponseError(oError.responseText);
-                                    // var sErrorMsg = sErrMsg.indexOf("???") > 0 ? sErrMsg.split("???")[1] : sErrMsg;
-                                   
-                                    var sErrorMsg;
-                                    if(sErrMsg.indexOf("???") > 0){
-                                        sErrorMsg = sErrMsg.split("???")[1];
-                                    }else if(sErrMsg.indexOf(":") > 0 ){
-                                        sErrorMsg = sErrMsg.split(":")[1];
-                                    }
-                                    sap.m.MessageBox.error(sErrorMsg);
-                                    this.getView().getModel().refresh();
-                                }.bind(this),
-                            });
-                        } else {
-                            // create scenario
-                            this.mainModel.create(sEntityPath, oPayload, {
-                                success: resolve.bind(this),
-                                error: function (oError) {
-                                    this.getView().setBusy(false);
-                                    sErrMsg = this.parseResponseError(oError.responseText);
-                                    // var sErrorMsg = sErrMsg.indexOf("???") > 0 ? sErrMsg.split("???")[1] : sErrMsg;
-                                   var sErrorMsg;
-                                    if(sErrMsg.indexOf("???") > 0){
-                                        sErrorMsg = sErrMsg.split("???")[1];
-                                    }else if(sErrMsg.indexOf(":") > 0 ){
-                                        sErrorMsg = sErrMsg.split(":")[1];
-                                    }
-
-                                    sap.m.MessageBox.error(sErrorMsg);
-                                    this.getView().getModel().refresh();
-                                }.bind(this),
-                            });
+                            // increment the seqNumber
+                            oPayload.seqNumber = (parseInt(oPayload.seqNumber) + 1).toString();
                         }
+                        // create scenario
+                        this.mainModel.create(sEntityPath, oPayload, {
+                            success: resolve.bind(this),
+                            error: function (oError) {
+                                this.getView().setBusy(false);
+                                sErrMsg = this.parseResponseError(oError.responseText);
+                                // var sErrorMsg = sErrMsg.indexOf("???") > 0 ? sErrMsg.split("???")[1] : sErrMsg;
+                               var sErrorMsg;
+                                if(sErrMsg.indexOf("???") > 0){
+                                    sErrorMsg = sErrMsg.split("???")[1];
+                                }else if(sErrMsg.indexOf(":") > 0 ){
+                                    sErrorMsg = sErrMsg.split(":")[1];
+                                }
+
+                                sap.m.MessageBox.error(sErrorMsg);
+                                this.getView().getModel().refresh();
+                            }.bind(this),
+                        });
                     } else {
                         this.getView().setBusy(false);
                         sap.m.MessageBox.error(sValidationErrorMsg);
