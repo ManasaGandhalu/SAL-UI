@@ -96,7 +96,7 @@ sap.ui.define([
                     "userId": sUserID,
                     "payDate": sEffectiveStartDate,
                     "notes": null,
-                    "alternativeCostCenter": "",
+                    // "alternativeCostCenter": "",
                     "currencyCode": sCurrency,
                     "value": sValue
                 };
