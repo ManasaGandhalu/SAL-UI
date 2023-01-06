@@ -1100,7 +1100,13 @@ sap.ui.define([
             },
             fnCalculateTotalPerDiem: function (sPerDiem,sVisaAmt,sItem) {
 
-                var diffTime = Math.abs(new Date(this.endTravelDate) - new Date(this.startTravelDate));
+                var sTravelDate = sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idTravelDate").getValue();
+                var sReturnDate = sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idReturnDate").getValue();
+
+                // var diffTime = Math.abs(new Date(this.endTravelDate) - new Date(this.startTravelDate));
+
+                var diffTime = Math.abs(new Date(sReturnDate)) - new Date(sTravelDate);
+
                 var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));  
                 diffDays = (diffDays === 0) ? 1: diffDays;  
                 
