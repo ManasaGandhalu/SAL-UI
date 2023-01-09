@@ -843,9 +843,6 @@ sap.ui.define(
                                 oLocalViewModel.setProperty("/payGroupEnabled", true);
                                 this.getView().byId("idPayGroup").setBusy(false);
                                 this.getView().byId("idCompPayGroup").setBusy(false);
-                                if (callback) {
-                                    callback();
-                                }
                             }.bind(this),
                             error: function (oError) {
                                 this.getView().byId("idPayGroup").setBusy(false);

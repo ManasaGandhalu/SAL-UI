@@ -326,7 +326,7 @@ sap.ui.define(
                         .getData().userId;
                     var sValue = this.byId("idEditValueINP").getValue();
                     var sCurrency = this.byId("idInpCurrencyCode").getSelectedKey();
-                    var sAltCostCenter = this.byId("idInpAltCostCenter").getSelectedKey();
+                    // var sAltCostCenter = this.byId("idInpAltCostCenter").getSelectedKey();
                     var sPayDate = this.byId("idEditIssueDate").getDateValue(),
                         dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
                             pattern: "yyyy-MM-dd",
@@ -338,7 +338,7 @@ sap.ui.define(
                         userId: sUserID,
                         payDate: sPayDate,
                         notes: null,
-                        alternativeCostCenter: sAltCostCenter,
+                        // alternativeCostCenter: sAltCostCenter,
                         currencyCode: sCurrency,
                         value: sValue,
                     };
