@@ -33,11 +33,16 @@
 
         <Label text="{i18n>Nationality}" required="true" />
         <Select id="idEditNationalityInp" showSecondaryValues="true" selectedKey="{DisplayEditAirpassModel>/cust_toAirportPassItem/cust_nationality}" items="{ path: '/SF_Country', 
+                                                                
                 parameters:{select:'code,externalName_defaultValue,currency'},
                 sorter: { path: 'externalName_defaultValue', descending: false },
                 filters : [{
                 path : 'externalName_defaultValue', operator : 'NE', value1 : null
-                }]
+                }, {
+                                                                             path: 'code',
+                                                                             operator: 'NE',
+                                                                             value1: 'ISR'
+                                                                         }]
                 }" change="onTimeTyeChange">
             <core:ListItem key="{externalName_defaultValue}" text="{externalName_defaultValue}"/>
         </Select>

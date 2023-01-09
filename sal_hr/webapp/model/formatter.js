@@ -495,7 +495,7 @@ sap.ui.define([], function () {
       return 'Warning';
     },
 
-    ticketSLAIcon: function(slaMinutes, slaViolated, slaTargetDate, slaActualDate) {
+    : function(slaMinutes, slaViolated, slaTargetDate, slaActualDate) {
       if(!slaTargetDate) {
         return '';
       }
@@ -505,7 +505,7 @@ sap.ui.define([], function () {
           } else {
               return 'sap-icon://complete';
           }
-      }
+      }ticketSLAIcon
       return 'sap-icon://history';
     },
 

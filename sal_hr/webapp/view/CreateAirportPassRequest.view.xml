@@ -57,8 +57,7 @@
                             sorter: { path: 'externalName_defaultValue', descending: false },
                             filters : [{
                                 path : 'externalName_defaultValue', operator : 'NE', value1 : null
-                            }]
-                            }" change="onTimeTyeChange">
+                            }, {path: 'code', operator: 'NE', value1: 'ISR'}]}" change="onTimeTyeChange">
                             <core:ListItem key="{code}" text="{externalName_defaultValue}"/>
                         </Select>
 
