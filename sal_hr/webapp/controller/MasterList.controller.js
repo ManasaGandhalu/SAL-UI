@@ -270,6 +270,10 @@ sap.ui.define(
                   sURL = Const.LINKS.Performance;
                   this.openSucessFatcors(sURL);
                   break;
+                case 15:
+                  sURL = Const.LINKS.JobCompensation;
+                  this.openSucessFatcors(sURL);
+                  break;
                 case 33:
                   sURL = Const.LINKS.EmployeeProfile;
                   this.openSucessFatcors(sURL);

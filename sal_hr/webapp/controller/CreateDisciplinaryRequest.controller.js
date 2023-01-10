@@ -315,14 +315,14 @@ sap.ui.define([
             },
             getDisciplinaryCreatePayload:function(){
                 var sUserID = this.getOwnerComponent().getModel("EmpInfoModel").getData().userId;
-                var sPRNID;
+                var sPRNID = this.getView().byId("idPRN").getValue();
           
 
-               if (this.prnID) {
-                sPRNID =   this.prnID;
-            } else {
-                sPRNID = this.getOwnerComponent().getModel("EmpInfoModel").getData().userId;
-            }
+            //    if (this.prnID) {
+            //     sPRNID =   this.prnID;
+            // } else {
+            //     sPRNID = this.getOwnerComponent().getModel("EmpInfoModel").getData().userId;
+            // }
 
                 var sAttachmentFileContent, sAttahmentFileName;
                 var sIncidentStartDate = this.byId("idIncidentStartDate").getDateValue();
