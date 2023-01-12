@@ -386,14 +386,14 @@ sap.ui.define([
 
                 this.getView().setBusy(false);
 
-                // this.getView().getModel("BusinessTripAttachmentModel").getProperty("/businessTravelAttachment") ? null: this.getView().byId("idEditAttachBoardingPassBusiness").removeAllItems();
+                // this.getView().getModel("BusinessTripAttachmentModel").getProperty("/businessTravelAttachment") ? null: this.getView().byId("idEditAttachBoardingPassBusiness").destroyItems();
 
-                // this.getView().getModel("BusinessTripAttachmentModel").getProperty("/receiptEmbassyAttachment") ? null: this.getView().byId("idEditAttachEmbassyReceipt").removeAllItems();
+                // this.getView().getModel("BusinessTripAttachmentModel").getProperty("/receiptEmbassyAttachment") ? null: this.getView().byId("idEditAttachEmbassyReceipt").destroyItems();
 
 
-                // this.getView().getModel("BusinessTripAttachmentModel").getProperty("/trainingTravelAttachment") ? null: this.getView().byId("idEditAttachBoardingPassTraining").removeAllItems();
+                // this.getView().getModel("BusinessTripAttachmentModel").getProperty("/trainingTravelAttachment") ? null: this.getView().byId("idEditAttachBoardingPassTraining").destroyItems();
 
-                // this.getView().getModel("BusinessTripAttachmentModel").getProperty("/visaCopyAttachment") ? null: this.getView().byId("idEditAttachVisaCopy").removeAllItems();
+                // this.getView().getModel("BusinessTripAttachmentModel").getProperty("/visaCopyAttachment") ? null: this.getView().byId("idEditAttachVisaCopy").destroyItems();
 
                 // this.onDestCountryChange();
 
@@ -1183,20 +1183,20 @@ sap.ui.define([
     
                     this._oEditBusinessDialog.open();
 
-                    this.getView().getModel("BusinessTripTableModel").getData()[this.sPath].businessTravelattachmentFileName ? null:  sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditAttachBoardingPassBusiness").removeAllItems();
+                    this.getView().getModel("BusinessTripTableModel").getData()[this.sPath].businessTravelattachmentFileName ? null:  sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditAttachBoardingPassBusiness").destroyItems();
                     this.getView().getModel("BusinessTripTableModel").getData()[this.sPath].businessTravelattachmentFileName ? null:  sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditAttachBoardingPassBusiness").getDefaultFileUploader().setEnabled(true);
-                    this.getView().getModel("BusinessTripTableModel").getData()[this.sPath].receiptEmbassyattachmentFileName ? null:  sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditAttachEmbassyReceipt").removeAllItems();
+                    this.getView().getModel("BusinessTripTableModel").getData()[this.sPath].receiptEmbassyattachmentFileName ? null:  sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditAttachEmbassyReceipt").destroyItems();
                     this.getView().getModel("BusinessTripTableModel").getData()[this.sPath].receiptEmbassyattachmentFileName ? null:  sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditAttachEmbassyReceipt").getDefaultFileUploader().setEnabled(true);
-                    this.getView().getModel("BusinessTripTableModel").getData()[this.sPath].trainingTravelattachmentFileName ? null:  sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditAttachBoardingPassTraining").removeAllItems();
+                    this.getView().getModel("BusinessTripTableModel").getData()[this.sPath].trainingTravelattachmentFileName ? null:  sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditAttachBoardingPassTraining").destroyItems();
                     this.getView().getModel("BusinessTripTableModel").getData()[this.sPath].trainingTravelattachmentFileName ? null:  sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditAttachBoardingPassTraining").getDefaultFileUploader().setEnabled(true);
-                    this.getView().getModel("BusinessTripTableModel").getData()[this.sPath].visaCopyattachmentFileName ? null:  sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditAttachVisaCopy").removeAllItems();
+                    this.getView().getModel("BusinessTripTableModel").getData()[this.sPath].visaCopyattachmentFileName ? null:  sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditAttachVisaCopy").destroyItems();
                     this.getView().getModel("BusinessTripTableModel").getData()[this.sPath].visaCopyattachmentFileName ? null:  sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditAttachVisaCopy").getDefaultFileUploader().setEnabled(true);
 
     
-                    // this.getView().getModel("BusinessTripAttachmentModel").getProperty("/businessTravelAttachment") ? null:  sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditAttachBoardingPassBusiness").removeAllItems();   
-                    // this.getView().getModel("BusinessTripAttachmentModel").getProperty("/receiptEmbassyAttachment") ? null:  sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditAttachEmbassyReceipt").removeAllItems();
-                    // this.getView().getModel("BusinessTripAttachmentModel").getProperty("/trainingTravelAttachment") ? null:  sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditAttachBoardingPassTraining").removeAllItems();
-                    // this.getView().getModel("BusinessTripAttachmentModel").getProperty("/visaCopyAttachment") ? null:  sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditAttachVisaCopy").removeAllItems();
+                    // this.getView().getModel("BusinessTripAttachmentModel").getProperty("/businessTravelAttachment") ? null:  sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditAttachBoardingPassBusiness").destroyItems();   
+                    // this.getView().getModel("BusinessTripAttachmentModel").getProperty("/receiptEmbassyAttachment") ? null:  sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditAttachEmbassyReceipt").destroyItems();
+                    // this.getView().getModel("BusinessTripAttachmentModel").getProperty("/trainingTravelAttachment") ? null:  sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditAttachBoardingPassTraining").destroyItems();
+                    // this.getView().getModel("BusinessTripAttachmentModel").getProperty("/visaCopyAttachment") ? null:  sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditAttachVisaCopy").destroyItems();
                   
                     // var sDestinationCountry = sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditDestCountry");
                     // var sInOutKingdom = sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditInsOutKingdom");

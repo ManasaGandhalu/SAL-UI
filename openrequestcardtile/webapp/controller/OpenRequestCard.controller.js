@@ -24,20 +24,7 @@ sap.ui.define([
                                 // "type": "Numeric",
                                 "title": "",
                                 // "subTitle": "Total requests that are Rejected",
-                                "data": {
-                                    "json": {
-                                        "NumberCount": "0",
-                                        "Unit": "",
-                                        "Trend": "",
-                                        "TrendColor": "Good"
-                                    }
-                                },
-                                "mainIndicator": {
-                                    "number": "{NumberCount}",
-                                    "unit": "{Unit}",
-                                    "trend": "{Trend}",
-                                    "state": "{TrendColor}"
-                                },
+                               
                                 "actions": [
                                     {
                                         "type": "Navigation",
@@ -48,20 +35,23 @@ sap.ui.define([
                             },
                             "content": {
                                 "chartType": "donut",
-                                "legend": {
-                                    "visible": true,
-                                    "position": "Bottom",
-                                    "alignment": "Left"
-                                },
-                                "plotArea": {
-                                    "dataLabel": {
+                                "chartProperties": {
+                                    "legend": {
                                         "visible": true,
-                                        "type": "value"
-                                    }
-                                },
-                                "title": {
-                                    "text": "Rejected requests by Type",
-                                    "visible": true
+                                        "position": "Bottom",
+                                        "alignment": "Left",
+                                    },
+                                    "plotArea": {
+                                        "dataLabel": {
+                                            "visible": true,
+                                            "showTotal": true
+                                        },
+                                        "colorPalette": ["#6c1332", "#ff0000", "#6a6d70"]
+                                    },
+                                    "title": {
+                                        "text": "Rejected requests by Type",
+                                        "visible": true
+                                        }
                                 },
                                 "measureAxis": "size",
                                 "dimensionAxis": "color",
@@ -71,32 +61,25 @@ sap.ui.define([
                                     },
                                     "path": "/measures"
                                 },
-                                "dimensions": [
-                                    {
-                                        "label": "Measure Name",
-                                        "value": "{name}",
-                                        "tooltip":"{name}"
-                                    }
-                                ],
-                                "measures": [
-                                    {
-                                        "label": "Value",
-                                        "value": "{totalRejected}",
-                                        "tooltip":"{name}"
-                                    }
-                                ],
+                                "dimensions": [{
+                                    "label": "Measure Name",
+                                    "value": "{name}"
+                                }],
+                                "measures": [{
+                                    "label": "totalRejected",
+                                    "value": "{totalRejected}"
+                                }],
                                 "actionableArea": "Chart",
                                 "actions": [
                                     {
                                         "type": "Navigation",
                                         "parameters": {
-                                           "text":"{name}"
+                                            "text": "{name}"
                                         }
-                                        
+
                                     }
                                 ]
                             }
-                           
                         }
                     }
                 };

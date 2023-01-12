@@ -12,95 +12,78 @@ sap.ui.define(
         formatter: formatter,
         onInit: function () {
 
-
           var oCardData = {
-            donut: {
-              "sap.app": {
-                id: "com.sal.cards.inprocessrequestcardtile",
-                type: "card",
-              },
-              "sap.card": {
-                type: "Analytical",
-                header: {
-                  // type: "Numeric",
-                  title: "",
-                  // subTitle: "Total requests that are Pending",
-                  data: {
-                    json: {
-                      NumberCount: "0",
-                      Unit: "",
-                      Trend: "",
-                      TrendColor: "Good",
-                    },
-                  },
-                  mainIndicator: {
-                    number: "{NumberCount}",
-                    unit: "{Unit}",
-                    trend: "{Trend}",
-                    state: "{TrendColor}",
-                  },
-                  actions: [
-                    {
-                      type: "Navigation",
-                      enabled: false,
-                      parameters: {},
-                    },
-                  ],
+            "donut": {
+                "sap.app": {
+                    "id": "com.sal.cards.inprocessrequestcardtile",
+                    "type": "card"
                 },
-                content: {
-                  chartType: "donut",
-                  legend: {
-                    visible: true,
-                    position: "Bottom",
-                    alignment: "Left",
-                  },
-                  plotArea: {
-                    dataLabel: {
-                      visible: true,
-                      type: "value",
+                "sap.card": {
+                    "type": "Analytical",
+                    "header": {
+                        // "type": "Numeric",
+                        "title": "",
+                        // "subTitle": "Total requests that are Pending",
+                       
+                        "actions": [
+                            {
+                                "type": "Navigation",
+                                "parameters": {},
+                                "enabled": false
+                            }
+                        ]
                     },
-                  },
-                  title: {
-                    text: "Pending requests by Type",
-                    visible: true,
-                  },
-                  measureAxis: "size",
-                  dimensionAxis: "color",
-                  data: {
-                    json: {
-                      measures: [],
-                    },
-                    path: "/measures",
-                  },
-                  dimensions: [
-                    {
-                      label: "Measure Name",
-                      value: "{name}",
-                      tooltip: "{name}"
-                    },
-                  ],
-                  measures: [
-                    {
-                      label: "Value",
-                      value: "{totalPending}",
-                      tootip: "{name}"
-                    },
-                  ],
-                  "actionableArea": "Chart",
-                  "actions": [
-                    {
-                      "type": "Navigation",
-                      "parameters": {
-                        "text": "{name}"
-                      }
+                    "content": {
+                        "chartType": "donut",
+                        "chartProperties": {
+                            "legend": {
+                                "visible": true,
+                                "position": "Bottom",
+                                "alignment": "Left",
+                            },
+                            "plotArea": {
+                                "dataLabel": {
+                                    "visible": true,
+                                    "showTotal": true
+                                },
+                                "colorPalette": ["#6c1332", "#ff0000", "#6a6d70"]
+                            },
+                            "title": {
+                                "text": "Pending requests by Type",
+                                "visible": true
+                                }
+                        },
+                        "measureAxis": "size",
+                        "dimensionAxis": "color",
+                        "data": {
+                            "json": {
+                                "measures": []
+                            },
+                            "path": "/measures"
+                        },
+                        "dimensions": [{
+                            "label": "Measure Name",
+                            "value": "{name}"
+                        }],
+                        "measures": [{
+                            "label": "totalPending",
+                            "value": "{totalPending}"
+                        }],
+                        "actionableArea": "Chart",
+                        "actions": [
+                            {
+                                "type": "Navigation",
+                                "parameters": {
+                                    "text": "{name}"
+                                }
 
+                            }
+                        ]
                     }
-                  ]
                 }
-              }
             }
-          };
-
+        };
+         
           this.getOwnerComponent()
             .getModel()
             .read("/MasterModules", {

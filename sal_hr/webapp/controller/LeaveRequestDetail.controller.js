@@ -50,7 +50,7 @@ sap.ui.define([
                     this._getTicketData(this.sChildID);
                 }
                 
-                this.getView().byId("idEditUploadSet").removeAllItems();
+                this.getView().byId("idEditUploadSet").destroyItems();
                 var sUploadAttachment = this.getView().byId("UploadSet").getVisible();
                 if (!sUploadAttachment) {
                     this.attachReq = false;
@@ -106,7 +106,7 @@ sap.ui.define([
 
                                 that.getView().getModel("LocalViewModel").setProperty('/meetingType', false);
 
-                                that.getView().byId("idEditUploadSet").removeAllItems();
+                                that.getView().byId("idEditUploadSet").destroyItems();
                                 
                                 oUploadSet.getDefaultFileUploader().setEnabled(true);
 
@@ -116,7 +116,7 @@ sap.ui.define([
 
                                 that.getView().getModel("LocalViewModel").setProperty('/meetingType', false);
 
-                                that.getView().byId("idEditUploadSet").removeAllItems();
+                                that.getView().byId("idEditUploadSet").destroyItems();
 
                                 oUploadSet.getDefaultFileUploader().setEnabled(true);
 
@@ -126,7 +126,7 @@ sap.ui.define([
 
                                 that.getView().getModel("LocalViewModel").setProperty('/meetingType', true);
 
-                                that.getView().byId("idEditUploadSet").removeAllItems();
+                                that.getView().byId("idEditUploadSet").destroyItems();
 
                                 oUploadSet.getDefaultFileUploader().setEnabled(true);
                                 break;
@@ -224,7 +224,7 @@ sap.ui.define([
             onCancelPress: function () {
                 debugger;
                 this.getView().getModel("LocalViewModel").setProperty("/EditMode", false);
-                this.getView().byId("idEditUploadSet").removeAllItems();
+                this.getView().byId("idEditUploadSet").destroyItems();
                 this.getView().getModel().refresh(true);
             },
 

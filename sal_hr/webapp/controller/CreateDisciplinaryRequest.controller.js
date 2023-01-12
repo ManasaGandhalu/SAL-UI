@@ -417,9 +417,10 @@ sap.ui.define([
                 };
                 this.getView().getModel("LocalViewModel").setData(dataReset);
                 this.getView().getModel("LocalViewModel").refresh();
-                this.byId("UploadSet").removeAllItems();
+                this.byId("UploadSet").destroyItems();
                 var oUploadSet = this.byId("UploadSet");
                 this.byId("idIncidentDescription").setValue("");
+                this.byId("idPRN").setValue("");
                 oUploadSet.getDefaultFileUploader().setEnabled(true);
             }
     

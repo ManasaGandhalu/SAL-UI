@@ -85,16 +85,16 @@ sap.ui.define([
             },
 
             _fnRemoveFileUploaderItems: function () {
-                this.getView().byId("UploadSetPersonalID").removeAllItems();
+                this.getView().byId("UploadSetPersonalID").destroyItems();
                 this.getView().byId("UploadSetPersonalID").getDefaultFileUploader().setEnabled(true);
 
-                this.getView().byId("UploadSetPersonalPhoto").removeAllItems();
+                this.getView().byId("UploadSetPersonalPhoto").destroyItems();
                 this.getView().byId("UploadSetPersonalPhoto").getDefaultFileUploader().setEnabled(true);
 
-                this.getView().byId("UploadSetnonnationals").removeAllItems();
+                this.getView().byId("UploadSetnonnationals").destroyItems();
                 this.getView().byId("UploadSetnonnationals").getDefaultFileUploader().setEnabled(true);
 
-                this.getView().byId("UploadSetCompanyIDCopy").removeAllItems();
+                this.getView().byId("UploadSetCompanyIDCopy").destroyItems();
                 this.getView().byId("UploadSetCompanyIDCopy").getDefaultFileUploader().setEnabled(true);
             },
 

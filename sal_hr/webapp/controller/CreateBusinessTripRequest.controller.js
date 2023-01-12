@@ -268,8 +268,8 @@ sap.ui.define([
                             "cust_visaFeePayComp": null,
                             "cust_visaFeeExpenseAmount": null,
 
-                            "cust_travelSDate1": new Date(),
-                            "cust_travelEDate1": new Date(),
+                            "cust_travelSDate1": null,
+                            "cust_travelEDate1": null,
                             "cust_travelTime1": null,
                             "cust_desti1": null,
                             "cust_citySau1": null,
@@ -290,8 +290,8 @@ sap.ui.define([
                             "cust_visaFeePayComp1": null,
                             "cust_visaFeeExpenseAmount1": null,
 
-                            "cust_travelSDate2": new Date(),
-                            "cust_travelEDate2": new Date(),
+                            "cust_travelSDate2": null,
+                            "cust_travelEDate2": null,
                             "cust_travelTime2": null,
                             "cust_desti2": null,
                             "cust_citySau2": null,
@@ -403,23 +403,17 @@ sap.ui.define([
                     oPayload.cust_toDutyTravelItem[0].cust_assignEndDate = sReturnDate;
 
 
-                    // var sBusinessTravelDate = sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idFlightTravelDate").getDateValue(),
-                    //     oBusinessTravelDate = dateFormat.format(new Date(sBusinessTravelDate));
-                    // sBusinessTravelDate = oBusinessTravelDate + "T00:00:00";
-                    // oPayload.cust_toDutyTravelItem[0].cust_businessTravelDate = sBusinessTravelDate;
-                    oPayload.cust_toDutyTravelItem[0].cust_businessTravelDate = sTravelDate;
+                    var sBusinessTravelDate = sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idFlightTravelDate").getDateValue(),
+                        oBusinessTravelDate = dateFormat.format(new Date(sBusinessTravelDate));
+                    sBusinessTravelDate = oBusinessTravelDate + "T00:00:00";
+                    oPayload.cust_toDutyTravelItem[0].cust_businessTravelDate = sBusinessTravelDate;
+                   
 
-                    // var sTrainingTravelDate = sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idTrainingFlightTravelDate").getDateValue(),
-                    //     oTrainingTravelDate = dateFormat.format(new Date(sTrainingTravelDate));
-                    // sTrainingTravelDate = oTrainingTravelDate + "T00:00:00";
-                    // oPayload.cust_toDutyTravelItem[0].cust_trainingTravelDate = sTrainingTravelDate;
-                    oPayload.cust_toDutyTravelItem[0].cust_trainingTravelDate = sTravelDate;
-
-                    oPayload.cust_toDutyTravelItem[0].cust_travelSDate1 = sTravelDate;
-                    oPayload.cust_toDutyTravelItem[0].cust_travelSDate2 = sTravelDate;
-                    oPayload.cust_toDutyTravelItem[0].cust_travelEDate1 = sReturnDate;
-                    oPayload.cust_toDutyTravelItem[0].cust_travelEDate2 = sReturnDate;
-
+                    var sTrainingTravelDate = sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idTrainingFlightTravelDate").getDateValue(),
+                        oTrainingTravelDate = dateFormat.format(new Date(sTrainingTravelDate));
+                    sTrainingTravelDate = oTrainingTravelDate + "T00:00:00";
+                    oPayload.cust_toDutyTravelItem[0].cust_trainingTravelDate = sTrainingTravelDate;
+                   
 
 
                     // Convert selcted time to specific time format as "PT0H31M30S"

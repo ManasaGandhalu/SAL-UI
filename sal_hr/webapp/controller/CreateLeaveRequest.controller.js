@@ -473,7 +473,8 @@ sap.ui.define([
                 this.getView().getModel("LocalViewModel").refresh(true);
                 this.getView().byId("idTimeType").setSelectedKey("700");
                 this.onTimeTyeChange();
-                this.getView().byId("UploadSet").removeAllItems();
+                // this.getView().byId("UploadSet").removeAllItems();
+                this.getView().byId("UploadSet").destroyItems();
                 var oUploadSet = this.getView().byId("UploadSet");
                 oUploadSet.getDefaultFileUploader().setEnabled(true);
                 this.isAttachment = false;
