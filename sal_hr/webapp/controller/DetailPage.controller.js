@@ -36,7 +36,7 @@ sap.ui.define([
 
             // This Function is used to set the custom parameter for Tickets table binding according to user type as Manager or not?
             onUpdateTicketsBindingStart: function (oEvent) {
-                debugger;
+                // debugger;
                 var sIsUserManager = this.getOwnerComponent().getModel("EmpInfoModel").getProperty("/IsUserManager").toString();
                 oEvent.getSource().getBinding("items").sCustomParams = "IsUserManager=" + sIsUserManager;
                 oEvent.getSource().getBinding("items").mCustomParams.IsUserManager = sIsUserManager;
@@ -340,7 +340,7 @@ sap.ui.define([
                 }
             },
             onSelectBTFilter:function(oEvent){
-                debugger;
+                // debugger;
                
                   var sSelectedKey = oEvent.getSource().getSelectedKey();
                   var oFilterSearch = [];

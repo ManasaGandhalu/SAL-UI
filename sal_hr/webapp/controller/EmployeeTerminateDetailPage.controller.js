@@ -44,7 +44,7 @@ sap.ui.define([
             },
 
             _bindView: function (data) {
-                debugger;
+                // debugger;
                 var object = data.results[0];
                 var oHeaderModel = new JSONModel(data.results[0]);
                 this.getView().setModel(oHeaderModel, "headerModel");

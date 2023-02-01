@@ -158,7 +158,7 @@ sap.ui.define(
             },
 
             handleFiltersResetPress: function (oEvent) {
-                debugger;
+                // debugger;
                 this.getView().byId("idDateRangeSelector").setValue(null);
                 this.getView().getModel("LocalViewModel").setProperty("/FromDate", null);
                 this.getView().getModel("LocalViewModel").setProperty("/ToDate", null);

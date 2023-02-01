@@ -54,7 +54,7 @@ sap.ui.define(
                 },
 
                 _bindView: function (data) {
-                    debugger;
+                    // debugger;
                     var object = data.results[0];
                     this.object = data.results[0];
                     var oHeaderModel = new JSONModel(data.results[0]);
@@ -360,7 +360,7 @@ sap.ui.define(
                     oUploadSet.getDefaultFileUploader().setEnabled(true);
                 },
                 onFileAdded: function (oEvent) {
-                    debugger;
+                    // debugger;
                     var that = this;
 
                     //  var file = oEvent.getParameters().files[0];

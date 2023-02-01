@@ -29,14 +29,14 @@ sap.ui.define([
                 var sSelect
             },
             onConfirmHrManagerRequest: function (oEvent) {
-                debugger;
+                // debugger;
                 var oSelectedItem = oEvent.getParameter("selectedItem");
                 var obj = oSelectedItem.getBindingContext("FragmetModel").getObject();
                 this.triggerCrossApp(obj.subModuleId, obj.ID, obj.externalCode);
             },
 
             triggerCrossApp: function (sSubModuleID, sTicketID, sExternalCode) {
-                debugger;
+                // debugger;
 
                 var oCrossAppNavigator = sap.ushell.Container.getService("CrossApplicationNavigation"); // get a handle on the global XAppNav service
                 var hash = (oCrossAppNavigator && oCrossAppNavigator.hrefForExternal({
@@ -59,7 +59,7 @@ sap.ui.define([
                 });
             },
             pressBar: function (oEvent) {
-                debugger;
+                // debugger;
                 var selectedSlice = oEvent.getSource().getProperty("title").toUpperCase();
                 var that = this;
 

@@ -121,7 +121,7 @@ sap.ui.define([
             },
 
             onCreateCancelPress: function () {
-                debugger;
+                // debugger;
                 this.oRouter.navTo("detail", {
                     parentMaterial: this.sParentID,
                     layout: "TwoColumnsMidExpanded"

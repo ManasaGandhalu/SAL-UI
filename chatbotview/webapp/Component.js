@@ -17,7 +17,7 @@ function (UIComponent, Device, models) {
             },
     
             renderRecastChatbot: function() {
-                debugger;
+                // debugger;
                 if (!document.getElementById("cai-webchat")) {
                     var s = document.createElement("script");
                     s.setAttribute("id", "cai-webchat");

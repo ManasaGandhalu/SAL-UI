@@ -122,7 +122,7 @@ sap.ui.define([
             },
 
             triggerCrossApp: function (sSubModuleID, sTicketID, sExternalCode) {
-                debugger;
+                // debugger;
            
                 var oCrossAppNavigator = sap.ushell.Container.getService("CrossApplicationNavigation"); // get a handle on the global XAppNav service
                 var hash = (oCrossAppNavigator && oCrossAppNavigator.hrefForExternal({

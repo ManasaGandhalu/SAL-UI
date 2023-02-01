@@ -58,7 +58,7 @@ sap.ui.define(
         }
       },
       _onObjectMatched: function (oEvent) {
-        debugger;
+        // debugger;
 
         this.getView().setBusy(true);
 
@@ -178,7 +178,7 @@ sap.ui.define(
       },
 
       fnGetRoleAccess: function (sManagerTile, subModuleId, oItem) {
-        debugger;
+        // debugger;
         this.sManagerTile = sManagerTile;
         var sURL = "";
         var oComponentModel = this.getComponentModel();

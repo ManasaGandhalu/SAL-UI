@@ -269,7 +269,7 @@ sap.ui.define([
                 this.byId("idEmployeeNameINP").setValue(oSelectedItem.getBindingContext().getObject().userId);
             },
             onRewardChange:function(oEvt){
-                debugger;
+                // debugger;
                 var sSelectedReward = oEvt.getSource().getSelectedKey();
                 if(sSelectedReward === "9219"){
                     this.getView().byId("idValueINP").setValue("");

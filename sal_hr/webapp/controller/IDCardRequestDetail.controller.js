@@ -73,7 +73,7 @@ sap.ui.define([
                         this.getView().setBusy(false);
                         var oIdCardDetailModel = new JSONModel(oData);
                         this.getView().setModel(oIdCardDetailModel, "cust_idReplacementDetailsModel");
-                        debugger;
+                        // debugger;
                       
                     }.bind(this),
                     error: function (oError) {

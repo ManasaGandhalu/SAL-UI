@@ -380,7 +380,7 @@ sap.ui.define([
                 var bIsUserManager = this.getOwnerComponent().getModel("EmpInfoModel").getProperty("/IsUserManager").toString();
 
                 if(bIsUserManager) {
-                    debugger;
+                    // debugger;
                     this.fnGetBusinessTripEmpInfo(this.object.externalCode,this.sPath);
                 }
 
@@ -430,7 +430,7 @@ sap.ui.define([
             },
 
             onHotelBookChange: function (evt) {
-                debugger;
+                // debugger;
 
                 var sValue = JSON.parse(evt.getSource().getSelectedKey());
                 this.getView().getModel("DisplayEditBusinessTripModel").setProperty("/cust_toDutyTravelItem/0/cust_hotelBooking", sValue);
@@ -438,7 +438,7 @@ sap.ui.define([
 
             },
             onDestCountryChange: function (oEvent,sDestinationCountry,sInOutKingdom,sPerDiem,sVisaAmt,sItem) {
-                  debugger;
+                  // debugger;
                 // var sDestCountry = oEvent ? oEvent.getSource().getSelectedKey() : sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditDestCountry").getSelectedKey() ,
                     
                 var sDestCountry = oEvent ? oEvent.getSource().getSelectedKey() : sDestinationCountry.getSelectedKey(),
@@ -494,7 +494,7 @@ sap.ui.define([
             },
 
             onCitySaudiChange: function (oEvent) {
-                debugger;
+                // debugger;
                 var sCitySaudi = oEvent.getSource().getSelectedKey();
                 var sCitySaudiVisibleSet = sCitySaudi === "OTH" ? this.getView().getModel("LocalViewModel").setProperty("/otherCityVisible", true) : this.getView().getModel("LocalViewModel").setProperty("/otherCityVisible", false);
 
@@ -564,7 +564,7 @@ sap.ui.define([
             },
 
             onSavePress: function () {
-                debugger;
+                // debugger;
                 var sValidationErrorMsg = this.fnValidateBusinessTripPayload(),
                     sKey = this.getView().getModel().createKey("/SF_DutyTravelMain", {
                         effectiveStartDate: this.object.effectiveStartDate,
@@ -1236,7 +1236,7 @@ sap.ui.define([
 
             },
             onAddBusinessTripPress: function () {
-                debugger;
+                // debugger;
                 if (!this._oCreateBusinessDialog) {
                     this._oCreateBusinessDialog = sap.ui.xmlfragment("idCreateBusinessDetailDialog", "com.sal.salhr.Fragments.BusinessTripModule.CreateBusinessTripRequest", this);
                     this.getView().addDependent(this._oCreateBusinessDialog);
@@ -1261,7 +1261,7 @@ sap.ui.define([
                 this.newItem = true;
             },
             fnSetCreateBusinessTripModel: function () {
-                debugger;
+                // debugger;
 
                 this.EmpInfoObj = this.getOwnerComponent().getModel("EmpInfoModel").getData();
 
@@ -1428,20 +1428,20 @@ sap.ui.define([
 
             },
             onPressSave: function (oEvent) {
-                debugger;
+                // debugger;
                 this.onAddBusinessRecords();
                 this._oCreateBusinessDialog.close();
                 this.getView().setBusy(false);
 
             },
             onAddBusinessRecords: function () {
-                debugger;
+                // debugger;
                 var sPath = "/SF_DutyTravelMain",
                     sValidationErrorMsg = this.fnValidateCreateBusinessTripPayload(),
                     oPayload = this.getView().getModel("CreateBusinessTripModel").getData(),
                     dateFormat = sap.ui.core.format.DateFormat.getDateInstance({ pattern: "yyyy-MM-dd" });
 
-                debugger;
+                // debugger;
 
                 if (sValidationErrorMsg === "") {
                     this.getView().setBusy(true);

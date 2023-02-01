@@ -374,13 +374,13 @@ sap.ui.define([
 
 
             onAddBusinessRecords: function () {
-                debugger;
+                // debugger;
                 var sPath = "/SF_DutyTravelMain",
                     sValidationErrorMsg = this.fnValidateBusinessTripPayload(),
                     oPayload = this.getView().getModel("CreateBusinessTripModel").getData(),
                     dateFormat = sap.ui.core.format.DateFormat.getDateInstance({ pattern: "yyyy-MM-dd" });
 
-                debugger;
+                // debugger;
 
                 if (sValidationErrorMsg === "") {
                     this.getView().setBusy(true);
@@ -455,7 +455,7 @@ sap.ui.define([
             },
 
             onHotelBookChange: function (evt) {
-                debugger;
+                // debugger;
 
                 var sValue = JSON.parse(evt.getSource().getSelectedKey());
                 this.getView().getModel("CreateBusinessTripModel").setProperty("/cust_toDutyTravelItem/0/cust_hotelBooking", sValue);
@@ -836,7 +836,7 @@ sap.ui.define([
 
             },
             onCitySaudiChange: function (oEvent) {
-                debugger;
+                // debugger;
                 var sCitySaudi = oEvent.getSource().getSelectedKey();
 
 
@@ -942,7 +942,7 @@ sap.ui.define([
                 this._oCreateBusinessDialog.close();
             },
             onPressSave: function (oEvent) {
-                debugger;
+                // debugger;
                 this.onAddBusinessRecords();
                
                 this.getView().setBusy(false);

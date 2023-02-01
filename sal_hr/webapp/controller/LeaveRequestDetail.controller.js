@@ -25,7 +25,7 @@ sap.ui.define([
 
                 this.oRouter = this.getRouter();
                 this.oRouter.getRoute("LeaveRequestDetail").attachPatternMatched(this._onObjectMatched, this);
-                debugger;
+                // debugger;
 
             },
 
@@ -206,7 +206,7 @@ sap.ui.define([
             onEditPress: function () {
                 var oItem = this.byId("idEditUploadSet").getItems()[0];
                 var oModel = this.getView().getModel("attachmentModel").getData();
-                debugger;
+                // debugger;
                 if(!oItem) {
                     this.byId("idEditUploadSet").addItem(new sap.m.upload.UploadSetItem(
                         {
@@ -222,7 +222,7 @@ sap.ui.define([
             },
 
             onCancelPress: function () {
-                debugger;
+                // debugger;
                 this.getView().getModel("LocalViewModel").setProperty("/EditMode", false);
                 this.getView().byId("idEditUploadSet").destroyItems();
                 this.getView().getModel().refresh(true);
@@ -482,21 +482,21 @@ sap.ui.define([
                 var mimeType = this.getView().getModel("attachmentModel").getData().mimeType;
                 var fName = this.getView().getModel("attachmentModel").getData().fileName;
                 fName = fName.split(".")[0];
-                debugger;
+                // debugger;
                 this.fnDownloadAttachment(fContent,mimeType,fName,fileext);
 
                 
             },
 
             onFileDeleted: function (oEvent) {
-                debugger;
+                // debugger;
                 var oUploadSet = this.byId("idEditUploadSet");
                 oUploadSet.getDefaultFileUploader().setEnabled(true);
                 this.isAttachment = false;
             },
 
             onFileAdded: function (oEvent) {
-                debugger;
+                // debugger;
                 var that = this;
                 var file = oEvent.getParameter("item");
                 var Filename = file.getFileName(),
@@ -536,7 +536,7 @@ sap.ui.define([
                 this.isAttachmentNew = true;
             },
             onFileRenamed: function (oEvent) {
-                debugger;
+                // debugger;
                 this.isAttachmentRenamed = true;
                 this.oFileAdded(oEvent);
             },

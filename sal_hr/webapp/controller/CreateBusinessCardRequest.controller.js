@@ -259,7 +259,7 @@ sap.ui.define([
             },
 
             onFileAdded: function (oEvent) {
-                debugger;
+                // debugger;
                 var that = this;
 
                 //  var file = oEvent.getParameters().files[0];

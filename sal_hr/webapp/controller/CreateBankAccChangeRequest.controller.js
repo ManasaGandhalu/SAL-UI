@@ -11,7 +11,7 @@ sap.ui.define([
         "use strict";
         return BaseController.extend("com.sal.salhr.controller.CreateRequest", {
             onInit: function () {
-                debugger;
+                // debugger;
                 this.oRouter = this.getRouter();
                 this.oRouter.getRoute("BankAccChangeRequest").attachPatternMatched(this._onObjectMatched, this);
                 this.mainModel = this.getOwnerComponent().getModel();
@@ -32,7 +32,7 @@ sap.ui.define([
             },
          
             _onObjectMatched: function (oEvent) {
-                debugger;
+                // debugger;
                 this.sParentID = oEvent.getParameter("arguments").parentMaterial;
                 var sLayout = oEvent.getParameter("arguments").layout;
               

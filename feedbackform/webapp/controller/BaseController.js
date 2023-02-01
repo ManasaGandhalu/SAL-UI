@@ -175,7 +175,7 @@ sap.ui.define([
             };
         }),
         fnGetBusinessTripEmpInfo: function(sExternalCode) {
-            debugger;
+            // debugger;
             this.empModel = this.getOwnerComponent().getModel();
             var sKey = this.getView().getModel().createKey("/EmpInfo", {
                 userId: sExternalCode

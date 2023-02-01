@@ -11,7 +11,7 @@ sap.ui.define(["sap/fe/core/AppComponent"], function (AppComponent) {
             this._getRenderer();
         },
         renderRecastChatbot: function () {
-            debugger;
+            // debugger;
             if (!document.getElementById("cai-webchat")) {
                 var s = document.createElement("script");
                 s.setAttribute("id", "cai-webchat");

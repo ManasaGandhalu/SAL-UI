@@ -129,7 +129,7 @@ sap.ui.define([
                     window.setTimeout(this.setTimelineSteps.bind(this), 1000);
                 }.bind(this),
                 error: function (oError) {
-                    debugger;
+                    // debugger;
                     this.getView().setBusy(false);
                     if (JSON.parse(oError.responseText).error.message.value.indexOf("{") === 0)
                         MessageBox.error(JSON.parse(JSON.parse(oError.responseText).error.message.value).error.message.value.split("]")[1]);
@@ -226,7 +226,7 @@ sap.ui.define([
             };
         }),
         fnGetBusinessTripEmpInfo: function(sExternalCode,sPath) {
-            debugger;
+            // debugger;
             this.empModel = this.getOwnerComponent().getModel();
             var sKey = this.getView().getModel().createKey("/EmpInfo", {
                 userId: sExternalCode
@@ -607,7 +607,7 @@ sap.ui.define([
             }
         },
         itemPress: function(oEvent) {
-            debugger;
+            // debugger;
             var oButton = oEvent.getSource(),
             oView = this.getView();
             var index = oEvent.getSource().sId.split('-')[2];

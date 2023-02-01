@@ -11,7 +11,7 @@ sap.ui.define([
         "use strict";
         return BaseController.extend("com.sal.salhr.controller.CreateRequest", {
             onInit: function () {
-                debugger;
+                // debugger;
                 this.oRouter = this.getRouter();
                 this.oRouter.getRoute("RaiseRequest").attachPatternMatched(this._onObjectMatched, this);
                 // this.oRouter.attachRouteMatched(this.onRouteMatched, this);
@@ -64,7 +64,7 @@ sap.ui.define([
 
             // },
             _onObjectMatched: function (oEvent) {
-                debugger;
+                // debugger;
                 this.sParentID = oEvent.getParameter("arguments").parentMaterial;
                 var sLayout = oEvent.getParameter("arguments").layout;
                 // if (sLayout == 'TwoColumnsMidExpanded') {
@@ -108,7 +108,7 @@ sap.ui.define([
 
             },
             loadFragment: function () {
-                debugger;
+                // debugger;
 
 
                 var sType = this.sParentID;
@@ -473,7 +473,7 @@ sap.ui.define([
                 return days + 1;
             },
             onFileAdded: function (oEvent) {
-                debugger;
+                // debugger;
                 var that = this;
 
                 //  var file = oEvent.getParameters().files[0];
@@ -585,7 +585,7 @@ sap.ui.define([
 
             },
             fnGetLeaveBalance: function () {
-                debugger;
+                // debugger;
                 var that = this;
                 this.getView().getModel().read("/SF_Leave_AccountBalance", {
                     urlParameters: {

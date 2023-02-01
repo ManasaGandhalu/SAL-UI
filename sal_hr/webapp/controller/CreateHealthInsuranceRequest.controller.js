@@ -10,7 +10,7 @@ sap.ui.define([
         "use strict";
         return BaseController.extend("com.sal.salhr.controller.CreateHealthInsuranceRequest", {
             onInit: function () {
-                debugger;
+                // debugger;
                 this.oRouter = this.getRouter();
                 this.oRouter.getRoute("HealthInsuranceRequest").attachPatternMatched(this._onObjectMatched, this);
                 // this.oRouter.attachRouteMatched(this.onRouteMatched, this);

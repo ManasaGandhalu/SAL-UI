@@ -44,7 +44,7 @@ sap.ui.define([
             },
 
             _bindView: function (data) {
-                debugger;
+                // debugger;
                 var object = data.results[0];
                 this.object = data.results[0];
 
@@ -66,7 +66,7 @@ sap.ui.define([
                     //  Bank Request Module 
                     case "13":
 
-                        debugger;
+                        // debugger;
                         sKey = oComponentModel.createKey("/SF_BankDetails", {
                             effectiveStartDate: object.effectiveStartDate,
                             externalCode: object.externalCode

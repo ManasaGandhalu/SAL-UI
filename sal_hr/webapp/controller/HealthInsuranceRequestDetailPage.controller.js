@@ -57,7 +57,7 @@ sap.ui.define(
           }
         },
         _bindView: function (data) {
-          debugger;
+          // debugger;
           var object = data.results[0];
           this.object = data.results[0];
           var oHeaderModel = new JSONModel(data.results[0]);
@@ -483,7 +483,7 @@ sap.ui.define(
             ? oItemRowObj.attachment2FileName
             : oItemRowObj.attachment3FileName;
           fName = fName.split(".")[0];
-          debugger;
+          // debugger;
           if (
             fileext === "pdf" ||
             fileext === "png" ||

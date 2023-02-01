@@ -19,7 +19,7 @@ sap.ui.define([
                 this.getOwnerComponent().getModel().read("/Rating",
                 {
                     success: function (oData) {
-                        debugger;
+                        // debugger;
                         that.fnSetRatingModels(oData.results);
                     },
                     error: function () {

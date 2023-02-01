@@ -214,7 +214,7 @@ sap.ui.define([
                 return bValid;
             },
             onFileAdded: function (oEvent) {
-                debugger;
+                // debugger;
                 var that = this;
 
               
@@ -340,7 +340,7 @@ sap.ui.define([
                 var mimeType = this.getView().getModel("attachmentModel").getData().mimeType;
                 var fName = this.getView().getModel("attachmentModel").getData().fileName;
                 fName = fName.split(".")[0];
-                debugger;
+                // debugger;
                 if (fileext === "pdf" || fileext === "png") {
                     var decodedPdfContent = atob(fContent);
                     var byteArray = new Uint8Array(decodedPdfContent.length)
