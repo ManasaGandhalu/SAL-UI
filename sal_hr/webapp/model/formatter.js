@@ -462,7 +462,7 @@ sap.ui.define([], function () {
         return 'NA';
       }
       if(slaMinutes == 0 || slaMinutes == null) {
-          if(slaViolated || slaActualDate == null || slaActualDate > slaTargetDate) {
+          if(slaViolated || (slaActualDate != null && slaActualDate > slaTargetDate)) {
               return 'SLA Violated';
           } else {
               return 'SLA Completed';
@@ -486,7 +486,7 @@ sap.ui.define([], function () {
         return 'None';
       }
       if(slaMinutes == 0 || slaMinutes == null) {
-          if(slaViolated || slaActualDate == null || slaActualDate > slaTargetDate) {
+          if(slaViolated || (slaActualDate != null && slaActualDate > slaTargetDate)) {
               return 'Error';
           } else {
               return 'Success';
@@ -500,7 +500,7 @@ sap.ui.define([], function () {
         return '';
       }
       if(slaMinutes == 0 || slaMinutes == null) {
-          if(slaViolated || slaActualDate == null || slaActualDate > slaTargetDate) {
+          if(slaViolated || (slaActualDate != null && slaActualDate > slaTargetDate)) {
               return 'sap-icon://alert';
           } else {
               return 'sap-icon://complete';

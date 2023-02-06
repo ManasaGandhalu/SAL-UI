@@ -506,7 +506,14 @@ sap.ui.define([
                         "$filter": "(userId eq '" + sUserID + "' and timeAccountType eq 'Annual_vacation')"
                     },
                     success: function (oData) {
-                        var oLeaveBalModel = new JSONModel(oData.results[0]);
+                        var balance = 0;
+                        if(oData.results != null && oData.results.length > 0) {
+                            oData.results.forEach(r => {
+                                balance += parseInt(r.balance);
+                            });
+                        }
+                        var oLeaveBalModel = new JSONModel();
+                        oLeaveBalModel.setProperty("balance", balance);
                         that.getView().setModel(oLeaveBalModel, "LeaveBalModel");
                     },
                     error: function () {
