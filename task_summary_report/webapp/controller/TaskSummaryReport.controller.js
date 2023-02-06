@@ -1,17 +1,60 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/json/JSONModel",
-    "com/sal/tasksummaryreport/model/formatter"
+    "com/sal/tasksummaryreport/model/formatter",
+    'sap/viz/ui5/format/ChartFormatter',
+    'sap/viz/ui5/api/env/Format'
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, JSONModel, formatter) {
+    function (Controller, JSONModel, formatter, ChartFormatter,Format) {
         "use strict";
 
         return Controller.extend("com.sal.tasksummaryreport.controller.TaskSummaryReport", {
             formatter: formatter,
             onInit: function () {
+
+                Format.numericFormatter(ChartFormatter.getInstance());
+                var formatPattern = ChartFormatter.DefaultPattern;
+
+
+
+
+
+
+                // var oVizFrame = this.getView().byId("idTaskVizFrame");
+                // oVizFrame.setVizProperties({
+                //     plotArea: {
+                //         dataLabel: { visible: true, type: 'label', showTotal: true},
+                //         colorPalette: ['#0a8333', '#eda21b', '#D32821','#A5A5A5'],
+                //         isFixedDataPointSize: true,
+                //         dataPointSize: { min: 10, max: 1000 }
+                      
+                        
+                //     },
+                //     legendGroup: {layout: {position: 'bottom', alignment: 'center'}},
+                //     valueAxis: {
+                //         label: {
+                //             formatString: formatPattern.null,
+                //             visible:false
+                //         },
+                //         title: {
+                //             visible: false
+                //         }
+                //     },
+                //     categoryAxis: {
+                //         title: {
+                //             visible: false
+                //         }
+                      
+                //     },
+                //     title: {
+                //         visible: false
+                //     }
+                // });
+
+
                 var requestForTeamReports = "false";
                 var oCurrentDate = new Date(),
                     oFromDate = oCurrentDate.getDate() - 7;

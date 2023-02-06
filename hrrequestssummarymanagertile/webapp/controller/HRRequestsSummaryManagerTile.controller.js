@@ -62,7 +62,7 @@ sap.ui.define([
                 // debugger;
                 var selectedSlice = oEvent.getSource().getProperty("title").toUpperCase();
                 var that = this;
-
+               
                 if (!this._oDoneHrMgrDialog) {
                     this._oDoneHrMgrDialog = sap.ui.xmlfragment("idDoneHrMgrDialog", "com.sal.summarytiles.hrrequestssummarymanagertile.Fragments.QuickView", this);
                     that.getView().addDependent(this._oDoneHrMgrDialog);
@@ -84,6 +84,7 @@ sap.ui.define([
                     {
                         sorters: [ new Sorter("createdAt", true)],
                         filters: [filter],
+                        urlParameters :{"IsUserManager": true},
                         success: function (oData) {
                             var oFragmetModel = new JSONModel(oData.results);
                             this._oDoneHrMgrDialog.setModel(oFragmetModel, "FragmetModel");

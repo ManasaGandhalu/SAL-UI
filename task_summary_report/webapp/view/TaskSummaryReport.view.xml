@@ -44,7 +44,7 @@
                             <commons:content>
                                 <commons:ChartContainerContent id="idTaskChartContainer">
                                     <commons:content>
-                                        <viz:VizFrame id="idTaskVizFrame" height="300px" width="100%" vizType='stacked_bar' vizProperties="{title: {visible: false},valueAxis: {title: {visible: false}},categoryAxis: {title: {visible: false}},legendGroup: {layout: {position: 'bottom', alignment: 'center'}}, plotArea: {colorPalette: ['#0a8333', '#eda21b', '#D32821','#A5A5A5'],isFixedDataPointSize: true, dataPointSize: { min: 10, max: 20 }, dataLabel: { visible: true, type: 'label', showTotal: true}}}">
+                                        <viz:VizFrame id="idTaskVizFrame" height="300px" width="100%" vizType='stacked_bar' vizProperties="{title: {visible: false},valueAxis: {title: {visible: false},label:{visible:false}},categoryAxis: {title: {visible: false}},legendGroup: {layout: {position: 'bottom', alignment: 'center'}}, plotArea: {colorPalette: ['#0a8333', '#eda21b', '#D32821','#A5A5A5'],isFixedDataPointSize: true, dataPointSize: { min: 10, max: 20 }, dataLabel: { visible: true, type: 'label', showTotal: true}}}">
                                             <viz:dataset>
                                                 <viz.data:FlattenedDataset data="{path: 'TaskChartReportModel>/'}">
                                                     <viz.data:dimensions>

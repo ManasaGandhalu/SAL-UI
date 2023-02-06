@@ -59,6 +59,7 @@ sap.ui.define([
                 // debugger;
                 var selectedSlice = oEvent.getSource().getProperty("title").toUpperCase();
                 var that = this;
+              
 
                 if (!this._oDoneHrDialog) {
                     this._oDoneHrDialog = sap.ui.xmlfragment("idDoneHrDialog", "com.sal.summarytiles.hrrequestssummarytile.Fragments.QuickView", this);
@@ -75,12 +76,18 @@ sap.ui.define([
                     operator: sap.ui.model.FilterOperator.EQ,
                     value1: "1"
                 });
+
+              
+
+                
+
                 var filter = [];
                 filter.push(sStatusFilter, sModuleFilter);
                 this.getOwnerComponent().getModel().read("/Tickets",
                     {
                         sorters: [ new Sorter("createdAt", true)],
                         filters: [filter],
+                        urlParameters :{"IsUserManager": false},
                         success: function (oData) {
                             var oFragmetModel = new JSONModel(oData.results);
                             this._oDoneHrDialog.setModel(oFragmetModel, "FragmetModel");
