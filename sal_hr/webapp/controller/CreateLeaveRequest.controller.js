@@ -512,8 +512,9 @@ sap.ui.define([
                                 balance += parseInt(r.balance);
                             });
                         }
-                        var oLeaveBalModel = new JSONModel();
-                        oLeaveBalModel.setProperty("balance", balance);
+                        var oLeaveBalModel = new JSONModel({
+                            "balance": balance
+                        });
                         that.getView().setModel(oLeaveBalModel, "LeaveBalModel");
                     },
                     error: function () {
