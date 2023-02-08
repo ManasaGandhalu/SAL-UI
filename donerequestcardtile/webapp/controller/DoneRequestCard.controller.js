@@ -94,21 +94,17 @@ sap.ui.define([
                         var cardManifests = new JSONModel();
                            
                         oCardData.donut["sap.card"].content.data.json.measures = oData.results;
-                        // oCardData.donut["sap.card"].content.data.path = "/measures";
-
+                       
                         // Set Values for Header
                         var iTotalRequest = Number(oData.results[0].totalApproved) + Number(oData.results[1].totalApproved) + Number(oData.results[2].totalApproved);
+                        
                         oCardData.donut["sap.card"].header.title = "My Total Approved Requests (" + iTotalRequest + ")";
-                        // oCardData.donut["sap.card"].header.data.json.NumberCount = oData.results[0].totalApproved + oData.results[1].totalApproved + oData.results[2].totalApproved;
-                        // oCardData.donut["sap.card"].content.data.json.NumberCount =  "0";
-                        // oCardData.donut["sap.card"].content.data.json.Unit = "";
-                        // oCardData.donut["sap.card"].content.data.json.Trend= "";
-                        // oCardData.donut["sap.card"].content.data.json.TrendColor= "Good";
+                       
 
                         oData.results[0].name = "HR";
                         oData.results[1].name = "Procurement";
                         oData.results[2].name = "ITSM";
-                        //oData.results[3].name = "ITSM";
+                       
 
                         cardManifests.setData(oCardData);
                         this.getView().setModel(cardManifests, "manifests");
