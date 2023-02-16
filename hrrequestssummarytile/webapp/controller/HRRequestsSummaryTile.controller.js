@@ -45,7 +45,8 @@ sap.ui.define([
 
                         "submoduleId": sSubModuleID,
                         "ticketId": sTicketID,
-                        "externalCode": sExternalCode
+                        "externalCode": sExternalCode,
+                        "IsUserManager": false
 
                     }
                 })) || "";

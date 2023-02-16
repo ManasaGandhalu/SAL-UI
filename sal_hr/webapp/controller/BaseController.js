@@ -319,7 +319,24 @@ sap.ui.define([
             return iAge;
         },
 
-        onApproveRequest: function (sWFRequestId) {
+        onApproveRequest:function(sWFRequestId){
+           var that = this;
+            sap.m.MessageBox.confirm("Do you want to approve this request?", {
+                title: "Confirm",                                                                                                         
+                actions: [ sap.m.MessageBox.Action.OK,
+                           sap.m.MessageBox.Action.CLOSE ],            
+                textDirection: sap.ui.core.TextDirection.Inherit,
+                onClose: function (oAction) {
+                    if (oAction == "OK") {
+                        that.getView().setBusy(true);
+                        that.onSubmitApprove(sWFRequestId);
+                    }
+                }
+            });
+
+        },
+
+        onSubmitApprove: function (sWFRequestId) {
             this.getView().setBusy(true);
 
             // var sEntityPath = "/approveWfRequest?wfRequestId=" + sWFRequestId + "L";
@@ -348,8 +365,23 @@ sap.ui.define([
                 }.bind(this)
             });
         },
-
-        onRejectRequest: function (sWFRequestId) {
+        
+        onRejectRequest:function(sWFRequestId){
+            var that=this;
+            sap.m.MessageBox.confirm("Do you want to reject this request?", {
+                title: "Confirm",                                                                                                         
+                actions: [ sap.m.MessageBox.Action.OK,
+                           sap.m.MessageBox.Action.CLOSE ],            
+                textDirection: sap.ui.core.TextDirection.Inherit,
+                onClose: function (oAction) {
+                    if (oAction == "OK") {
+                        that.getView().setBusy(true);
+                        that.onSubmitReject(sWFRequestId);
+                    }
+                }
+            });
+        },
+        onSubmitReject: function (sWFRequestId) {
             this.getView().setBusy(true);
 
             // var sEntityPath = "/rejectWfRequest?wfRequestId=" + sWFRequestId + "L";

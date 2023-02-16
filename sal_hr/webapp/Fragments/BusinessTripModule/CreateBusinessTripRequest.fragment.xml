@@ -138,7 +138,7 @@
             <core:Item key="{code}" text="{externalName_defaultValue}" />
         </ComboBox>
 
-        <Label visible="{= ${LocalViewModel>/cityVisible} === true ? true : false }" text="{i18n>CitySaudi}" />
+        <Label visible="{= ${LocalViewModel>/cityVisible} === true ? true : false }" text="{i18n>CitySaudi}" required="true" />
         <ComboBox
             visible="{= ${LocalViewModel>/cityVisible} === true ? true : false }"
             id="idCity"

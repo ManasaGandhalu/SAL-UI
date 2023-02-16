@@ -232,15 +232,10 @@ sap.ui.define([], function () {
 
       if (bIsUserManager) {
         if (sStatus === "PENDING" && sWorkflowRequestId !== null) {
-          var bApproveOther = this.getOwnerComponent()
-            .getModel("RoleInfoModel")
-            .getProperty("/approveOther");
-          var empInfoObj = this.getOwnerComponent()
-            .getModel("EmpInfoModel")
-            .getData();
+          var bApproveOther = this.getOwnerComponent().getModel("RoleInfoModel").getProperty("/approveOther");
+          var empInfoObj = this.getOwnerComponent().getModel("EmpInfoModel").getData();
           var bUserIsApprover = approverId == empInfoObj.userId ? true : false;
-          bApproveVisible =
-            bApproveOther === true && bUserIsApprover ? true : false;
+          bApproveVisible = bApproveOther === true && bUserIsApprover ? true : false;
         } else {
           bApproveVisible = false;
         }

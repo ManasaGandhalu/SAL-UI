@@ -109,6 +109,9 @@
                                     <Column demandPopin="true" minScreenWidth="Tablet">
                                         <Label text="Destination Country" />
                                     </Column>
+                                     <Column demandPopin="true" minScreenWidth="Tablet">
+                                        <Label text="City" />
+                                    </Column>
                                     <Column demandPopin="true" minScreenWidth="Tablet">
                                         <Label text="Total Travel Amount" />
                                     </Column>
@@ -133,7 +136,10 @@
                                             <Text text="{path:'BusinessTripTableModel>cust_assignStartDate',formatter:'.formatter.formatBusinessDates'}" />
                                             <Text text="{path:'BusinessTripTableModel>cust_assignEndDate',formatter:'.formatter.formatBusinessDates'}" />
                                             <Text text="{BusinessTripTableModel>cust_destination}" />
-
+                                            <HBox>
+                                             <Text text="{BusinessTripTableModel>cust_city}" visible="{=${BusinessTripTableModel>cust_destination}==='SAU'}" />
+                                             <Text text="{BusinessTripTableModel>cust_cityAll}" visible="{=${BusinessTripTableModel>cust_destination}!=='SAU'}" />
+                                            </HBox>
                                             <Text text="{BusinessTripTableModel>cust_totalAmount}" />
                                             <Text text="{BusinessTripTableModel>cust_empName}" />
                                             <Text text="{BusinessTripTableModel>cust_costCenter}" />

@@ -60,152 +60,6 @@ sap.ui.define([
                     sPhnNum = this.EmpInfoObj.emergencyNumber;
 
 
-
-                // var oCreateBusinessObj = {
-                //     "externalCode": sExternalCode,
-                //     "effectiveStartDate": new Date(),
-                //     "cust_toDutyTravelItem": [
-                //         {
-                //             "cust_userId": sExternalCode,
-
-                //             "cust_dutyTravelMain_externalCode": sExternalCode,
-
-                //             "cust_dutyTravelMain_effectiveStartDate": new Date(),
-
-                //             "externalCode": "0",
-                //             "externalName": null,
-                //             "cust_requestType": "1",
-                //             "cust_perDiemPayComp": "9256",
-                //             "cust_totalAmount": null,
-                //             "cust_tripCategory": "B",
-                //             "cust_isCompany": true,
-                //             "cust_hotelBooking": false,
-                //             "cust_assignJustification": "",
-                //             "cust_expenseTypeBusinessTravel": null,
-                //             "cust_expenseTypeTrainingTravel": null,
-                //             "cust_businessTicketAmount": null,
-                //             "cust_trainingExpenseAmount": null,
-
-                //             "cust_empName": sFirstName,
-                //             "cust_payGrade": sPayGrade,
-                //             "cust_costCenter": sCostCenter,
-                //             "cust_emerPhoneNum": sPhnNum,
-
-                //             "cust_assignStartDate": new Date(),
-                //             "cust_assignEndDate": new Date(),
-                //             "cust_travelTime": null,
-                //             "cust_destination": "SAU",
-                //             "cust_city": null,
-                //             "cust_SAUotherCity": null,
-                //             "cust_cityAll": null,
-                //             "cust_inOutKingdom": "IN",
-                //             "cust_perDiem": null,
-                //             "cust_totalPerDiem": null,
-
-                //             "cust_businessTravelDate": new Date(),
-                //             "cust_businessTravelFrom": null,
-                //             "cust_businessTravelTo": null,
-                //             "cust_businessTravelFlightNum": null,
-                //             "cust_businessTravelDepTime": null,
-                //             "cust_businessTravelArrTime": null,
-                //             "cust_businessTravelPayComp": null,
-
-                //             "cust_trainingTravelDate": new Date(),
-                //             "cust_trainingTravelFrom": null,
-                //             "cust_trainingTravelTo": null,
-                //             "cust_trainingTravelFlightNum": null,
-                //             "cust_trainingTravelDepTime": null,
-                //             "cust_trainingTravelArrTime": null,
-                //             "cust_trainingTravelPayComp": null,
-
-                //             "cust_ticketAmount": null,
-                //             "cust_expenseTypeVisaFee": null,
-                //             "cust_visaFeePayComp": null,
-                //             "cust_visaFeeExpenseAmount": null,
-
-                //             "cust_travelSDate1": new Date(),
-                //             "cust_travelEDate1": new Date(),
-                //             "cust_travelTime1": null,
-                //             "cust_desti1": null,
-                //             "cust_citySau1": null,
-                //             "cust_SAUotherCity2": null,
-                //             "cust_city1": null,
-                //             "cust_inOutKingdom1": null,
-                //             "cust_perDiem1": null,
-                //             "cust_totalPerDiem1": null,
-                //             "cust_TravelDate1": null,
-                //             "cust_TravelFrom1": null,
-                //             "cust_TravelTo1": null,
-                //             "cust_TravelFlightNum1": null,
-                //             "cust_TravelDepTime1": null,
-                //             "cust_TravelArrTime1": null,
-                //             "cust_TravelPayComp1": null,
-                //             "cust_ticketAmount1": null,
-                //             "cust_expenseTypeVisaFee1": null,
-                //             "cust_visaFeePayComp1": null,
-                //             "cust_visaFeeExpenseAmount1": null,
-
-                //             "cust_travelSDate2": new Date(),
-                //             "cust_travelEDate2": new Date(),
-                //             "cust_travelTime2": null,
-                //             "cust_desti2": null,
-                //             "cust_citySau2": null,
-                //             "cust_SAUotherCity3": null,
-                //             "cust_city2": null,
-                //             "cust_inOutKingdom2": null,
-                //             "cust_perDiem2": null,
-                //             "cust_totalPerDiem2": null,
-                //             "cust_TravelDate2": null,
-                //             "cust_TravelFrom2": null,
-                //             "cust_TravelTo2": null,
-                //             "cust_TravelFlightNum2": null,
-                //             "cust_TravelDepTime2": null,
-                //             "cust_TravelArrTime2": null,
-                //             "cust_TravelPayComp2": null,
-                //             "cust_ticketAmount2": null,
-                //             "cust_expenseTypeVisaFee2": null,
-                //             "cust_visaFeePayComp2": null,
-                //             "cust_visaFeeExpenseAmount2": null,
-
-                //             "cust_status": null,
-                //             "cust_returnDate": null,
-                //             "cust_paymentType": null,
-                //             "mdfSystemRecordStatus": "N",
-                //             "travelattachment1FileContent": "create travelattachment1 attache",
-                //             "travelattachment1FileName": "travelattachment1.txt",
-                //             "isTravelAttach1New": false,
-                //             "travelattachment1UserId": sExternalCode,
-
-
-                //             "businessTravelattachmentFileContent": "businessTravelattachment create",
-                //             "businessTravelattachmentFileName": "businessTravelAttachment.txt",
-                //             "isbusinessTravelAttachNew": false,
-                //             "businessTravelattachmentUserId": sExternalCode,
-
-                //             "trainingTravelattachmentFileContent": "trainingTravelattachment create",
-                //             "trainingTravelattachmentFileName": "trainingTravelattachment.txt",
-                //             "istrainingTravelAttachNew": false,
-                //             "trainingTravelattachmentUserId": sExternalCode,
-
-                //             "receiptEmbassyattachmentFileContent": "receiptEmbassy 3create",
-                //             "receiptEmbassyattachmentFileName": "receiptEmbassy.txt",
-                //             "isreceiptEmbassyAttachNew": false,
-                //             "receiptEmbassyattachmentUserId": sExternalCode,
-
-                //             "visaCopyattachmentFileContent": "visaCopy 6 create",
-                //             "visaCopyattachmentFileName": "visaCopy.txt",
-                //             "isvisaCopyAttachNew": false,
-                //             "visaCopyattachmentUserId": sExternalCode
-
-
-
-                //         }
-                //     ],
-
-
-                // },
-
-
                 var oCreateBusinessObj = {
                     "externalCode": sExternalCode,
                     "effectiveStartDate": new Date(),
@@ -474,6 +328,7 @@ sap.ui.define([
                     oTravelDatePicker = sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idTravelDate"),
                     oReturnDatePicker = sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idReturnDate"),
                     sDestinationCountry = sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idDestCountry"),
+                    sCitySaudi = sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idCity"),
 
                     sTravelJustification = sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idTravelJustification");
                 if (!oEffectStartDatePicker.getValue()) {
@@ -529,7 +384,15 @@ sap.ui.define([
                     sDestinationCountry.setValueState("None");
                 }
 
+                 // validate City Saudi Field
 
+                 if (sDestinationCountry.getSelectedKey() === "SAU" && !sCitySaudi.getSelectedKey()) {
+                    sCitySaudi.setValueState("Error");
+                    sCitySaudi.setValueStateText("Please select City.");
+                    sValidationErrorMsg = "Please fill the all required fields.";
+                } else {
+                    sCitySaudi.setValueState("None");
+                }
 
                 // Validate Travel Justification
                 if (!sTravelJustification.getValue()) {
@@ -954,7 +817,7 @@ sap.ui.define([
                     sap.m.MessageBox.error("Please add atleast one Business Trip details");
                 }else{
 
-                
+                    this.getView().setBusy(true);
 
                 var scust_toDutyTravelItem = this.getViewModel("BusinessTripTableModel").getData();
 
@@ -974,12 +837,13 @@ sap.ui.define([
                             layout: "TwoColumnsMidExpanded"
 
                         });
+                        this.getView().setBusy(false);
                     }.bind(this),
                     error: function (oError) {
                         this.getView().setBusy(false);
                         sap.m.MessageBox.error(JSON.parse(JSON.parse(oError.responseText).error.message.value).error.message.value.split("]")[1]);
                         this.getView().getModel().refresh();
-
+                        this.getView().setBusy(false);
 
                     }.bind(this)
                 })

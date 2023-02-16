@@ -11,7 +11,7 @@ sap.ui.define([
 
     function (BaseController, Controller, JSONModel, formatter, Sorter, Filter, FilterOperator, Device) {
         "use strict";
-        
+
         return BaseController.extend("com.sal.salhr.controller.DetailPage", {
             formatter: formatter,
             onInit: function () {
@@ -28,10 +28,10 @@ sap.ui.define([
                 var sLayout = oEvent.getParameter("arguments").layout;
                 // this.getView().getModel().setProperty("/busy", false);
                 this.getView().getModel("layoutModel").setProperty("/layout", sLayout);
-               
-                
+
+
                 this._bindView();
-                
+
             },
 
             // This Function is used to set the custom parameter for Tickets table binding according to user type as Manager or not?
@@ -55,7 +55,7 @@ sap.ui.define([
 
                 var bIsUserManager = this.getOwnerComponent().getModel("EmpInfoModel").getProperty("/IsUserManager").toString();
 
-              
+
 
                 this.getView().bindElement({
                     path: sKey,
@@ -77,8 +77,8 @@ sap.ui.define([
                         }.bind(this)
                     }
                 });
-               
-               
+
+
             },
 
             onPressRaiseRequest: function () {
@@ -172,23 +172,22 @@ sap.ui.define([
                         break;
                 }
 
-               
+
             },
 
-     onPressTicketItem: function (oEvent) {
-     var sStatus = oEvent.getSource().getBindingContext().getObject().status;
-     var sExternalStatus = oEvent.getSource().getBindingContext().getObject().externalStatus;
-    //  var sExternalcreatedBy = oEvent.getSource().getBindingContext().getObject().externalCreatedBy;
-        //   this._getSFUser(sExternalcreatedBy);
+            onPressTicketItem: function (oEvent) {
+                var sStatus = oEvent.getSource().getBindingContext().getObject().status;
+                var sExternalStatus = oEvent.getSource().getBindingContext().getObject().externalStatus;
+                //  var sExternalcreatedBy = oEvent.getSource().getBindingContext().getObject().externalCreatedBy;
+                //   this._getSFUser(sExternalcreatedBy);
 
-                if(sStatus==='CANCELLED'){
+                if (sStatus === 'CANCELLED') {
 
                     sap.m.MessageToast.show("The record is removed from the source system.");
                     return;
                 }
 
-                else if(sStatus==='REJECTED' && sExternalStatus !== "SENTBACK")
-                {
+                else if (sStatus === 'REJECTED' && sExternalStatus !== "SENTBACK") {
                     sap.m.MessageToast.show("The record is removed from the source system.");
                     return;
                 }
@@ -339,36 +338,36 @@ sap.ui.define([
                     //this.byId("idTicketTable").getBinding("items").filter(oFilterSearch, "Application");
                 }
             },
-            onSelectBTFilter:function(oEvent){
+            onSelectBTFilter: function (oEvent) {
                 // debugger;
-               
-                  var sSelectedKey = oEvent.getSource().getSelectedKey();
-                  var oFilterSearch = [];
-                  var sExternalCode;
-                  
-                
-                 
-                    if(sSelectedKey === "All"){
-                        oFilterSearch = [];
-                        this.byId("idTicketTable").getBinding("items").filter(new Filter(oFilterSearch, true));
-                  } else if (sSelectedKey === "Pending for Closure") {
+
+                var sSelectedKey = oEvent.getSource().getSelectedKey();
+                var oFilterSearch = [];
+                var sExternalCode;
+
+
+
+                if (sSelectedKey === "All") {
+                    oFilterSearch = [];
+                    this.byId("idTicketTable").getBinding("items").filter(new Filter(oFilterSearch, true));
+                } else if (sSelectedKey === "Pending for Closure") {
                     sExternalCode = "Raise Initial Request";
-                    this.onPressBTFilterRequest(sExternalCode);  
-                  }else if (sSelectedKey === "Closed Requests") {
+                    this.onPressBTFilterRequest(sExternalCode);
+                } else if (sSelectedKey === "Closed Requests") {
                     sExternalCode = "Return and Closure";
-                    this.onPressBTFilterRequest(sExternalCode);  
-                  }else {
+                    this.onPressBTFilterRequest(sExternalCode);
+                } else {
                     oFilterSearch.push(new Filter("externalCode2", FilterOperator.EQ, sSelectedKey));
                     this.byId("idTicketTable").getBinding("items").filter(new Filter(oFilterSearch, true));
-                  }
+                }
 
-                  
-                  
-               
 
-               
+
+
+
+
             },
-            onPressBTFilterRequest:function(sExternalCode){
+            onPressBTFilterRequest: function (sExternalCode) {
                 var oFilterSearch = [];
                 oFilterSearch.push(new Filter("externalCode2", FilterOperator.EQ, sExternalCode));
                 oFilterSearch.push(new Filter("status", FilterOperator.EQ, "APPROVED"));
@@ -376,17 +375,35 @@ sap.ui.define([
 
                 this.getView().byId("idBTRequestType").setSelectedKey(sExternalCode);
             },
-            onPressBTClosureRequest:function(){
-                var oFilterSearch = [];
-                oFilterSearch.push(new Filter("externalCode2", FilterOperator.EQ, "Raise Initial Request"));
-                oFilterSearch.push(new Filter("status", FilterOperator.EQ, "APPROVED"));
-                this.byId("idTicketTable").getBinding("items").filter(new Filter(oFilterSearch, true));
+            onPressBTClosureRequest: function () {
+                var oFilterSearch = [],
+                    bIsUserManager = this.getOwnerComponent().getModel("EmpInfoModel").getProperty("/IsUserManager");
 
-                this.getView().byId("idBTRequestType").setSelectedKey("Pending for Closure");
+                if (bIsUserManager === true) {
+
+                    oFilterSearch.push(new Filter("status", FilterOperator.EQ, "PENDING"));
+                    this.byId("idTicketTable").getBinding("items").filter(new Filter(oFilterSearch, true));
+
+                    this.getView().byId("idBTRequestType").setSelectedKey("Pending for Closure");
+
+                } else {
+                    
+                    oFilterSearch.push(new Filter("externalCode2", FilterOperator.EQ, "Raise Initial Request"));
+                    oFilterSearch.push(new Filter("status", FilterOperator.EQ, "APPROVED"));
+                    this.byId("idTicketTable").getBinding("items").filter(new Filter(oFilterSearch, true));
+
+                    this.getView().byId("idBTRequestType").setSelectedKey("Pending for Closure");
+                }
+
+
+
+
+
+
             }
 
 
-             
+
 
         });
     });        

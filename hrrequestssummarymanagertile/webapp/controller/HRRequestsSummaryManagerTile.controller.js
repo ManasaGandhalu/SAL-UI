@@ -42,13 +42,15 @@ sap.ui.define([
                 var hash = (oCrossAppNavigator && oCrossAppNavigator.hrefForExternal({
                     target: {
                         semanticObject: "HR_semantic",
-                        action: "display"
+                        action: "Manage"
                     },
                     params: {
 
                         "submoduleId": sSubModuleID,
                         "ticketId": sTicketID,
-                        "externalCode": sExternalCode
+                        "externalCode": sExternalCode,
+                        "IsUserManager": true
+                        
 
                     }
                 })) || "";

@@ -121,6 +121,14 @@ sap.ui.define([
                                 oUploadSet.getDefaultFileUploader().setEnabled(true);
 
                                 break;
+                            case "HD1":
+                                that.getView().getModel("LocalViewModel").setProperty('/uploadAttachment', false);
+    
+                                that.getView().getModel("LocalViewModel").setProperty('/meetingType', false);
+    
+                                that.getView().byId("idEditUploadSet").destroyItems();
+    
+                                break;    
                             case "460":
                                 that.getView().getModel("LocalViewModel").setProperty('/uploadAttachment', false);
 

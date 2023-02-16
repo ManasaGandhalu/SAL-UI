@@ -6,8 +6,8 @@
         <form:content>
             <Title id="idLeaveDisplayRequestDetailsTTL" text="{i18n>Request Details}" titleStyle="H5" level="H5"/>
 
-            <Label text="Leave Application For" visible="{EmpInfoModel>/IsUserManager}"/>
-            <Text id="idLeaveApplicationForDisplay" text="{path:'headerModel>/employeeName', formatter:'.formatter.handleNoData'} ({headerModel>/employeeId})" visible="{EmpInfoModel>/IsUserManager}"/>
+            <Label text="Leave Application For" visible="{= ${EmpInfoModel>/IsUserManager} === true ? true : false}"/>
+            <Text id="idLeaveApplicationForDisplay" text="{path:'headerModel>/employeeName', formatter:'.formatter.handleNoData'} ({headerModel>/employeeId})" visible="{= ${EmpInfoModel>/IsUserManager} === true ? true : false}"/>
 
         
 

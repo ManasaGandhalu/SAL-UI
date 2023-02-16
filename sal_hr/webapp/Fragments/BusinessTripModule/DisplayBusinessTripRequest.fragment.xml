@@ -20,7 +20,7 @@
         <Text id="idDisplayReqType" text="{= ${DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_requestType} === '1' ? 'Raise Initial Request (1)' : 'Return and Closure (2)'}"/>
 
         <Label text="{i18n>PerDiemPayComponent}"/>
-        <Text id="idDisplayPayComp" text="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_perDiemPayComp}"/>
+        <Text id="idDisplayPayComp" text="{=${DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_tripCategory}=== 'B'? 'Business Trip Per-Diem Off Cycle' : 'Training Trip Per-Diem Off-Cycle'}"/>
 
         <Label text="{i18n>TotalTravelAmount}" />
         <Text id="idDisplayTravelAmt" text="{DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_totalAmount}"/>

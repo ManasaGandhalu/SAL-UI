@@ -32,15 +32,24 @@ sap.ui.define(
 
         //Router Object
         this.oRouter = this.getRouter();
-        this.oRouter
-          .getRoute("master")
-          .attachPatternMatched(this._onObjectMatched, this);
-        var sManagerTile = this.getOwnerComponent()
-          .getModel("EmpInfoModel")
-          .getProperty("/IsUserManager");
-        var subModuleId = new sap.ui.core.routing.HashChanger()
-          .getHash()
-          .split("/")[2];
+        this.oRouter.getRoute("master").attachPatternMatched(this._onObjectMatched, this);
+        // var sManagerTile = this.getOwnerComponent()
+        //   .getModel("EmpInfoModel")
+        //   .getProperty("/IsUserManager");
+        var startupParams = this.getOwnerComponent().getComponentData().startupParameters,
+        sModule;
+
+        if(startupParams?.IsUserManager && startupParams?.IsUserManager[0]){
+          var sManagerTile = this.getOwnerComponent().getComponentData().startupParameters.IsUserManager[0].toString(),
+          sModule = this.getOwnerComponent().getComponentData().startupParameters.submoduleId[0];
+
+          this.getOwnerComponent().getModel("EmpInfoModel").setProperty("/IsUserManager",sManagerTile);
+
+          this.fnGetRoleAccess(sManagerTile, sModule);
+        }
+
+       
+        var subModuleId = new sap.ui.core.routing.HashChanger().getHash().split("/")[2];
         if (subModuleId) {
           this.fnGetRoleAccess(sManagerTile, subModuleId);
         }
@@ -101,13 +110,19 @@ sap.ui.define(
         }
       },
       onUpdateMasterListBindingStart: function (oEvent) {
-        var sIsUserManager = this.getOwnerComponent()
-          .getModel("EmpInfoModel")
-          .getProperty("/IsUserManager")
-          .toString();
-        //    sIsUserManager = "true";
-        oEvent.getSource().getBinding("items").sCustomParams =
-          "IsUserManager=" + sIsUserManager;
+        var startupParams = this.getOwnerComponent().getComponentData().startupParameters,
+        sIsUserManager;
+
+        if(startupParams?.IsUserManager && startupParams?.IsUserManager[0]){
+          sIsUserManager = startupParams?.IsUserManager[0].toString();
+          this.getOwnerComponent().getModel("EmpInfoModel").setProperty("/IsUserManager",sIsUserManager);
+        }else {
+          sIsUserManager = this.getOwnerComponent().getModel("EmpInfoModel").getProperty("/IsUserManager").toString();
+          //    sIsUserManager = "true";
+        }
+
+        
+        oEvent.getSource().getBinding("items").sCustomParams = "IsUserManager=" + sIsUserManager;
         oEvent
           .getSource()
           .getBinding("items").mCustomParams.IsUserManager = sIsUserManager;
@@ -141,8 +156,7 @@ sap.ui.define(
 
       _showObject: function (oItem) {
         var that = this;
-        var sManagerTile = this.getView().getModel("EmpInfoModel").getData()
-          .IsUserManager;
+        var sManagerTile = this.getView().getModel("EmpInfoModel").getData().IsUserManager;
         var subModuleId = oItem.getBindingContext().getObject().ID;
         this.fnGetRoleAccess(sManagerTile, subModuleId, oItem);
       },

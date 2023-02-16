@@ -94,13 +94,13 @@
                     </OverflowToolbar>
                 </headerToolbar>
                 <columns>
-                    <Column width="18rem" importance="High">
+                    <Column importance="High">
                         <Label text="{i18n>ID}" class="tblHeaderText" />
                     </Column>
-                    <Column width="12rem" importance="High" popinDisplay="Inline">
+                    <Column width="18rem" importance="High">
                         <Label text="External ID" class="tblHeaderText" />
                     </Column>
-                    <Column importance="Low" popinDisplay="Inline">
+                    <Column importance="Low">
                         <Label text="{i18n>EffectiveFrom}" class="tblHeaderText" />
                     </Column>
                     <Column width="28rem" importance="Low" popinDisplay="Inline">
@@ -112,13 +112,13 @@
                     <Column importance="Low" popinDisplay="Inline">
                         <Label text="{i18n>PendingWith}" class="tblHeaderText" />
                     </Column>
-                    <Column importance="High" popinDisplay="Inline">
+                    <Column importance="High" minScreenWidth="Desktop" demandPopin="false" popinDisplay="Inline">
                         <Label text="{i18n>TargetedSLA}" class="tblHeaderText" />
                     </Column>
-                    <Column importance="High" popinDisplay="Inline">
+                    <Column importance="Low" popinDisplay="Inline">
                         <Label text="{i18n>RemainingSLA}" class="tblHeaderText" />
                     </Column>
-                    <Column hAlign="End" width="10rem" importance="High">
+                    <Column hAlign="End" importance="High" minScreenWidth="Desktop" demandPopin="false" popinDisplay="Inline">
                         <Label text="{i18n>Status}" class="tblHeaderText" />
                     </Column>
                 </columns>

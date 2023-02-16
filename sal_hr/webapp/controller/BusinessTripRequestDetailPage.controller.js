@@ -588,28 +588,6 @@ sap.ui.define([
                         oPayloadObj.cust_toDutyTravelItem[0].cust_travelTime = "PT" + oPayloadObj.cust_toDutyTravelItem[0].cust_travelTime.split(":")[0] + "H" + oPayloadObj.cust_toDutyTravelItem[0].cust_travelTime.split(":")[1] + "M00S";
                     }
 
-                    // this.getView().getModel().update(sKey, oPayloadObj, {
-                    //     urlParameters: {
-                    //         ticketId: this.sChildID
-                    //     },
-                    //     success: function (oResponse) {
-                    //         this.getView().setBusy(false);
-                    //         MessageBox.success("Requested changes updated successfully.");
-                    //         this.oRouter.navTo("detail", {
-                    //             parentMaterial: this.sParentID,
-                    //             layout: "TwoColumnsMidExpanded"
-                    //         });
-                    //     }.bind(this),
-                    //     error: function (oError) {
-                    //         this.getView().setBusy(false);
-                    //         if (JSON.parse(oError.responseText).error.message.value.indexOf("{") === 0)
-                    //             sap.m.MessageBox.error(JSON.parse(JSON.parse(oError.responseText).error.message.value).error.message.value.split("]")[1]);
-                    //         else {
-                    //             sap.m.MessageBox.error(JSON.parse(oError.responseText).error.message.value);
-                    //         }
-                    //     }.bind(this)
-                    // });
-
                     this.getView().getModel("BusinessTripTableModel").getData()[this.sPath] = oPayloadObj.cust_toDutyTravelItem[0];
                     this.getView().byId("idBusinessTripTable").getBinding("items").refresh(true);
                     this._oEditBusinessDialog.close();
@@ -1518,7 +1496,7 @@ sap.ui.define([
                     oTravelDatePicker = sap.ui.core.Fragment.byId("idCreateBusinessDetailDialog", "idTravelDate"),
                     oReturnDatePicker = sap.ui.core.Fragment.byId("idCreateBusinessDetailDialog", "idReturnDate"),
                     sDestinationCountry = sap.ui.core.Fragment.byId("idCreateBusinessDetailDialog", "idDestCountry"),
-
+                    sCitySaudi = sap.ui.core.Fragment.byId("idCreateBusinessDialog", "idCity"),
                     sTravelJustification = sap.ui.core.Fragment.byId("idCreateBusinessDetailDialog", "idTravelJustification");
                 // if (!oEffectStartDatePicker.getValue()) {
                 //     oEffectStartDatePicker.setValueState("Error");
@@ -1573,7 +1551,15 @@ sap.ui.define([
                     sDestinationCountry.setValueState("None");
                 }
 
+                  // validate City Saudi Field
 
+                if (sDestinationCountry.getSelectedKey() === "SAU" && !sCitySaudi.getSelectedKey()) {
+                    sCitySaudi.setValueState("Error");
+                    sCitySaudi.setValueStateText("Please select City.");
+                    sValidationErrorMsg = "Please fill the all required fields.";
+                } else {
+                    sCitySaudi.setValueState("None");
+                }
 
                 // Validate Travel Justification
                 if (!sTravelJustification.getValue()) {
