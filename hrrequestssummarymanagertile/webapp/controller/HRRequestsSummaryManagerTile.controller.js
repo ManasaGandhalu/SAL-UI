@@ -33,7 +33,7 @@ sap.ui.define([
                 var oSelectedItem = oEvent.getParameter("selectedItem");
                 var obj = oSelectedItem.getBindingContext("FragmetModel").getObject();
                 
-                if(obj.externalStatus === "REJECTED" || obj.externalStatus === "CANCELLED"){
+                if(obj.status === "REJECTED" || obj.status === "CANCELLED"){
                     sap.m.MessageToast.show("The record is removed from the source system.");
                 }else{
                 this.triggerCrossApp(obj.subModuleId, obj.ID, obj.externalCode);

@@ -205,7 +205,7 @@
     <upload:UploadSet id="idEditAttachBoardingPassBusiness" visible="{= ${DisplayEditBusinessTripModel>/cust_toDutyTravelItem/0/cust_tripCategory} === 'B' ? true : false}" class="sapUiSmallMarginBeginEnd" instantUpload="true" showIcons="true" uploadEnabled="true" terminationEnabled="true" maxFileNameLength="255" maxFileSize="200" afterItemRemoved="onFileDeleted" afterItemAdded="onFileAdded">
         <upload:toolbar>
             <OverflowToolbar>
-                <Label text="{i18n>AttachBoardingPass}" required="false"/>
+                <Label text="{i18n>AttachBoardingPass}" required="true"/>
                 <ToolbarSpacer/>
             </OverflowToolbar>
         </upload:toolbar>
