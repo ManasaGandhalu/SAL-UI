@@ -688,7 +688,7 @@ sap.ui.define([
                     oUploadPropertyObj = this._fnGetSelectedUploadSetPropoerties(sUploaderName);
 
                 this.getView().getModel("DisplayEditBusinessTripModel").setProperty("/cust_toDutyTravelItem/0/" + oUploadPropertyObj.AttachmentNew, false);
-                sap.ui.core.Fragment.byId("idEditBusinessDialog", sUploaderName).getDefaultFileUploader().setEnabled(false);
+                sap.ui.core.Fragment.byId("idEditBusinessDialog", sUploaderName).getDefaultFileUploader().setEnabled(true);
                 this.getView().getModel("DisplayEditBusinessTripModel").refresh();
             },
 
