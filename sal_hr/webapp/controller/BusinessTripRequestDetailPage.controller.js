@@ -31,7 +31,8 @@ sap.ui.define([
                     otherCityVisible: false,
                     cityOtherCountry: true,
                     ExpenseTypeBusinessTravelVisible: false,
-                    TableEditStatus:false
+                    TableEditStatus:false,
+                    TableAddStatus:false
                 });
 
                 this.getView().setModel(oLocalViewModel, "LocalViewModel");
@@ -146,26 +147,64 @@ sap.ui.define([
                 }
                 this.getView().getModel("headerModel").setProperty("/UserName", sUserName);
             },
-            _fnSetBusinessTripTableModel:function(oData) {
+            _fnSetBusinessTripTableModel:function(sData) {
 
-               var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({ pattern: "yyyy-MM-dd" });
+                var that = this;
+
+               
                 this.getView().setBusy(true);
-                this.EmpInfoObj = this.getOwnerComponent().getModel("EmpInfoModel").getData();
+                var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({ pattern: "yyyy-MM-dd" });
+               
+               for(var i =0;i<sData.cust_toDutyTravelItem.results.length;i++){
 
-               for(var i =0;i<oData.cust_toDutyTravelItem.results.length;i++){
-
-                oData.cust_toDutyTravelItem.results[i].cust_assignStartDate = dateFormat.format(oData.cust_toDutyTravelItem.results[i].cust_assignStartDate) + "T00:00:00";
-                oData.cust_toDutyTravelItem.results[i].cust_assignEndDate = dateFormat.format(oData.cust_toDutyTravelItem.results[i].cust_assignEndDate) + "T00:00:00";
-
-                oData.cust_toDutyTravelItem.results[i].cust_empName = this.getView().getModel("headerModel").getProperty("/UserName");
-                oData.cust_toDutyTravelItem.results[i].cust_payGrade = this.EmpInfoObj.payGrade;
-                oData.cust_toDutyTravelItem.results[i].cust_costCenter = this.EmpInfoObj.costCentre;
-                oData.cust_toDutyTravelItem.results[i].cust_emerPhoneNum = this.EmpInfoObj.emergencyNumber;
+                sData.cust_toDutyTravelItem.results[i].cust_assignStartDate = dateFormat.format(sData.cust_toDutyTravelItem.results[i].cust_assignStartDate) + "T00:00:00";
+                sData.cust_toDutyTravelItem.results[i].cust_assignEndDate = dateFormat.format(sData.cust_toDutyTravelItem.results[i].cust_assignEndDate) + "T00:00:00";
                }
 
-                var oBusinessTripDetailsObj = oData.cust_toDutyTravelItem.results,
-                 oBusinessTripTableModel = new JSONModel(oBusinessTripDetailsObj);
-                 this.getView().setModel(oBusinessTripTableModel, "BusinessTripTableModel");
+
+                // this.EmpInfoObj = this.getOwnerComponent().getModel("EmpInfoModel").getData();
+                var sKey = this.getView().getModel().createKey("/EmpInfo", {
+                    userId: sData.externalCode
+                });   
+
+
+                this.getOwnerComponent().getModel().read(sKey, {
+                    urlParameters: {
+                        "moreInfo": true
+                    },
+                    success: function (oData) {
+                       
+                        for(var i =0;i<sData.cust_toDutyTravelItem.results.length;i++){
+
+                           
+            
+                            sData.cust_toDutyTravelItem.results[i].cust_empName = that.getView().getModel("headerModel").getProperty("/UserName");
+                            sData.cust_toDutyTravelItem.results[i].cust_payGrade = oData.payGrade;
+                            sData.cust_toDutyTravelItem.results[i].cust_costCenter = oData.costCentre;
+                            sData.cust_toDutyTravelItem.results[i].cust_emerPhoneNum = oData.emergencyNumber;
+                           }
+
+                           var oBusinessTripDetailsObj = sData.cust_toDutyTravelItem.results,
+                           oBusinessTripTableModel = new JSONModel(oBusinessTripDetailsObj);
+                           that.getView().setModel(oBusinessTripTableModel, "BusinessTripTableModel");
+                    }.bind(this),
+                    error: function (oError) {
+                        this.getView().setBusy(false);
+                        if (JSON.parse(oError.responseText).error.message.value.indexOf("{") === 0)
+                            MessageBox.error(JSON.parse(JSON.parse(oError.responseText).error.message.value).error.message.value.split("]")[1]);
+                        else {
+                            MessageBox.error(JSON.parse(oError.responseText).error.message.value);
+                        }
+                    }.bind(this)
+                });
+
+
+
+
+
+
+
+              
                  this.getView().setBusy(false);
             },
 
@@ -326,27 +365,27 @@ sap.ui.define([
                                 "travelattachment1FileContent": "create travel attache",
                                 "travelattachment1FileName": "tr1.txt",
                                 "isTravelAttach1New": false,
-                                "travelattachment1UserId": "Extentia",
+                                "travelattachment1UserId": this.EmpInfoObj.userId,
 
                                 "businessTravelattachmentFileContent": oTravelItemDetailsObj.businessTravelattachmentFileContent,
                                 "businessTravelattachmentFileName": oTravelItemDetailsObj.businessTravelattachmentFileName,
                                 "isbusinessTravelAttachNew": oTravelItemDetailsObj.isbusinessTravelAttachNew,
-                                "businessTravelattachmentUserId": "Extentia",
+                                "businessTravelattachmentUserId": this.EmpInfoObj.userId,
 
                                 "trainingTravelattachmentFileContent": oTravelItemDetailsObj.trainingTravelattachmentFileContent,
                                 "trainingTravelattachmentFileName": oTravelItemDetailsObj.trainingTravelattachmentFileName,
                                 "istrainingTravelAttachNew": oTravelItemDetailsObj.istrainingTravelAttachNew,
-                                "trainingTravelattachmentUserId": "Extentia",
+                                "trainingTravelattachmentUserId": this.EmpInfoObj.userId,
 
                                 "receiptEmbassyattachmentFileContent": oTravelItemDetailsObj.receiptEmbassyattachmentFileContent,
                                 "receiptEmbassyattachmentFileName": oTravelItemDetailsObj.receiptEmbassyattachmentFileName,
                                 "isreceiptEmbassyAttachNew": oTravelItemDetailsObj.isreceiptEmbassyAttachNew,
-                                "receiptEmbassyattachmentUserId": "Extentia",
+                                "receiptEmbassyattachmentUserId": this.EmpInfoObj.userId,
 
                                 "visaCopyattachmentFileContent": oTravelItemDetailsObj.visaCopyattachmentFileContent,
                                 "visaCopyattachmentFileName": oTravelItemDetailsObj.visaCopyattachmentFileName,
                                 "isvisaCopyAttachNew":  oTravelItemDetailsObj.isvisaCopyAttachNew,
-                                "visaCopyattachmentUserId": "Extentia",
+                                "visaCopyattachmentUserId": this.EmpInfoObj.userId,
 
                                 "travelAttachment1Id": "34908",
                                 "businessTravelAttachmentId": "34910",
@@ -380,7 +419,7 @@ sap.ui.define([
                 var bIsUserManager = this.getOwnerComponent().getModel("EmpInfoModel").getProperty("/IsUserManager").toString();
 
                 if(bIsUserManager) {
-                    // debugger;
+                  
                     this.fnGetBusinessTripEmpInfo(this.object.externalCode,this.sPath);
                 }
 
@@ -401,9 +440,9 @@ sap.ui.define([
             },
 
             fnSetEmployeeBusinessTripModel: function(oData,sPath) {
-                this.getView().getModel("DisplayEditBusinessTripModel").setProperty("/cust_toDutyTravelItem/"+sPath+"/payGrade", oData.payGrade);
-                this.getView().getModel("DisplayEditBusinessTripModel").setProperty("/cust_toDutyTravelItem/"+sPath+"/costCentre", oData.costCentre);
-                this.getView().getModel("DisplayEditBusinessTripModel").setProperty("/cust_toDutyTravelItem/"+sPath+"/emergencyNumber", oData.emergencyNumber);
+                this.getView().getModel("DisplayEditBusinessTripModel").setProperty("/cust_toDutyTravelItem/"+sPath+"/cust_payGrade", oData.payGrade);
+                this.getView().getModel("DisplayEditBusinessTripModel").setProperty("/cust_toDutyTravelItem/"+sPath+"/cust_costCenter", oData.costCentre);
+                this.getView().getModel("DisplayEditBusinessTripModel").setProperty("/cust_toDutyTravelItem/"+sPath+"/cust_emerPhoneNum", oData.emergencyNumber);
                 this.getView().getModel("DisplayEditBusinessTripModel").setProperty("/cust_toDutyTravelItem/"+sPath+"/cust_empName", (oData.firstName + " " + ((!oData.middleName)?"":oData.middleName+" ")+ oData.lastName));
                 this.empRequested = oData.payGrade;
             },
@@ -503,13 +542,21 @@ sap.ui.define([
                 // var sVisaType = this.getView().getModel("DisplayEditBusinessTripModel").getProperty("/cust_toDutyTravelItem/0/cust_expenseTypeVisaFee");
                 // this.getView().getModel("DisplayEditBusinessTripModel").setProperty("/cust_toDutyTravelItem/0/cust_expenseTypeVisaFee", (sVisaType ? sVisaType : "N"));
                 this.getView().getModel("LocalViewModel").setProperty("/EditMode", true);
-
-                this.getView().getModel("LocalViewModel").setProperty("/TableEditStatus", true);
+                
+                if(this.object.status === "APPROVED"){
+                    this.getView().getModel("LocalViewModel").setProperty("/TableEditStatus", true);
+                    this.getView().getModel("LocalViewModel").setProperty("/TableAddStatus", false);
+                }else {
+                    this.getView().getModel("LocalViewModel").setProperty("/TableEditStatus", true);
+                    this.getView().getModel("LocalViewModel").setProperty("/TableAddStatus", true);
+                }
+                
             },
 
             onCancelPress: function () {
                 this.getView().getModel("LocalViewModel").setProperty("/EditMode", false);
                 this.getView().getModel("LocalViewModel").setProperty("/TableEditStatus", false);
+                this.getView().getModel("LocalViewModel").setProperty("/TableAddStatus", false);
             },
 
             onWithdrawPress: function () {

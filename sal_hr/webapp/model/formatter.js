@@ -331,11 +331,7 @@ sap.ui.define([], function () {
       }
     },
 
-    fnSetWithdrawtVisibilty: function (
-      bEditMode,
-      bIsUserManager,
-      sExternalStatus
-    ) {
+    fnSetWithdrawtVisibilty: function (bEditMode,bIsUserManager,sExternalStatus) {
       var bWithdrawVisible = false;
 
       if (bEditMode === false) {
@@ -346,7 +342,7 @@ sap.ui.define([], function () {
           bWithdrawVisible = bDeleteOther === true ? true : false;
         }
         if (!bIsUserManager) {
-          if (sExternalStatus === "SENTBACK") {
+          if (sExternalStatus === "SENTBACK" || sExternalStatus === "PENDING" ) {
             var bWithdrawSelf = this.getOwnerComponent()
               .getModel("RoleInfoModel")
               .getProperty("/withdrawSelf");
