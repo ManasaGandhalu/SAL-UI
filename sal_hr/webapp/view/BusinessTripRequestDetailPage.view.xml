@@ -21,7 +21,7 @@
                         <Button text="Modify" type="Emphasized" press="onEditPress" visible="{parts: [{path: 'LocalViewModel>/EditMode'}, {path:'EmpInfoModel>/IsUserManager}'}], formatter:'.formatter.fnSetModifyVisibilty'}" />
                     </HBox>
 
-                    <Button text="{i18n>Withdraw}" type="Emphasized" press="onWithdrawPress" visible="{parts: [{path: 'LocalViewModel>/EditMode'}, {path:'EmpInfoModel>/IsUserManager}'}], formatter:'.formatter.fnSetWithdrawtVisibilty'}" />
+                     <Button text="Withdraw" type="Emphasized" press="onWithdrawPress" visible="{parts: [{path: 'LocalViewModel>/EditMode'}, {path:'EmpInfoModel>/IsUserManager}'}, {path: 'headerModel>/externalStatus'}], formatter:'.formatter.fnSetWithdrawtVisibilty'}"/>
                 </f:actions>
 
                 <!--Approve and Reject visible for Manager Tile -->

@@ -436,22 +436,42 @@ sap.ui.define([
 
                 // this.onDestCountryChange();
 
-                this._fnSetDesiredAirlineTicketTravelTimeValues();
+                this._fnSetDesiredAirlineTicketTravelTimeValues(this.sPath);
             },
 
             fnSetEmployeeBusinessTripModel: function(oData,sPath) {
-                this.getView().getModel("DisplayEditBusinessTripModel").setProperty("/cust_toDutyTravelItem/"+sPath+"/cust_payGrade", oData.payGrade);
-                this.getView().getModel("DisplayEditBusinessTripModel").setProperty("/cust_toDutyTravelItem/"+sPath+"/cust_costCenter", oData.costCentre);
-                this.getView().getModel("DisplayEditBusinessTripModel").setProperty("/cust_toDutyTravelItem/"+sPath+"/cust_emerPhoneNum", oData.emergencyNumber);
-                this.getView().getModel("DisplayEditBusinessTripModel").setProperty("/cust_toDutyTravelItem/"+sPath+"/cust_empName", (oData.firstName + " " + ((!oData.middleName)?"":oData.middleName+" ")+ oData.lastName));
+                // this.getView().getModel("DisplayEditBusinessTripModel").setProperty("/cust_toDutyTravelItem/"+sPath+"/cust_payGrade", oData.payGrade);
+                // this.getView().getModel("DisplayEditBusinessTripModel").setProperty("/cust_toDutyTravelItem/"+sPath+"/cust_costCenter", oData.costCentre);
+                // this.getView().getModel("DisplayEditBusinessTripModel").setProperty("/cust_toDutyTravelItem/"+sPath+"/cust_emerPhoneNum", oData.emergencyNumber);
+                // this.getView().getModel("DisplayEditBusinessTripModel").setProperty("/cust_toDutyTravelItem/"+sPath+"/cust_empName", (oData.firstName + " " + ((!oData.middleName)?"":oData.middleName+" ")+ oData.lastName));
+                // this.empRequested = oData.payGrade;
+
+
+
+                this.getView().getModel("DisplayEditBusinessTripModel").setProperty("/cust_toDutyTravelItem/0/cust_payGrade", oData.payGrade);
+                this.getView().getModel("DisplayEditBusinessTripModel").setProperty("/cust_toDutyTravelItem/0/cust_costCenter", oData.costCentre);
+                this.getView().getModel("DisplayEditBusinessTripModel").setProperty("/cust_toDutyTravelItem/0/cust_emerPhoneNum", oData.emergencyNumber);
+                this.getView().getModel("DisplayEditBusinessTripModel").setProperty("/cust_toDutyTravelItem/0/cust_empName", (oData.firstName + " " + ((!oData.middleName)?"":oData.middleName+" ")+ oData.lastName));
                 this.empRequested = oData.payGrade;
             },
 
-            _fnSetDesiredAirlineTicketTravelTimeValues: function (sPath) {
+            _fnSetDesiredAirlineTicketTravelTimeValues: function () {
                 // var duration = this.getView().getModel("DisplayEditBusinessTripModel").getProperty("/cust_toDutyTravelItem/0/cust_travelTime") ? this.getView().getModel("DisplayEditBusinessTripModel").getProperty("/cust_toDutyTravelItem/0/cust_travelTime").ms : 0;
-               var duration = this.getView().getModel("DisplayEditBusinessTripModel").getData().cust_toDutyTravelItem[sPath] ? this.getView().getModel("DisplayEditBusinessTripModel").getData().cust_toDutyTravelItem[sPath].ms : 0;
-               
-                if (duration > 0) {
+            //    var duration = this.getView().getModel("DisplayEditBusinessTripModel").getData().cust_toDutyTravelItem[0] ? this.getView().getModel("DisplayEditBusinessTripModel").getData().cust_toDutyTravelItem[0].ms : 0;
+            // var duration = this.getView().getModel("DisplayEditBusinessTripModel").getData().cust_toDutyTravelItem[0].cust_travelTime.ms;
+          
+            var duration;    
+            var sData = this.getView().getModel("DisplayEditBusinessTripModel").getData().cust_toDutyTravelItem[0];
+            if(sData){
+                if(sData.cust_travelTime !== null){
+                    duration = sData.cust_travelTime.ms;
+                }else{
+                    duration = 0;
+                }
+                
+            }
+            
+            if (duration > 0) {
                     var minutes = Math.floor((duration / (1000 * 60)) % 60),
                         hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
 
@@ -461,7 +481,7 @@ sap.ui.define([
                 
                     // this.getView().getModel("DisplayEditBusinessTripModel").setProperty("/cust_toDutyTravelItem/0/cust_travelTime", (hours + ":" + minutes));
                 
-                    this.getView().getModel("DisplayEditBusinessTripModel").getData().cust_toDutyTravelItem[sPath].cust_travelTime = (hours + ":" + minutes);
+                    this.getView().getModel("DisplayEditBusinessTripModel").getData().cust_toDutyTravelItem[0].cust_travelTime = (hours + ":" + minutes);
                    
                     this.getView().byId("idBusinessTripTable").getBinding("items").refresh(true);
                 
@@ -633,6 +653,7 @@ sap.ui.define([
                     // Convert selcted time to specific time format as "PT0H31M30S"
                     if (oPayloadObj.cust_toDutyTravelItem[0].cust_travelTime) {
                         oPayloadObj.cust_toDutyTravelItem[0].cust_travelTime = "PT" + oPayloadObj.cust_toDutyTravelItem[0].cust_travelTime.split(":")[0] + "H" + oPayloadObj.cust_toDutyTravelItem[0].cust_travelTime.split(":")[1] + "M00S";
+                        // oPayloadObj.cust_toDutyTravelItem[0].cust_travelTime = null;
                     }
 
                     this.getView().getModel("BusinessTripTableModel").getData()[this.sPath] = oPayloadObj.cust_toDutyTravelItem[0];
@@ -1003,19 +1024,21 @@ sap.ui.define([
                 }
 
                 // Validate Boarding Pass attachment sections
-                // if (this.getView().getModel("DisplayEditBusinessTripModel").getProperty("/cust_toDutyTravelItem/0/cust_tripCategory") === "B") {
-                //     if (this.getView().byId("idEditAttachBoardingPassBusiness").getItems().length <= 0) {
-                //         sValidationErrorMsg = "Please upload Boarding Pass.";
-                //         this.getView().setBusy(false);
-                //         return sValidationErrorMsg;
-                //     }
-                // } else {
-                //     if (this.getView().byId("idEditAttachBoardingPassTraining").getItems().length <= 0) {
-                //         sValidationErrorMsg = "Please upload Boarding Pass.";
-                //         this.getView().setBusy(false);
-                //         return sValidationErrorMsg;
-                //     }
-                // }
+                if (this.getView().getModel("DisplayEditBusinessTripModel").getProperty("/cust_toDutyTravelItem/0/cust_tripCategory") === "B") {
+                    if (sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditAttachBoardingPassBusiness").getItems().length <= 0) {
+                        sValidationErrorMsg = "Please upload Boarding Pass.";
+                        this.getView().setBusy(false);
+                        return sValidationErrorMsg;
+                    }
+                } else {
+                    if (sap.ui.core.Fragment.byId("idEditBusinessDialog", "idEditAttachBoardingPassTraining").getItems().length <= 0) {
+                        sValidationErrorMsg = "Please upload Boarding Pass.";
+                        this.getView().setBusy(false);
+                        return sValidationErrorMsg;
+                    }
+                }
+                
+               
 
                 // Validate embasy attachment sections
                 if (sap.ui.core.Fragment.byId("idEditBusinessDialog","idEditVisaType").getSelectedKey() === "V") {
@@ -1645,7 +1668,7 @@ sap.ui.define([
             onPressEditSave:function(oEvent){
             
                 this.onSavePress();
-                this._oEditBusinessDialog.close();
+                // this._oEditBusinessDialog.close();
             },
             onBusinessTripsSavePress:function(){
                 this.getView().setBusy(true);
@@ -1665,11 +1688,28 @@ sap.ui.define([
                    
                    oBusinessTripItems[i].cust_isCompany = (oBusinessTripItems[i].cust_isCompany === "Yes" ? true : false);
                    oBusinessTripItems[i].cust_hotelBooking = oBusinessTripItems[i].cust_hotelBooking === "Yes" ? true : false;
-                  
-                   if (oBusinessTripItems[i].cust_travelTime) {
-                    oBusinessTripItems[i].cust_travelTime = "PT" + oBusinessTripItems[i].cust_travelTime.split(":")[0] + "H" + oBusinessTripItems[i].cust_travelTime.split(":")[1] + "M00S";
-                }
+                 
+                 
+                   if (oBusinessTripItems[i].cust_travelTime.ms) {
+                    var duration = oBusinessTripItems[i].cust_travelTime.ms;
 
+                    
+                    var minutes = Math.floor((duration / (1000 * 60)) % 60),
+                        hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+
+                    hours = (hours < 10) ? "0" + hours : hours;
+                    minutes = (minutes < 10) ? "0" + minutes : minutes;
+
+                    oBusinessTripItems[i].cust_travelTime = "PT" + hours + "H" + minutes + "M00S";
+
+
+
+                   }else{
+                    oBusinessTripItems[i].cust_travelTime = "PT" + oBusinessTripItems[i].cust_travelTime.split(":")[0] + "H" + oBusinessTripItems[i].cust_travelTime.split(":")[1] + "M00S";
+                   }
+
+
+                //    oBusinessTripItems[i].cust_travelTime = null;
                    delete oBusinessTripItems[i].cust_TravelPayComp2Nav;
                    delete oBusinessTripItems[i].cust_TravelPayComp1Nav;
                    delete oBusinessTripItems[i].cust_businessTravelPayCompNav;
@@ -1700,6 +1740,12 @@ sap.ui.define([
                    delete oBusinessTripItems[i].payGrade;
                    delete oBusinessTripItems[i].costCentre;
                    delete oBusinessTripItems[i].emergencyNumber;
+
+                   delete oBusinessTripItems[i].cust_businessTravelAttachNav;
+                   delete oBusinessTripItems[i].cust_receiptEmbassyNav;
+                   delete oBusinessTripItems[i].cust_trainingTravelAttachNav;
+                   delete oBusinessTripItems[i].cust_visaCopyNav;
+
                   
                    if(oBusinessTripItems[i].businessTravelattachmentMimeType){
                     delete oBusinessTripItems[i].businessTravelattachmentMimeType;
