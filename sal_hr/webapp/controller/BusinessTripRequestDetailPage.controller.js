@@ -1689,8 +1689,9 @@ sap.ui.define([
                    oBusinessTripItems[i].cust_isCompany = (oBusinessTripItems[i].cust_isCompany === "Yes" ? true : false);
                    oBusinessTripItems[i].cust_hotelBooking = oBusinessTripItems[i].cust_hotelBooking === "Yes" ? true : false;
                  
-                 
-                   if (oBusinessTripItems[i].cust_travelTime.ms) {
+                 if(oBusinessTripItems[i].cust_travelTime) {
+                   
+                    if (oBusinessTripItems[i].cust_travelTime.ms) {
                     var duration = oBusinessTripItems[i].cust_travelTime.ms;
 
                     
@@ -1707,7 +1708,7 @@ sap.ui.define([
                    }else{
                     oBusinessTripItems[i].cust_travelTime = "PT" + oBusinessTripItems[i].cust_travelTime.split(":")[0] + "H" + oBusinessTripItems[i].cust_travelTime.split(":")[1] + "M00S";
                    }
-
+                 }
 
                 //    oBusinessTripItems[i].cust_travelTime = null;
                    delete oBusinessTripItems[i].cust_TravelPayComp2Nav;
