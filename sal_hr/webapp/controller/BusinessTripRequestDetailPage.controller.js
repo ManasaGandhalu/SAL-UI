@@ -1181,7 +1181,7 @@ sap.ui.define([
 
             onRejectPress: function () {
                 var swfRequestId = this.getView().getModel("headerModel").getProperty("/workflowRequestId");
-                this.onRejectRequest(swfRequestId);
+                this.onSendBackRequest(swfRequestId);
             },
             onBusinessDetailPress:function(oEvent){
 
