@@ -1,0 +1,8 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<SelectDialog resizable="false" contentHeight="40%" contentWidth="30%" id="directMngrDialog" title="Select Direct Manager" growing="true" growingThreshold="15"
+		 items="{path: '/SF_User', parameters : {
+                select : 'defaultFullName,firstName,middleName,lastName,userId'
+            }}" liveChange="onLiveChange1" search=".onDirectMngrSearch" confirm=".onDirectMngrConfirm" cancel=".onValueHelpClose1">
+		<StandardListItem title="{firstName} {middleName} {lastName}" description="{userId}"/>
+	</SelectDialog>
+</core:FragmentDefinition>

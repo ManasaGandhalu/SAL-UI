@@ -1,0 +1,106 @@
+
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns:upload="sap.m.upload">
+
+
+    <form:SimpleForm id="idNewDisplayTripRquestSimpleForm" visible="{= ${LocalViewModel>/EditMode} === true ? false : true }" layout="ResponsiveGridLayout" columnsM="3" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+        <form:content>
+            <Title id="idLeaveDisplayRequestDetailsTTL" text="{i18n>Request Details}" titleStyle="H5" level="H5"/>
+
+            <Label text="Incident Start Date" />
+            <Text text="{path:'effectiveStartDate',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}"/>
+           <Label text="Warning Type"  />
+            <Text text="{cust_warningTypeNav/label_defaultValue}"/>
+            <Label text="Severity"  />
+            <Text text="{cust_SeverityNav/label_defaultValue}"/>
+             <Label text="Incident Status"  />
+            <Text text="{cust_IncidentStatusNav/label_defaultValue}"/>
+
+
+
+
+             <Label text="Incident Category"  />               
+            <Text text="{cust_ReasonNav/label_defaultValue}"/>
+
+            <Label text="Incident Description Details"  />
+            <Text text="{cust_IncidentDetails}"/>
+            <Label text="PRN"  />
+            <Text text="{externalCode}"/>
+            <Label text="When would you like your changes to take effect"  />
+            <Text text="{path:'cust_DateofIncident',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {
+                                                     pattern: 'MM/dd/yyyy'
+                                                }}"/>
+
+
+             
+          
+        </form:content>
+
+   
+        
+        
+        
+    </form:SimpleForm>
+
+  
+
+    <VBox id="idDisplayattachmentForm" visible="{= ${LocalViewModel>/EditMode} === true ? false : true }">
+
+    <upload:UploadSet 
+				id="UploadSet"
+                 class="uploadDetailPage"
+				instantUpload="false"
+				showIcons="false"
+				uploadEnabled="false"
+				maxFileNameLength="30"
+				maxFileSize="200"
+                visible="{= ${LocalViewModel>/uploadAttachmentVisible} === false ? false : true}"				
+				>
+				<upload:toolbar>
+                <OverflowToolbar>
+                <Button text="Download Attachment" press="onDownLoadPress"/>
+                </OverflowToolbar>
+			</upload:toolbar>
+			<upload:items>
+				<upload:UploadSetItem
+                visibleEdit="false"
+                visibleRemove="false"
+				fileName="{attachmentModel>/fileName}"
+				mediaType="attachmentModel>/mimeType}"	
+                        
+						>
+                         <upload:attributes>
+						<ObjectAttribute
+								title="Uploaded On"
+                                        text="{path:'attachmentModel>/lastModifiedDateTime',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}"
+								/>
+					</upload:attributes>
+                       <upload:attributes>
+						<ObjectAttribute
+								title="File Size"
+								text="{attachmentModel>/fileSize} bytes"
+								/>
+					</upload:attributes>
+				</upload:UploadSetItem>
+			</upload:items>
+		</upload:UploadSet> 
+        </VBox>
+         <!-- </form:content>
+    </form:SimpleForm> -->
+
+
+
+   
+</core:FragmentDefinition>

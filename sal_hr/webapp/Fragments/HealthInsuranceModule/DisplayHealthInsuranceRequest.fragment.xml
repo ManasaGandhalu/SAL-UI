@@ -1,0 +1,99 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:tnt="sap.tnt"  xmlns:unified="sap.ui.unified"
+    xmlns:l="sap.ui.layout"
+    xmlns:layout="sap.ui.layout"
+     xmlns:fm="sap.ui.layout.form" xmlns:core="sap.ui.core">
+                     <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
+                        <Label   required="false" text="{i18n>whenWouldYouLiketoText}" />
+                        <DatePicker editable="false"  value="{path:'DisplayHealthInsuranceModel>/effectiveStartDate', type:'sap.ui.model.type.Date', formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}"  change="handleChange"/>
+                        </fm:SimpleForm>
+                       <VBox>
+              <Table growing="true" growingScrollToLoad="true" growingThreshold="15"  items="{DisplayHealthInsuranceModel>/cust_healthInsuranceDetails}">
+                            <headerToolbar>
+                                <OverflowToolbar>
+                            <Title text="{i18n>Details}" level="H4" />
+                            <content>
+                                <ToolbarSpacer></ToolbarSpacer>
+                            </content>
+                                </OverflowToolbar>
+                            </headerToolbar>
+                            <columns>
+                              <Column demandPopin="true" minScreenWidth="Tablet">
+                                 <Label text="Relationship" required="false" />
+                                </Column>
+                                <Column demandPopin="true" minScreenWidth="Tablet">
+                                   <Label text="Name" required="false" />
+                                </Column>
+                                <Column demandPopin="true" minScreenWidth="Tablet">
+                                   <Label text="Gender" required="false" />
+                                </Column>
+                                <Column demandPopin="true" minScreenWidth="Tablet">
+                                  <Label text="National ID" required="false" />
+                                </Column>
+                                 <Column demandPopin="true" minScreenWidth="Tablet">
+                                      <Label text="Address" required="false" />
+                                </Column>
+                                  <Column demandPopin="true" minScreenWidth="Tablet">
+                                      <Label text="Date of Birth" required="false" />
+                                </Column>
+                                  <Column demandPopin="true" minScreenWidth="Tablet">
+                                      <Label text="Location" required="false" />
+                                </Column>
+                               <Column demandPopin="true" minScreenWidth="Tablet">
+                                      <Label text="Scheme" required="false" />
+                                </Column>
+                                <Column demandPopin="true" minScreenWidth="Tablet">
+                                      <Label text="Attachment 1" required="false" />
+                                </Column>
+                                <Column demandPopin="true" minScreenWidth="Tablet">
+                                      <Label text="Attachment 2" required="false" />
+                                </Column>
+                                <Column demandPopin="true" minScreenWidth="Tablet">
+                                      <Label text="Attachment 3" required="false" />
+                                </Column> 
+                            </columns>
+                            <items>
+                                <ColumnListItem >
+                                    <cells>
+                                             
+
+                                                <ComboBox enabled="false" selectedKey="{DisplayHealthInsuranceModel>Relationship}" items="{ path: '/SF_PickListValueV2',
+                                                sorter : {  
+                                                 path : 'label_defaultValue'},
+                                                filters : [{ path : 'PickListV2_id', operator : 'EQ', value1 : 'ESS_personRelationshipType'}]}" change="onTimeTyeChange">
+                                              <core:Item key="{externalCode}" text="{label_defaultValue}" />
+                                            </ComboBox>
+                                             <Text text="{DisplayHealthInsuranceModel>DependentName}"/>
+                                  <ComboBox enabled="false"  selectedKey="{DisplayHealthInsuranceModel>DependentGender}" items="{ path: '/SF_PickListValueV2',
+                                                sorter : {  
+                                                 path : 'label_defaultValue'},
+                                                filters : [{ path : 'PickListV2_id', operator : 'EQ', value1 : 'Gender'}]}" change="onTimeTyeChange">
+                                              <core:Item key="{externalCode}" text="{label_defaultValue}" />
+                                            </ComboBox>
+                                             <Text text="{DisplayHealthInsuranceModel>NationalID}"/>
+                                              	<ExpandableText maxCharacters="10" overflowMode="Popover" class="sapUiTinyMarginBottom sapUiTinyMarginTop" text="{DisplayHealthInsuranceModel>DependentNationalAddress}"  />
+                                        <Text text="{path:'DisplayHealthInsuranceModel>DependentDOB',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}"/>
+                                             <Text text="{DisplayHealthInsuranceModel>DeliveryLoc}"/>
+                                           <Text text="{DisplayHealthInsuranceModel>Scheme}"/>
+                                              <VBox>
+                                                 <Link  tooltip="Download(1)" text="Download" press="onDownLoadPress" visible="{path:'DisplayHealthInsuranceModel>attachment1FileContent',formatter:'.formatter.viewFileNames'}"/>
+
+                                                 
+                                            </VBox>
+                                            <VBox>
+                                               <Link tooltip="Download(2)"  text="Download" press="onDownLoadPress" visible="{path:'DisplayHealthInsuranceModel>attachment2FileContent',formatter:'.formatter.viewFileNames'}"/>
+                                            </VBox>
+                                            <VBox>
+                                                <Link  tooltip="Download(3)" text="Download" press="onDownLoadPress" visible="{path:'DisplayHealthInsuranceModel>attachment3FileContent',formatter:'.formatter.viewFileNames'}"/>
+                                            </VBox> 
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                        </VBox>
+</core:FragmentDefinition>

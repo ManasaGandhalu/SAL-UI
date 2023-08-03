@@ -1,0 +1,36 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:tnt="sap.tnt" xmlns:form="sap.ui.layout.form" xmlns:core="sap.ui.core">
+    	      
+      
+                   <form:SimpleForm id="idDisplaybankRequestSimpleForm" layout="ResponsiveGridLayout" 
+                 columnsM="3" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+                   <form:content>
+                        <Title id="idDisplaySpecifyDetailsTTL" text="{i18n>AdditionalPaymentDetails}" titleStyle="H6" level="H6"/>
+
+                        <Label id="idDisplayDateLBL" text="{i18n>payDate}" />
+
+                        <Text text="{path:'payDate',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}"/>
+
+
+                        
+                        <Label id="idDisplayIBANLBL" text="{i18n>currencyCode}" />
+                        <Text id="idDisplayIBANINP" text="{currencyCode}"  />
+                         <Label id="idDisplayIBAN" text="Type" />
+                        <Text id="idDisplay" text="{payComponentCodeText}"  />
+                        <Label id="idDisplayBankNameLBL" text="{i18n>Value}"/>
+                        <Text id="idDisplayBankNameINP" text="{value}"  />
+                        <Label id="idDisplayBankNameLdBL" text="{i18n>alternativeCostCenter}"/>
+                        <Text id="idDisplayBankNamedINP" text="{alternativeCostCenterText}"  />
+
+                        
+
+                    </form:content>
+                   </form:SimpleForm>
+           
+        
+
+
+</core:FragmentDefinition>

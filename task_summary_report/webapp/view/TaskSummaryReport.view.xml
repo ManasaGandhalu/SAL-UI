@@ -1,0 +1,148 @@
+<mvc:View controllerName="com.sal.tasksummaryreport.controller.TaskSummaryReport"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:viz.data="sap.viz.ui5.data"
+    xmlns:commons="sap.suite.ui.commons"
+    xmlns:core="sap.ui.core"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:uxap="sap.uxap">
+    <Shell id="shell">
+        <App id="app">
+            <pages>
+                <Page id="page" showHeader="false" title="{i18n>title}">
+                    <VBox class="sapUiTinyMarginTop">
+                        <OverflowToolbar style="Clear">
+                        <HBox>
+                            <Label text="Choose the Report you want to see :" design="Bold" class="sapUiTinyMarginTop sapUiTinyMarginBegin" visible="{= ${EmpInfoModel>/IsUserManager} === true ? true : false }"/>
+                            <Select id="idRequestType"  change="onSelectionChange" class="sapUiTinyMarginBegin" visible="{= ${EmpInfoModel>/IsUserManager} === true ? true : false }">
+                                <core:Item key="Myself" text="Myself" />
+                                <core:Item key="MyTeam" text="MyTeam" />
+
+                            </Select>
+                        </HBox>    
+                            <ToolbarSpacer/>
+                            <DateRangeSelection id="DRS2" width="20%" change="onFilterDateChange" dateValue="{LocalViewModel>/FromDate}" secondDateValue="{LocalViewModel>/ToDate}"/>
+                            <SegmentedButton selectedKey="{LocalViewModel>/SelectedSegmentBTNKey}" selectionChange="onSegmentBTNSelect">
+                                <items>
+                                    <SegmentedButtonItem text="{i18n>HR}" key="HR" />
+                                    <SegmentedButtonItem text="{i18n>Procurement}" key="Procurement"/>
+                                    <SegmentedButtonItem text="{i18n>ITSM}" key="ITSM"/>
+                                    <SegmentedButtonItem text="{i18n>PlantMaintenance}" key="PM" visible="false"/>
+                                </items>
+                            </SegmentedButton>
+                            <SegmentedButton selectedKey="{LocalViewModel>/SelectedViewSegmentBTNKey}" selectionChange="fnSetChartTableVisibility">
+                                <items>
+                                    <SegmentedButtonItem key="ChartTableBoth" icon="sap-icon://chart-table-view"/>
+                                    <SegmentedButtonItem key="TableOnly" icon="sap-icon://table-view"/>
+                                    <SegmentedButtonItem key="ChartOnly" icon="sap-icon://horizontal-stacked-chart"/>
+                                </items>
+                            </SegmentedButton>
+                        </OverflowToolbar>
+                        <commons:ChartContainer id="idChartContainer" showFullScreen="true" showZoom="true" title="{i18n>HumanResource}">
+                            <commons:content>
+                                <commons:ChartContainerContent id="idTaskChartContainer">
+                                    <commons:content>
+                                        <viz:VizFrame id="idTaskVizFrame" height="300px" width="100%" vizType='stacked_bar' vizProperties="{title: {visible: false},valueAxis: {title: {visible: false},label:{visible:false}},categoryAxis: {title: {visible: false}},legendGroup: {layout: {position: 'bottom', alignment: 'center'}}, plotArea: {colorPalette: ['#0a8333', '#eda21b', '#D32821','#A5A5A5'],isFixedDataPointSize: true, dataPointSize: { min: 10, max: 20 }, dataLabel: { visible: true, type: 'label', showTotal: true}}}">
+                                            <viz:dataset>
+                                                <viz.data:FlattenedDataset data="{path: 'TaskChartReportModel>/'}">
+                                                    <viz.data:dimensions>
+                                                        <viz.data:DimensionDefinition name="Name" value="{TaskChartReportModel>name}"/>
+                                                    </viz.data:dimensions>
+                                                    <viz.data:measures>
+                                                        <!-- Column chart Items -->
+                                                        <viz.data:MeasureDefinition group="1" name="Approved" value="{TaskChartReportModel>totalApproved}"/>
+                                                        <viz.data:MeasureDefinition group="1" name="Pending" value="{TaskChartReportModel>totalPending}"/>
+                                                        <viz.data:MeasureDefinition group="1" name="Rejected" value="{TaskChartReportModel>totalRejected}"/>
+                                                        <viz.data:MeasureDefinition group="1" name="Cancelled" value="{TaskChartReportModel>totalCancelled}"/>
+                                                    </viz.data:measures>
+                                                </viz.data:FlattenedDataset>
+                                            </viz:dataset>
+                                            <viz:feeds>
+                                                <viz.feeds:FeedItem id='valueAxisFeed6' uid="valueAxis" type="Measure" values="Approved,Pending,Rejected,Cancelled"/>
+                                                <viz.feeds:FeedItem id='categoryAxisFeed' uid="categoryAxis" type="Dimension" values="Name"/>
+                                            </viz:feeds>
+                                        </viz:VizFrame>
+                                    </commons:content>
+                                </commons:ChartContainerContent>
+                            </commons:content>
+                        </commons:ChartContainer>
+
+                        <fb:FilterBar id="idTableFilterbar" useToolbar="false" search="onFilterTablePress" reset="onReset" showRestoreButton="true" showClearButton="true"  showFilterConfiguration="false" showGoOnFB="true">
+                            <fb:filterGroupItems>
+                                <fb:FilterGroupItem groupName="__$INTERNAL$" name="A" label="{i18n>Module}" mandatory="true"  partOfCurrentVariant="true" visibleInFilterBar="true">
+                                    <fb:control>
+                                        <ComboBox width="25%" items="{path: '/MasterModules', sorter: { path: 'name'}}" selectedKey="{LocalViewModel>/SelectedModuleID}" selectionChange="onModuleChange">
+                                            <core:Item key="{ID}" text="{name}" />
+                                        </ComboBox>
+                                    </fb:control>
+                                </fb:FilterGroupItem>
+
+                                <fb:FilterGroupItem groupName="__$INTERNAL$" name="B" label="{i18n>Portlet}"   partOfCurrentVariant="true" visibleInFilterBar="true">
+                                    <fb:control>
+                                        <ComboBox width="25%" items="{PortletModel>/}" selectedKey="{LocalViewModel>/SelectedPortletID}">
+                                            <core:Item key="{PortletModel>ID}" text="{PortletModel>name}" />
+                                        </ComboBox>
+                                    </fb:control>
+                                </fb:FilterGroupItem>
+
+                                <fb:FilterGroupItem groupName="__$INTERNAL$" name="C" label="{i18n>Status}"   partOfCurrentVariant="true" visibleInFilterBar="true">
+                                    <fb:control>
+                                        <ComboBox width="20%" items="{path: '/MasterReportStatus',sorter: { path: 'status'}}" selectedKey="{LocalViewModel>/SelectedStatus}">
+                                            <core:Item key="{status}" text="{status}" />
+                                        </ComboBox>
+                                    </fb:control>
+                                </fb:FilterGroupItem>
+                            </fb:filterGroupItems>
+                        </fb:FilterBar>
+
+                        <commons:ChartContainer id="idTaskListTable" showFullScreen="true" autoAdjustHeight="false" title="{i18n>TaskSummary}">
+                            <commons:content>
+                                <commons:ChartContainerContent>
+                                    <commons:content>
+                                        <Table items="{path: 'TaskTableReportModel>/'}" growing="true" growingThreshold="10" growingScrollToLoad="true">
+                                            <columns>
+                                                <Column minScreenWidth="Tablet" width="15%">
+                                                    <Label design="Bold" text="{i18n>ModuleName}"/>
+                                                </Column>
+                                                <Column minScreenWidth="Tablet" demandPopin="true">
+                                                    <Label design="Bold" text="{i18n>Portlet}"/>
+                                                </Column>
+                                                <Column width="15%">
+                                                    <Label design="Bold" text="{i18n>From}"/>
+                                                </Column>
+                                                <Column width="15%">
+                                                    <Label design="Bold" text="{i18n>To}"/>
+                                                </Column>
+                                                <Column width="15%">
+                                                    <Label design="Bold" text="{i18n>Lastupdatedby}"/>
+                                                </Column>
+                                                <Column minScreenWidth="Tablet" demandPopin="true" width="10%">
+                                                    <Label design="Bold" text="{i18n>Status}"/>
+                                                </Column>
+                                            </columns>
+                                            <items>
+                                                <ColumnListItem vAlign="Middle">
+                                                    <cells>
+                                                        <Text text="{TaskTableReportModel>module/name}"/>
+                                                        <Text text="{TaskTableReportModel>subModule/name}"/>
+                                                        <Text text="{path : 'TaskTableReportModel>effectiveStartDate',type:'sap.ui.model.type.Date',formatOptions: {pattern: 'MM/dd/yyyy'},formatter:'.formatter.handleNoData'}" />
+                                                        <Text text="{path : 'TaskTableReportModel>endDate',type:'sap.ui.model.type.Date',formatOptions: {pattern: 'MM/dd/yyyy'},formatter:'.formatter.handleNoData'}" />
+                                                        <Label design="Bold" text="{TaskTableReportModel>externalModifiedBy}"/>
+                                                        <!-- <Text text="{TaskTableReportModel>status}"/> -->
+                                                        <ObjectStatus text="{TaskTableReportModel>status}" state="{path:'TaskTableReportModel>status',formatter:'.formatter.ticketStatus'}" />
+                                                    </cells>
+                                                </ColumnListItem>
+                                            </items>
+                                        </Table>
+                                    </commons:content>
+                                </commons:ChartContainerContent>
+                            </commons:content>
+                        </commons:ChartContainer>
+                    </VBox>
+                </Page>
+            </pages>
+        </App>
+    </Shell>
+</mvc:View>

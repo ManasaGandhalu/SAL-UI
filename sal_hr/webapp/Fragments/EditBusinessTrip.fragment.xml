@@ -1,0 +1,36 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core">
+    <form:SimpleForm id="idEditRquestSimpleForm" layout="ResponsiveGridLayout" columnsM="3" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+        <form:content>
+            <Title id="idEditRequestDetailsTTL" text="{i18n>RequestDetails}" titleStyle="H5" level="H5"/>
+            <Label id="idEditRequestIDLBL" text="{i18n>RequestID}" class="sapUiSmallMarginTop"/>
+            <Input value="2411"/>
+            <Label id="idEditRequestDateLBL" text="{i18n>RequestDate}"/>
+            <DatePicker id="idRequestDatePicker" value="Oct 5,2021" change="handleChange"/>
+            <Label id="idEditTravelDestinationLBL" text="{i18n>TravelDestination}"/>
+            <Input value="Riyadh"/>
+            <Label id="idEditStartDateLBL" text="{i18n>StartDate}"/>
+            <DatePicker id="idStartBDatePicker" value="{path:'physicalStartDate',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {
+                                                    pattern: 'MMMM dd, yyyy'
+                                                }}" change="handleChange"/>
+            <Label id="idEditSubjectLBL" text="{i18n>Subject}"/>
+            <Input value="Lorem ipsum dolor sit amet, consectetur adipiscing elit."/>
+            <core:Title id="idEditEmptyTitle" text=" "/>
+            <Label id="idEditSAPTicketIDLBL" text="{i18n>SAPTicketID}"/>
+            <Input value="500009095"/>
+            <Label id="idEditTravelTypeLBL" text="{i18n>TravelType}"/>
+            <Input value="Local"/>
+            <Label id="idEditTotalDaysLBL" text="{i18n>TotalDays}"/>
+            <Input value="{quantityInDays}"/>
+            <Label id="idEditEndDateLBL" text="{i18n>EndDate}"/>
+            <DatePicker id="idTofrDatePicker" value="{path:'physicalEndDate',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {
+                                                    pattern: 'MMMM dd, yyyy'
+                                                }}" change="handleChange"/>
+        </form:content>
+    </form:SimpleForm>
+</core:FragmentDefinition>

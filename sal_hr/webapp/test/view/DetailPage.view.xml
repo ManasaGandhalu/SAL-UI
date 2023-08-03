@@ -1,0 +1,105 @@
+<mvc:View controllerName="com.sal.salhr.controller.DetailPage"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:mvc="sap.ui.core.mvc" height="100%">
+    <f:DynamicPage id="dynamicPageId" class="page">
+        <!-- DynamicPage Title -->
+        <f:title>
+            <f:DynamicPageTitle backgroundDesign="Transparent" class="sapUiNoContentPadding">
+                <f:heading>
+                    <Title text="{name}"/>
+                </f:heading>
+
+
+                <f:navigationActions>
+                  <Button text="{i18n>RaiseRequest}" press="onPressRaiseRequest" type="Emphasized" visible="{parts:[{path: 'EmpInfoModel>/IsUserManager'}],formatter:'.formatter.fnSetRaiseRequestVisibilty'}"/>
+                    <Button id="idDetailFullScreenBTN" icon="sap-icon://full-screen" press="handleDetailFullScreen" type="Transparent" />
+                    <Button id="idCloseButton" icon="sap-icon://decline" type="Transparent" press="handleDetailClose" />
+                </f:navigationActions>
+            </f:DynamicPageTitle>
+        </f:title>
+        <!-- DynamicPage Header -->
+        <f:header>
+            <f:DynamicPageHeader id="idDetailHeader" pinnable="true">
+                <FlexBox wrap="Wrap" fitContainer="true" alignItems="Stretch">
+                    <VBox justifyContent="Center" class="sapUiSmallMarginEnd">
+                        <Label text="{i18n>TotalRequests}" class="tblHeaderText"/>
+                        <Text text="{totalRequests}" class="sapUiTinyMarginTop dataPointsColor "/>
+                    </VBox>
+                    <VBox justifyContent="Center" class="sapUiSmallMarginEnd">
+                        <Label text="{i18n>Pending}" class="tblHeaderText"/>
+                        <Text  text="{totalPending}" class="sapUiTinyMarginTop dataValuePendingColor "/>
+                    </VBox>
+                    <VBox justifyContent="Center" class="sapUiSmallMarginEnd">
+                        <Label text="{i18n>Approved}" class="tblHeaderText"/>
+                        <Text text="{totalApproved}" class="sapUiTinyMarginTop dataValueApprovedColor "/>
+                    </VBox>
+                    <VBox justifyContent="Center" class="sapUiSmallMarginEnd">
+                        <Label text="{i18n>Cancelled}" class="tblHeaderText"/>
+                        <Text text="{totalCancelled}" class="sapUiTinyMarginTop dataValueCancelledColor "/>
+                    </VBox>
+                    <VBox justifyContent="Center" class="sapUiSmallMarginEnd">
+                        <Label text="{i18n>Rejected}" class="tblHeaderText"/>
+                        <Text text="{totalRejected}" class="sapUiTinyMarginTop dataValueRejectColor "/>
+                    </VBox>
+                </FlexBox>
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
+            <Table id="idTicketTable" updateStarted="onUpdateTicketsBindingStart" items="{ path: 'tickets', parameters: { custom: {'IsUserManager': ''}}, sorter: [{path: 'createdAt', descending: 'true'}]}" inset="false" autoPopinMode="true" growing="true" growingScrollToLoad="true" growingThreshold="10">
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <content>
+                            <Title text="{name}" level="H2"/>
+                            <ToolbarSpacer />
+                            <SearchField placeholder="{i18n>SearchforID}" width="30%" search=".onSearch"></SearchField>
+                            <Button icon="sap-icon://sort" press="onSort"/>
+                            <Button id="idSelectFilter" icon="sap-icon://filter" press="onPressFilter"/>
+                            <Button id="idClearFilter" icon="sap-icon://clear-filter" visible="false" press="onPressClearFilter"/>
+                        </content>
+                    </OverflowToolbar>
+                </headerToolbar>
+                <columns>
+                    <Column width="18rem" importance="High">
+                        <Label text="{i18n>ID}" class="tblHeaderText"/>
+                    </Column>
+                    <Column width="12rem" importance="High" popinDisplay="Inline">
+                        <Label text="External ID" class="tblHeaderText" />
+                    </Column>
+                    <Column importance="Low" popinDisplay="Inline">
+                        <Label text="{i18n>EffectiveFrom}" class="tblHeaderText" />
+                    </Column>
+                    <Column width="28rem" importance="Low" popinDisplay="Inline">
+                        <Label text="{i18n>Summary}" class="tblHeaderText" />
+                    </Column>
+                    <Column importance="Low" popinDisplay="Inline">
+                        <Label text="{i18n>DateofCreation}" class="tblHeaderText" />
+                    </Column>
+                    <Column importance="Low" popinDisplay="Inline">
+                        <Label text="{i18n>PendingWith}" class="tblHeaderText" />
+                    </Column>
+                    <Column importance="High" popinDisplay="Inline">
+                        <Label text="{i18n>TargetedSLA}" class="tblHeaderText" />
+                    </Column>
+                    <Column hAlign="End" width="10rem" importance="High">
+                        <Label text="{i18n>Status}" class="tblHeaderText" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem press="onPressTicketItem" vAlign="Middle" type="Navigation">
+                        <cells>
+                            <Text text="{ticketCode}" />
+                            <Text text="{= ${subModuleId} === 1 ? ${externalCode2} : ${externalCode} }" />
+                            <Text text="{path : 'effectiveStartDate',type:'sap.ui.model.type.Date',formatOptions: {pattern: 'MM/dd/yyyy'},formatter:'.formatter.handleNoData'}" />
+                            <Text text="{summary}" />
+                            <Text text="{path : 'requestDate',type:'sap.ui.model.type.Date',formatOptions: {pattern: 'MM/dd/yyyy'}}" type="Bold" />
+                            <Text text="{= ${assignedTo} !== null ? ${assignedTo} : 'NA'}"/>
+                            <ObjectIdentifier title="{= ${slaTargetDate} !== null ? ${path : 'slaTargetDate',type:'sap.ui.model.type.Date',formatOptions: {pattern: 'MM/dd/yyyy HH:mm:ss'},formatter:'.formatter.handleNoData'} : 'NA'}" />
+                           <ObjectStatus text="{parts:['status','externalStatus'],formatter:'.formatter.ticketStatusText1'}" state="{path:'status',formatter:'.formatter.ticketStatus'}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>

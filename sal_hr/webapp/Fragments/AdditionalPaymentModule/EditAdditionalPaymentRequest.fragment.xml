@@ -1,0 +1,52 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:tnt="sap.tnt" xmlns:fm="sap.ui.layout.form" xmlns:core="sap.ui.core">
+    	      
+      
+             <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
+                        
+
+                        <Label id="idDateLBL"  required="true" text="{i18n>IssueDate}" />
+                        <DatePicker id="idEditIssueDate"  value="{path:'payDate', type:'sap.ui.model.type.Date', formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}"  change="handleChange"/>
+
+
+                        
+                        <Label id="idEditLblCreateType" required="true" text="{i18n>Type}" />
+                        <Select selectedKey="{payComponentCode}" id="idEditInpType" items="{ path: '/SF_FOPayComponent',
+                                                sorter : {
+                                                 path : 'name' 
+                                             }
+                                                   }" change="onTimeTyeChange">
+                        <core:Item key="{name}" text="{name}" />
+                        </Select>
+                        </fm:SimpleForm>
+
+                          <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
+                        <Label required="true" id="idEditBValueLBL" text="{i18n>Value}"/>
+                        <Input  type="Number" id="idEditValueINP" value="{value}"  />
+
+                        <Label required="true" id="idCurrencyCodeLBL" text="{i18n>CurrencyCode}"/>
+                        <Select id="idInpCurrencyCode" items="{ path: '/SF_Currency',
+                                                sorter : {
+                                                 path : 'code' 
+                                             }
+                                                   }" editable="false">
+                        <core:Item key="{code}" text="{code}" />
+                        </Select>
+                         </fm:SimpleForm>
+                            <!-- <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
+                        <Label id="idALTCostCenterLBL" text="{i18n>AlternativeCostCenter}"/>
+                       <Select id="idInpAltCostCenter" items="{ path: '/SF_FOCostCenter',
+                                                sorter : {
+                                                 path : 'name' 
+                                             }
+                                                   }" change="onTimeTyeChange">
+                        <core:Item key="{externalCode}" text="{name} ({externalCode})" />
+                        </Select>
+
+                     </fm:SimpleForm> -->
+           
+        
+
+
+</core:FragmentDefinition>

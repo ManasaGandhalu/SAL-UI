@@ -1,0 +1,174 @@
+<mvc:View controllerName="com.sal.salhr.controller.BusinessTripRequestDetailPage" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:ui="sap.suite.ui.commons" xmlns:f="sap.f" xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:form="sap.ui.layout.form" height="100%">
+    <f:DynamicPage id="dynamicPageId" headerExpanded="true" showFooter="true" stickySubheaderProvider="iconTabBar" class="sapUiNoContentPadding">
+        <!-- DynamicPage Title -->
+        <f:title>
+            <f:DynamicPageTitle id="idDynamicPageTitle">
+                <f:heading>
+                    <Title id="idPageTitle" text="{LocalViewModel>/PageTitle}" />
+                </f:heading>
+                <f:breadcrumbs>
+                    <Breadcrumbs id="idBreadcrumbs" currentLocationText="{i18n>Request} {headerModel>/ticketCode}">
+                        <Link id="idHumanResourceLink" text="{LocalViewModel>/PageTitle}" press="onBreadCrumbNavPress" />
+                    </Breadcrumbs>
+                </f:breadcrumbs>
+                <!-- <f:expandedContent>
+                    <Label text="{i18n>RequestID}: {headerModel>/ticketCode}"/>
+                </f:expandedContent> -->
+
+                <!--Modify and Withdraw not be visible for Manager Tile -->
+                <f:actions>
+                    <HBox visible="{= ${headerModel>/status} === 'PENDING' ? false : ${headerModel>/status} === 'APPROVED' ? true : ${headerModel>/status} === 'CANCELLED' ? true: ${headerModel>/status} === 'REJECTED' ? true : false }">
+                        <Button text="Modify" type="Emphasized" press="onEditPress" visible="{parts: [{path: 'LocalViewModel>/EditMode'}, {path:'EmpInfoModel>/IsUserManager}'}], formatter:'.formatter.fnSetModifyVisibilty'}" />
+                    </HBox>
+
+                     <Button text="Withdraw" type="Emphasized" press="onWithdrawPress" visible="{parts: [{path: 'LocalViewModel>/EditMode'}, {path:'EmpInfoModel>/IsUserManager}'}, {path: 'headerModel>/externalStatus'}], formatter:'.formatter.fnSetWithdrawtVisibilty'}"/>
+                </f:actions>
+
+                <!--Approve and Reject visible for Manager Tile -->
+                <f:actions>
+                    <Button text="{i18n>Approve}" icon="sap-icon://accept" type="Accept" press="onApprovePress" visible="{parts: [{path: 'headerModel>/status'}, {path:'headerModel>/workflowRequestId'}, {path:'headerModel>/approverId'}], formatter: '.formatter.setApproveVisibility'}" />
+                    <Button text="{i18n>Reject}" icon="sap-icon://decline" type="Reject" press="onRejectPress" visible="{parts: [{path: 'headerModel>/status'}, {path:'headerModel>/workflowRequestId'}, {path:'headerModel>/approverId'}], formatter: '.formatter.setRejectVisibility'}" />
+                </f:actions>
+
+                <f:navigationActions>
+                    <Button id="idBusinessTripetailsFullScreenBTN" icon="sap-icon://full-screen" press="handleFullScreen" type="Transparent" />
+                    <Button icon="sap-icon://decline" type="Transparent" press="handleClose" />
+                </f:navigationActions>
+            </f:DynamicPageTitle>
+        </f:title>
+        <!-- DynamicPage Header Content -->
+        <f:header>
+            <f:DynamicPageHeader pinnable="true">
+                <layout:HorizontalLayout allowWrapping="true">
+                    <layout:VerticalLayout class="sapUiMediumMarginEnd">
+                        <ObjectAttribute title="{i18n>Status}" />
+                        <ObjectStatus text="{headerModel>/status}" state="{path:'headerModel>/status',formatter:'.formatter.ticketStatus'}" />
+                    </layout:VerticalLayout>
+                    <layout:VerticalLayout class="sapUiMediumMarginEnd">
+                        <ObjectAttribute title="{i18n>RequestedBy}" />
+                        <!-- <ObjectAttribute text="{EmpInfoModel>/EmpFullName}({headerModel>/externalCreatedBy})"/> -->
+                        <ObjectAttribute text="{headerModel>/externalCreatedByName} ({headerModel>/externalCreatedBy})" />
+                    </layout:VerticalLayout>
+                    <layout:VerticalLayout class="sapUiMediumMarginEnd">
+                        <ObjectAttribute title="{i18n>RequestedFor}" />
+                        <ObjectAttribute text="{headerModel>/employeeName} ({headerModel>/employeeId})" />
+                    </layout:VerticalLayout>
+                    <layout:VerticalLayout class="sapUiMediumMarginEnd">
+                        <ObjectAttribute title="{i18n>DateofCreation}" />
+                        <ObjectAttribute text="{path:'headerModel>/requestDate',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {pattern: 'MM/dd/yyyy'}}" />
+                    </layout:VerticalLayout>
+                    <layout:VerticalLayout>
+                        <ObjectAttribute title="Timeline" />
+                        <ui:MicroProcessFlow class="ticketProcessFlow" content="{headerModel>/ticketWorkflowParticipants/results}">
+                            <ui:content>
+                                <ui:MicroProcessFlowItem title="{headerModel>status}" state="{path: 'headerModel>status', formatter:'.formatter.ticketStatus'}" press="itemPress" />
+                            </ui:content>
+                        </ui:MicroProcessFlow>
+                    </layout:VerticalLayout>
+                </layout:HorizontalLayout>
+            </f:DynamicPageHeader>
+        </f:header>
+        <!-- DynamicPage Content -->
+        <f:content>
+            <VBox id="idContentVBox" width="100%">
+                <IconTabBar id="idBusinessTripiconTabBar">
+                    <items>
+                        <!-- <IconTabFilter id="idDisplayBusinessTripRequestITB" text="{i18n>Details}" visible="{= ${LocalViewModel>/EditMode} === true ? false : true }">
+                            <core:Fragment fragmentName="com.sal.salhr.Fragments.BusinessTripModule.DisplayBusinessTripRequest" type="XML"/>
+                        </IconTabFilter>
+                        <IconTabFilter id="idEditBusinessTripRequestITB" text="{i18n>Details}" visible="{= ${LocalViewModel>/EditMode} === true ? true : false }">
+                            <core:Fragment fragmentName="com.sal.salhr.Fragments.BusinessTripModule.EditBusinessTripRequest" type="XML"/>
+                        </IconTabFilter> -->
+                        <IconTabFilter id="idDisplayBusinessTripRequestITB" text="{i18n>Details}" >
+                            <Table id="idBusinessTripTable" growing="true" growingThreshold="10" items="{BusinessTripTableModel>/}">
+                                <headerToolbar>
+                                    <OverflowToolbar>
+                                        <Title text="{i18n>Details}" level="H4" />
+                                        <content>
+                                            <ToolbarSpacer />
+                                         <Button text="Add Business Trip" icon="sap-icon://add" press="onAddBusinessTripPress" visible="{=${LocalViewModel>/TableAddStatus}}"/>
+                                          <!-- <Button text="Add Business Trip" icon="sap-icon://add" press="onAddBusinessTripPress"/> -->
+                                        </content>
+                                    </OverflowToolbar>
+                                </headerToolbar>
+                                <columns>
+                                 <Column demandPopin="true" minScreenWidth="Tablet">
+                                        <Label text="Request Type" />
+                                    </Column>
+                                    <Column demandPopin="true" minScreenWidth="Tablet">
+                                        <Label text="Trip Category" />
+                                    </Column>
+                                    <Column demandPopin="true" minScreenWidth="Tablet">
+                                        <Label text="Travel Date" />
+                                    </Column>
+                                    <Column demandPopin="true" minScreenWidth="Tablet">
+                                        <Label text="Return Date" />
+                                    </Column>
+                                    <Column demandPopin="true" minScreenWidth="Tablet">
+                                        <Label text="Destination Country" />
+                                    </Column>
+                                     <Column demandPopin="true" minScreenWidth="Tablet">
+                                        <Label text="City" />
+                                    </Column>
+                                    <Column demandPopin="true" minScreenWidth="Tablet">
+                                        <Label text="Total Travel Amount" />
+                                    </Column>
+
+                                    <Column demandPopin="true" minScreenWidth="Tablet">
+                                        <Label text="Employee Name" />
+                                    </Column>
+                                    <Column demandPopin="true" minScreenWidth="Tablet">
+                                        <Label text="Cost Center" />
+                                    </Column>
+                                    <Column demandPopin="true" minScreenWidth="Tablet">
+                                        <Label text="Pay Grade" />
+                                    </Column>
+                                    <Column demandPopin="true" width="3rem" minScreenWidth="Tablet" />
+                                    <Column demandPopin="true" width="3rem" minScreenWidth="Tablet" />
+                                </columns>
+                                <items>
+                                    <ColumnListItem id="idBusinessTripColumns" type="Navigation" press="onBusinessDetailPress">
+                                        <cells>
+                                           <Text text="{=${BusinessTripTableModel>cust_requestType}==='1' ? 'Raise Initial Request' : 'Return and Closure'}" />
+                                            <Text text="{=${BusinessTripTableModel>cust_tripCategory}==='B' ? 'Business Trip' : 'Training Trip'}" />
+                                            <Text text="{path:'BusinessTripTableModel>cust_assignStartDate',formatter:'.formatter.formatBusinessDates'}" />
+                                            <Text text="{path:'BusinessTripTableModel>cust_assignEndDate',formatter:'.formatter.formatBusinessDates'}" />
+                                            <Text text="{BusinessTripTableModel>cust_destination}" />
+                                            <HBox>
+                                             <Text text="{BusinessTripTableModel>cust_city}" visible="{=${BusinessTripTableModel>cust_destination}==='SAU'}" />
+                                             <Text text="{BusinessTripTableModel>cust_cityAll}" visible="{=${BusinessTripTableModel>cust_destination}!=='SAU'}" />
+                                            </HBox>
+                                            <Text text="{BusinessTripTableModel>cust_totalAmount}" />
+                                            <Text text="{BusinessTripTableModel>cust_empName}" />
+                                            <Text text="{BusinessTripTableModel>cust_costCenter}" />
+                                            <Text text="{BusinessTripTableModel>cust_payGrade}" />
+
+                                            <Button icon="sap-icon://edit" press="onEditTableItemPress" type="Transparent" visible="{=${LocalViewModel>/TableEditStatus}}" />
+                                             <!-- <Button icon="sap-icon://edit" press="onEditTableItemPress" type="Transparent"  /> -->
+                                             <!-- <Button icon="sap-icon://delete" press="onDeleteItemPress" type="Transparent" visible="{=${LocalViewModel>/TableEditStatus}}" /> -->
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </IconTabFilter>
+
+                        <IconTabFilter text="{i18n>History}">
+                            <!-- <Text text="" /> -->
+                            <core:Fragment fragmentName="com.sal.salhr.Fragments.BusinessTripModule.HistoryTab" type="XML" />
+                        </IconTabFilter>
+                    </items>
+                </IconTabBar>
+            </VBox>
+        </f:content>
+        <f:footer>
+            <!-- <OverflowToolbar id="idOverflowToolbar" visible="{= ${LocalViewModel>/EditMode} === true ? true : false }"> -->
+             <OverflowToolbar id="idOverflowToolbar">
+                <ToolbarSpacer id="idToolbarSpacer" />
+                <Button id="idSaveBTN" text="{i18n>Save}" type="Emphasized" press="onBusinessTripsSavePress" visible="{=${LocalViewModel>/TableEditStatus}}"/>
+                <Button id="idCancelBTN" text="{i18n>Cancel}" type="Ghost" press="onCancelPress" visible="{=${LocalViewModel>/TableEditStatus}}" />
+            </OverflowToolbar>
+        </f:footer>
+    </f:DynamicPage>
+</mvc:View>

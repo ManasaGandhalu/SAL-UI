@@ -1,0 +1,2800 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+        <edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="Capabilities"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Namespace="Org.OData.Core.V1" Alias="Core"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="HumanResourceService">
+            <EntityType Name="MasterModules">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="isArchived" Type="Edm.Boolean" DefaultValue="false"/>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="name" Type="Edm.String" MaxLength="100"/>
+                <Property Name="description" Type="Edm.String" MaxLength="100"/>
+                <Property Name="totalRequests" Type="Edm.Int32"/>
+                <Property Name="totalPending" Type="Edm.Int32"/>
+                <Property Name="totalApproved" Type="Edm.Int32"/>
+                <Property Name="totalRejected" Type="Edm.Int32"/>
+                <Property Name="totalCancelled" Type="Edm.Int32"/>
+                <Property Name="slaPerformance" Type="Edm.Int32"/>
+                <Property Name="myGoals" Type="Edm.Int32"/>
+                <NavigationProperty Name="masterSubModule" Type="Collection(HumanResourceService.MasterSubModules)" Partner="masterModule"/>
+            </EntityType>
+            <EntityType Name="MasterSubModules">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="isArchived" Type="Edm.Boolean" DefaultValue="false"/>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="name" Type="Edm.String" MaxLength="100"/>
+                <Property Name="description" Type="Edm.String" MaxLength="100"/>
+                <Property Name="masterModuleId" Type="Edm.Int32"/>
+                <Property Name="totalRequests" Type="Edm.Int32"/>
+                <Property Name="totalPending" Type="Edm.Int32"/>
+                <Property Name="totalApproved" Type="Edm.Int32"/>
+                <Property Name="totalRejected" Type="Edm.Int32"/>
+                <Property Name="totalCancelled" Type="Edm.Int32"/>
+                <NavigationProperty Name="masterModule" Type="HumanResourceService.MasterModules" Partner="masterSubModule">
+                    <ReferentialConstraint Property="masterModuleId" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <NavigationProperty Name="tickets" Type="Collection(HumanResourceService.Tickets)"/>
+            </EntityType>
+            <EntityType Name="Tickets">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="isArchived" Type="Edm.Boolean" DefaultValue="false"/>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="moduleId" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="subModuleId" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="ticketCode" Type="Edm.String" Nullable="false" MaxLength="16"/>
+                <Property Name="externalCode" Type="Edm.String" MaxLength="36"/>
+                <Property Name="effectiveStartDate" Type="Edm.Date"/>
+                <Property Name="status" Type="Edm.String" DefaultValue="Pending" MaxLength="30"/>
+                <Property Name="requestDate" Type="Edm.Date"/>
+                <Property Name="workflowRequestId" Type="Edm.String" MaxLength="36"/>
+                <Property Name="isApprovalRequired" Type="Edm.Boolean" DefaultValue="false"/>
+                <Property Name="employeeId" Type="Edm.String" MaxLength="255"/>
+                <Property Name="externalCreatedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="externalCreatedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="externalModifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="externalModifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="statusValue" Type="Edm.Int32"/>
+                <NavigationProperty Name="module" Type="HumanResourceService.MasterModules">
+                    <ReferentialConstraint Property="moduleId" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <NavigationProperty Name="subModule" Type="HumanResourceService.MasterSubModules">
+                    <ReferentialConstraint Property="subModuleId" ReferencedProperty="ID"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="EmpInfo">
+                <Key>
+                    <PropertyRef Name="userId"/>
+                </Key>
+                <Property Name="userId" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="firstName" Type="Edm.String" MaxLength="100"/>
+                <Property Name="middleName" Type="Edm.String" MaxLength="100"/>
+                <Property Name="lastName" Type="Edm.String" MaxLength="100"/>
+                <Property Name="bloodGroup" Type="Edm.String" MaxLength="100"/>
+                <Property Name="jobTitle" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="seniorityDate" Type="Edm.Date"/>
+                <Property Name="costCentre" Type="Edm.String" MaxLength="100"/>
+                <Property Name="nationality" Type="Edm.String" MaxLength="100"/>
+                <Property Name="payGrade" Type="Edm.String" MaxLength="100"/>
+                <Property Name="emergencyNumber" Type="Edm.String" MaxLength="100"/>
+            </EntityType>
+            <EntityType Name="StaticIntents">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="isArchived" Type="Edm.Boolean" DefaultValue="false"/>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="intentKey" Type="Edm.String" MaxLength="100"/>
+                <Property Name="description" Type="Edm.String" MaxLength="4000"/>
+                <Property Name="masterSubModuleId" Type="Edm.Int32"/>
+                <Property Name="url" Type="Edm.String" MaxLength="300"/>
+                <NavigationProperty Name="masterSubModule" Type="HumanResourceService.MasterSubModules">
+                    <ReferentialConstraint Property="masterSubModuleId" ReferencedProperty="ID"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="Question">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="isArchived" Type="Edm.Boolean" DefaultValue="false"/>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="questionText" Type="Edm.String" MaxLength="4000"/>
+                <Property Name="description" Type="Edm.String" MaxLength="4000"/>
+                <NavigationProperty Name="answer" Type="Collection(HumanResourceService.Answer)" Partner="question"/>
+                <NavigationProperty Name="rating" Type="Collection(HumanResourceService.Rating)" Partner="question"/>
+                <NavigationProperty Name="suggestion" Type="Collection(HumanResourceService.Suggestion)" Partner="question"/>
+            </EntityType>
+            <EntityType Name="Answer">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="isArchived" Type="Edm.Boolean" DefaultValue="false"/>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="employeeId" Type="Edm.Int32"/>
+                <Property Name="moduleId" Type="Edm.Int32"/>
+                <Property Name="masterSubModuleId" Type="Edm.Int32"/>
+                <Property Name="questionId" Type="Edm.Int32"/>
+                <Property Name="answerText" Type="Edm.String" MaxLength="1000"/>
+                <NavigationProperty Name="question" Type="HumanResourceService.Question" Partner="answer">
+                    <ReferentialConstraint Property="questionId" ReferencedProperty="ID"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="Rating">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="isArchived" Type="Edm.Boolean" DefaultValue="false"/>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="employeeId" Type="Edm.Int32"/>
+                <Property Name="moduleId" Type="Edm.Int32"/>
+                <Property Name="masterSubModuleId" Type="Edm.Int32"/>
+                <Property Name="rating" Type="Edm.Int32"/>
+                <Property Name="questionId" Type="Edm.Int32"/>
+                <NavigationProperty Name="question" Type="HumanResourceService.Question" Partner="rating">
+                    <ReferentialConstraint Property="questionId" ReferencedProperty="ID"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="RatingHistory">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="isArchived" Type="Edm.Boolean" DefaultValue="false"/>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="employeeId" Type="Edm.Int32"/>
+                <Property Name="ratingId" Type="Edm.Int32"/>
+                <Property Name="moduleId" Type="Edm.Int32"/>
+                <Property Name="masterSubModuleId" Type="Edm.Int32"/>
+                <Property Name="questionId" Type="Edm.Int32"/>
+                <NavigationProperty Name="rating" Type="HumanResourceService.Rating">
+                    <ReferentialConstraint Property="ratingId" ReferencedProperty="ID"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="Suggestion">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="isArchived" Type="Edm.Boolean" DefaultValue="false"/>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="employeeId" Type="Edm.Int32"/>
+                <Property Name="moduleId" Type="Edm.Int32"/>
+                <Property Name="masterSubModuleId" Type="Edm.Int32"/>
+                <Property Name="suggestion" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="questionId" Type="Edm.Int32"/>
+                <NavigationProperty Name="question" Type="HumanResourceService.Question" Partner="suggestion">
+                    <ReferentialConstraint Property="questionId" ReferencedProperty="ID"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="SuggestionHistory">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="isArchived" Type="Edm.Boolean" DefaultValue="false"/>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="employeeId" Type="Edm.Int32"/>
+                <Property Name="suggestionId" Type="Edm.Int32"/>
+                <Property Name="moduleId" Type="Edm.Int32"/>
+                <Property Name="masterSubModuleId" Type="Edm.Int32"/>
+                <NavigationProperty Name="suggestion" Type="HumanResourceService.Suggestion">
+                    <ReferentialConstraint Property="suggestionId" ReferencedProperty="ID"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="SF_Attachment">
+                <Key>
+                    <PropertyRef Name="attachmentId"/>
+                </Key>
+                <Property Name="attachmentId" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="country" Type="Edm.String" MaxLength="256"/>
+                <Property Name="createdDate" Type="Edm.DateTimeOffset"/>
+                <Property Name="deletable" Type="Edm.Boolean"/>
+                <Property Name="deprecable" Type="Edm.Boolean"/>
+                <Property Name="description" Type="Edm.String" MaxLength="4000"/>
+                <Property Name="documentCategory" Type="Edm.String" MaxLength="256"/>
+                <Property Name="documentEntityId" Type="Edm.String" MaxLength="256"/>
+                <Property Name="documentEntityType" Type="Edm.String" MaxLength="256"/>
+                <Property Name="documentType" Type="Edm.String" MaxLength="256"/>
+                <Property Name="externalId" Type="Edm.Int64"/>
+                <Property Name="fileContent" Type="Edm.Binary"/>
+                <Property Name="fileExtension" Type="Edm.String" MaxLength="5"/>
+                <Property Name="fileName" Type="Edm.String" MaxLength="256"/>
+                <Property Name="fileSize" Type="Edm.Int32"/>
+                <Property Name="imageConvertInProgress" Type="Edm.Boolean"/>
+                <Property Name="language" Type="Edm.String" MaxLength="256"/>
+                <Property Name="lastAccessed" Type="Edm.DateTimeOffset"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="mimeType" Type="Edm.String" MaxLength="256"/>
+                <Property Name="module" Type="Edm.String" MaxLength="100"/>
+                <Property Name="moduleCategory" Type="Edm.String" MaxLength="100"/>
+                <Property Name="ownerId" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ownerIdType" Type="Edm.String" MaxLength="100"/>
+                <Property Name="piiFlag" Type="Edm.Int32"/>
+                <Property Name="searchable" Type="Edm.Boolean"/>
+                <Property Name="softDelete" Type="Edm.Boolean"/>
+                <Property Name="userId" Type="Edm.String" MaxLength="100"/>
+                <Property Name="viewable" Type="Edm.Boolean"/>
+                <NavigationProperty Name="userNav" Type="HumanResourceService.SF_User"/>
+            </EntityType>
+            <EntityType Name="SF_User">
+                <Key>
+                    <PropertyRef Name="userId"/>
+                </Key>
+                <Property Name="userId" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="empId" Type="Edm.String" MaxLength="255"/>
+                <Property Name="username" Type="Edm.String" MaxLength="100"/>
+                <Property Name="firstName" Type="Edm.String" MaxLength="128"/>
+                <Property Name="middleName" Type="Edm.String" MaxLength="128"/>
+                <Property Name="lastName" Type="Edm.String" MaxLength="128"/>
+                <Property Name="email" Type="Edm.String" MaxLength="100"/>
+                <Property Name="gender" Type="Edm.String"/>
+                <Property Name="title" Type="Edm.String" MaxLength="255"/>
+                <Property Name="jobCode" Type="Edm.String" MaxLength="128"/>
+                <Property Name="division" Type="Edm.String" MaxLength="128"/>
+                <Property Name="city" Type="Edm.String" MaxLength="255"/>
+                <Property Name="country" Type="Edm.String" MaxLength="255"/>
+            </EntityType>
+            <EntityType Name="SF_MDFEnumValue">
+                <Key>
+                    <PropertyRef Name="key"/>
+                    <PropertyRef Name="value"/>
+                </Key>
+                <Property Name="key" Type="Edm.String" Nullable="false"/>
+                <Property Name="value" Type="Edm.String" Nullable="false"/>
+                <Property Name="ar_SA" Type="Edm.String"/>
+                <Property Name="en_DEBUG" Type="Edm.String"/>
+                <Property Name="en_US" Type="Edm.String"/>
+                <Property Name="localized" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="SF_WfRequest">
+                <Key>
+                    <PropertyRef Name="wfRequestId"/>
+                </Key>
+                <Property Name="wfRequestId" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="createdOn" Type="Edm.Date"/>
+                <Property Name="currentStepNum" Type="Edm.Int32"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="lastModifiedOn" Type="Edm.Date"/>
+                <Property Name="module" Type="Edm.String" MaxLength="128"/>
+                <Property Name="parentWfRequestId" Type="Edm.Int64"/>
+                <Property Name="reminderSentDate" Type="Edm.Date"/>
+                <Property Name="status" Type="Edm.String" MaxLength="30"/>
+                <Property Name="totalSteps" Type="Edm.Int32"/>
+                <Property Name="url" Type="Edm.String"/>
+                <NavigationProperty Name="parentWfRequestNav" Type="HumanResourceService.SF_WfRequest"/>
+            </EntityType>
+            <EntityType Name="SF_PickListValueV2">
+                <Key>
+                    <PropertyRef Name="PickListV2_effectiveStartDate"/>
+                    <PropertyRef Name="PickListV2_id"/>
+                    <PropertyRef Name="externalCode"/>
+                </Key>
+                <Property Name="PickListV2_effectiveStartDate" Type="Edm.Date" Nullable="false"/>
+                <Property Name="PickListV2_id" Type="Edm.String" Nullable="false" MaxLength="128"/>
+                <Property Name="externalCode" Type="Edm.String" Nullable="false" MaxLength="128"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="externalStandardizedCode" Type="Edm.String" MaxLength="255"/>
+                <Property Name="lValue" Type="Edm.Int64"/>
+                <Property Name="label_ar_SA" Type="Edm.String" MaxLength="255"/>
+                <Property Name="label_defaultValue" Type="Edm.String" MaxLength="255"/>
+                <Property Name="label_en_DEBUG" Type="Edm.String" MaxLength="255"/>
+                <Property Name="label_en_US" Type="Edm.String" MaxLength="255"/>
+                <Property Name="label_localized" Type="Edm.String" MaxLength="255"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="legacyStatus" Type="Edm.Int64"/>
+                <Property Name="maxVal" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="mdfSystemRecordStatus" Type="Edm.String" MaxLength="255"/>
+                <Property Name="minVal" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="nonUniqueExternalCode" Type="Edm.String" MaxLength="255"/>
+                <Property Name="optValue" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="optionId" Type="Edm.Int64"/>
+                <Property Name="parentPickListValue" Type="Edm.String" MaxLength="128"/>
+                <Property Name="rValue" Type="Edm.Int64"/>
+                <Property Name="status" Type="Edm.String" MaxLength="255"/>
+                <NavigationProperty Name="createdByNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="lastModifiedByNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="mdfSystemRecordStatusNav" Type="HumanResourceService.SF_MDFEnumValue"/>
+                <NavigationProperty Name="parentPickListValueNav" Type="Collection(HumanResourceService.SF_PickListValueV2)"/>
+                <NavigationProperty Name="statusNav" Type="HumanResourceService.SF_MDFEnumValue"/>
+            </EntityType>
+            <EntityType Name="SF_Country">
+                <Key>
+                    <PropertyRef Name="code"/>
+                    <PropertyRef Name="effectiveStartDate"/>
+                </Key>
+                <Property Name="code" Type="Edm.String" Nullable="false" MaxLength="128"/>
+                <Property Name="effectiveStartDate" Type="Edm.Date" Nullable="false"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="currency" Type="Edm.String" MaxLength="128"/>
+                <Property Name="effectiveEndDate" Type="Edm.Date"/>
+                <Property Name="externalName_ar_SA" Type="Edm.String" MaxLength="255"/>
+                <Property Name="externalName_defaultValue" Type="Edm.String" MaxLength="255"/>
+                <Property Name="externalName_en_DEBUG" Type="Edm.String" MaxLength="255"/>
+                <Property Name="externalName_en_US" Type="Edm.String" MaxLength="255"/>
+                <Property Name="externalName_localized" Type="Edm.String" MaxLength="255"/>
+                <Property Name="isDRMEnabled" Type="Edm.Boolean"/>
+                <Property Name="isSetByMigrate" Type="Edm.Boolean"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="mdfSystemRecordStatus" Type="Edm.String" MaxLength="255"/>
+                <Property Name="numericCountryCode" Type="Edm.Int64"/>
+                <Property Name="status" Type="Edm.String" MaxLength="255"/>
+                <Property Name="territoryId" Type="Edm.Int64"/>
+                <Property Name="twoCharCountryCode" Type="Edm.String" MaxLength="255"/>
+                <NavigationProperty Name="createdByNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="lastModifiedByNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="mdfSystemRecordStatusNav" Type="HumanResourceService.SF_MDFEnumValue"/>
+                <NavigationProperty Name="statusNav" Type="HumanResourceService.SF_MDFEnumValue"/>
+                <NavigationProperty Name="wfRequestNav" Type="Collection(HumanResourceService.SF_WfRequest)"/>
+            </EntityType>
+            <EntityType Name="SF_FOPayComponent">
+                <Key>
+                    <PropertyRef Name="externalCode"/>
+                    <PropertyRef Name="startDate"/>
+                </Key>
+                <Property Name="externalCode" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="startDate" Type="Edm.Date" Nullable="false"/>
+                <Property Name="basePayComponentGroup" Type="Edm.String"/>
+                <Property Name="canOverride" Type="Edm.Boolean"/>
+                <Property Name="companyFlx" Type="Edm.String"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="createdOn" Type="Edm.Date"/>
+                <Property Name="currency" Type="Edm.String"/>
+                <Property Name="description" Type="Edm.String" MaxLength="128"/>
+                <Property Name="displayOnSelfService" Type="Edm.Boolean"/>
+                <Property Name="endDate" Type="Edm.Date"/>
+                <Property Name="frequencyCode" Type="Edm.String"/>
+                <Property Name="isEarning" Type="Edm.Boolean"/>
+                <Property Name="isEndDatedPayment" Type="Edm.Boolean"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="lastModifiedOn" Type="Edm.Date"/>
+                <Property Name="maxFractionDigits" Type="Edm.Int64"/>
+                <Property Name="name" Type="Edm.String" MaxLength="32"/>
+                <Property Name="payComponentType" Type="Edm.String" MaxLength="32"/>
+                <Property Name="payComponentValue" Type="Edm.Double"/>
+                <Property Name="recurring" Type="Edm.Boolean"/>
+                <Property Name="selfServiceDescription" Type="Edm.String" MaxLength="32"/>
+                <Property Name="status" Type="Edm.String"/>
+                <Property Name="target" Type="Edm.Boolean"/>
+                <Property Name="taxTreatment" Type="Edm.String" MaxLength="32"/>
+                <Property Name="usedForCompPlanning" Type="Edm.String" MaxLength="32"/>
+                <NavigationProperty Name="taxTreatmentNav" Type="HumanResourceService.SF_PicklistOption"/>
+            </EntityType>
+            <EntityType Name="SF_FOCostCenter">
+                <Key>
+                    <PropertyRef Name="externalCode"/>
+                    <PropertyRef Name="startDate"/>
+                </Key>
+                <Property Name="externalCode" Type="Edm.String" Nullable="false" MaxLength="20"/>
+                <Property Name="startDate" Type="Edm.Date" Nullable="false"/>
+                <Property Name="costcenterExternalObjectID" Type="Edm.String" MaxLength="40"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="createdOn" Type="Edm.Date"/>
+                <Property Name="description" Type="Edm.String" MaxLength="128"/>
+                <Property Name="description_ar_SA" Type="Edm.String" MaxLength="128"/>
+                <Property Name="description_defaultValue" Type="Edm.String" MaxLength="128"/>
+                <Property Name="description_en_DEBUG" Type="Edm.String" MaxLength="128"/>
+                <Property Name="description_en_US" Type="Edm.String" MaxLength="128"/>
+                <Property Name="description_localized" Type="Edm.String" MaxLength="128"/>
+                <Property Name="endDate" Type="Edm.Date"/>
+                <Property Name="entityUUID" Type="Edm.String" MaxLength="255"/>
+                <Property Name="glStatementCode" Type="Edm.String" MaxLength="32"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="lastModifiedOn" Type="Edm.Date"/>
+                <Property Name="name" Type="Edm.String" MaxLength="90"/>
+                <Property Name="name_ar_SA" Type="Edm.String" MaxLength="90"/>
+                <Property Name="name_defaultValue" Type="Edm.String" MaxLength="90"/>
+                <Property Name="name_en_DEBUG" Type="Edm.String" MaxLength="90"/>
+                <Property Name="name_en_US" Type="Edm.String" MaxLength="90"/>
+                <Property Name="name_localized" Type="Edm.String" MaxLength="90"/>
+                <Property Name="status" Type="Edm.String" MaxLength="255"/>
+                <NavigationProperty Name="createdByNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="lastModifiedByNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="statusNav" Type="HumanResourceService.SF_MDFEnumValue"/>
+            </EntityType>
+            <EntityType Name="SF_FOPayGrade">
+                <Key>
+                    <PropertyRef Name="externalCode"/>
+                    <PropertyRef Name="startDate"/>
+                </Key>
+                <Property Name="externalCode" Type="Edm.String" Nullable="false" MaxLength="32"/>
+                <Property Name="startDate" Type="Edm.Date" Nullable="false"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="createdOn" Type="Edm.Date"/>
+                <Property Name="description" Type="Edm.String" MaxLength="128"/>
+                <Property Name="endDate" Type="Edm.Date"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="lastModifiedOn" Type="Edm.Date"/>
+                <Property Name="name" Type="Edm.String" MaxLength="42"/>
+                <Property Name="paygradeLevel" Type="Edm.Int64"/>
+                <Property Name="status" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="SF_UpsertResult">
+                <Key>
+                    <PropertyRef Name="key"/>
+                </Key>
+                <Property Name="key" Type="Edm.String" Nullable="false"/>
+                <Property Name="editStatus" Type="Edm.String"/>
+                <Property Name="httpCode" Type="Edm.Int32"/>
+                <Property Name="index" Type="Edm.Int32"/>
+                <Property Name="message" Type="Edm.String"/>
+                <Property Name="status" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="SF_EmpEmployment">
+                <Key>
+                    <PropertyRef Name="personIdExternal"/>
+                    <PropertyRef Name="userId"/>
+                </Key>
+                <Property Name="personIdExternal" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="userId" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="assignmentClass" Type="Edm.String" MaxLength="128"/>
+                <Property Name="assignmentIdExternal" Type="Edm.String"/>
+                <Property Name="benefitsEligibilityStartDate" Type="Edm.Date"/>
+                <Property Name="bonusPayExpirationDate" Type="Edm.Date"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="createdOn" Type="Edm.Date"/>
+                <Property Name="customDate1" Type="Edm.Date"/>
+                <Property Name="customDate2" Type="Edm.Date"/>
+                <Property Name="customDate3" Type="Edm.Date"/>
+                <Property Name="customDate6" Type="Edm.Date"/>
+                <Property Name="customString1" Type="Edm.String" MaxLength="256"/>
+                <Property Name="customString19" Type="Edm.String" MaxLength="128"/>
+                <Property Name="eligibleForSalContinuation" Type="Edm.Boolean"/>
+                <Property Name="endDate" Type="Edm.Date"/>
+                <Property Name="hiringNotCompleted" Type="Edm.Boolean"/>
+                <Property Name="includeAllRecords" Type="Edm.Boolean"/>
+                <Property Name="isContingentWorker" Type="Edm.Boolean"/>
+                <Property Name="isECRecord" Type="Edm.Boolean"/>
+                <Property Name="jobNumber" Type="Edm.Int64"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="lastModifiedOn" Type="Edm.Date"/>
+                <Property Name="notes" Type="Edm.String" MaxLength="4000"/>
+                <Property Name="okToRehire" Type="Edm.Boolean"/>
+                <Property Name="prevEmployeeId" Type="Edm.String" MaxLength="256"/>
+                <Property Name="seniorityDate" Type="Edm.Date"/>
+                <Property Name="startDate" Type="Edm.Date"/>
+                <NavigationProperty Name="jobInfoNav" Type="Collection(HumanResourceService.SF_EmpJob)"/>
+                <NavigationProperty Name="personNav" Type="HumanResourceService.SF_PerPerson"/>
+                <NavigationProperty Name="userNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="wfRequestNav" Type="HumanResourceService.SF_WfRequest"/>
+            </EntityType>
+            <EntityType Name="SF_PicklistOption">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="id" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="externalCode" Type="Edm.String" MaxLength="256"/>
+                <Property Name="localeLabel" Type="Edm.String"/>
+                <Property Name="maxValue" Type="Edm.Double"/>
+                <Property Name="mdfExternalCode" Type="Edm.String" MaxLength="256"/>
+                <Property Name="minValue" Type="Edm.Double"/>
+                <Property Name="optionValue" Type="Edm.Double"/>
+                <Property Name="sortOrder" Type="Edm.Int32"/>
+                <Property Name="status" Type="Edm.String" MaxLength="9"/>
+                <NavigationProperty Name="childPicklistOptions" Type="Collection(HumanResourceService.SF_PicklistOption)"/>
+                <NavigationProperty Name="parentPicklistOption" Type="HumanResourceService.SF_PicklistOption"/>
+            </EntityType>
+            <EntityType Name="SF_FOPayGroup">
+                <Key>
+                    <PropertyRef Name="externalCode"/>
+                    <PropertyRef Name="startDate"/>
+                </Key>
+                <Property Name="externalCode" Type="Edm.String" Nullable="false" MaxLength="4"/>
+                <Property Name="startDate" Type="Edm.Date" Nullable="false"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="createdOn" Type="Edm.Date"/>
+                <Property Name="cust_toLegalEntityProp" Type="Edm.String"/>
+                <Property Name="description" Type="Edm.String" MaxLength="128"/>
+                <Property Name="description_ar_SA" Type="Edm.String" MaxLength="128"/>
+                <Property Name="description_defaultValue" Type="Edm.String" MaxLength="128"/>
+                <Property Name="description_en_DEBUG" Type="Edm.String" MaxLength="128"/>
+                <Property Name="description_en_US" Type="Edm.String" MaxLength="128"/>
+                <Property Name="description_localized" Type="Edm.String" MaxLength="128"/>
+                <Property Name="earliestChangeDate" Type="Edm.Date"/>
+                <Property Name="endDate" Type="Edm.Date"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="lastModifiedOn" Type="Edm.Date"/>
+                <Property Name="name" Type="Edm.String" MaxLength="90"/>
+                <Property Name="name_ar_SA" Type="Edm.String" MaxLength="90"/>
+                <Property Name="name_defaultValue" Type="Edm.String" MaxLength="90"/>
+                <Property Name="name_en_DEBUG" Type="Edm.String" MaxLength="90"/>
+                <Property Name="name_en_US" Type="Edm.String" MaxLength="90"/>
+                <Property Name="name_localized" Type="Edm.String" MaxLength="90"/>
+                <Property Name="payFrequency" Type="Edm.String" MaxLength="128"/>
+                <Property Name="paymentFrequency" Type="Edm.String" MaxLength="128"/>
+                <Property Name="status" Type="Edm.String" MaxLength="255"/>
+                <NavigationProperty Name="createdByNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="lastModifiedByNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="payFrequencyNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="paymentFrequencyNav" Type="HumanResourceService.SF_PickListValueV2"/>
+                <NavigationProperty Name="statusNav" Type="HumanResourceService.SF_MDFEnumValue"/>
+            </EntityType>
+            <EntityType Name="SF_PerPerson">
+                <Key>
+                    <PropertyRef Name="personIdExternal"/>
+                </Key>
+                <Property Name="personIdExternal" Type="Edm.String" Nullable="false" MaxLength="32"/>
+                <Property Name="countryOfBirth" Type="Edm.String" MaxLength="100"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="createdOn" Type="Edm.Date"/>
+                <Property Name="customDate1" Type="Edm.Date"/>
+                <Property Name="customString1" Type="Edm.String" MaxLength="256"/>
+                <Property Name="dateOfBirth" Type="Edm.Date"/>
+                <Property Name="includeAllRecords" Type="Edm.Boolean"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="lastModifiedOn" Type="Edm.Date"/>
+                <Property Name="perPersonUuid" Type="Edm.String" MaxLength="32"/>
+                <Property Name="personId" Type="Edm.Int64"/>
+                <Property Name="placeOfBirth" Type="Edm.String" MaxLength="100"/>
+                <Property Name="userId" Type="Edm.String" MaxLength="100"/>
+                <NavigationProperty Name="emergencyContactNav" Type="Collection(HumanResourceService.SF_PerEmergencyContacts)"/>
+                <NavigationProperty Name="employmentNav" Type="Collection(HumanResourceService.SF_EmpEmployment)"/>
+                <NavigationProperty Name="personalInfoNav" Type="Collection(HumanResourceService.SF_PerPersonal)"/>
+            </EntityType>
+            <EntityType Name="SF_PerPersonal">
+                <Key>
+                    <PropertyRef Name="personIdExternal"/>
+                    <PropertyRef Name="startDate"/>
+                </Key>
+                <Property Name="personIdExternal" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="startDate" Type="Edm.Date" Nullable="false"/>
+                <Property Name="attachmentId" Type="Edm.String"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="createdOn" Type="Edm.Date"/>
+                <Property Name="customString2" Type="Edm.String" MaxLength="256"/>
+                <Property Name="endDate" Type="Edm.Date"/>
+                <Property Name="firstName" Type="Edm.String" MaxLength="128"/>
+                <Property Name="firstNameAlt1" Type="Edm.String" MaxLength="128"/>
+                <Property Name="gender" Type="Edm.String" MaxLength="2"/>
+                <Property Name="includeAllRecords" Type="Edm.Boolean"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="lastModifiedOn" Type="Edm.Date"/>
+                <Property Name="lastName" Type="Edm.String" MaxLength="128"/>
+                <Property Name="lastNameAlt1" Type="Edm.String" MaxLength="128"/>
+                <Property Name="maritalStatus" Type="Edm.String" MaxLength="50"/>
+                <Property Name="middleName" Type="Edm.String" MaxLength="128"/>
+                <Property Name="middleNameAlt1" Type="Edm.String" MaxLength="128"/>
+                <Property Name="nationality" Type="Edm.String" MaxLength="128"/>
+                <Property Name="nativePreferredLang" Type="Edm.String" MaxLength="256"/>
+                <Property Name="operation" Type="Edm.String"/>
+                <Property Name="salutation" Type="Edm.String" MaxLength="128"/>
+                <Property Name="secondNationality" Type="Edm.String" MaxLength="128"/>
+                <Property Name="since" Type="Edm.Date"/>
+                <NavigationProperty Name="localNavSAU" Type="HumanResourceService.SF_PerGlobalInfoSAU"/>
+                <NavigationProperty Name="maritalStatusNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="nativePreferredLangNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="personNav" Type="HumanResourceService.SF_PerPerson"/>
+                <NavigationProperty Name="salutationNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="wfRequestNav" Type="HumanResourceService.SF_WfRequest"/>
+            </EntityType>
+            <EntityType Name="SF_PerEmergencyContacts">
+                <Key>
+                    <PropertyRef Name="name"/>
+                    <PropertyRef Name="personIdExternal"/>
+                    <PropertyRef Name="relationship"/>
+                </Key>
+                <Property Name="name" Type="Edm.String" Nullable="false" MaxLength="256"/>
+                <Property Name="personIdExternal" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="relationship" Type="Edm.String" Nullable="false" MaxLength="50"/>
+                <Property Name="addressAddress1" Type="Edm.String" MaxLength="256"/>
+                <Property Name="addressAddress2" Type="Edm.String" MaxLength="256"/>
+                <Property Name="addressAddress3" Type="Edm.String" MaxLength="256"/>
+                <Property Name="addressCity" Type="Edm.String" MaxLength="256"/>
+                <Property Name="addressCountry" Type="Edm.String" MaxLength="256"/>
+                <Property Name="addressCounty" Type="Edm.String" MaxLength="256"/>
+                <Property Name="addressProvince" Type="Edm.String" MaxLength="256"/>
+                <Property Name="addressState" Type="Edm.String" MaxLength="256"/>
+                <Property Name="addressZipCode" Type="Edm.String" MaxLength="256"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="createdOn" Type="Edm.Date"/>
+                <Property Name="customString2" Type="Edm.String" MaxLength="256"/>
+                <Property Name="isAddSameAsEmployee" Type="Edm.Boolean"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="lastModifiedOn" Type="Edm.Date"/>
+                <Property Name="operation" Type="Edm.String"/>
+                <Property Name="phone" Type="Edm.String" MaxLength="10"/>
+                <Property Name="primaryFlag" Type="Edm.String" MaxLength="1"/>
+                <Property Name="secondPhone" Type="Edm.String" MaxLength="256"/>
+                <NavigationProperty Name="customString2Nav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="personNav" Type="HumanResourceService.SF_PerPerson"/>
+                <NavigationProperty Name="relationshipNav" Type="HumanResourceService.SF_PicklistOption"/>
+            </EntityType>
+            <EntityType Name="SF_PerGlobalInfoSAU">
+                <Key>
+                    <PropertyRef Name="country"/>
+                    <PropertyRef Name="personIdExternal"/>
+                    <PropertyRef Name="startDate"/>
+                </Key>
+                <Property Name="country" Type="Edm.String" Nullable="false"/>
+                <Property Name="personIdExternal" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="startDate" Type="Edm.Date" Nullable="false"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="createdOn" Type="Edm.Date"/>
+                <Property Name="customDate1" Type="Edm.Date"/>
+                <Property Name="customDate2" Type="Edm.Date"/>
+                <Property Name="customString1" Type="Edm.String" MaxLength="256"/>
+                <Property Name="customString2" Type="Edm.String" MaxLength="256"/>
+                <Property Name="customString3" Type="Edm.String" MaxLength="256"/>
+                <Property Name="customString6" Type="Edm.String" MaxLength="256"/>
+                <Property Name="endDate" Type="Edm.Date"/>
+                <Property Name="genericDate1" Type="Edm.Date"/>
+                <Property Name="genericDate2" Type="Edm.Date"/>
+                <Property Name="genericDate3" Type="Edm.Date"/>
+                <Property Name="genericDate4" Type="Edm.Date"/>
+                <Property Name="genericDate5" Type="Edm.Date"/>
+                <Property Name="genericDate6" Type="Edm.Date"/>
+                <Property Name="genericDate7" Type="Edm.Date"/>
+                <Property Name="genericNumber1" Type="Edm.Int64"/>
+                <Property Name="genericNumber10" Type="Edm.Int64"/>
+                <Property Name="genericNumber11" Type="Edm.Int64"/>
+                <Property Name="genericNumber12" Type="Edm.Int64"/>
+                <Property Name="genericNumber13" Type="Edm.Int64"/>
+                <Property Name="genericNumber2" Type="Edm.Int64"/>
+                <Property Name="genericNumber3" Type="Edm.Int64"/>
+                <Property Name="genericNumber4" Type="Edm.Int64"/>
+                <Property Name="genericNumber5" Type="Edm.Int64"/>
+                <Property Name="genericNumber6" Type="Edm.Int64"/>
+                <Property Name="genericNumber7" Type="Edm.Int64"/>
+                <Property Name="genericNumber8" Type="Edm.Int64"/>
+                <Property Name="genericNumber9" Type="Edm.Int64"/>
+                <Property Name="genericString1" Type="Edm.String" MaxLength="60"/>
+                <Property Name="genericString10" Type="Edm.String" MaxLength="256"/>
+                <Property Name="genericString11" Type="Edm.String" MaxLength="256"/>
+                <Property Name="genericString12" Type="Edm.String" MaxLength="256"/>
+                <Property Name="genericString13" Type="Edm.String" MaxLength="256"/>
+                <Property Name="genericString14" Type="Edm.String" MaxLength="256"/>
+                <Property Name="genericString15" Type="Edm.String" MaxLength="256"/>
+                <Property Name="genericString16" Type="Edm.String" MaxLength="256"/>
+                <Property Name="genericString17" Type="Edm.String" MaxLength="256"/>
+                <Property Name="genericString18" Type="Edm.String" MaxLength="256"/>
+                <Property Name="genericString19" Type="Edm.String" MaxLength="256"/>
+                <Property Name="genericString2" Type="Edm.String" MaxLength="256"/>
+                <Property Name="genericString20" Type="Edm.String" MaxLength="256"/>
+                <Property Name="genericString3" Type="Edm.String" MaxLength="256"/>
+                <Property Name="genericString4" Type="Edm.String" MaxLength="256"/>
+                <Property Name="genericString5" Type="Edm.String" MaxLength="256"/>
+                <Property Name="genericString6" Type="Edm.String" MaxLength="256"/>
+                <Property Name="genericString7" Type="Edm.String" MaxLength="256"/>
+                <Property Name="genericString8" Type="Edm.String" MaxLength="256"/>
+                <Property Name="genericString9" Type="Edm.String" MaxLength="256"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="lastModifiedOn" Type="Edm.Date"/>
+                <Property Name="operation" Type="Edm.String"/>
+                <NavigationProperty Name="customString2Nav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="customString6Nav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="genericNumber3Nav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="genericNumber4Nav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="genericNumber5Nav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="genericString13Nav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="genericString14Nav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="genericString15Nav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="genericString5Nav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="genericString6Nav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="genericString7Nav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="personNav" Type="HumanResourceService.SF_PerPerson"/>
+            </EntityType>
+            <EntityType Name="SF_EmpJob">
+                <Key>
+                    <PropertyRef Name="seqNumber"/>
+                    <PropertyRef Name="startDate"/>
+                    <PropertyRef Name="userId"/>
+                </Key>
+                <Property Name="seqNumber" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="startDate" Type="Edm.Date" Nullable="false"/>
+                <Property Name="userId" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="assedicCertInitialStateNum" Type="Edm.Int64"/>
+                <Property Name="assedicCertObjectNum" Type="Edm.Int64"/>
+                <Property Name="assessmentStatus" Type="Edm.String" MaxLength="256"/>
+                <Property Name="attachment" Type="Edm.Binary"/>
+                <Property Name="attachmentFileName" Type="Edm.String" MaxLength="256"/>
+                <Property Name="attachmentFileSize" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="attachmentFileType" Type="Edm.String" MaxLength="5"/>
+                <Property Name="attachmentId" Type="Edm.String"/>
+                <Property Name="attachmentMimeType" Type="Edm.String" MaxLength="256"/>
+                <Property Name="attachmentStatus" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="businessUnit" Type="Edm.String" MaxLength="32"/>
+                <Property Name="calcMethodIndicator" Type="Edm.Boolean"/>
+                <Property Name="calculationBase" Type="Edm.String" MaxLength="256"/>
+                <Property Name="codeOfJobForEldp" Type="Edm.String" MaxLength="256"/>
+                <Property Name="commitmentIndicator" Type="Edm.String" MaxLength="256"/>
+                <Property Name="company" Type="Edm.String" MaxLength="20"/>
+                <Property Name="continuedSicknessPayMeasure" Type="Edm.String" MaxLength="256"/>
+                <Property Name="continuedSicknessPayPeriod" Type="Edm.Int64"/>
+                <Property Name="contractEndDate" Type="Edm.Date"/>
+                <Property Name="contractId" Type="Edm.String" MaxLength="256"/>
+                <Property Name="contractNumber" Type="Edm.Int64"/>
+                <Property Name="contractReferenceForAed" Type="Edm.String" MaxLength="256"/>
+                <Property Name="contractType" Type="Edm.String" MaxLength="256"/>
+                <Property Name="corporation" Type="Edm.String" MaxLength="256"/>
+                <Property Name="costCenter" Type="Edm.String" MaxLength="20"/>
+                <Property Name="countryOfCompany" Type="Edm.String" MaxLength="256"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="createdOn" Type="Edm.Date"/>
+                <Property Name="creditForPreviousService" Type="Edm.String" MaxLength="256"/>
+                <Property Name="currentWageLevel" Type="Edm.Double"/>
+                <Property Name="customString1" Type="Edm.String" MaxLength="256"/>
+                <Property Name="customString10" Type="Edm.String" MaxLength="128"/>
+                <Property Name="customString11" Type="Edm.String" MaxLength="256"/>
+                <Property Name="customString12" Type="Edm.String" MaxLength="256"/>
+                <Property Name="customString13" Type="Edm.String" MaxLength="256"/>
+                <Property Name="customString2" Type="Edm.String" MaxLength="256"/>
+                <Property Name="customString3" Type="Edm.String" MaxLength="256"/>
+                <Property Name="customString4" Type="Edm.String" MaxLength="256"/>
+                <Property Name="customString5" Type="Edm.String" MaxLength="256"/>
+                <Property Name="customString6" Type="Edm.String" MaxLength="256"/>
+                <Property Name="customString7" Type="Edm.String" MaxLength="256"/>
+                <Property Name="customString8" Type="Edm.String" MaxLength="256"/>
+                <Property Name="customString9" Type="Edm.String" MaxLength="256"/>
+                <Property Name="degreeOfProductivity" Type="Edm.Double"/>
+                <Property Name="department" Type="Edm.String" MaxLength="32"/>
+                <Property Name="dismissalsNoticePeriodForEmployer" Type="Edm.String" MaxLength="256"/>
+                <Property Name="division" Type="Edm.String" MaxLength="32"/>
+                <Property Name="eeo1JobCategory" Type="Edm.String" MaxLength="256"/>
+                <Property Name="eeo4JobCategory" Type="Edm.String" MaxLength="256"/>
+                <Property Name="eeo5JobCategory" Type="Edm.String" MaxLength="256"/>
+                <Property Name="eeo6JobCategory" Type="Edm.String" MaxLength="256"/>
+                <Property Name="eeoClass" Type="Edm.String" MaxLength="256"/>
+                <Property Name="effectiveLatestChange" Type="Edm.Boolean"/>
+                <Property Name="electoralCollegeForLaborCourt" Type="Edm.String" MaxLength="256"/>
+                <Property Name="electoralCollegeForWorkersRepresentatives" Type="Edm.String" MaxLength="256"/>
+                <Property Name="electoralCollegeForWorksCouncil" Type="Edm.String" MaxLength="256"/>
+                <Property Name="empRelationship" Type="Edm.String" MaxLength="256"/>
+                <Property Name="emplStatus" Type="Edm.String" MaxLength="32"/>
+                <Property Name="employeeClass" Type="Edm.String" MaxLength="256"/>
+                <Property Name="employeeNoticePeriod" Type="Edm.Int64"/>
+                <Property Name="employeeType" Type="Edm.String" MaxLength="100"/>
+                <Property Name="employmentType" Type="Edm.String" MaxLength="32"/>
+                <Property Name="endDate" Type="Edm.Date"/>
+                <Property Name="entryIntoGroup" Type="Edm.Date"/>
+                <Property Name="event" Type="Edm.String" MaxLength="32"/>
+                <Property Name="eventReason" Type="Edm.String"/>
+                <Property Name="exchangeRate" Type="Edm.Double"/>
+                <Property Name="exclExecutiveSector" Type="Edm.Boolean"/>
+                <Property Name="familyRelationshipWithEmployer" Type="Edm.String" MaxLength="256"/>
+                <Property Name="fgtsDate" Type="Edm.Date"/>
+                <Property Name="fgtsOptant" Type="Edm.Boolean"/>
+                <Property Name="fgtsPercent" Type="Edm.Double"/>
+                <Property Name="flsaStatus" Type="Edm.String" MaxLength="256"/>
+                <Property Name="fromCurrency" Type="Edm.String" MaxLength="256"/>
+                <Property Name="guaranteedPayment" Type="Edm.Int64"/>
+                <Property Name="harmfulAgentExposure" Type="Edm.String" MaxLength="256"/>
+                <Property Name="hazard" Type="Edm.Boolean"/>
+                <Property Name="healthRisk" Type="Edm.Boolean"/>
+                <Property Name="holidayCalendarCode" Type="Edm.String" MaxLength="128"/>
+                <Property Name="ineligibleStatutoryMinWage" Type="Edm.Boolean"/>
+                <Property Name="initialEntryDate" Type="Edm.Date"/>
+                <Property Name="isCompetitionClauseActive" Type="Edm.Boolean"/>
+                <Property Name="isFulltimeEmployee" Type="Edm.Boolean"/>
+                <Property Name="isSideLineJobAllowed" Type="Edm.Boolean"/>
+                <Property Name="jobCode" Type="Edm.String" MaxLength="10"/>
+                <Property Name="jobGroup" Type="Edm.String" MaxLength="256"/>
+                <Property Name="jobTitle" Type="Edm.String" MaxLength="256"/>
+                <Property Name="laborCourtSector" Type="Edm.String" MaxLength="256"/>
+                <Property Name="laborProtection" Type="Edm.Boolean"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="lastModifiedOn" Type="Edm.Date"/>
+                <Property Name="localJobTitle" Type="Edm.String" MaxLength="256"/>
+                <Property Name="location" Type="Edm.String" MaxLength="128"/>
+                <Property Name="managerId" Type="Edm.String" MaxLength="256"/>
+                <Property Name="mandatoryRange" Type="Edm.Boolean"/>
+                <Property Name="newCalcAvgDnp" Type="Edm.Boolean"/>
+                <Property Name="newCalcAvgPpu" Type="Edm.Boolean"/>
+                <Property Name="notes" Type="Edm.String" MaxLength="4000"/>
+                <Property Name="noticePeriod" Type="Edm.String" MaxLength="256"/>
+                <Property Name="noticePeriodStartDate" Type="Edm.Date"/>
+                <Property Name="occupationalLevels" Type="Edm.String" MaxLength="256"/>
+                <Property Name="operation" Type="Edm.String"/>
+                <Property Name="payGrade" Type="Edm.String" MaxLength="256"/>
+                <Property Name="payGroup" Type="Edm.String" MaxLength="4"/>
+                <Property Name="payScaleArea" Type="Edm.String" MaxLength="128"/>
+                <Property Name="payScaleGroup" Type="Edm.String" MaxLength="128"/>
+                <Property Name="payScaleLevel" Type="Edm.String" MaxLength="128"/>
+                <Property Name="payScaleType" Type="Edm.String" MaxLength="128"/>
+                <Property Name="paymentInLieuOfNotice" Type="Edm.Boolean"/>
+                <Property Name="pcfm" Type="Edm.Boolean"/>
+                <Property Name="pensionProtection" Type="Edm.Boolean"/>
+                <Property Name="periodIndicator" Type="Edm.String" MaxLength="256"/>
+                <Property Name="permitIndicator" Type="Edm.Boolean"/>
+                <Property Name="position" Type="Edm.String" MaxLength="128"/>
+                <Property Name="probationPeriodEndDate" Type="Edm.Date"/>
+                <Property Name="probationaryPeriod" Type="Edm.Int64"/>
+                <Property Name="probationaryPeriodMeasure" Type="Edm.String" MaxLength="256"/>
+                <Property Name="regularTemp" Type="Edm.String" MaxLength="32"/>
+                <Property Name="retired" Type="Edm.Boolean"/>
+                <Property Name="sickPaySupplement" Type="Edm.String" MaxLength="256"/>
+                <Property Name="sickPaySupplementMeasure" Type="Edm.String" MaxLength="256"/>
+                <Property Name="sickPaySupplementPeriod" Type="Edm.Int64"/>
+                <Property Name="spclRuleNonManualWorker" Type="Edm.Boolean"/>
+                <Property Name="standardHours" Type="Edm.Double"/>
+                <Property Name="teachersPension" Type="Edm.Boolean"/>
+                <Property Name="timeRecordingAdmissibilityCode" Type="Edm.String" MaxLength="128"/>
+                <Property Name="timeRecordingProfileCode" Type="Edm.String" MaxLength="128"/>
+                <Property Name="timeRecordingVariant" Type="Edm.String"/>
+                <Property Name="timeTypeProfileCode" Type="Edm.String" MaxLength="128"/>
+                <Property Name="timezone" Type="Edm.String" MaxLength="128"/>
+                <Property Name="toCurrency" Type="Edm.String" MaxLength="256"/>
+                <Property Name="travelDistance" Type="Edm.Double"/>
+                <Property Name="tupeOrgNumber" Type="Edm.String" MaxLength="256"/>
+                <Property Name="validFrom" Type="Edm.Date"/>
+                <Property Name="workLocation" Type="Edm.String" MaxLength="256"/>
+                <Property Name="workPermitExpiry" Type="Edm.Date"/>
+                <Property Name="workerCategory" Type="Edm.String" MaxLength="256"/>
+                <Property Name="workingDaysPerWeek" Type="Edm.Double"/>
+                <Property Name="workingTimeDirective" Type="Edm.Boolean"/>
+                <Property Name="workscheduleCode" Type="Edm.String" MaxLength="128"/>
+                <Property Name="wtdHoursLimit" Type="Edm.String" MaxLength="256"/>
+                <NavigationProperty Name="assessmentStatusNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="codeOfJobForEldpNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="commitmentIndicatorNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="continuedSicknessPayMeasureNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="contractTypeNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="costCenterNav" Type="HumanResourceService.SF_FOCostCenter"/>
+                <NavigationProperty Name="countryOfCompanyNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="customString11Nav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="customString13Nav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="customString1Nav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="customString2Nav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="customString3Nav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="customString4Nav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="customString5Nav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="customString6Nav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="customString7Nav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="dismissalsNoticePeriodForEmployerNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="eeo1JobCategoryNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="eeoClassNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="electoralCollegeForLaborCourtNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="electoralCollegeForWorkersRepresentativesNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="electoralCollegeForWorksCouncilNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="empRelationshipNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="emplStatusNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="employeeClassNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="employeeNoticePeriodNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="employeeTypeNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="employmentNav" Type="HumanResourceService.SF_EmpEmployment"/>
+                <NavigationProperty Name="employmentTypeNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="eventNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="familyRelationshipWithEmployerNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="flsaStatusNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="fromCurrencyNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="harmfulAgentExposureNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="laborCourtSectorNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="managerEmploymentNav" Type="HumanResourceService.SF_EmpEmployment"/>
+                <NavigationProperty Name="managerUserNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="occupationalLevelsNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="payGradeNav" Type="HumanResourceService.SF_FOPayGrade"/>
+                <NavigationProperty Name="payGroupNav" Type="HumanResourceService.SF_FOPayGroup"/>
+                <NavigationProperty Name="periodIndicatorNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="probationaryPeriodMeasureNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="regularTempNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="sickPaySupplementMeasureNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="toCurrencyNav" Type="HumanResourceService.SF_PicklistOption"/>
+                <NavigationProperty Name="userNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="wfRequestNav" Type="HumanResourceService.SF_WfRequest"/>
+                <NavigationProperty Name="workerCategoryNav" Type="HumanResourceService.SF_PicklistOption"/>
+            </EntityType>
+            <EntityType Name="SF_Leave">
+                <Key>
+                    <PropertyRef Name="externalCode"/>
+                </Key>
+                <Property Name="externalCode" Type="Edm.String" Nullable="false" MaxLength="128"/>
+                <Property Name="approvalStatus" Type="Edm.String" MaxLength="255"/>
+                <Property Name="cancellationWorkflowRequestId" Type="Edm.Int64"/>
+                <Property Name="comment" Type="Edm.String" MaxLength="4000"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="cust_KronosPayCodeEditID" Type="Edm.String" MaxLength="255"/>
+                <Property Name="deductionQuantity" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="displayQuantity" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="editable" Type="Edm.Boolean"/>
+                <Property Name="endDate" Type="Edm.Date"/>
+                <Property Name="endTime" Type="Edm.TimeOfDay"/>
+                <Property Name="entityUUID" Type="Edm.String" MaxLength="255"/>
+                <Property Name="flexibleRequesting" Type="Edm.Boolean"/>
+                <Property Name="fractionQuantity" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="loaActualReturnDate" Type="Edm.Date"/>
+                <Property Name="loaEndJobInfoId" Type="Edm.Int64"/>
+                <Property Name="loaExpectedReturnDate" Type="Edm.Date"/>
+                <Property Name="loaStartJobInfoId" Type="Edm.Int64"/>
+                <Property Name="mdfSystemRecordStatus" Type="Edm.String" MaxLength="255"/>
+                <Property Name="originalQuantityInDays" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="physicalEndDate" Type="Edm.Date"/>
+                <Property Name="physicalStartDate" Type="Edm.Date"/>
+                <Property Name="quantityInDays" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="quantityInHours" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="recurrenceGroup" Type="Edm.String" MaxLength="128"/>
+                <Property Name="startDate" Type="Edm.Date"/>
+                <Property Name="startTime" Type="Edm.TimeOfDay"/>
+                <Property Name="timeRecordOrigin" Type="Edm.String" MaxLength="255"/>
+                <Property Name="timeType" Type="Edm.String" MaxLength="128"/>
+                <Property Name="undeterminedEndDate" Type="Edm.Boolean"/>
+                <Property Name="userId" Type="Edm.String" MaxLength="100"/>
+                <Property Name="workflowInitiatedByAdmin" Type="Edm.Boolean"/>
+                <Property Name="workflowRequestId" Type="Edm.Int64"/>
+                <Property Name="isAttachmentNew" Type="Edm.Boolean"/>
+                <Property Name="attachmentId" Type="Edm.Int64"/>
+                <Property Name="attachmentFileContent" Type="Edm.Binary"/>
+                <Property Name="attachmentFileName" Type="Edm.String" MaxLength="250"/>
+                <Property Name="attachmentUserId" Type="Edm.String" MaxLength="50"/>
+                <NavigationProperty Name="approvalStatusNav" Type="HumanResourceService.SF_MDFEnumValue"/>
+                <NavigationProperty Name="createdByNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="cust_attachmentNav" Type="HumanResourceService.SF_Attachment"/>
+                <NavigationProperty Name="lastModifiedByNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="mdfSystemRecordStatusNav" Type="HumanResourceService.SF_MDFEnumValue"/>
+                <NavigationProperty Name="timeRecordOriginNav" Type="HumanResourceService.SF_MDFEnumValue"/>
+                <NavigationProperty Name="timeTypeNav" Type="HumanResourceService.SF_Leave_TimeType"/>
+                <NavigationProperty Name="userIdNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="wfRequestNav" Type="Collection(HumanResourceService.SF_WfRequest)"/>
+            </EntityType>
+            <EntityType Name="SF_Leave_TimeType">
+                <Key>
+                    <PropertyRef Name="externalCode"/>
+                </Key>
+                <Property Name="externalCode" Type="Edm.String" Nullable="false" MaxLength="128"/>
+                <Property Name="absenceClass" Type="Edm.String" MaxLength="255"/>
+                <Property Name="absenceRetentionGroup" Type="Edm.String" MaxLength="128"/>
+                <Property Name="accrualRecalculationRelevance" Type="Edm.String" MaxLength="255"/>
+                <Property Name="activateCancellationWorkflow" Type="Edm.Boolean"/>
+                <Property Name="adminWorkflow" Type="Edm.String" MaxLength="32"/>
+                <Property Name="allocationStrategy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="allowedFractionsUnitDay" Type="Edm.String" MaxLength="255"/>
+                <Property Name="allowedFractionsUnitHour" Type="Edm.String" MaxLength="255"/>
+                <Property Name="allowedRequestingIncrement" Type="Edm.Int64"/>
+                <Property Name="balanceCalculationSetting" Type="Edm.String" MaxLength="255"/>
+                <Property Name="calculationMethod" Type="Edm.String" MaxLength="255"/>
+                <Property Name="category" Type="Edm.String" MaxLength="255"/>
+                <Property Name="collisionGrouping" Type="Edm.String" MaxLength="128"/>
+                <Property Name="countingMethod" Type="Edm.String" MaxLength="128"/>
+                <Property Name="country" Type="Edm.String" MaxLength="128"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="entityUUID" Type="Edm.String" MaxLength="255"/>
+                <Property Name="externalName_ar_SA" Type="Edm.String" MaxLength="255"/>
+                <Property Name="externalName_defaultValue" Type="Edm.String" MaxLength="255"/>
+                <Property Name="externalName_en_DEBUG" Type="Edm.String" MaxLength="255"/>
+                <Property Name="externalName_en_US" Type="Edm.String" MaxLength="255"/>
+                <Property Name="externalName_localized" Type="Edm.String" MaxLength="255"/>
+                <Property Name="flexibleRequestingAllowed" Type="Edm.Boolean"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="loaEndEventReason" Type="Edm.String" MaxLength="32"/>
+                <Property Name="loaStartEventReason" Type="Edm.String" MaxLength="32"/>
+                <Property Name="maximumDurationInMonths" Type="Edm.Int64"/>
+                <Property Name="mdfSystemRecordStatus" Type="Edm.String" MaxLength="255"/>
+                <Property Name="notToCountAsTimeInService" Type="Edm.Boolean"/>
+                <Property Name="postingOrder" Type="Edm.String" MaxLength="128"/>
+                <Property Name="postingPriority" Type="Edm.String" MaxLength="128"/>
+                <Property Name="requestingOnNonWorkingDaysAllowed" Type="Edm.Boolean"/>
+                <Property Name="undeterminedEndDateAllowed" Type="Edm.Boolean"/>
+                <Property Name="unit" Type="Edm.String" MaxLength="255"/>
+                <Property Name="workflowConfiguration" Type="Edm.String" MaxLength="32"/>
+                <NavigationProperty Name="absenceClassNav" Type="HumanResourceService.SF_MDFEnumValue"/>
+                <NavigationProperty Name="accrualRecalculationRelevanceNav" Type="HumanResourceService.SF_MDFEnumValue"/>
+                <NavigationProperty Name="allocationStrategyNav" Type="HumanResourceService.SF_MDFEnumValue"/>
+                <NavigationProperty Name="allowedFractionsUnitDayNav" Type="HumanResourceService.SF_MDFEnumValue"/>
+                <NavigationProperty Name="allowedFractionsUnitHourNav" Type="HumanResourceService.SF_MDFEnumValue"/>
+                <NavigationProperty Name="balanceCalculationSettingNav" Type="HumanResourceService.SF_MDFEnumValue"/>
+                <NavigationProperty Name="calculationMethodNav" Type="HumanResourceService.SF_MDFEnumValue"/>
+                <NavigationProperty Name="categoryNav" Type="HumanResourceService.SF_MDFEnumValue"/>
+                <NavigationProperty Name="countryNav" Type="Collection(HumanResourceService.SF_Country)"/>
+                <NavigationProperty Name="createdByNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="lastModifiedByNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="mdfSystemRecordStatusNav" Type="HumanResourceService.SF_MDFEnumValue"/>
+                <NavigationProperty Name="postingOrderNav" Type="HumanResourceService.SF_MDFEnumValue"/>
+                <NavigationProperty Name="postingPriorityNav" Type="HumanResourceService.SF_MDFEnumValue"/>
+                <NavigationProperty Name="unitNav" Type="HumanResourceService.SF_MDFEnumValue"/>
+                <NavigationProperty Name="wfRequestNav" Type="Collection(HumanResourceService.SF_WfRequest)"/>
+            </EntityType>
+            <EntityType Name="SF_Leave_AccountBalance">
+                <Key>
+                    <PropertyRef Name="timeAccount"/>
+                </Key>
+                <Property Name="timeAccount" Type="Edm.String" Nullable="false"/>
+                <Property Name="accountClosed" Type="Edm.Boolean"/>
+                <Property Name="balance" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="timeAccountType" Type="Edm.String"/>
+                <Property Name="timeUnit" Type="Edm.String"/>
+                <Property Name="userId" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="CancelLeaveRequest">
+                <Key>
+                    <PropertyRef Name="externalCode"/>
+                </Key>
+                <Property Name="externalCode" Type="Edm.String" Nullable="false" MaxLength="128"/>
+                <Property Name="approvalStatus" Type="Edm.String" MaxLength="255"/>
+            </EntityType>
+            <EntityType Name="SF_DutyTravelMain">
+                <Key>
+                    <PropertyRef Name="externalCode"/>
+                </Key>
+                <Property Name="effectiveStartDate" Type="Edm.Date"/>
+                <Property Name="externalCode" Type="Edm.String" Nullable="false" MaxLength="128"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="externalName" Type="Edm.String" MaxLength="128"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="mdfSystemEffectiveEndDate" Type="Edm.Date"/>
+                <Property Name="mdfSystemRecordStatus" Type="Edm.String" MaxLength="255"/>
+                <NavigationProperty Name="createdByNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="externalCodeNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="lastModifiedByNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="mdfSystemRecordStatusNav" Type="HumanResourceService.SF_MDFEnumValue"/>
+                <NavigationProperty Name="wfRequestNav" Type="Collection(HumanResourceService.SF_WfRequest)"/>
+            </EntityType>
+            <EntityType Name="SF_IDReplacement">
+                <Key>
+                    <PropertyRef Name="User"/>
+                    <PropertyRef Name="effectiveStartDate"/>
+                </Key>
+                <Property Name="User" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="effectiveStartDate" Type="Edm.Date" Nullable="false"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="cust_requestDate" Type="Edm.Date"/>
+                <Property Name="externalName" Type="Edm.String" MaxLength="128"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="mdfSystemEffectiveEndDate" Type="Edm.Date"/>
+                <Property Name="mdfSystemRecordStatus" Type="Edm.String" MaxLength="255"/>
+                <NavigationProperty Name="UserNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="createdByNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="cust_idReplacementDetails" Type="HumanResourceService.SF_IDReplacement_Details"/>
+                <NavigationProperty Name="lastModifiedByNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="mdfSystemRecordStatusNav" Type="HumanResourceService.SF_MDFEnumValue"/>
+                <NavigationProperty Name="wfRequestNav" Type="Collection(HumanResourceService.SF_WfRequest)"/>
+            </EntityType>
+            <EntityType Name="SF_IDReplacement_Details">
+                <Key>
+                    <PropertyRef Name="cust_idReplacement_User"/>
+                    <PropertyRef Name="cust_idReplacement_effectiveStartDate"/>
+                    <PropertyRef Name="externalCode"/>
+                </Key>
+                <Property Name="cust_idReplacement_User" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="cust_idReplacement_effectiveStartDate" Type="Edm.Date" Nullable="false"/>
+                <Property Name="externalCode" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="cust_bloodGroup" Type="Edm.String" MaxLength="255"/>
+                <Property Name="cust_costCentre" Type="Edm.String" MaxLength="255"/>
+                <Property Name="cust_emergencyPhone" Type="Edm.String" MaxLength="255"/>
+                <Property Name="cust_fname" Type="Edm.String" MaxLength="255"/>
+                <Property Name="cust_jobTitle" Type="Edm.String" MaxLength="255"/>
+                <Property Name="cust_lname" Type="Edm.String" MaxLength="255"/>
+                <Property Name="cust_nationality" Type="Edm.String" MaxLength="255"/>
+                <Property Name="cust_payGrade" Type="Edm.String" MaxLength="255"/>
+                <Property Name="cust_prn" Type="Edm.String" MaxLength="255"/>
+                <Property Name="cust_seniorityDate" Type="Edm.Date"/>
+                <Property Name="cust_sname" Type="Edm.String" MaxLength="255"/>
+                <Property Name="externalName" Type="Edm.String" MaxLength="128"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="mdfSystemRecordStatus" Type="Edm.String" MaxLength="255"/>
+                <NavigationProperty Name="createdByNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="lastModifiedByNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="mdfSystemRecordStatusNav" Type="HumanResourceService.SF_MDFEnumValue"/>
+            </EntityType>
+            <EntityType Name="SF_JobRequisition">
+                <Key>
+                    <PropertyRef Name="jobReqId"/>
+                </Key>
+                <Property Name="jobReqId" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="age" Type="Edm.Int64"/>
+                <Property Name="appTemplateId" Type="Edm.Int64"/>
+                <Property Name="assessRatingScaleName" Type="Edm.String"/>
+                <Property Name="businessunit" Type="Edm.String"/>
+                <Property Name="candidateProgress" Type="Edm.Int64"/>
+                <Property Name="closedDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="comment" Type="Edm.String"/>
+                <Property Name="corporatePosting" Type="Edm.Boolean"/>
+                <Property Name="costCenterId" Type="Edm.String"/>
+                <Property Name="country" Type="Edm.String"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="currency" Type="Edm.String"/>
+                <Property Name="custCountryCodeSAU" Type="Edm.String"/>
+                <Property Name="custEventReasonCode" Type="Edm.String"/>
+                <Property Name="custJobStartDate" Type="Edm.DateTimeOffset"/>
+                <Property Name="custTitle" Type="Edm.String"/>
+                <Property Name="cust_brandmapping" Type="Edm.String"/>
+                <Property Name="customRemarks" Type="Edm.String"/>
+                <Property Name="customRequestDate" Type="Edm.DateTimeOffset"/>
+                <Property Name="defaultLanguage" Type="Edm.String"/>
+                <Property Name="deleted" Type="Edm.String"/>
+                <Property Name="department" Type="Edm.String"/>
+                <Property Name="division" Type="Edm.String"/>
+                <Property Name="formDataId" Type="Edm.Int64"/>
+                <Property Name="formDueDate" Type="Edm.DateTimeOffset"/>
+                <Property Name="hiringManagerNote" Type="Edm.String"/>
+                <Property Name="instrCompetencies" Type="Edm.String"/>
+                <Property Name="instrInvolvedParties" Type="Edm.String"/>
+                <Property Name="instrManagernote" Type="Edm.String"/>
+                <Property Name="instrONB" Type="Edm.String"/>
+                <Property Name="instrONBend" Type="Edm.String"/>
+                <Property Name="instrOverallComments" Type="Edm.String"/>
+                <Property Name="instrPostingDetails" Type="Edm.String"/>
+                <Property Name="instrQuestions" Type="Edm.String"/>
+                <Property Name="instrReq" Type="Edm.String"/>
+                <Property Name="instrReqDetails" Type="Edm.String"/>
+                <Property Name="instrReqRequire" Type="Edm.String"/>
+                <Property Name="instrSalary" Type="Edm.String"/>
+                <Property Name="internalStatus" Type="Edm.String"/>
+                <Property Name="intranetPosting" Type="Edm.Boolean"/>
+                <Property Name="isDraft" Type="Edm.Boolean"/>
+                <Property Name="isPrimary" Type="Edm.Boolean"/>
+                <Property Name="jobCode" Type="Edm.String"/>
+                <Property Name="jobGrade" Type="Edm.String"/>
+                <Property Name="jobLevel" Type="Edm.String"/>
+                <Property Name="jobReqGUId" Type="Edm.String"/>
+                <Property Name="jobRole" Type="Edm.String"/>
+                <Property Name="jr_RecIndustry" Type="Edm.String"/>
+                <Property Name="lastModifiedBy" Type="Edm.String"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="lastModifiedProxyUserId" Type="Edm.String"/>
+                <Property Name="legentity" Type="Edm.String"/>
+                <Property Name="location" Type="Edm.String"/>
+                <Property Name="numberOpenings" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="openingsFilled" Type="Edm.Int64"/>
+                <Property Name="overallScaleName" Type="Edm.String"/>
+                <Property Name="parentJobReqId" Type="Edm.Int64"/>
+                <Property Name="payScaleArea" Type="Edm.String"/>
+                <Property Name="payScaleType" Type="Edm.String"/>
+                <Property Name="positionNumber" Type="Edm.String"/>
+                <Property Name="ratedApplicantCount" Type="Edm.Int64"/>
+                <Property Name="recruitJust" Type="Edm.String"/>
+                <Property Name="replforwhom" Type="Edm.String"/>
+                <Property Name="restorecoordinatorTeamAdminDefaults" Type="Edm.Boolean"/>
+                <Property Name="restorerecruiterTeamAdminDefaults" Type="Edm.Boolean"/>
+                <Property Name="restoresecondRecruiterTeamAdminDefaults" Type="Edm.Boolean"/>
+                <Property Name="reverseScale" Type="Edm.String"/>
+                <Property Name="salaryComment" Type="Edm.String"/>
+                <Property Name="salaryMax" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="salaryMin" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="statusSetId" Type="Edm.Int64"/>
+                <Property Name="templateId" Type="Edm.Int64"/>
+                <Property Name="templateName" Type="Edm.String"/>
+                <Property Name="templateType" Type="Edm.String"/>
+                <Property Name="timeToFill" Type="Edm.Double"/>
+                <NavigationProperty Name="budgeted" Type="Collection(HumanResourceService.SF_PicklistOption)"/>
+                <NavigationProperty Name="contract_type" Type="Collection(HumanResourceService.SF_PicklistOption)"/>
+                <NavigationProperty Name="customTypeOfJob" Type="Collection(HumanResourceService.SF_PicklistOption)"/>
+                <NavigationProperty Name="ecEmailType" Type="Collection(HumanResourceService.SF_PicklistOption)"/>
+                <NavigationProperty Name="ecPhoneType" Type="Collection(HumanResourceService.SF_PicklistOption)"/>
+                <NavigationProperty Name="filter1" Type="Collection(HumanResourceService.SF_PicklistOption)"/>
+                <NavigationProperty Name="filter2" Type="Collection(HumanResourceService.SF_PicklistOption)"/>
+                <NavigationProperty Name="filter3" Type="Collection(HumanResourceService.SF_PicklistOption)"/>
+                <NavigationProperty Name="interviewGuide" Type="Collection(HumanResourceService.SF_Attachment)"/>
+                <NavigationProperty Name="jr_Gender" Type="Collection(HumanResourceService.SF_PicklistOption)"/>
+                <NavigationProperty Name="jr_RecMarket" Type="Collection(HumanResourceService.SF_PicklistOption)"/>
+                <NavigationProperty Name="lastModifiedByNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="lastModifiedProxyUserNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="payType" Type="Collection(HumanResourceService.SF_PicklistOption)"/>
+                <NavigationProperty Name="qualification" Type="Collection(HumanResourceService.SF_PicklistOption)"/>
+                <NavigationProperty Name="requiredTravel" Type="Collection(HumanResourceService.SF_PicklistOption)"/>
+                <NavigationProperty Name="rsnVacancy" Type="Collection(HumanResourceService.SF_PicklistOption)"/>
+                <NavigationProperty Name="status" Type="Collection(HumanResourceService.SF_PicklistOption)"/>
+            </EntityType>
+            <EntityType Name="SF_Disciplinary_Action">
+                <Key>
+                    <PropertyRef Name="effectiveStartDate"/>
+                    <PropertyRef Name="externalCode"/>
+                </Key>
+                <Property Name="effectiveStartDate" Type="Edm.Date" Nullable="false"/>
+                <Property Name="externalCode" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="cust_DateofIncident" Type="Edm.Date"/>
+                <Property Name="cust_IncidentDetails" Type="Edm.String" MaxLength="500"/>
+                <Property Name="cust_IncidentStatus" Type="Edm.String" MaxLength="128"/>
+                <Property Name="cust_Reason" Type="Edm.String" MaxLength="128"/>
+                <Property Name="cust_Severity" Type="Edm.String" MaxLength="128"/>
+                <Property Name="cust_letterIssued" Type="Edm.String" MaxLength="128"/>
+                <Property Name="cust_requestDate" Type="Edm.Date"/>
+                <Property Name="cust_warningType" Type="Edm.String" MaxLength="128"/>
+                <Property Name="externalName" Type="Edm.String" MaxLength="128"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="mdfSystemEffectiveEndDate" Type="Edm.Date"/>
+                <Property Name="mdfSystemRecordStatus" Type="Edm.String" MaxLength="255"/>
+                <Property Name="isAttachmentNew" Type="Edm.Boolean"/>
+                <Property Name="attachmentId" Type="Edm.Int64"/>
+                <Property Name="attachmentFileContent" Type="Edm.Binary"/>
+                <Property Name="attachmentFileName" Type="Edm.String" MaxLength="250"/>
+                <Property Name="attachmentUserId" Type="Edm.String" MaxLength="50"/>
+                <NavigationProperty Name="createdByNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="cust_IncidentStatusNav" Type="HumanResourceService.SF_PickListValueV2"/>
+                <NavigationProperty Name="cust_ReasonNav" Type="HumanResourceService.SF_PickListValueV2"/>
+                <NavigationProperty Name="cust_SeverityNav" Type="HumanResourceService.SF_PickListValueV2"/>
+                <NavigationProperty Name="cust_attachmentNav" Type="HumanResourceService.SF_Attachment"/>
+                <NavigationProperty Name="cust_letterIssuedNav" Type="HumanResourceService.SF_PickListValueV2"/>
+                <NavigationProperty Name="cust_warningTypeNav" Type="HumanResourceService.SF_PickListValueV2"/>
+                <NavigationProperty Name="externalCodeNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="lastModifiedByNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="mdfSystemRecordStatusNav" Type="HumanResourceService.SF_MDFEnumValue"/>
+                <NavigationProperty Name="wfRequestNav" Type="Collection(HumanResourceService.SF_WfRequest)"/>
+            </EntityType>
+            <EntityType Name="SF_BusinessCard">
+                <Key>
+                    <PropertyRef Name="User"/>
+                    <PropertyRef Name="effectiveStartDate"/>
+                </Key>
+                <Property Name="User" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="effectiveStartDate" Type="Edm.Date" Nullable="false"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="cust_division" Type="Edm.String" MaxLength="255"/>
+                <Property Name="cust_divisionArabic" Type="Edm.String" MaxLength="255"/>
+                <Property Name="cust_email" Type="Edm.String" MaxLength="255"/>
+                <Property Name="cust_jobTitle" Type="Edm.String" MaxLength="255"/>
+                <Property Name="cust_jobTitleArabic" Type="Edm.String" MaxLength="255"/>
+                <Property Name="cust_location" Type="Edm.String" MaxLength="255"/>
+                <Property Name="cust_mobile" Type="Edm.String" MaxLength="255"/>
+                <Property Name="cust_officeNumber" Type="Edm.String" MaxLength="255"/>
+                <Property Name="cust_poBox" Type="Edm.String" MaxLength="255"/>
+                <Property Name="cust_requestDate" Type="Edm.Date"/>
+                <Property Name="externalName" Type="Edm.String" MaxLength="128"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="mdfSystemEffectiveEndDate" Type="Edm.Date"/>
+                <Property Name="mdfSystemRecordStatus" Type="Edm.String" MaxLength="255"/>
+                <NavigationProperty Name="UserNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="createdByNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="lastModifiedByNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="mdfSystemRecordStatusNav" Type="HumanResourceService.SF_MDFEnumValue"/>
+                <NavigationProperty Name="wfRequestNav" Type="Collection(HumanResourceService.SF_WfRequest)"/>
+            </EntityType>
+            <EntityType Name="SF_BankDetails">
+                <Key>
+                    <PropertyRef Name="effectiveStartDate"/>
+                    <PropertyRef Name="externalCode"/>
+                </Key>
+                <Property Name="effectiveStartDate" Type="Edm.Date" Nullable="false"/>
+                <Property Name="externalCode" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="cust_bankName" Type="Edm.String" MaxLength="255"/>
+                <Property Name="cust_iban" Type="Edm.String" MaxLength="255"/>
+                <Property Name="externalName" Type="Edm.String" MaxLength="128"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="mdfSystemEffectiveEndDate" Type="Edm.Date"/>
+                <Property Name="mdfSystemRecordStatus" Type="Edm.String" MaxLength="255"/>
+                <NavigationProperty Name="createdByNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="externalCodeNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="lastModifiedByNav" Type="HumanResourceService.SF_User"/>
+                <NavigationProperty Name="mdfSystemRecordStatusNav" Type="HumanResourceService.SF_MDFEnumValue"/>
+                <NavigationProperty Name="wfRequestNav" Type="Collection(HumanResourceService.SF_WfRequest)"/>
+            </EntityType>
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="MasterModules" EntityType="HumanResourceService.MasterModules">
+                    <NavigationPropertyBinding Path="masterSubModule" Target="MasterSubModules"/>
+                </EntitySet>
+                <EntitySet Name="MasterSubModules" EntityType="HumanResourceService.MasterSubModules">
+                    <NavigationPropertyBinding Path="masterModule" Target="MasterModules"/>
+                    <NavigationPropertyBinding Path="tickets" Target="Tickets"/>
+                </EntitySet>
+                <EntitySet Name="Tickets" EntityType="HumanResourceService.Tickets">
+                    <NavigationPropertyBinding Path="module" Target="MasterModules"/>
+                    <NavigationPropertyBinding Path="subModule" Target="MasterSubModules"/>
+                </EntitySet>
+                <EntitySet Name="EmpInfo" EntityType="HumanResourceService.EmpInfo"/>
+                <EntitySet Name="StaticIntents" EntityType="HumanResourceService.StaticIntents">
+                    <NavigationPropertyBinding Path="masterSubModule" Target="MasterSubModules"/>
+                </EntitySet>
+                <EntitySet Name="Question" EntityType="HumanResourceService.Question">
+                    <NavigationPropertyBinding Path="answer" Target="Answer"/>
+                    <NavigationPropertyBinding Path="rating" Target="Rating"/>
+                    <NavigationPropertyBinding Path="suggestion" Target="Suggestion"/>
+                </EntitySet>
+                <EntitySet Name="Answer" EntityType="HumanResourceService.Answer">
+                    <NavigationPropertyBinding Path="question" Target="Question"/>
+                </EntitySet>
+                <EntitySet Name="Rating" EntityType="HumanResourceService.Rating">
+                    <NavigationPropertyBinding Path="question" Target="Question"/>
+                </EntitySet>
+                <EntitySet Name="RatingHistory" EntityType="HumanResourceService.RatingHistory">
+                    <NavigationPropertyBinding Path="rating" Target="Rating"/>
+                </EntitySet>
+                <EntitySet Name="Suggestion" EntityType="HumanResourceService.Suggestion">
+                    <NavigationPropertyBinding Path="question" Target="Question"/>
+                </EntitySet>
+                <EntitySet Name="SuggestionHistory" EntityType="HumanResourceService.SuggestionHistory">
+                    <NavigationPropertyBinding Path="suggestion" Target="Suggestion"/>
+                </EntitySet>
+                <EntitySet Name="SF_Attachment" EntityType="HumanResourceService.SF_Attachment">
+                    <NavigationPropertyBinding Path="userNav" Target="SF_User"/>
+                </EntitySet>
+                <EntitySet Name="SF_User" EntityType="HumanResourceService.SF_User"/>
+                <EntitySet Name="SF_MDFEnumValue" EntityType="HumanResourceService.SF_MDFEnumValue"/>
+                <EntitySet Name="SF_WfRequest" EntityType="HumanResourceService.SF_WfRequest">
+                    <NavigationPropertyBinding Path="parentWfRequestNav" Target="SF_WfRequest"/>
+                </EntitySet>
+                <EntitySet Name="SF_PickListValueV2" EntityType="HumanResourceService.SF_PickListValueV2">
+                    <NavigationPropertyBinding Path="createdByNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="lastModifiedByNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="mdfSystemRecordStatusNav" Target="SF_MDFEnumValue"/>
+                    <NavigationPropertyBinding Path="parentPickListValueNav" Target="SF_PickListValueV2"/>
+                    <NavigationPropertyBinding Path="statusNav" Target="SF_MDFEnumValue"/>
+                </EntitySet>
+                <EntitySet Name="SF_Country" EntityType="HumanResourceService.SF_Country">
+                    <NavigationPropertyBinding Path="createdByNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="lastModifiedByNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="mdfSystemRecordStatusNav" Target="SF_MDFEnumValue"/>
+                    <NavigationPropertyBinding Path="statusNav" Target="SF_MDFEnumValue"/>
+                    <NavigationPropertyBinding Path="wfRequestNav" Target="SF_WfRequest"/>
+                </EntitySet>
+                <EntitySet Name="SF_FOPayComponent" EntityType="HumanResourceService.SF_FOPayComponent">
+                    <NavigationPropertyBinding Path="taxTreatmentNav" Target="SF_PicklistOption"/>
+                </EntitySet>
+                <EntitySet Name="SF_FOCostCenter" EntityType="HumanResourceService.SF_FOCostCenter">
+                    <NavigationPropertyBinding Path="createdByNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="lastModifiedByNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="statusNav" Target="SF_MDFEnumValue"/>
+                </EntitySet>
+                <EntitySet Name="SF_FOPayGrade" EntityType="HumanResourceService.SF_FOPayGrade"/>
+                <EntitySet Name="SF_UpsertResult" EntityType="HumanResourceService.SF_UpsertResult"/>
+                <EntitySet Name="SF_EmpEmployment" EntityType="HumanResourceService.SF_EmpEmployment">
+                    <NavigationPropertyBinding Path="jobInfoNav" Target="SF_EmpJob"/>
+                    <NavigationPropertyBinding Path="personNav" Target="SF_PerPerson"/>
+                    <NavigationPropertyBinding Path="userNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="wfRequestNav" Target="SF_WfRequest"/>
+                </EntitySet>
+                <EntitySet Name="SF_PicklistOption" EntityType="HumanResourceService.SF_PicklistOption">
+                    <NavigationPropertyBinding Path="childPicklistOptions" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="parentPicklistOption" Target="SF_PicklistOption"/>
+                </EntitySet>
+                <EntitySet Name="SF_FOPayGroup" EntityType="HumanResourceService.SF_FOPayGroup">
+                    <NavigationPropertyBinding Path="createdByNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="lastModifiedByNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="payFrequencyNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="paymentFrequencyNav" Target="SF_PickListValueV2"/>
+                    <NavigationPropertyBinding Path="statusNav" Target="SF_MDFEnumValue"/>
+                </EntitySet>
+                <EntitySet Name="SF_PerPerson" EntityType="HumanResourceService.SF_PerPerson">
+                    <NavigationPropertyBinding Path="emergencyContactNav" Target="SF_PerEmergencyContacts"/>
+                    <NavigationPropertyBinding Path="employmentNav" Target="SF_EmpEmployment"/>
+                    <NavigationPropertyBinding Path="personalInfoNav" Target="SF_PerPersonal"/>
+                </EntitySet>
+                <EntitySet Name="SF_PerPersonal" EntityType="HumanResourceService.SF_PerPersonal">
+                    <NavigationPropertyBinding Path="localNavSAU" Target="SF_PerGlobalInfoSAU"/>
+                    <NavigationPropertyBinding Path="maritalStatusNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="nativePreferredLangNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="personNav" Target="SF_PerPerson"/>
+                    <NavigationPropertyBinding Path="salutationNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="wfRequestNav" Target="SF_WfRequest"/>
+                </EntitySet>
+                <EntitySet Name="SF_PerEmergencyContacts" EntityType="HumanResourceService.SF_PerEmergencyContacts">
+                    <NavigationPropertyBinding Path="customString2Nav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="personNav" Target="SF_PerPerson"/>
+                    <NavigationPropertyBinding Path="relationshipNav" Target="SF_PicklistOption"/>
+                </EntitySet>
+                <EntitySet Name="SF_PerGlobalInfoSAU" EntityType="HumanResourceService.SF_PerGlobalInfoSAU">
+                    <NavigationPropertyBinding Path="customString2Nav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="customString6Nav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="genericNumber3Nav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="genericNumber4Nav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="genericNumber5Nav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="genericString13Nav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="genericString14Nav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="genericString15Nav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="genericString5Nav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="genericString6Nav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="genericString7Nav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="personNav" Target="SF_PerPerson"/>
+                </EntitySet>
+                <EntitySet Name="SF_EmpJob" EntityType="HumanResourceService.SF_EmpJob">
+                    <NavigationPropertyBinding Path="assessmentStatusNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="codeOfJobForEldpNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="commitmentIndicatorNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="continuedSicknessPayMeasureNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="contractTypeNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="costCenterNav" Target="SF_FOCostCenter"/>
+                    <NavigationPropertyBinding Path="countryOfCompanyNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="customString11Nav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="customString13Nav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="customString1Nav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="customString2Nav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="customString3Nav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="customString4Nav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="customString5Nav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="customString6Nav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="customString7Nav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="dismissalsNoticePeriodForEmployerNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="eeo1JobCategoryNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="eeoClassNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="electoralCollegeForLaborCourtNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="electoralCollegeForWorkersRepresentativesNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="electoralCollegeForWorksCouncilNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="empRelationshipNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="emplStatusNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="employeeClassNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="employeeNoticePeriodNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="employeeTypeNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="employmentNav" Target="SF_EmpEmployment"/>
+                    <NavigationPropertyBinding Path="employmentTypeNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="eventNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="familyRelationshipWithEmployerNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="flsaStatusNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="fromCurrencyNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="harmfulAgentExposureNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="laborCourtSectorNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="managerEmploymentNav" Target="SF_EmpEmployment"/>
+                    <NavigationPropertyBinding Path="managerUserNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="occupationalLevelsNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="payGradeNav" Target="SF_FOPayGrade"/>
+                    <NavigationPropertyBinding Path="payGroupNav" Target="SF_FOPayGroup"/>
+                    <NavigationPropertyBinding Path="periodIndicatorNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="probationaryPeriodMeasureNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="regularTempNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="sickPaySupplementMeasureNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="toCurrencyNav" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="userNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="wfRequestNav" Target="SF_WfRequest"/>
+                    <NavigationPropertyBinding Path="workerCategoryNav" Target="SF_PicklistOption"/>
+                </EntitySet>
+                <EntitySet Name="SF_Leave" EntityType="HumanResourceService.SF_Leave">
+                    <NavigationPropertyBinding Path="approvalStatusNav" Target="SF_MDFEnumValue"/>
+                    <NavigationPropertyBinding Path="createdByNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="cust_attachmentNav" Target="SF_Attachment"/>
+                    <NavigationPropertyBinding Path="lastModifiedByNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="mdfSystemRecordStatusNav" Target="SF_MDFEnumValue"/>
+                    <NavigationPropertyBinding Path="timeRecordOriginNav" Target="SF_MDFEnumValue"/>
+                    <NavigationPropertyBinding Path="timeTypeNav" Target="SF_Leave_TimeType"/>
+                    <NavigationPropertyBinding Path="userIdNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="wfRequestNav" Target="SF_WfRequest"/>
+                </EntitySet>
+                <EntitySet Name="SF_Leave_TimeType" EntityType="HumanResourceService.SF_Leave_TimeType">
+                    <NavigationPropertyBinding Path="absenceClassNav" Target="SF_MDFEnumValue"/>
+                    <NavigationPropertyBinding Path="accrualRecalculationRelevanceNav" Target="SF_MDFEnumValue"/>
+                    <NavigationPropertyBinding Path="allocationStrategyNav" Target="SF_MDFEnumValue"/>
+                    <NavigationPropertyBinding Path="allowedFractionsUnitDayNav" Target="SF_MDFEnumValue"/>
+                    <NavigationPropertyBinding Path="allowedFractionsUnitHourNav" Target="SF_MDFEnumValue"/>
+                    <NavigationPropertyBinding Path="balanceCalculationSettingNav" Target="SF_MDFEnumValue"/>
+                    <NavigationPropertyBinding Path="calculationMethodNav" Target="SF_MDFEnumValue"/>
+                    <NavigationPropertyBinding Path="categoryNav" Target="SF_MDFEnumValue"/>
+                    <NavigationPropertyBinding Path="countryNav" Target="SF_Country"/>
+                    <NavigationPropertyBinding Path="createdByNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="lastModifiedByNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="mdfSystemRecordStatusNav" Target="SF_MDFEnumValue"/>
+                    <NavigationPropertyBinding Path="postingOrderNav" Target="SF_MDFEnumValue"/>
+                    <NavigationPropertyBinding Path="postingPriorityNav" Target="SF_MDFEnumValue"/>
+                    <NavigationPropertyBinding Path="unitNav" Target="SF_MDFEnumValue"/>
+                    <NavigationPropertyBinding Path="wfRequestNav" Target="SF_WfRequest"/>
+                </EntitySet>
+                <EntitySet Name="SF_Leave_AccountBalance" EntityType="HumanResourceService.SF_Leave_AccountBalance"/>
+                <EntitySet Name="CancelLeaveRequest" EntityType="HumanResourceService.CancelLeaveRequest"/>
+                <EntitySet Name="SF_DutyTravelMain" EntityType="HumanResourceService.SF_DutyTravelMain">
+                    <NavigationPropertyBinding Path="createdByNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="externalCodeNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="lastModifiedByNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="mdfSystemRecordStatusNav" Target="SF_MDFEnumValue"/>
+                    <NavigationPropertyBinding Path="wfRequestNav" Target="SF_WfRequest"/>
+                </EntitySet>
+                <EntitySet Name="SF_IDReplacement" EntityType="HumanResourceService.SF_IDReplacement">
+                    <NavigationPropertyBinding Path="UserNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="createdByNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="cust_idReplacementDetails" Target="SF_IDReplacement_Details"/>
+                    <NavigationPropertyBinding Path="lastModifiedByNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="mdfSystemRecordStatusNav" Target="SF_MDFEnumValue"/>
+                    <NavigationPropertyBinding Path="wfRequestNav" Target="SF_WfRequest"/>
+                </EntitySet>
+                <EntitySet Name="SF_IDReplacement_Details" EntityType="HumanResourceService.SF_IDReplacement_Details">
+                    <NavigationPropertyBinding Path="createdByNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="lastModifiedByNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="mdfSystemRecordStatusNav" Target="SF_MDFEnumValue"/>
+                </EntitySet>
+                <EntitySet Name="SF_JobRequisition" EntityType="HumanResourceService.SF_JobRequisition">
+                    <NavigationPropertyBinding Path="budgeted" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="contract_type" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="customTypeOfJob" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="ecEmailType" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="ecPhoneType" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="filter1" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="filter2" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="filter3" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="interviewGuide" Target="SF_Attachment"/>
+                    <NavigationPropertyBinding Path="jr_Gender" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="jr_RecMarket" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="lastModifiedByNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="lastModifiedProxyUserNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="payType" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="qualification" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="requiredTravel" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="rsnVacancy" Target="SF_PicklistOption"/>
+                    <NavigationPropertyBinding Path="status" Target="SF_PicklistOption"/>
+                </EntitySet>
+                <EntitySet Name="SF_Disciplinary_Action" EntityType="HumanResourceService.SF_Disciplinary_Action">
+                    <NavigationPropertyBinding Path="createdByNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="cust_IncidentStatusNav" Target="SF_PickListValueV2"/>
+                    <NavigationPropertyBinding Path="cust_ReasonNav" Target="SF_PickListValueV2"/>
+                    <NavigationPropertyBinding Path="cust_SeverityNav" Target="SF_PickListValueV2"/>
+                    <NavigationPropertyBinding Path="cust_attachmentNav" Target="SF_Attachment"/>
+                    <NavigationPropertyBinding Path="cust_letterIssuedNav" Target="SF_PickListValueV2"/>
+                    <NavigationPropertyBinding Path="cust_warningTypeNav" Target="SF_PickListValueV2"/>
+                    <NavigationPropertyBinding Path="externalCodeNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="lastModifiedByNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="mdfSystemRecordStatusNav" Target="SF_MDFEnumValue"/>
+                    <NavigationPropertyBinding Path="wfRequestNav" Target="SF_WfRequest"/>
+                </EntitySet>
+                <EntitySet Name="SF_BusinessCard" EntityType="HumanResourceService.SF_BusinessCard">
+                    <NavigationPropertyBinding Path="UserNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="createdByNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="lastModifiedByNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="mdfSystemRecordStatusNav" Target="SF_MDFEnumValue"/>
+                    <NavigationPropertyBinding Path="wfRequestNav" Target="SF_WfRequest"/>
+                </EntitySet>
+                <EntitySet Name="SF_BankDetails" EntityType="HumanResourceService.SF_BankDetails">
+                    <NavigationPropertyBinding Path="createdByNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="externalCodeNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="lastModifiedByNav" Target="SF_User"/>
+                    <NavigationPropertyBinding Path="mdfSystemRecordStatusNav" Target="SF_MDFEnumValue"/>
+                    <NavigationPropertyBinding Path="wfRequestNav" Target="SF_WfRequest"/>
+                </EntitySet>
+            </EntityContainer>
+            <Annotations Target="HumanResourceService.EntityContainer">
+                <Annotation Term="Core.Description">
+                    <String>********* SERVICE ANNOTATIONS *********</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.EntityContainer/MasterModules">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable">
+                            <Bool>false</Bool>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable">
+                            <Bool>false</Bool>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable">
+                            <Bool>false</Bool>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.MasterModules/createdAt">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Immutable">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Created On</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.MasterModules/createdBy">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Immutable">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Created By</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.MasterModules/modifiedAt">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Changed On</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.MasterModules/modifiedBy">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Changed By</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.MasterModules/isArchived">
+                <Annotation Term="Common.Label">
+                    <String>Archived</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.MasterModules/ID">
+                <Annotation Term="UI.Hidden">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.MasterModules/name">
+                <Annotation Term="Common.Label">
+                    <String>Module</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.MasterModules/description">
+                <Annotation Term="Common.Label">
+                    <String>Description</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.MasterModules/totalRequests">
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.MasterModules/totalPending">
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.MasterModules/totalApproved">
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.MasterModules/totalRejected">
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.MasterModules/totalCancelled">
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.MasterModules/slaPerformance">
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.MasterModules/myGoals">
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.EntityContainer/MasterSubModules">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable">
+                            <Bool>false</Bool>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable">
+                            <Bool>false</Bool>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable">
+                            <Bool>false</Bool>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.MasterSubModules/createdAt">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Immutable">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Created On</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.MasterSubModules/createdBy">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Immutable">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Created By</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.MasterSubModules/modifiedAt">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Changed On</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.MasterSubModules/modifiedBy">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Changed By</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.MasterSubModules/isArchived">
+                <Annotation Term="Common.Label">
+                    <String>Archived</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.MasterSubModules/ID">
+                <Annotation Term="UI.Hidden">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.MasterSubModules/name">
+                <Annotation Term="Common.Label">
+                    <String>Submodule</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.MasterSubModules/description">
+                <Annotation Term="Common.Label">
+                    <String>Description</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.MasterSubModules/masterModuleId">
+                <Annotation Term="Common.FieldControl">
+                    <EnumMember>Common.FieldControlType/Mandatory</EnumMember>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.MasterSubModules/totalRequests">
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.MasterSubModules/totalPending">
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.MasterSubModules/totalApproved">
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.MasterSubModules/totalRejected">
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.MasterSubModules/totalCancelled">
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Tickets/createdAt">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Immutable">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Created On</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Tickets/createdBy">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Immutable">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Created By</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Tickets/modifiedAt">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Changed On</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Tickets/modifiedBy">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Changed By</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Tickets/isArchived">
+                <Annotation Term="Common.Label">
+                    <String>Archived</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Tickets/ID">
+                <Annotation Term="UI.Hidden">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Tickets/moduleId">
+                <Annotation Term="Common.Label">
+                    <String>Module ID</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Tickets/subModuleId">
+                <Annotation Term="Common.Label">
+                    <String>Submodule ID</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Tickets/ticketCode">
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Job Card ID</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Tickets/externalCode">
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>SAP Ticket ID</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Tickets/effectiveStartDate">
+                <Annotation Term="Common.Label">
+                    <String>Effective Start Date</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Tickets/status">
+                <Annotation Term="Core.Computed">
+                    <Bool>false</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Status</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Tickets/requestDate">
+                <Annotation Term="Common.Label">
+                    <String>Request Date</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Tickets/workflowRequestId">
+                <Annotation Term="Common.Label">
+                    <String>Workflow Request ID</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Tickets/isApprovalRequired">
+                <Annotation Term="Common.Label">
+                    <String>Approval Required</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Tickets/employeeId">
+                <Annotation Term="Common.Label">
+                    <String>User ID</String>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Tickets/externalCreatedAt">
+                <Annotation Term="Common.Label">
+                    <String>SAP Created At</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Tickets/externalCreatedBy">
+                <Annotation Term="Common.Label">
+                    <String>SAP Created By</String>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Tickets/externalModifiedAt">
+                <Annotation Term="Common.Label">
+                    <String>SAP Modified At</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Tickets/externalModifiedBy">
+                <Annotation Term="Common.Label">
+                    <String>SAP Modified By</String>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Tickets/statusValue">
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.EmpInfo/userId">
+                <Annotation Term="Common.Label">
+                    <String>User ID</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.EmpInfo/firstName">
+                <Annotation Term="Common.Label">
+                    <String>First Name</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.EmpInfo/middleName">
+                <Annotation Term="Common.Label">
+                    <String>Middle Name</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.EmpInfo/lastName">
+                <Annotation Term="Common.Label">
+                    <String>Last Name</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.EmpInfo/bloodGroup">
+                <Annotation Term="Common.Label">
+                    <String>Blood Group</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.EmpInfo/jobTitle">
+                <Annotation Term="Common.Label">
+                    <String>Job Title</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.EmpInfo/seniorityDate">
+                <Annotation Term="Common.Label">
+                    <String>Seniority Date</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.EmpInfo/costCentre">
+                <Annotation Term="Common.Label">
+                    <String>Cost Centre</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.EmpInfo/nationality">
+                <Annotation Term="Common.Label">
+                    <String>Nationality</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.EmpInfo/payGrade">
+                <Annotation Term="Common.Label">
+                    <String>Pay Grade</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.EmpInfo/emergencyNumber">
+                <Annotation Term="Common.Label">
+                    <String>Emergency Number</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.StaticIntents/createdAt">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Immutable">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Created On</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.StaticIntents/createdBy">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Immutable">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Created By</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.StaticIntents/modifiedAt">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Changed On</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.StaticIntents/modifiedBy">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Changed By</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.StaticIntents/isArchived">
+                <Annotation Term="Common.Label">
+                    <String>Archived</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.StaticIntents/ID">
+                <Annotation Term="UI.Hidden">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.StaticIntents/intentKey">
+                <Annotation Term="Common.Label">
+                    <String>IntentKey</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.StaticIntents/description">
+                <Annotation Term="Common.Label">
+                    <String>Description</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.StaticIntents/masterSubModuleId">
+                <Annotation Term="Common.FieldControl">
+                    <EnumMember>Common.FieldControlType/Mandatory</EnumMember>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.StaticIntents/url">
+                <Annotation Term="Common.Label">
+                    <String>URL</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Question/createdAt">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Immutable">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Created On</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Question/createdBy">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Immutable">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Created By</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Question/modifiedAt">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Changed On</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Question/modifiedBy">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Changed By</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Question/isArchived">
+                <Annotation Term="Common.Label">
+                    <String>Archived</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Question/ID">
+                <Annotation Term="UI.Hidden">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Question/questionText">
+                <Annotation Term="Common.Label">
+                    <String>QuestionText</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Question/description">
+                <Annotation Term="Common.Label">
+                    <String>Description</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Answer/createdAt">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Immutable">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Created On</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Answer/createdBy">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Immutable">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Created By</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Answer/modifiedAt">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Changed On</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Answer/modifiedBy">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Changed By</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Answer/isArchived">
+                <Annotation Term="Common.Label">
+                    <String>Archived</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Answer/ID">
+                <Annotation Term="UI.Hidden">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Answer/employeeId">
+                <Annotation Term="Common.Label">
+                    <String>EmployeeId</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Answer/moduleId">
+                <Annotation Term="Common.FieldControl">
+                    <EnumMember>Common.FieldControlType/Mandatory</EnumMember>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Answer/masterSubModuleId">
+                <Annotation Term="Common.FieldControl">
+                    <EnumMember>Common.FieldControlType/Mandatory</EnumMember>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Answer/questionId">
+                <Annotation Term="Common.FieldControl">
+                    <EnumMember>Common.FieldControlType/Mandatory</EnumMember>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Answer/answerText">
+                <Annotation Term="Common.Label">
+                    <String>AnswerText</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Rating/createdAt">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Immutable">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Created On</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Rating/createdBy">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Immutable">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Created By</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Rating/modifiedAt">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Changed On</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Rating/modifiedBy">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Changed By</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Rating/isArchived">
+                <Annotation Term="Common.Label">
+                    <String>Archived</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Rating/ID">
+                <Annotation Term="UI.Hidden">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Rating/employeeId">
+                <Annotation Term="Common.Label">
+                    <String>EmployeeId</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Rating/moduleId">
+                <Annotation Term="Common.FieldControl">
+                    <EnumMember>Common.FieldControlType/Mandatory</EnumMember>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Rating/masterSubModuleId">
+                <Annotation Term="Common.FieldControl">
+                    <EnumMember>Common.FieldControlType/Mandatory</EnumMember>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Rating/rating">
+                <Annotation Term="Common.Label">
+                    <String>Rating</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Rating/questionId">
+                <Annotation Term="Common.FieldControl">
+                    <EnumMember>Common.FieldControlType/Mandatory</EnumMember>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.RatingHistory/createdAt">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Immutable">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Created On</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.RatingHistory/createdBy">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Immutable">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Created By</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.RatingHistory/modifiedAt">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Changed On</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.RatingHistory/modifiedBy">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Changed By</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.RatingHistory/isArchived">
+                <Annotation Term="Common.Label">
+                    <String>Archived</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.RatingHistory/ID">
+                <Annotation Term="UI.Hidden">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.RatingHistory/employeeId">
+                <Annotation Term="Common.Label">
+                    <String>EmployeeId</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.RatingHistory/ratingId">
+                <Annotation Term="Common.Label">
+                    <String>Rating</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.RatingHistory/moduleId">
+                <Annotation Term="Common.FieldControl">
+                    <EnumMember>Common.FieldControlType/Mandatory</EnumMember>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.RatingHistory/masterSubModuleId">
+                <Annotation Term="Common.FieldControl">
+                    <EnumMember>Common.FieldControlType/Mandatory</EnumMember>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.RatingHistory/questionId">
+                <Annotation Term="Common.FieldControl">
+                    <EnumMember>Common.FieldControlType/Mandatory</EnumMember>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Suggestion/createdAt">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Immutable">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Created On</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Suggestion/createdBy">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Immutable">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Created By</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Suggestion/modifiedAt">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Changed On</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Suggestion/modifiedBy">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Changed By</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Suggestion/isArchived">
+                <Annotation Term="Common.Label">
+                    <String>Archived</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Suggestion/ID">
+                <Annotation Term="UI.Hidden">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Suggestion/employeeId">
+                <Annotation Term="Common.Label">
+                    <String>EmployeeId</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Suggestion/moduleId">
+                <Annotation Term="Common.FieldControl">
+                    <EnumMember>Common.FieldControlType/Mandatory</EnumMember>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Suggestion/masterSubModuleId">
+                <Annotation Term="Common.FieldControl">
+                    <EnumMember>Common.FieldControlType/Mandatory</EnumMember>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Suggestion/suggestion">
+                <Annotation Term="Common.Label">
+                    <String>Suggestion</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.Suggestion/questionId">
+                <Annotation Term="Common.FieldControl">
+                    <EnumMember>Common.FieldControlType/Mandatory</EnumMember>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.SuggestionHistory/createdAt">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Immutable">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Created On</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.SuggestionHistory/createdBy">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Immutable">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Created By</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.SuggestionHistory/modifiedAt">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Changed On</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.SuggestionHistory/modifiedBy">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Changed By</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.SuggestionHistory/isArchived">
+                <Annotation Term="Common.Label">
+                    <String>Archived</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.SuggestionHistory/ID">
+                <Annotation Term="UI.Hidden">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.SuggestionHistory/employeeId">
+                <Annotation Term="Common.Label">
+                    <String>EmployeeId</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.SuggestionHistory/suggestionId">
+                <Annotation Term="Common.FieldControl">
+                    <EnumMember>Common.FieldControlType/Mandatory</EnumMember>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.SuggestionHistory/moduleId">
+                <Annotation Term="Common.FieldControl">
+                    <EnumMember>Common.FieldControlType/Mandatory</EnumMember>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.SuggestionHistory/masterSubModuleId">
+                <Annotation Term="Common.FieldControl">
+                    <EnumMember>Common.FieldControlType/Mandatory</EnumMember>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.SF_Leave/isAttachmentNew">
+                <Annotation Term="Core.Computed">
+                    <Bool>false</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.SF_Leave/attachmentId">
+                <Annotation Term="Core.Computed">
+                    <Bool>false</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.SF_Leave/attachmentFileContent">
+                <Annotation Term="Core.Computed">
+                    <Bool>false</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.SF_Leave/attachmentFileName">
+                <Annotation Term="Core.Computed">
+                    <Bool>false</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.SF_Leave/attachmentUserId">
+                <Annotation Term="Core.Computed">
+                    <Bool>false</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.SF_DutyTravelMain/externalCode">
+                <Annotation Term="UI.Hidden">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>External Code</String>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.SF_Disciplinary_Action/isAttachmentNew">
+                <Annotation Term="Core.Computed">
+                    <Bool>false</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.SF_Disciplinary_Action/attachmentId">
+                <Annotation Term="Core.Computed">
+                    <Bool>false</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.SF_Disciplinary_Action/attachmentFileContent">
+                <Annotation Term="Core.Computed">
+                    <Bool>false</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.SF_Disciplinary_Action/attachmentFileName">
+                <Annotation Term="Core.Computed">
+                    <Bool>false</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="HumanResourceService.SF_Disciplinary_Action/attachmentUserId">
+                <Annotation Term="Core.Computed">
+                    <Bool>false</Bool>
+                </Annotation>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

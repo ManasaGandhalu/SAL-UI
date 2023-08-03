@@ -1,0 +1,159 @@
+<mvc:View controllerName="com.sal.salhr.controller.CreateAirportPassRequest"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:l="sap.ui.layout"
+    xmlns:core="sap.ui.core"
+    xmlns:fm="sap.ui.layout.form"
+    xmlns:upload="sap.m.upload" height="100%">
+    <f:DynamicPage id="dynamicPageId" headerExpanded="true" showFooter="true">
+        <!-- DynamicPage Title -->
+        <f:title>
+            <f:DynamicPageTitle id="idDynamicPageTitle">
+                <f:heading>
+                    <Title id="idPageTitle" text="{i18n>NewAirportPassRequest}" class="sapUiSmallMarginBegin"/>
+                </f:heading>
+                <f:breadcrumbs>
+                    <Breadcrumbs id="idBreadcrumbs" currentLocationText="{i18n>NewAirportPassRequest}" class="sapUiSmallMarginBegin">
+                        <Link id="idHumanResourceLink" text="{i18n>HumanResource}" press="onBreadCrumbNavPress"/>
+                    </Breadcrumbs>
+                </f:breadcrumbs>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:content>
+            <l:VerticalLayout class="sapUiNoMargin sapUiNoContentPadding">
+                <l:content>
+                    <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="2" columnsXL="2" singleContainerFullSize="false" class="style-RemoveTitleHeight" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+                        <Label text="{i18n>whenWouldYouLiketoText}?" required="true" />
+                        <DatePicker enabled="false" id="idAirportPassEffectDatePicker" change="fnValidateDateValue" value="{path:'CreateAirpoPassModel>/effectiveStartDate', type:'sap.ui.model.type.Date', formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}"/>
+                    </fm:SimpleForm>
+                    <fm:SimpleForm id="idAirportPassDetailsForm" title="{i18n>AirportPassDetails}" layout="ColumnLayout" class="style-RemoveTitleHeight" columnsM="2" columnsL="2" columnsXL="2" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+                        <Label text="{i18n>TypeOfPass}" required="true" />
+                        <Select id="idTypeOfPassSLT" selectedKey="{CreateAirpoPassModel>/cust_toAirportPassItem/cust_typeOfPass}" items="{ path: '/SF_PickListValueV2',
+                                sorter : {
+                                    path : 'label_defaultValue' 
+                                },
+                                filters : [ { path : 'PickListV2_id', operator : 'EQ', value1 : 'cust_typeOfPass'} ]
+                                       }" change="onTimeTyeChange">
+                            <core:ListItem key="{externalCode}" text="{label_defaultValue}" additionalText="{externalCode}"/>
+                        </Select>
+
+                        <Label text="{i18n>NationalID}" required="false" />
+                        <Input id="idNationalIDInp" value="{CreateAirpoPassModel>/cust_toAirportPassItem/cust_nationalID}" enabled= "false"/>
+
+                        <Label text="{i18n>DateofBith}" required="false" />
+                        <DatePicker id="idDateofBithInp" value="{path:'CreateAirpoPassModel>/cust_toAirportPassItem/cust_dateOfBirth', type:'sap.ui.model.type.Date', formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}" enabled= "false"/>
+
+                        <Label text="{i18n>MobileNumber}" required="false" />
+                        <Input id="idMobileNumberInp" value="{CreateAirpoPassModel>/cust_toAirportPassItem/cust_mobileNumber}" enabled= "false"/>
+
+                        <Label text="{i18n>Nationality}" required="true" />
+                        <Select id="idNationalityInp" showSecondaryValues="true" selectedKey="{CreateAirpoPassModel>/cust_toAirportPassItem/cust_nationality}" items="{ path: '/SF_Country', 
+                            parameters:{select:'code,externalName_defaultValue,currency'},
+                            sorter: { path: 'externalName_defaultValue', descending: false },
+                            filters : [{
+                                path : 'externalName_defaultValue', operator : 'NE', value1 : null
+                            }]
+                            }" change="onTimeTyeChange">
+                            <core:ListItem key="{code}" text="{externalName_defaultValue}"/>
+                        </Select>
+
+                        <Label text="{i18n>AirportLocation}" required="true" />
+                        <Select id="idAirPortLocatonSLT" showSecondaryValues="true" selectedKey="{CreateAirpoPassModel>/cust_toAirportPassItem/cust_airportLoc}" change="onAirportLocationChange" items="{ path: '/SF_PickListValueV2',
+                                                sorter : {
+                                                 path : 'label_defaultValue' 
+                                             },
+                                             filters : [ { path : 'PickListV2_id', operator : 'EQ', value1 : 'cust_airportLocation'} ]
+                                              }">
+                            <core:ListItem key="{externalCode}" text="{label_defaultValue}" additionalText="{externalCode}"/>
+                        </Select>
+
+                        <Label text="{i18n>DomesticStationName}" required="true" visible="{= ${CreateAirpoPassModel>/cust_toAirportPassItem/cust_airportLoc} === 'Loc05' ? true : false}"/>
+                        <Input id="idDomasticStationInp" visible="{= ${CreateAirpoPassModel>/cust_toAirportPassItem/cust_airportLoc} === 'Loc05' ? true : false}" value="{CreateAirpoPassModel>/cust_toAirportPassItem/cust_domStationName}"/>
+
+                        <Label text="{i18n>PermitDate}" required="true" />
+                        <DatePicker id="idPermitDate" change="fnValidateDateValue" value="{path:'CreateAirpoPassModel>/cust_toAirportPassItem/cust_permitDate', type:'sap.ui.model.type.Date', formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}"/>
+
+                        <Label text="{i18n>PurposeofPermit}" required="true" />
+                        <TextArea id="idPurposeofPermitInp" value="{CreateAirpoPassModel>/cust_toAirportPassItem/cust_permitPurpose}"/>
+                    </fm:SimpleForm>
+
+                    <VBox class="uploadBox sapUiSmallMarginBeginEnd">
+                        <upload:UploadSet id="UploadSetPersonalID" instantUpload="true" showIcons="true" uploadEnabled="true" terminationEnabled="true" maxFileNameLength="255" afterItemRemoved="onFileDeleted" mode="None" afterItemAdded="onFileAdded" fileRenamed="onFileRenamed">
+                            <upload:toolbar>
+                                <OverflowToolbar>
+                                    <Label text="{i18n>PersonalIDCopy}" required="true"/>
+                                    <core:Icon id="idInfoIconPersId" src="sap-icon://message-information" size="1rem" height="3rem" class="sapUiTinyMarginBegin" tooltip="Please Upload File types (.png, .txt, pdf, docs and xls) and File size upto 250 MB"></core:Icon>
+                                    <ToolbarSpacer/>
+                                </OverflowToolbar>
+                            </upload:toolbar>
+                        </upload:UploadSet>
+
+
+                        <upload:UploadSet id="UploadSetPersonalPhoto" instantUpload="true" showIcons="true" uploadEnabled="true" terminationEnabled="true" maxFileNameLength="255" afterItemRemoved="onFileDeleted" mode="None" afterItemAdded="onFileAdded" fileRenamed="onFileRenamed">
+                            <upload:toolbar>
+                                <OverflowToolbar>
+                                    <Label text="{i18n>PersonalPhoto}" required="true"/>
+                                    <core:Icon id="idInfoIconPersonal" src="sap-icon://message-information" size="1rem" height="3rem" class="sapUiTinyMarginBegin" tooltip="Please Upload File types (.png, .txt, pdf, docs and xls) and File size upto 250 MB"></core:Icon>
+                                    <ToolbarSpacer/>
+                                </OverflowToolbar>
+                            </upload:toolbar>
+                        </upload:UploadSet>
+
+
+                        <upload:UploadSet id="UploadSetnonnationals" instantUpload="true" showIcons="true" uploadEnabled="true" terminationEnabled="true" maxFileNameLength="255" afterItemRemoved="onFileDeleted" mode="None" afterItemAdded="onFileAdded" fileRenamed="onFileRenamed">
+                            <upload:toolbar>
+                                <OverflowToolbar>
+                                    <Label text="{i18n>PassportCopyfornonnationals}" required="false"/>
+                                    <core:Icon id="idInfoIconPassport" src="sap-icon://message-information" size="1rem" height="3rem" class="sapUiTinyMarginBegin" tooltip="Please Upload File types (.png, .txt, pdf, docs and xls) and File size upto 250 MB"></core:Icon>
+                                    <ToolbarSpacer/>
+                                </OverflowToolbar>
+                            </upload:toolbar>
+                        </upload:UploadSet>
+
+                        <upload:UploadSet id="UploadSetCompanyIDCopy" instantUpload="true" showIcons="true" uploadEnabled="true" terminationEnabled="true" maxFileNameLength="255" afterItemRemoved="onFileDeleted" mode="None" afterItemAdded="onFileAdded" fileRenamed="onFileRenamed">
+                            <upload:toolbar>
+                                <OverflowToolbar>
+                                    <Label text="{i18n>CompanyIDCopy}" required="true"/>
+                                    <core:Icon id="idInfoIconCompany" src="sap-icon://message-information" size="1rem" height="3rem" class="sapUiTinyMarginBegin" tooltip="Please Upload File types (.png, .txt, pdf, docs and xls) and File size upto 250 MB"></core:Icon>
+                                    <ToolbarSpacer/>
+                                </OverflowToolbar>
+                            </upload:toolbar>
+                        </upload:UploadSet>
+                    </VBox>
+
+                    <fm:SimpleForm id="idAcknowledgeTextForm" layout="ColumnLayout" columnsM="1" columnsL="2" columnsXL="2" singleContainerFullSize="false" class="style-RemoveTitleHeight" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+                        <Label text="{i18n>AcknowledgeText1}" required="true" />
+                        <Select id="idAcknowledgeTextFirstSLT" selectedKey="{CreateAirpoPassModel>/cust_toAirportPassItem/cust_acknowledge1}" change="onTimeTyeChange">
+                            <core:Item key="Select" text="{i18n>Select}" />
+                            <core:Item key="true" text="{i18n>Yes}" />
+                            <core:Item key="false" text="{i18n>No}" />
+                        </Select>
+
+                        <Label text="{i18n>AcknowledgeText2}" required="true" class="sapUiSmallMarginBottom"/>
+                        <Select id="idAcknowledgeTextSecondSLT" selectedKey="{CreateAirpoPassModel>/cust_toAirportPassItem/cust_acknowledge2}" change="onTimeTyeChange">
+                            <core:Item key="Select" text="{i18n>Select}" />
+                            <core:Item key="true" text="{i18n>Yes}" />
+                            <core:Item key="false" text="{i18n>No}" />
+                        </Select>
+                    </fm:SimpleForm>
+                </l:content>
+            </l:VerticalLayout>
+        </f:content>
+        <!-- DynamicPage Footer -->
+        <f:footer>
+            <OverflowToolbar id="idOverflowToolbar" visible="true">
+                <ToolbarSpacer id="idToolbarSpacer"/>
+                <Button id="idResetBTN" text="{i18n>Reset}" type="Ghost" press="onResetPress"/>
+                <Button id="idCancelBTN" text="{i18n>Cancel}" type="Ghost" press="onCreateCancelPress"/>
+                <Button id="idRaiseRequestBTN" text="{i18n>RaiseRequest}" press="onRaiseRequestPress" class="RaiseRequestButton"/>
+            </OverflowToolbar>
+        </f:footer>
+    </f:DynamicPage>
+</mvc:View>

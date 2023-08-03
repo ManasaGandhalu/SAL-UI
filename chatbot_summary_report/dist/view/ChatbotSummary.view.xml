@@ -1,0 +1,506 @@
+<mvc:View controllerName="com.sal.report.chatbotsummaryreport.controller.ChatbotSummary"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:uxap="sap.uxap"
+    xmlns:f="sap.f"
+    xmlns:card="sap.f.cards"
+    xmlns:layout="sap.ui.layout"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form" height="100%"
+    xmlns:w="sap.ui.integration.widgets"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+    xmlns:viz.data="sap.viz.ui5.data"
+    xmlns:commons="sap.suite.ui.commons"
+    xmlns:viz="sap.viz.ui5.controls">
+    <uxap:ObjectPageLayout id="ObjectPageLayout" upperCaseAnchorBar="false">
+        <uxap:sections>
+            <uxap:ObjectPageSection id="idSummaryPageSection" title="{i18n>Summary}" titleUppercase="false">
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection id="idSummaryPageSubSection" title="{i18n>Summary}" titleUppercase="false">
+                        <VBox>
+                            <Toolbar style="Clear">
+                                <ToolbarSpacer/>
+                                <Button icon="sap-icon://show" text="{i18n>Filters}" type="Transparent" press="handleFiltersPress"/>
+                            </Toolbar>
+                            <form:SimpleForm id="idSummarySectionSimpleForm" width="100%" maxContainerCols="2" layout="ResponsiveGridLayout" labelSpanM="12" labelSpanS="12" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2" class="customNoPaddingSimpleForm">
+                                <VBox width="100%">
+                                    <form:SimpleForm id="idSummarySectionSimple1" width="100%" maxContainerCols="2" layout="ResponsiveGridLayout" labelSpanM="6" labelSpanS="6" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2" class="customNoPaddingSimpleForm">
+                                        <f:Card height="95px" width="98%" class="sapUiTinyMarginEnd">
+                                            <f:content>
+                                                <FlexBox width="100%" direction="Column" justifyContent="Center" alignItems="Center" wrap="Wrap">
+                                                    <HBox width="100%" justifyContent="Center">
+                                                        <Title titleStyle="H2" text="1K" class="sapUiTinyMarginEnd" />
+                                                        <ObjectNumber number="-125" state="Warning" inverted="true" class="sapUiTinyMarginTop" />
+                                                    </HBox>
+                                                    <Text textAlign="Center" text="{i18n>Conversations}"/>
+                                                </FlexBox>
+                                            </f:content>
+                                        </f:Card>
+                                        <f:Card height="95px" width="99%">
+                                            <f:content>
+                                                <FlexBox width="100%" direction="Column" justifyContent="Center" alignItems="Center" wrap="Wrap">
+                                                    <HBox width="100%" justifyContent="Center">
+                                                        <Title titleStyle="H2" text="1K" class="sapUiTinyMarginEnd" />
+                                                        <ObjectNumber number="-125" state="Warning" inverted="true" class="sapUiTinyMarginTop" />
+                                                    </HBox>
+                                                    <Text textAlign="Center" text="{i18n>Users}"/>
+                                                </FlexBox>
+                                            </f:content>
+                                        </f:Card>
+                                    </form:SimpleForm>
+                                    <form:SimpleForm id="idSummarySectionSimple2" width="100%" maxContainerCols="2" layout="ResponsiveGridLayout" labelSpanM="6" labelSpanS="6" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2" class="customNoPaddingSimpleForm sapUiTinyMarginTop">
+                                        <f:Card height="95px" width="98%" class="sapUiTinyMarginEnd">
+                                            <f:content>
+                                                <FlexBox width="100%" direction="Column" justifyContent="Center" alignItems="Center" wrap="Wrap">
+                                                    <HBox width="100%" justifyContent="Center">
+                                                        <Title titleStyle="H2" text="1.5K" class="sapUiTinyMarginEnd" />
+                                                        <ObjectNumber number="-125" state="Warning" inverted="true" class="sapUiTinyMarginTop" />
+                                                    </HBox>
+                                                    <Text textAlign="Center" text="{i18n>MessagesReceived}"/>
+                                                </FlexBox>
+                                            </f:content>
+                                        </f:Card>
+                                        <f:Card height="95px" width="99%">
+                                            <f:content>
+                                                <FlexBox width="100%" direction="Column" justifyContent="Center" alignItems="Center" wrap="Wrap">
+                                                    <HBox width="100%" justifyContent="Center">
+                                                        <Title titleStyle="H2" text="125" class="sapUiTinyMarginEnd" />
+                                                        <ObjectNumber number="-125" state="Warning" inverted="true" class="sapUiTinyMarginTop" />
+                                                    </HBox>
+                                                    <Text textAlign="Center" text="{i18n>MessagesConversation}"/>
+                                                </FlexBox>
+                                            </f:content>
+                                        </f:Card>
+                                    </form:SimpleForm>
+                                    <f:Card width="99%" height="185px" class="sapUiTinyMarginTop">
+                                        <f:header>
+                                            <card:Header title="{i18n>PopularEntities}"/>
+                                        </f:header>
+                                        <f:content>
+                                            <!-- <ScrollContainer vertical="true">
+                                                <FlexBox alignContent="Center" alignItems="Center" wrap="Wrap" items="{path: '/Products'}" class="sapUiTinyMargin">
+                                                    <items>
+                                                        <HBox class="sapUiTinyMarginEnd">
+                                                            <Text text="@" class="sapUiTinyMarginBegin"/>
+                                                            <Link text="{ProductName}"/>
+                                                        </HBox>
+                                                    </items>
+                                                </FlexBox>
+                                            </ScrollContainer> -->
+                                            <FlexBox alignContent="Center" alignItems="Center" wrap="Wrap">
+                                                <HBox>
+                                                    <Text text="@" class="sapUiTinyMarginBegin"/>
+                                                    <Link text="Business-Trip Booking" class="sapUiTinyMarginEnd"/>
+                                                </HBox>
+                                                <HBox>
+                                                    <Text text="@" class="sapUiTinyMarginBegin"/>
+                                                    <Link text="Business-Trip Booking" class="sapUiTinyMarginEnd"/>
+                                                </HBox>
+                                                <HBox>
+                                                    <Text text="@" class="sapUiTinyMarginBegin"/>
+                                                    <Link text="Booking" class="sapUiTinyMarginEnd"/>
+                                                </HBox>
+                                                <HBox>
+                                                    <Text text="@" class="sapUiTinyMarginBegin"/>
+                                                    <Link text="Business-Trip" class="sapUiTinyMarginEnd"/>
+                                                </HBox>
+                                                <HBox>
+                                                    <Text text="@" class="sapUiTinyMarginBegin"/>
+                                                    <Link text="Trip Booking" class="sapUiTinyMarginEnd"/>
+                                                </HBox>
+                                                <HBox>
+                                                    <Text text="@" class="sapUiTinyMarginBegin"/>
+                                                    <Link text="Trip" class="sapUiTinyMarginEnd"/>
+                                                </HBox>
+                                                <HBox>
+                                                    <Text text="@" class="sapUiTinyMarginBegin"/>
+                                                    <Link text="Business-Booking" class="sapUiTinyMarginEnd"/>
+                                                </HBox>
+                                                <HBox>
+                                                    <Text text="@" class="sapUiTinyMarginBegin"/>
+                                                    <Link text="Business-Trip" class="sapUiTinyMarginEnd"/>
+                                                </HBox>
+                                                <HBox>
+                                                    <Text text="@" class="sapUiTinyMarginBegin"/>
+                                                    <Link text="Trip Booking" class="sapUiTinyMarginEnd"/>
+                                                </HBox>
+                                                <HBox>
+                                                    <Text text="@" class="sapUiTinyMarginBegin"/>
+                                                    <Link text="Trip" class="sapUiTinyMarginEnd"/>
+                                                </HBox>
+                                                <HBox>
+                                                    <Text text="@" class="sapUiTinyMarginBegin"/>
+                                                    <Link text="Business-Booking" class="sapUiTinyMarginEnd"/>
+                                                </HBox>
+                                            </FlexBox>
+                                        </f:content>
+                                    </f:Card>
+                                </VBox>
+                                <f:Card height="400px">
+                                    <f:header>
+                                        <card:Header title="{i18n>MostUsedSkills}"/>
+                                    </f:header>
+                                    <f:content>
+                                        <commons:ChartContainer  showFullScreen="false" showZoom="false" showLegend="false" showLegendButton="false">
+                                            <commons:content>
+                                                <commons:ChartContainerContent id="idChartDonutContainerContent">
+                                                    <commons:content>
+                                                        <viz:VizFrame id="idDonutVizFrame" width="100%" vizType="Donut" vizProperties="{plotArea: {dataLabel: { visible: true, type: 'label', showTotal: false}}, title: {visible: false}}">
+                                                            <viz:dataset>
+                                                                <viz.data:FlattenedDataset data="{path: 'ChatbotSummaryModel>/skills'}">
+                                                                    <viz.data:dimensions>
+                                                                        <viz.data:DimensionDefinition name="Name" value="{ChatbotSummaryModel>ProductName}"/>
+                                                                    </viz.data:dimensions>
+                                                                    <viz.data:measures>
+                                                                        <viz.data:MeasureDefinition group="1" name="Count" value="{ChatbotSummaryModel>Count}"/>
+                                                                    </viz.data:measures>
+                                                                </viz.data:FlattenedDataset>
+                                                            </viz:dataset>
+                                                            <viz:feeds>
+                                                                <viz.feeds:FeedItem id='valueAxisFeed' uid="valueAxis" type="Measure" values="Count"/>
+                                                                <viz.feeds:FeedItem id='categoryAxisFee' uid="categoryAxis" type="Dimension" values="Name"/>
+                                                            </viz:feeds>
+                                                        </viz:VizFrame>
+                                                    </commons:content>
+                                                </commons:ChartContainerContent>
+                                            </commons:content>
+                                        </commons:ChartContainer>
+                                    </f:content>
+                                </f:Card>
+                                <!-- <w:Card id="idChatBotSummary1" manifest="{ChatbotSummaryModel>/donut}" width="100%" height="400px" action="onAction"/> -->
+                            </form:SimpleForm>
+                        </VBox>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+
+            <uxap:ObjectPageSection id="idConversationPageSection" title="{i18n>Conversation}" titleUppercase="false">
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection id="idConversationPageSubSection" title="{i18n>Conversation}" titleUppercase="false">
+                        <FlexBox width="100%" height="100%" alignItems="Center" justifyContent="Center" direction="Column">
+                            <VBox width="100%">
+                                <f:Card>
+                                    <f:content>
+                                        <commons:ChartContainer class="CustomWidth100" showFullScreen="true" showZoom="true" showLegend="false" showLegendButton="false" title="{i18n>Conversationinalllanguages}">
+                                            <commons:content>
+                                                <commons:ChartContainerContent id="idChartContainerContent">
+                                                    <commons:content>
+                                                        <!-- <viz:Popover id="idPopOver"/> -->
+                                                        <viz:VizFrame id="idVizFrame" height="300px" width="100%" vizType='line' vizProperties="{plotArea: {colorPalette: '#F6A209'}, title: {visible: false}}">
+                                                            <viz:dataset>
+                                                                <viz.data:FlattenedDataset data="{path: '/Products'}">
+                                                                    <viz.data:dimensions>
+                                                                        <viz.data:DimensionDefinition name="Name" value="{Products>ProductName}"/>
+                                                                    </viz.data:dimensions>
+                                                                    <viz.data:measures>
+                                                                        <!-- Line chart Items -->
+                                                                        <viz.data:MeasureDefinition group="1" name="UnitsOnOrder" value="{Products>UnitsOnOrder}"/>
+                                                                    </viz.data:measures>
+                                                                </viz.data:FlattenedDataset>
+                                                            </viz:dataset>
+                                                            <viz:feeds>
+                                                                <viz.feeds:FeedItem id='valueAxisFeed6' uid="valueAxis" type="Measure" values="UnitsOnOrder"/>
+                                                                <viz.feeds:FeedItem id='categoryAxisFeed' uid="categoryAxis" type="Dimension" values="Name"/>
+                                                            </viz:feeds>
+                                                        </viz:VizFrame>
+                                                    </commons:content>
+                                                </commons:ChartContainerContent>
+                                            </commons:content>
+                                        </commons:ChartContainer>
+                                    </f:content>
+                                </f:Card>
+                                <f:Card class="sapUiSmallMarginTop">
+                                    <f:content>
+                                        <commons:ChartContainer class="CustomWidth100" showFullScreen="true" showZoom="true" showLegend="false" showLegendButton="false" title="{i18n>Usersinalllanguages}">
+                                            <commons:content>
+                                                <commons:ChartContainerContent id="idChartContainerContent1">
+                                                    <commons:content>
+                                                        <!-- <viz:Popover id="idPopOver1"/> -->
+                                                        <viz:VizFrame id="idVizFrame1" height="300px" width="100%" vizType='line' vizProperties="{plotArea: {colorPalette: '#2AD9E8'}, title: {visible: false}}">
+                                                            <viz:dataset>
+                                                                <viz.data:FlattenedDataset data="{path: '/Products'}">
+                                                                    <viz.data:dimensions>
+                                                                        <viz.data:DimensionDefinition name="Name" value="{Products>ProductName}"/>
+                                                                    </viz.data:dimensions>
+                                                                    <viz.data:measures>
+                                                                        <!-- Line chart Items -->
+                                                                        <viz.data:MeasureDefinition group="1" name="UnitsOnOrder" value="{Products>UnitsOnOrder}"/>
+                                                                    </viz.data:measures>
+                                                                </viz.data:FlattenedDataset>
+                                                            </viz:dataset>
+                                                            <viz:feeds>
+                                                                <viz.feeds:FeedItem id='valueAxisFeed1' uid="valueAxis" type="Measure" values="UnitsOnOrder"/>
+                                                                <viz.feeds:FeedItem id='categoryAxisFeed1' uid="categoryAxis" type="Dimension" values="Name"/>
+                                                            </viz:feeds>
+                                                        </viz:VizFrame>
+                                                    </commons:content>
+                                                </commons:ChartContainerContent>
+                                            </commons:content>
+                                        </commons:ChartContainer>
+                                    </f:content>
+                                </f:Card>
+                                <f:Card class="sapUiSmallMarginTop">
+                                    <f:content>
+                                        <commons:ChartContainer class="CustomWidth100" showFullScreen="true" showZoom="true" showLegend="false" showLegendButton="false" title="{i18n>Messagesreceivedinalllanguages}">
+                                            <commons:content>
+                                                <commons:ChartContainerContent id="idChartContainerContent2">
+                                                    <commons:content>
+                                                        <!-- <viz:Popover id="idPopOver2"/> -->
+                                                        <viz:VizFrame id="idVizFrame2" height="300px" width="100%" vizType='line' vizProperties="{plotArea: {colorPalette: '#0975F6'}, title: {visible: false}}">
+                                                            <viz:dataset>
+                                                                <viz.data:FlattenedDataset data="{path: '/Products'}">
+                                                                    <viz.data:dimensions>
+                                                                        <viz.data:DimensionDefinition name="Name" value="{Products>ProductName}"/>
+                                                                    </viz.data:dimensions>
+                                                                    <viz.data:measures>
+                                                                        <!-- Line chart Items -->
+                                                                        <viz.data:MeasureDefinition group="1" name="UnitsOnOrder" value="{Products>UnitsOnOrder}"/>
+                                                                    </viz.data:measures>
+                                                                </viz.data:FlattenedDataset>
+                                                            </viz:dataset>
+                                                            <viz:feeds>
+                                                                <viz.feeds:FeedItem id='valueAxisFeed2' uid="valueAxis" type="Measure" values="UnitsOnOrder"/>
+                                                                <viz.feeds:FeedItem id='categoryAxisFeed2' uid="categoryAxis" type="Dimension" values="Name"/>
+                                                            </viz:feeds>
+                                                        </viz:VizFrame>
+                                                    </commons:content>
+                                                </commons:ChartContainerContent>
+                                            </commons:content>
+                                        </commons:ChartContainer>
+                                    </f:content>
+                                </f:Card>
+                                <f:Card class="sapUiSmallMarginTop">
+                                    <f:content>
+                                        <commons:ChartContainer class="CustomWidth100" showFullScreen="true" showZoom="true" showLegend="false" showLegendButton="false" title="{i18n>Avemessagesbyconversationinalllanguages}">
+                                            <commons:content>
+                                                <commons:ChartContainerContent id="idChartContainerContent3">
+                                                    <commons:content>
+                                                        <!-- <viz:Popover id="idPopOver3"/> -->
+                                                        <viz:VizFrame id="idVizFrame3" height="300px" width="100%" vizType='line' vizProperties="{plotArea: {colorPalette: '#F6A209'}, title: {visible: false}}">
+                                                            <viz:dataset>
+                                                                <viz.data:FlattenedDataset data="{path: '/Products'}">
+                                                                    <viz.data:dimensions>
+                                                                        <viz.data:DimensionDefinition name="Name" value="{Products>ProductName}"/>
+                                                                    </viz.data:dimensions>
+                                                                    <viz.data:measures>
+                                                                        <!-- Line chart Items -->
+                                                                        <viz.data:MeasureDefinition group="1" name="UnitsOnOrder" value="{Products>UnitsOnOrder}"/>
+                                                                    </viz.data:measures>
+                                                                </viz.data:FlattenedDataset>
+                                                            </viz:dataset>
+                                                            <viz:feeds>
+                                                                <viz.feeds:FeedItem id='valueAxisFeed3' uid="valueAxis" type="Measure" values="UnitsOnOrder"/>
+                                                                <viz.feeds:FeedItem id='categoryAxisFeed4' uid="categoryAxis" type="Dimension" values="Name"/>
+                                                            </viz:feeds>
+                                                        </viz:VizFrame>
+                                                    </commons:content>
+                                                </commons:ChartContainerContent>
+                                            </commons:content>
+                                        </commons:ChartContainer>
+                                    </f:content>
+                                </f:Card>
+                            </VBox>
+                        </FlexBox>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+
+            <uxap:ObjectPageSection id="idSkillsUsagePageSection" title="{i18n>SkillsUsage}" titleUppercase="false">
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection id="idSkillsUsagePageSubSection" title="Skills Usage" titleUppercase="false">
+                        <FlexBox width="100%" height="100%" alignItems="Center" justifyContent="Center" direction="Column">
+                            <VBox width="100%">
+                                <f:Card>
+                                    <f:content>
+                                        <commons:ChartContainer class="CustomWidth100" showFullScreen="true" showZoom="true" showLegend="false" showLegendButton="false" title="{i18n>Yourskillsusage}">
+                                            <commons:content>
+                                                <commons:ChartContainerContent id="idChartContainerContentbar">
+                                                    <commons:content>
+                                                        <!-- <viz:Popover id="idPopOverbar"/> -->
+                                                        <viz:VizFrame id="idVizFramebar" width="100%" vizType='bar' vizProperties="{title: {visible: false}}">
+                                                            <viz:dataset>
+                                                                <viz.data:FlattenedDataset data="{path: '/Products'}">
+                                                                    <viz.data:dimensions>
+                                                                        <viz.data:DimensionDefinition name="Name" value="{Products>ProductName}"/>
+                                                                        <!-- <viz.data:DimensionDefinition name="Name2" value="{Products>ReorderLevel}"/> -->
+                                                                    </viz.data:dimensions>
+                                                                    <viz.data:measures>
+                                                                        <!-- Line chart Items -->
+                                                                        <viz.data:MeasureDefinition group="1" name="UnitsOnOrder" value="{Products>UnitsOnOrder}"/>
+                                                                        <viz.data:MeasureDefinition group="1" name="ReorderLevel" value="{Products>ReorderLevel}"/>
+
+                                                                    </viz.data:measures>
+                                                                </viz.data:FlattenedDataset>
+                                                            </viz:dataset>
+                                                            <viz:feeds>
+                                                                <viz.feeds:FeedItem id='valueAxisFeedbar' uid="valueAxis" type="Measure" values="UnitsOnOrder,ReorderLevel"/>
+                                                                <viz.feeds:FeedItem id='categoryAxisFeedbar' uid="categoryAxis" type="Dimension" values="Name"/>
+                                                                <!-- <viz.feeds:FeedItem id='categoryAxisFeedbar1' uid="categoryAxis" type="Dimension" values="Name2"/> -->
+                                                            </viz:feeds>
+                                                        </viz:VizFrame>
+                                                    </commons:content>
+                                                </commons:ChartContainerContent>
+                                            </commons:content>
+                                        </commons:ChartContainer>
+                                    </f:content>
+                                </f:Card>
+                                <f:Card width="100%" class="sapUiSmallMarginTop">
+                                    <f:header>
+                                        <card:Header title="{i18n>Skillsneverused}"/>
+                                    </f:header>
+                                    <f:content>
+                                        <FlexBox alignContent="Center" alignItems="Center" wrap="Wrap" class="sapUiTinyMargin">
+                                            <HBox>
+                                                <Text class="sapUiTinyMarginBegin"/>
+                                                <Link text="Business-Trip Booking" class="sapUiTinyMarginEnd"/>
+                                            </HBox>
+                                            <HBox>
+                                                <Text class="sapUiTinyMarginBegin"/>
+                                                <Link text="Business-Trip Booking" class="sapUiTinyMarginEnd"/>
+                                            </HBox>
+                                            <HBox>
+                                                <Text class="sapUiTinyMarginBegin"/>
+                                                <Link text="Booking" class="sapUiTinyMarginEnd"/>
+                                            </HBox>
+                                            <HBox>
+                                                <Text class="sapUiTinyMarginBegin"/>
+                                                <Link text="Business-Trip" class="sapUiTinyMarginEnd"/>
+                                            </HBox>
+                                            <HBox>
+                                                <Text class="sapUiTinyMarginBegin"/>
+                                                <Link text="Trip Booking" class="sapUiTinyMarginEnd"/>
+                                            </HBox>
+                                            <HBox>
+                                                <Text class="sapUiTinyMarginBegin"/>
+                                                <Link text="Trip" class="sapUiTinyMarginEnd"/>
+                                            </HBox>
+                                            <HBox>
+                                                <Text class="sapUiTinyMarginBegin"/>
+                                                <Link text="Business-Booking" class="sapUiTinyMarginEnd"/>
+                                            </HBox>
+                                            <HBox>
+                                                <Text class="sapUiTinyMarginBegin"/>
+                                                <Link text="Business-Trip" class="sapUiTinyMarginEnd"/>
+                                            </HBox>
+                                            <HBox>
+                                                <Text class="sapUiTinyMarginBegin"/>
+                                                <Link text="Trip Booking" class="sapUiTinyMarginEnd"/>
+                                            </HBox>
+                                            <HBox>
+                                                <Text class="sapUiTinyMarginBegin"/>
+                                                <Link text="Trip" class="sapUiTinyMarginEnd"/>
+                                            </HBox>
+                                            <HBox>
+                                                <Text class="sapUiTinyMarginBegin"/>
+                                                <Link text="Business-Booking" class="sapUiTinyMarginEnd"/>
+                                            </HBox>
+                                        </FlexBox>
+                                    </f:content>
+                                </f:Card>
+                            </VBox>
+                        </FlexBox>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+
+            <uxap:ObjectPageSection id="idIntentsUsagePageSection" title="{i18n>IntentsUsage}" titleUppercase="false">
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection id="idIntentsUsagePageSubSection" title="{i18n>IntentsUsage}" titleUppercase="false">
+                        <FlexBox width="100%" height="100%" alignItems="Center" justifyContent="Center" direction="Column">
+                            <VBox width="100%">
+                                <f:Card>
+                                    <f:content>
+                                        <commons:ChartContainer class="CustomWidth100" showFullScreen="true" showZoom="true" showLegend="false" showLegendButton="false" title="{i18n>Yourskillsusage}">
+                                            <commons:content>
+                                                <commons:ChartContainerContent id="idChartContainerContentbar1">
+                                                    <commons:content>
+                                                        <!-- <viz:Popover id="idPopOverbar1"/> -->
+                                                        <viz:VizFrame id="idVizFramebar1" width="100%" vizType='bar' vizProperties="{title: {visible: false}}">
+                                                            <viz:dataset>
+                                                                <viz.data:FlattenedDataset data="{path: '/Products'}">
+                                                                    <viz.data:dimensions>
+                                                                        <viz.data:DimensionDefinition name="Name" value="{Products>ProductName}"/>
+                                                                        <!-- <viz.data:DimensionDefinition name="Name2" value="{Products>ReorderLevel}"/> -->
+                                                                    </viz.data:dimensions>
+                                                                    <viz.data:measures>
+                                                                        <!-- Line chart Items -->
+                                                                        <!-- <viz.data:MeasureDefinition group="1" name="UnitsOnOrder" value="{Products>UnitsOnOrder}"/> -->
+                                                                        <viz.data:MeasureDefinition group="1" name="ReorderLevel" value="{Products>ReorderLevel}"/>
+
+                                                                    </viz.data:measures>
+                                                                </viz.data:FlattenedDataset>
+                                                            </viz:dataset>
+                                                            <viz:feeds>
+                                                                <viz.feeds:FeedItem id='valueAxisFeedbar1' uid="valueAxis" type="Measure" values="ReorderLevel"/>
+                                                                <viz.feeds:FeedItem id='categoryAxisFeedbar1' uid="categoryAxis" type="Dimension" values="Name"/>
+                                                                <!-- <viz.feeds:FeedItem id='categoryAxisFeedbar1' uid="categoryAxis" type="Dimension" values="Name2"/> -->
+                                                            </viz:feeds>
+                                                        </viz:VizFrame>
+                                                    </commons:content>
+                                                </commons:ChartContainerContent>
+                                            </commons:content>
+                                        </commons:ChartContainer>
+                                    </f:content>
+                                </f:Card>
+
+                                <f:Card width="100%" class="sapUiSmallMarginTop">
+                                    <f:header>
+                                        <card:Header title="{i18n>Yourusersneverspeaksabouttheseintents}"/>
+                                    </f:header>
+                                    <f:content>
+                                        <FlexBox alignContent="Center" alignItems="Center" class="sapUiTinyMargin" wrap="Wrap">
+                                            <HBox>
+                                                <Text class="sapUiTinyMarginBegin"/>
+                                                <Link text="Business-Trip Booking" class="sapUiTinyMarginEnd"/>
+                                            </HBox>
+                                            <HBox>
+                                                <Text class="sapUiTinyMarginBegin"/>
+                                                <Link text="Business-Trip Booking" class="sapUiTinyMarginEnd"/>
+                                            </HBox>
+                                            <HBox>
+                                                <Text class="sapUiTinyMarginBegin"/>
+                                                <Link text="Booking" class="sapUiTinyMarginEnd"/>
+                                            </HBox>
+                                            <HBox>
+                                                <Text class="sapUiTinyMarginBegin"/>
+                                                <Link text="Business-Trip" class="sapUiTinyMarginEnd"/>
+                                            </HBox>
+                                            <HBox>
+                                                <Text class="sapUiTinyMarginBegin"/>
+                                                <Link text="Trip Booking" class="sapUiTinyMarginEnd"/>
+                                            </HBox>
+                                            <HBox>
+                                                <Text class="sapUiTinyMarginBegin"/>
+                                                <Link text="Trip" class="sapUiTinyMarginEnd"/>
+                                            </HBox>
+                                            <HBox>
+                                                <Text class="sapUiTinyMarginBegin"/>
+                                                <Link text="Business-Booking" class="sapUiTinyMarginEnd"/>
+                                            </HBox>
+                                            <HBox>
+                                                <Text class="sapUiTinyMarginBegin"/>
+                                                <Link text="Business-Trip" class="sapUiTinyMarginEnd"/>
+                                            </HBox>
+                                            <HBox>
+                                                <Text class="sapUiTinyMarginBegin"/>
+                                                <Link text="Trip Booking" class="sapUiTinyMarginEnd"/>
+                                            </HBox>
+                                            <HBox>
+                                                <Text class="sapUiTinyMarginBegin"/>
+                                                <Link text="Trip" class="sapUiTinyMarginEnd"/>
+                                            </HBox>
+                                            <HBox>
+                                                <Text class="sapUiTinyMarginBegin"/>
+                                                <Link text="Business-Booking" class="sapUiTinyMarginEnd"/>
+                                            </HBox>
+                                        </FlexBox>
+                                    </f:content>
+                                </f:Card>
+                            </VBox>
+                        </FlexBox>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+        </uxap:sections>
+    </uxap:ObjectPageLayout>
+</mvc:View>

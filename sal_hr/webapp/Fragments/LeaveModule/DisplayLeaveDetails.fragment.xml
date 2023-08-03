@@ -1,0 +1,73 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns:upload="sap.m.upload">
+    <form:SimpleForm id="idNewDisplayLeaveRquestSimpleForm" layout="ResponsiveGridLayout" visible="{= ${LocalViewModel>/EditMode} === true ? false : true }" columnsM="3" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+        <form:content>
+            <Title id="idLeaveDisplayRequestDetailsTTL" text="{i18n>Request Details}" titleStyle="H5" level="H5"/>
+
+            <Label text="Leave Application For" visible="{= ${EmpInfoModel>/IsUserManager} === true ? true : false}"/>
+            <Text id="idLeaveApplicationForDisplay" text="{path:'headerModel>/employeeName', formatter:'.formatter.handleNoData'} ({headerModel>/employeeId})" visible="{= ${EmpInfoModel>/IsUserManager} === true ? true : false}"/>
+
+        
+
+            <Label id="idDisplayLeaveTypeLBL" text="{i18n>Leave Type}" class="sapUiSmallMarginTop"/>
+            <Text text="{timeTypeModel>/externalName_defaultValue}"/>
+
+            <Label id="idDisplayLeaveStartDateLBL" text="{i18n>Start Date}" />
+            <Text text="{path:'leaveModel>/startDate',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}"/>
+
+
+
+            <core:Title id="idDisplayLeaveEmptyTitle" text=" "/>
+
+            <Label id="idDisplayLeaveTotalLeaveDaysLBL" text="{i18n>Total Days}" visible="{= ${LocalViewModel>/meetingType} === false ? true : false}"/>
+            <Text id="idRequestDays" text="{leaveModel>/displayQuantity}" visible="{= ${LocalViewModel>/meetingType} === false ? true : false}"/>
+
+            <Label id="idDisplayLeaveTotalLeaveHrsLBL" text="{i18n>Total Hrs}" visible="{= ${LocalViewModel>/meetingType} === true ? true : false}"/>
+            <Text id="idRequestHrs" text="{leaveModel>/displayQuantity}" visible="{= ${LocalViewModel>/meetingType} === true ? true : false}"/>
+
+            <Label id="idDisplayLeaveEndDateLBL" text="{i18n>End Date}" />
+            <Text text="{path:'leaveModel>/endDate',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}"/>
+
+
+
+
+        </form:content>
+    </form:SimpleForm>
+    <!-- <form:SimpleForm id="idDisplayattachmentForm" layout="ResponsiveGridLayout" visible="{= ${LocalViewModel>/EditMode} === true ? false : true }" columnsM="3" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+        <form:content> -->
+
+    <upload:UploadSet id="UploadSet" instantUpload="false" showIcons="true" uploadEnabled="false" terminationEnabled="false" fileTypes="txt,doc,png" maxFileNameLength="30" maxFileSize="200" visible="{= ${LocalViewModel>/uploadAttachment} === true ? true : false}">
+        <upload:toolbar>
+            <OverflowToolbar>
+                <Button text="Download Attachment" press="onDownLoadPress"/>
+            </OverflowToolbar>
+        </upload:toolbar>
+        <upload:items>
+            <upload:UploadSetItem visibleEdit="false" visibleRemove="false" fileName="{attachmentModel>/fileName}" mediaType="attachmentModel>/mimeType}">
+
+                <upload:attributes>
+                    <ObjectAttribute title="Uploaded On" text="{path:'attachmentModel>/lastModifiedDateTime',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}" />
+                </upload:attributes>
+                <upload:attributes>
+                    <ObjectAttribute title="File Size" text="{attachmentModel>/fileSize} bytes" />
+                </upload:attributes>
+            </upload:UploadSetItem>
+        </upload:items>
+    </upload:UploadSet>
+    <!-- </form:content>
+    </form:SimpleForm> -->
+</core:FragmentDefinition>

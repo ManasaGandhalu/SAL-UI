@@ -1,0 +1,85 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:fm="sap.ui.layout.form"
+    xmlns:l="sap.ui.layout"
+    xmlns:core="sap.ui.core"
+    xmlns:upload="sap.m.upload">
+<fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
+            <Label text="{i18n>IncidentStartDat}" required="true"/>
+            <DatePicker id="idIncidentStartDate"  value="{path:'effectiveStartDate', type:'sap.ui.model.type.Date', formatOptions: { style: 'medium', strictParsing: true,UTC: true}}" change="onLeaveStartDatChange"/>
+       </fm:SimpleForm>
+    <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
+    <Label text="{i18n>WarningType}" required="true" />
+            <Select id="idEditWarningType" selectedKey="{cust_warningTypeNav/externalCode}" items="{ path: '/SF_PickListValueV2',
+                                                sorter : {
+                                                 path : 'label_defaultValue' 
+                                             },
+        filters : [
+            { path : 'PickListV2_id', operator : 'EQ', value1 : 'warningType'}
+        ]
+                                              }"                       
+                                                         change="onTimeTyeChange">
+                <core:Item key="{externalCode}" text="{label_defaultValue}" />
+            </Select>
+  <Label text="{i18n>Severity}" required="true" />
+            <Select id="idEditSeverity" selectedKey="{cust_SeverityNav/externalCode}" items="{ path: '/SF_PickListValueV2',
+                                                sorter : {
+                                                 path : 'label_defaultValue' 
+                                             },
+                                                     filters : [
+            { path : 'PickListV2_id', operator : 'EQ', value1 : 'severity'}
+        ] }"                       
+                                                         change="onTimeTyeChange">
+                <core:Item key="{externalCode}" text="{label_defaultValue}" />
+            </Select>
+       </fm:SimpleForm>
+                        <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
+                               <Label text="{i18n>IncidentStatus}" required="true" />
+            <Select id="idEditIncidentStatus" selectedKey="{cust_IncidentStatusNav/externalCode}" items="{ path: '/SF_PickListValueV2',
+                                                sorter : {
+                                                 path : 'label_defaultValue' 
+                                             },
+         filters : [
+            { path : 'PickListV2_id', operator : 'EQ', value1 : 'ess_status'}
+        ] }"                       
+                                                         change="onTimeTyeChange">
+                <core:Item key="{externalCode}" text="{label_defaultValue}" />
+            </Select>
+            <Label text="{i18n>IncidentCategory}" required="true" />
+            <Select id="idEditIncidenCategiory" selectedKey="{cust_ReasonNav/externalCode}" items="{ path: '/SF_PickListValueV2',
+                                                sorter : {
+                                                 path : 'label_defaultValue' 
+                                             },
+                                              filters : [
+            { path : 'PickListV2_id', operator : 'EQ', value1 : 'reason'}
+        ]  }"                       
+                                                         change="onTimeTyeChange">
+                <core:Item key="{externalCode}" text="{label_defaultValue}" />
+            </Select>
+                        </fm:SimpleForm>
+        <fm:SimpleForm layout="ColumnLayout"   columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
+           <Label required="true"  text="{i18n>IncidentDescDetails}" />
+            <Input id="idIncidentDescription"  value="{cust_IncidentDetails}" >
+                <layoutData>
+                    <l:GridData span="XL2 L3 M4 S4" />
+                </layoutData>
+            </Input>
+      <Label id="idEditDateLBL" text="{i18n>whenWouldYouLiketoText}" />
+                        <DatePicker id="idEditEffectStartDate" value="{path:'cust_DateofIncident', type:'sap.ui.model.type.Date', formatOptions: { style: 'medium', strictParsing: true,UTC: false}}"  change="onLeaveStartDatChdange"/>
+          </fm:SimpleForm>
+            <HBox>
+        <Text text="Attachments" class="sapUiSmallMarginTop" />
+       
+        </HBox>
+            <upload:UploadSet
+				id="idEditUploadSet"
+				instantUpload="true"
+				showIcons="true"
+				uploadEnabled="true"
+				terminationEnabled="true"
+				maxFileNameLength="30"
+				maxFileSize="200"
+                afterItemRemoved="onFileDeleted"
+                afterItemAdded="onFileAdded"	
+				>
+		</upload:UploadSet>
+</core:FragmentDefinition>

@@ -1,0 +1,64 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:fm="sap.ui.layout.form"
+    xmlns:l="sap.ui.layout"
+    xmlns:core="sap.ui.core">
+      <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
+                        <Label text="Job Title" required="true" />
+                        <Input editable="false" id="idEditJobTitle" value="{CreateBusinessCardModel>/sJobTitle}">
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M4 S4" />
+                            </layoutData>
+                        </Input>
+
+
+              <Label text="Division" required="false" />
+                        <Input editable="false" id="idEditDivision" value="{CreateBusinessCardModel>/sdivision}">
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M4 S4" />
+                            </layoutData>
+                        </Input>
+
+                    </fm:SimpleForm>
+                    <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
+                        <Label id="idDateLBL" text="P.O BOX" />
+                        <Input  id="idEditPOBOX" value="{cust_poBox}">
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M4 S4" />
+                            </layoutData>
+                        </Input>
+                        <Label text="Location" required="false" />
+                        <Input id="idEditLocation" value="{cust_location}">
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M4 S4" />
+                            </layoutData>
+                        </Input>
+                    </fm:SimpleForm>
+                    <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
+                        <Label text="Email" required="true" />
+                         <Input editable="false" type="Email" id="idEditEmail" value="{cust_email}">
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M4 S4" />
+                            </layoutData>
+                        </Input>
+                        <Label text="Mobile" required="true" />
+                         <Input type="Number" id="idEditMobile" editable="false" value="{cust_mobile}">
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M4 S4" />
+                            </layoutData>
+                        </Input>
+                    </fm:SimpleForm>
+                    <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
+                        <Label required="false" text="Office Number" />
+                        <Input editable="false" id="idEditOfficeNo" value="{CreateBusinessCardModel>/sOfficeNo}">
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M4 S4" />
+                            </layoutData>
+                        </Input>
+
+                        <Label text="{i18n>whenWouldYouLiketoText}" required="true"/>
+        <DatePicker id="idEditIncidentStartDate" value="{path:'effectiveStartDate', type:'sap.ui.model.type.Date' , formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}" change="onLeaveStartDatChange"/>
+                    </fm:SimpleForm>
+
+</core:FragmentDefinition>

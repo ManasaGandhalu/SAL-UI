@@ -1,0 +1,31 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:tnt="sap.tnt" xmlns:form="sap.ui.layout.form" xmlns:core="sap.ui.core">
+    	      
+      
+                   <form:SimpleForm id="idEditbankRequestSimpleForm" layout="ResponsiveGridLayout" 
+                 columnsM="3" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+                   <form:content>
+                        <Title id="idEditSpecifyDetailsTTL" text="{i18n>BankDetails}" titleStyle="H6" level="H6"/>
+
+                        <Label id="idEditDateLBL" text="{i18n>whenWouldYouLiketoText}" />
+
+
+                                    <DatePicker id="idEditFromDatePicker" enabled="false" value="{path:'effectiveStartDate',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {
+                                                    pattern: 'MMMM dd, yyyy'
+                                                }}" change="handleChange"/>
+
+
+                        
+                        <Label id="idEditIBANLBL" text="{i18n>IBAN}" />
+                        <Input liveChange="onChangeInpIBAN" id="idEditIBANINP" value="{cust_iban}"  />
+                        <Label id="idEditBankNameLBL" text="{i18n>BankName}"/>
+                        <Input liveChange="onChangeInpBankName" id="idEditBankNameINP" value="{cust_bankName}"  />
+
+                    </form:content>
+                   </form:SimpleForm>
+           
+        
+
+
+</core:FragmentDefinition>

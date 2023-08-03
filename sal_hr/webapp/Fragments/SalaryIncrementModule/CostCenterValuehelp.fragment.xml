@@ -1,0 +1,11 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<SelectDialog resizable="false" contentHeight="40%" contentWidth="30%" id="costCenterSelectDialog" title="Select Cost Center" growing="true" growingThreshold="15"
+		 items="{path: '/SF_FOCostCenter',
+         sorter : {
+            path : 'name' 
+         }, parameters : {
+                select : 'externalCode,name'
+            }}" liveChange="onLiveChange1" search=".onCostCenterValueHelpSearch" confirm=".onCostCenterConfirm" cancel=".onValueHelpClose1">
+		<StandardListItem title="{name} ({externalCode})"/>
+	</SelectDialog>
+</core:FragmentDefinition>

@@ -1,0 +1,38 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns:upload="sap.m.upload">
+    <form:SimpleForm id="idNewDisplayTripRquestSimpleForm" visible="{= ${LocalViewModel>/EditMode} === true ? false : true }" layout="ResponsiveGridLayout" columnsM="3" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+        <form:content>
+            <Title id="idLeaveDisplayRequestDetailsTTL" text="{i18n>Request Details}" titleStyle="H5" level="H5"/>
+            <Label text="Job Title" />
+          
+
+              <Text text="{path:'CreateBusinessCardModel>/sJobTitle', formatter:'.formatter.handleNoData'}"/>
+            <Label text="Division" />
+          
+              <Text text="{path:'CreateBusinessCardModel>/sdivision', formatter:'.formatter.handleNoData'}"/>
+            <Label text="Location" />
+            
+             <Text text="{path:'cust_location', formatter:'.formatter.handleNoData'}"/>
+            <Label text="Email" />
+          
+              <Text text="{path:'cust_email', formatter:'.formatter.handleNoData'}"/>
+            <Label text="Mobile" />
+          
+              <Text text="{path:'cust_mobile', formatter:'.formatter.handleNoData'}"/>
+            <Label text="Office Number" />
+            <Text text="{path:'CreateBusinessCardModel>/sOfficeNo', formatter:'.formatter.handleNoData'}"/>
+            <Label text="P.O BOX" />
+         
+             <Text text="{path:'cust_poBox', formatter:'.formatter.handleNoData'}"/>
+            <!-- <core:Title id="idEmptyTitle" text=" "/> -->
+            <Label text="When would you like your changes to take effect" />
+            <Text text="{path:'effectiveStartDate',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {
+                                                     pattern: 'MM/dd/yyyy'
+                                                }}"/>
+        </form:content>
+    </form:SimpleForm>
+</core:FragmentDefinition>

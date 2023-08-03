@@ -1,0 +1,13 @@
+/node_modules/
+package-lock.json
+/dist/
+/.vscode/
+/mta_archives/
+/resources/
+*.mta
+mta-*/
+
+*.zip
+*.env
+.env*
+node_modules

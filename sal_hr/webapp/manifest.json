@@ -1,0 +1,550 @@
+{
+    "_version": "1.32.0",
+    "sap.app": {
+        "id": "com.sal.salhr",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "0.0.1"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "dataSources": {
+            "mainService": {
+                "uri": "/odata/v2/HumanResourceService/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "localUri": "localService/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            },
+            "sfsfService": {
+                "uri": "/odata/v2/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "odataVersion": "2.0"
+                }
+            },
+            "ds_timezones": {
+				"uri": "model/timezones.json",
+				"type": "JSON"
+			}
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "com-sal-salhr-inbound": {
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    },
+                    "semanticObject": "HR_semantic",
+                    "action": "display",
+                    "title": "{{flpTitle}}",
+                    "subTitle": "{{flpSubtitle}}",
+                    "icon": ""
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": true,
+        "config": {
+            "fullWidth": true
+        },
+        "rootView": {
+            "viewName": "com.sal.salhr.view.App",
+            "type": "XML",
+            "async": true,
+            "id": "flexibleColumnLayout"
+        },
+        "dependencies": {
+            "minUI5Version": "1.97.2",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.ushell": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "com.sal.salhr.i18n.i18n"
+                }
+            },
+            "": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": true,
+                    "useBatch": false,
+                    "defaultUpdateMethod": "PUT"
+                },
+                "dataSource": "mainService",
+                "preload": true
+            },
+            "timezonesData": {
+                "type": "sap.ui.model.json.JSONModel",
+				"dataSource": "ds_timezones",
+                "preload": true
+            },
+            "sfsfModel": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+				"dataSource": "sfsfService",
+                "preload": false
+            }
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.f.routing.Router",
+                "viewType": "XML",
+                "async": true,
+                "viewPath": "com.sal.salhr.view",
+                "controlId": "flexibleColumnLayout",
+                "controlAggregation": "pages",
+                "clearControlAggregation": false,
+                "transition": "slide"
+            },
+            "routes": [
+                {
+                    "pattern": "masterView",
+                    "name": "master",
+                    "target": [
+                        "master"
+                    ]
+                },
+                {
+                    "pattern": "detail/{parentMaterial}/{layout}",
+                    "name": "detail",
+                    "target": [
+                        "master",
+                        "detail"
+                    ]
+                },
+                {
+                    "pattern": "detail/{parentMaterial}/detailDetail/{childModule}/{layout}",
+                    "name": "detailDetail",
+                    "target": [
+                        "master",
+                        "detail",
+                        "detailDetail"
+                    ]
+                },
+                {
+                    "pattern": "RaiseRequest/{parentMaterial}/{layout}",
+                    "name": "RaiseRequest",
+                    "layout": "EndColumnFullScreen",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": [
+                        "RaiseRequest"
+                    ]
+                },
+                {
+                    "pattern": "LeaveRequest/{parentMaterial}/{layout}",
+                    "name": "LeaveRequest",
+                    "layout": "EndColumnFullScreen",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": [
+                        "LeaveRequest"
+                    ]
+                },
+                {
+                    "pattern": "IDCardRequest/{parentMaterial}/{layout}",
+                    "name": "IDCardRequest",
+                    "layout": "EndColumnFullScreen",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": [
+                        "IDCardRequest"
+                    ]
+                },
+                {
+                    "pattern": "BankAccChangeRequest/{parentMaterial}/{layout}",
+                    "name": "BankAccChangeRequest",
+                    "layout": "EndColumnFullScreen",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": [
+                        "BankAccChangeRequest"
+                    ]
+                },
+                {
+                    "pattern": "DisciplinaryRequest/{parentMaterial}/{layout}",
+                    "name": "DisciplinaryRequest",
+                    "layout": "EndColumnFullScreen",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": [
+                        "DisciplinaryRequest"
+                    ]
+                },
+                {
+                    "pattern": "BusinessCardRequest/{parentMaterial}/{layout}",
+                    
+                    "name": "BusinessCardRequest",
+                    "layout": "EndColumnFullScreen",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": [
+                        "BusinessCardRequest"
+                    ]
+                },
+                {
+                    "pattern": "BusinessTripRequest/{parentMaterial}/{layout}",
+                    "name": "BusinessTripRequest",
+                    "layout": "EndColumnFullScreen",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": [
+                        "BusinessTripRequest"
+                    ]
+                },
+                {
+                    "pattern": "AdditionalPaymentRequest/{parentMaterial}/{layout}",
+                    "name": "AdditionalPaymentRequest",
+                    "layout": "EndColumnFullScreen",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": [
+                        "AdditionalPaymentRequest"
+                    ]
+                },
+                {
+                    "pattern": "SalaryPromIncRequest/{parentMaterial}/{layout}",
+                    "name": "SalaryPromIncRequest",
+                    "layout": "EndColumnFullScreen",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": [
+                        "SalaryPromIncRequest"
+                    ]
+                },
+                {
+                    "pattern": "SalaryIncrementRequest/{parentMaterial}/{layout}",
+                    "name": "SalaryIncrementRequest",
+                    "layout": "EndColumnFullScreen",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": [
+                        "SalaryIncrementRequest"
+                    ]
+                },
+                {
+
+                    "pattern": "HealthInsuranceRequest/{parentMaterial}/{layout}",
+                    "name": "HealthInsuranceRequest",
+                    "layout": "EndColumnFullScreen",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": [
+                        "HealthInsuranceRequest"
+                    ]
+                },
+                {
+                    "pattern": "LetterRequest/{parentMaterial}/{layout}",
+                    "name": "LetterRequest",
+                    "layout": "EndColumnFullScreen",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": [
+                        "LetterRequest"
+                    ]
+                },
+                {
+                    "pattern": "detail/{parentMaterial}/LeaveRequestDetail/{childModule}/{layout}",
+                    "name": "LeaveRequestDetail",
+                    "target": [
+                        "master",
+                        "detail",
+                        "LeaveRequestDetail"
+                    ]
+                },
+                {
+                    "pattern": "detail/{parentMaterial}/IDCardRequestDetail/{childModule}/{layout}",
+                    "name": "IDCardRequestDetail",
+                    "target": [
+                        "master",
+                        "detail",
+                        "IDCardRequestDetail"
+                    ]
+                },
+                {
+                    "pattern": "detail/{parentMaterial}/BankAccChangeDetail/{childModule}/{layout}",
+                    "name": "BankAccChangeDetail",
+                    "target": [
+                        "master",
+                        "detail",
+                        "BankAccChangeDetail"
+                    ]
+                },
+                {
+                    "pattern": "detail/{parentMaterial}/DisciplinaryRequestDetail/{childModule}/{layout}",
+                    "name": "DisciplinaryRequestDetail",
+                    "target": [
+                        "master",
+                        "detail",
+                        "DisciplinaryRequestDetail"
+                    ]
+                },
+                {
+                    "pattern": "AirportPassRequest/{parentMaterial}/{layout}",
+                    "name": "AirportPassRequest",
+                    "layout": "EndColumnFullScreen",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": [
+                        "AirportPassRequest"
+                    ]
+                },
+                {
+                    "pattern": "EmployeeTerminateRequest/{parentMaterial}/{layout}",
+                    "name": "EmployeeTerminateRequest",
+                    "layout": "EndColumnFullScreen",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": [
+                        "EmployeeTerminateRequest"
+                    ]
+                },
+                {
+                    "pattern": "detail/{parentMaterial}/AirportPassRequestDetail/{childModule}/{layout}",
+                    "name": "AirportPassRequestDetail",
+                    "target": [
+                        "master",
+                        "detail",
+                        "AirportPassRequestDetail"
+                    ]
+                },
+                {
+
+                    "pattern": "AdditionalPaymentRequestDetail/{parentMaterial}/{childModule}/{layout}",
+                    "name": "AdditionalPaymentRequestDetail",
+                    "target": [
+                        "master",
+                        "detail",
+                        "AdditionalPaymentRequestDetail"]
+                    },
+                {
+                    "pattern": "detail/{parentMaterial}/BusinessTripRequestDetailPage/{childModule}/{layout}",
+                    "name": "BusinessTripRequestDetailPage",
+                    "target": [
+                        "master",
+                        "detail",
+                        "BusinessTripRequestDetailPage"
+                    ]
+                },
+                {
+                    "pattern": "detail/{parentMaterial}/LetterRequestDetail/{childModule}/{layout}",
+                    "name": "LetterRequestDetail",
+                    "target": [
+                        "master",
+                        "detail",
+                        "LetterRequestDetail"
+                    ]
+                },
+                {
+                    "pattern": "BusinessRequestDetail/{parentMaterial}/{childModule}/{layout}",
+                    "name": "BusinessRequestDetail",
+                    "target": [
+                        "master",
+                        "detail",
+                        "BusinessRequestDetail"
+
+                    ]
+                },
+                {
+                    "pattern": "EmployeeTerminateDetail/{parentMaterial}/{childModule}/{layout}",
+                    "name": "EmployeeTerminateDetail",
+                    "target": [
+                        "master",
+                        "detail",
+                        "EmployeeTerminateDetail"
+
+                    ]
+                },
+                {
+                    "pattern": "HealthInsuranceRequestDetail/{parentMaterial}/{childModule}/{layout}",
+                    "name": "HealthInsuranceRequestDetail",
+                    "target": [
+                        "master",
+                        "detail",
+                        "HealthInsuranceRequestDetail"
+
+                    ]
+                },
+                {
+                    "pattern": "SalaryIncRequestDetail/{parentMaterial}/{childModule}/{layout}",
+                    "name": "SalaryIncRequestDetail",
+                    "target": [
+                        "master",
+                        "detail",
+                        "SalaryIncRequestDetail"
+
+                    ]
+                }
+                
+
+            ],
+            "targets": {
+                "master": {
+                    "viewName": "MasterList",
+                    "controlAggregation": "beginColumnPages"
+                },
+                "detail": {
+                    "viewName": "DetailPage",
+                    "controlAggregation": "midColumnPages"
+                },
+                "detailDetail": {
+                    "viewName": "DetailDetailPage",
+                    "controlAggregation": "endColumnPages"
+                },
+                "RaiseRequest": {
+                    "viewName": "CreateRequest",
+                    "controlAggregation": "endColumnPages"
+                },
+                "LeaveRequest": {
+                    "viewName": "CreateLeaveRequest",
+                    "controlAggregation": "endColumnPages"
+                },
+                "BusinessTripRequest": {
+                    "viewName": "CreateBusinessTripRequest",
+                    "controlAggregation": "endColumnPages"
+                },
+                "IDCardRequest": {
+                    "viewName": "CreateIDCardRequest",
+                    "controlAggregation": "endColumnPages"
+                },
+                "BusinessCardRequest": {
+                    "viewName": "CreateBusinessCardRequest",
+                    "controlAggregation": "endColumnPages"
+                },
+                "BankAccChangeRequest": {
+                    "viewName": "CreateBankAccChangeRequest",
+                    "controlAggregation": "endColumnPages"
+                },
+                "DisciplinaryRequest": {
+                    "viewName": "CreateDisciplinaryRequest",
+                    "controlAggregation": "endColumnPages"
+                },
+                "AirportPassRequest": {
+                    "viewName": "CreateAirportPassRequest",
+                    "controlAggregation": "endColumnPages"
+                },
+                "AdditionalPaymentRequest": {
+                    "viewName": "CreateAdditionalPaymentRequest",
+                    "controlAggregation": "endColumnPages"
+                },
+                "EmployeeTerminateRequest": {
+                    "viewName": "CreateEmployeeTerminateRequest",
+                    "controlAggregation": "endColumnPages"
+                },
+                "SalaryPromIncRequest": {
+                    "viewName": "CreateSalaryPromIncRequest",
+                    "controlAggregation": "endColumnPages"
+                },
+                "SalaryIncrementRequest": {
+                    "viewName": "CreateSalaryIncrementRequest",
+                    "controlAggregation": "endColumnPages"
+                },
+
+                "HealthInsuranceRequest": {
+                    "viewName": "CreateHealthInsuranceRequest",
+                    "controlAggregation": "endColumnPages"
+                },
+                "LetterRequest": {
+                    "viewName": "CreateLetterRequest",
+                    "controlAggregation": "endColumnPages"
+                },
+                "LeaveRequestDetail": {
+                    "viewName": "LeaveRequestDetail",
+                    "controlAggregation": "endColumnPages"
+                },
+                "IDCardRequestDetail": {
+                    "viewName": "IDCardRequestDetail",
+                    "controlAggregation": "endColumnPages"
+                },
+                "BankAccChangeDetail": {
+                    "viewName": "BankAccChangeDetail",
+                    "controlAggregation": "endColumnPages"
+                },
+                "DisciplinaryRequestDetail": {
+                    "viewName": "DisciplinaryRequestDetailpage",
+                    "controlAggregation": "endColumnPages"
+                },
+                "AirportPassRequestDetail": {
+                    "viewName": "AirportPassRequestDetailpage",
+                    "controlAggregation": "endColumnPages"
+                },
+                "BusinessTripRequestDetailPage": {
+                    "viewName": "BusinessTripRequestDetailPage",
+                    "controlAggregation": "endColumnPages"
+                },
+                "BusinessRequestDetail": {
+                    "viewName": "BusinessCardRequestDetailpage",
+                    "controlAggregation": "endColumnPages"
+                },
+                "AdditionalPaymentRequestDetail": {
+                    "viewName": "AdditionalPaymentRequestDetailPage",
+                    "controlAggregation": "endColumnPages"
+                },
+                "EmployeeTerminateDetail": {
+                    "viewName": "EmployeeTerminateDetailPage",
+                    "controlAggregation": "endColumnPages"
+                },
+
+                "HealthInsuranceRequestDetail": {
+                    "viewName": "HealthInsuranceRequestDetailPage",
+                    "controlAggregation": "endColumnPages"
+                },
+
+                "LetterRequestDetail": {
+                    "viewName": "LetterRequestDetailPage",
+                    "controlAggregation": "endColumnPages"
+                },
+
+                "SalaryIncRequestDetail": {
+                    "viewName": "SalaryIncrementDetailPage",
+                    "controlAggregation": "endColumnPages"
+                }
+
+                
+            }
+        }
+    },
+    "sap.cloud": {
+        "public": true,
+        "service": "employee_portal_service"
+    }
+}

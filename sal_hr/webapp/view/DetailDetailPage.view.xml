@@ -1,0 +1,157 @@
+<mvc:View controllerName="com.sal.salhr.controller.DetailDetailPage"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:ui="sap.suite.ui.commons"
+    xmlns:f="sap.f"
+    xmlns:layout="sap.ui.layout"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form" height="100%">
+    <f:DynamicPage id="dynamicPageId" headerExpanded="true" showFooter="true" stickySubheaderProvider="iconTabBar" class="sapUiNoContentPadding">
+        <!-- DynamicPage Title -->
+        <f:title>
+            <f:DynamicPageTitle id="idDynamicPageTitle">
+                <f:heading>
+                    <Title id="idPageTitle" text="{LocalViewModel>/PageTitle}"/>
+                </f:heading>
+                <f:breadcrumbs>
+                    <Breadcrumbs id="idBreadcrumbs" currentLocationText="Request {headerModel>/ticketCode}">
+                        <Link id="idHumanResourceLink" text="{LocalViewModel>/PageTitle}" press="handleClose"/>
+                    </Breadcrumbs>
+                </f:breadcrumbs>
+                <!-- <f:expandedContent>
+                    <Label id="idRquestId" text="RequestID:{headerModel>/ticketCode}"/>
+                </f:expandedContent> -->
+                <f:actions>
+                    <Button text="Modify" type="Emphasized" press="onEditPress" visible="{= ${LocalViewModel>/Modify} === true ? true : false }"/>
+                    <Button text="Withdraw" type="Emphasized" press="onWithdrawPress" visible="{= ${LocalViewModel>/Modify} === true ? true : false }"/>
+                </f:actions>
+                <f:navigationActions>
+                    <!-- <Button icon="sap-icon://full-screen" press="onToggelFullScreenMode" type="Transparent" /> -->
+                    <Button id="idFullScreenBTN" icon="sap-icon://full-screen" press="handleFullScreen" type="Transparent" />
+                    <Button icon="sap-icon://decline" type="Transparent" press="handleClose" />
+                </f:navigationActions>
+            </f:DynamicPageTitle>
+        </f:title>
+        <!-- DynamicPage Header Content -->
+        <f:header>
+            <f:DynamicPageHeader pinnable="true">
+                <layout:HorizontalLayout allowWrapping="true">
+                    <layout:VerticalLayout class="sapUiMediumMarginEnd">
+                        <ObjectAttribute title="{i18n>Status}"/>
+                        <ObjectStatus id="idStatus" text="{headerModel>/status}" state="Success"/>
+                    </layout:VerticalLayout>
+                    <layout:VerticalLayout class="sapUiMediumMarginEnd">
+                        <ObjectAttribute title="{i18n>RequestedBy}"/>
+                        <ObjectAttribute text="{headerModel>/employeeId}"/>
+                    </layout:VerticalLayout>
+                    <layout:VerticalLayout class="sapUiMediumMarginEnd">
+                        <ObjectAttribute title="{i18n>DateofCreation}"/>
+                        <ObjectAttribute text="{path:'headerModel>/requestDate',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {
+                                                    pattern: 'MMMM dd, yyyy'
+                                                }}"/>
+                    </layout:VerticalLayout>
+                </layout:HorizontalLayout>
+            </f:DynamicPageHeader>
+        </f:header>
+        <!-- DynamicPage Content -->
+        <f:content>
+            <VBox id="idContentVBox" width="100%">
+                <IconTabBar id="idLeaveiconTabBar" visible="{= ${LocalViewModel>/LeaveModule} === true ? true : false }">
+                    <items>
+                        <IconTabFilter id="idLeaveDisplayDetailsITB" text="{i18n>Details}" visible="{= ${LocalViewModel>/EditMode} === true ? false : true }">
+                            <core:Fragment fragmentName="com.sal.salhr.Fragments.DisplayLeaveDetails" type="XML"/>
+                        </IconTabFilter>
+                        <IconTabFilter id="idLeaveEditDetailsITB" text="{i18n>Details}" visible="{= ${LocalViewModel>/EditMode} === true ? true : false }">
+                            <core:Fragment fragmentName="com.sal.salhr.Fragments.EditLeaveDetails" type="XML"/>
+                        </IconTabFilter>
+                        <!-- <IconTabFilter text="{i18n>Resolution}">
+                            <Text text="" />
+                        </IconTabFilter>
+                        <IconTabFilter text="{i18n>History}">
+                            <Text text="" />
+                        </IconTabFilter> -->
+                    </items>
+                </IconTabBar>
+
+                <IconTabBar id="idBusinessTripIconTabBar" visible="{= ${LocalViewModel>/BusineesTripModule} === true ? true : false }">
+                    <items>
+                        <IconTabFilter id="idDisplayDetailsITB" text="{i18n>Details}" visible="{= ${LocalViewModel>/EditMode} === true ? false : true }">
+                            <core:Fragment fragmentName="com.sal.salhr.Fragments.DisplayBusinessTrip" type="XML"/>
+                        </IconTabFilter>
+                        <IconTabFilter id="idEditDetailsITB" text="{i18n>Details}" visible="{= ${LocalViewModel>/EditMode} === true ? true : false }">
+                            <core:Fragment fragmentName="com.sal.salhr.Fragments.EditBusinessTrip" type="XML"/>
+                        </IconTabFilter>
+                        <!-- <IconTabFilter text="{i18n>Resolution}">
+                            <Text text="" />
+                        </IconTabFilter>
+                        <IconTabFilter text="{i18n>History}">
+                            <Text text="" />
+                        </IconTabFilter> -->
+                    </items>
+                </IconTabBar>
+
+                <IconTabBar id="idHealthIconTabBar" visible="{= ${LocalViewModel>/HealthModule} === true ? true : false }">
+                    <items>
+                        <IconTabFilter id="idDisplayHealthDetailsITB" text="{i18n>Details}" visible="{= ${LocalViewModel>/EditMode} === true ? false : true }">
+                            <core:Fragment fragmentName="com.sal.salhr.Fragments.DisplayHealthInsurance" type="XML"/>
+                        </IconTabFilter>
+                        <IconTabFilter id="idEditHealthDetailsITB" text="{i18n>Details}" visible="{= ${LocalViewModel>/EditMode} === true ? true : false }">
+                            <core:Fragment fragmentName="com.sal.salhr.Fragments.EditHealthInsurance" type="XML"/>
+                        </IconTabFilter>
+                        <IconTabFilter text="{i18n>Resolution}">
+                            <Text text="" />
+                        </IconTabFilter>
+                        <IconTabFilter text="{i18n>History}">
+                            <Text text="" />
+                        </IconTabFilter>
+                    </items>
+                </IconTabBar>
+                <IconTabBar id="idBankRequestTabBar" visible="{= ${LocalViewModel>/BankRequestModel} === true ? true : false }">
+                    <items>
+                       <IconTabFilter id="idDisplayBankRequestDetailsITB" text="{i18n>Details}" visible="{= ${LocalViewModel>/EditMode} === true ? false : true }">
+
+                            <core:Fragment fragmentName="com.sal.salhr.Fragments.DisplayBankRequest" type="XML"/>
+
+                        </IconTabFilter>
+
+                        <IconTabFilter id="idEditBankRequestDetailsITB" text="{i18n>Details}" visible="{= ${LocalViewModel>/EditMode} === true ? true : false }">
+
+                            <core:Fragment fragmentName="com.sal.salhr.Fragments.EditBankRequest" type="XML"/>
+
+                        </IconTabFilter>
+
+                        <IconTabFilter text="{i18n>Resolution}">
+
+                            <Text text="" />
+
+                        </IconTabFilter>
+
+                        <IconTabFilter text="{i18n>History}">
+
+                            <Text text="" />
+
+                        </IconTabFilter>
+
+                    </items>
+
+                </IconTabBar>
+                <IconTabBar id="idIDCardRequestTabBar" visible="{= ${LocalViewModel>/IDCardModule} === true ? true : false }">
+                    <items>
+                    <IconTabFilter id="idDisplayIDCardRequestDetailsITB" text="{i18n>Details}">
+                    <core:Fragment fragmentName="com.sal.salhr.Fragments.DisplayIDReplacementRequest" type="XML"/>
+                    </IconTabFilter>
+                    </items>
+                </IconTabBar>
+            </VBox>
+        </f:content>
+        <f:footer>
+            <OverflowToolbar id="idOverflowToolbar" visible="{= ${LocalViewModel>/EditMode} === true ? true : false }">
+                <ToolbarSpacer id="idToolbarSpacer"/>
+                <Button id="idSaveBTN" text="{i18n>Save}" type="Emphasized" press="onSavePress"/>
+                <Button id="idCancelBTN" text="{i18n>Cancel}" type="Ghost" press="onCancelPress"/>
+            </OverflowToolbar>
+        </f:footer>
+    </f:DynamicPage>
+</mvc:View>

@@ -1,0 +1,21 @@
+<mvc:View controllerName="com.sal.itsrvmgmtrequestssummarymanagertile.controller.ITSrvMgmtManagerTile"
+    xmlns="sap.suite.ui.microchart"
+    xmlns:m="sap.m"
+    xmlns:mvc="sap.ui.core.mvc">
+    <m:GenericTile id="idItSrvReq_SummaryTile" header="{i18n>Requests} ({totalRequests})" subheader="{i18n>Sentbyme}" frameType="TwoByOne">
+        <m:tileContent>
+            <m:TileContent id="idItSrvReq_SummaryTileContent" frameType="TwoByOne">
+                <m:content>
+                     <ComparisonMicroChart id="idItSrvReq_Chart" view="Wide" size="M"  shrinkable="true" width="100%" class="zCustomTitleWidth">
+                        <data>
+                            <ComparisonMicroChartData id="idItSrvReq_Pending" title="{i18n>Pending}" value="{totalPending}" color="Critical" press="pressBar"/>
+                            <ComparisonMicroChartData id="idItSrvReq_Approved" title="{i18n>Approved}" value="{totalApproved}" color="Good" press="pressBar"/>
+                            <ComparisonMicroChartData id="idItSrvReq_Rejected" title="{i18n>Rejected}" value="{totalRejected}" color="Error" press="pressBar"/>
+                            <ComparisonMicroChartData id="idItSrvReq_Cancelled" title="{i18n>Cancelled}" value="{totalCancelled}" press="pressBar"/>
+                        </data>
+                    </ComparisonMicroChart>
+                </m:content>
+            </m:TileContent>
+        </m:tileContent>
+    </m:GenericTile>
+</mvc:View>

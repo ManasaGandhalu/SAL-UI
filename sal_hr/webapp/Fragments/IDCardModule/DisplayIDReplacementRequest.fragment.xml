@@ -1,0 +1,47 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core">
+    <Text class="sapUiSmallMarginBegin" text="{i18n>Effectiveasof}: {path:'headerModel>/effectiveStartDate',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {pattern: 'MM/dd/yyyy'}}"/>
+
+    <form:SimpleForm id="idDisplayIDRequestSimpleForm" layout="ResponsiveGridLayout" columnsM="3" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+        <form:content>
+            <core:Title id="idDisplayIDDetails" text="{i18n>IDCardReplacementDetails}" titleStyle="H6" level="H6"/>
+
+            <Label text="{i18n>PRN}" />
+            <Text text="{cust_idReplacementDetailsModel>/userId}"/>
+
+            <Label text="{i18n>FirstName}" />
+            <Text text="{cust_idReplacementDetailsModel>/firstName}"/>
+
+            <Label text="{i18n>LastName}" />
+           <Text text="{cust_idReplacementDetailsModel>/lastName}"/>
+
+            <Label text="{i18n>SecondName}" />
+          <Text text="{cust_idReplacementDetailsModel>/middleName}"/>
+
+            <Label text="{i18n>JobTitle}" />
+           <Text text="{cust_idReplacementDetailsModel>/jobTitle}"/>
+            <Label text="{i18n>SeniorityDate}" />
+            <Text text="{path:'cust_idReplacementDetailsModel>/seniorityDate', type:'sap.ui.model.type.Date', formatOptions: {pattern: 'MM/dd/yyyy'}}"/>
+
+            <core:Title id="idDisplayIDCardEmptyTitle" text=" "/>
+
+            <Label text="{i18n>CostCentre}" />
+            <Text text="{cust_idReplacementDetailsModel>/costCentre}"/>
+
+            <Label text="{i18n>Nationality}" />
+            <Text text="{cust_idReplacementDetailsModel>/nationality}"/>
+
+            <Label text="{i18n>PayGrade}" />
+            <Text text="{cust_idReplacementDetailsModel>/payGrade}"/>
+
+            <Label text="{i18n>BloodGroup}" />
+            <Text text="{cust_idReplacementDetailsModel>/bloodGroup}"/>
+
+            <Label text="{i18n>EmergencyPhone}" />
+            <Text text="{cust_idReplacementDetailsModel>/emergencyNumber}"/>
+        </form:content>
+    </form:SimpleForm>
+</core:FragmentDefinition>

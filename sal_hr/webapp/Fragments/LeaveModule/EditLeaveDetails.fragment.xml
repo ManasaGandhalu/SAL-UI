@@ -1,0 +1,81 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns:upload="sap.m.upload">
+    
+     <form:SimpleForm id="idNewLeaveRquestSimpleForm" layout="ResponsiveGridLayout" visible="{= ${LocalViewModel>/EditMode} === true ? true : false }" columnsM="3" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+        <form:content>
+            <Title id="idEditRequestDetailsTTL" text="{i18n>Request Details}" titleStyle="H5" level="H5"/>
+
+            <Label id="idEditLeaveStartDateLBL" text="{i18n>Start Date}" class="sapUiSmallMarginTop" />
+           <DatePicker id="idStartLDatePicker" value="{path:'leaveModel>/startDate',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {
+                                                    pattern: 'MMMM dd, yyyy'
+                                                }}" change="onLeaveStartDatChange"/>
+
+             <Label id="idEditLeaveTypeLBL" text="{i18n>Leave Type}" />
+             <Select id="idEditTimeType" items="{ path: '/SF_Leave_TimeType',
+                                                            filters: [
+                                                                        {
+                                                                             path: 'category',
+                                                                             operator: 'EQ',
+                                                                             value1: 'ABSENCE'
+                                                                         }
+                                                                     ],
+                                                         sorter : {
+                                                             path : 'externalName_defaultValue' 
+                                                        } }" change="onTimeTyeChange" selectedKey="{timeTypeModel>/externalCode}">
+                            <core:Item key="{externalCode}" text="{externalName_defaultValue}" />
+                        </Select>
+            
+            
+
+           
+           
+            <core:Title id="idEditLeaveEmptyTitle" text=" "/>
+
+           
+
+            <Label id="idEditLeaveTotalLeaveHrsLBL" text="{i18n>Total Hrs}" visible="{= ${LocalViewModel>/meetingType} === true ? true : false}"/>
+            <!-- <Input id="idEditRequestHrs" value="{leaveModel>/displayQuantity}" visible="{= ${LocalViewModel>/meetingType} === true ? true : false}"/> -->
+             <TimePicker id="idEditRequestHrs" value="{leaveModel>/displayQuantity}" valueFormat="HH:mm" displayFormat="HH:mm" maskMode="On" change="handleTimeChange" visible="{= ${LocalViewModel>/meetingType} === true ? true : false}"/>
+          
+            <Label id="idEditLeaveEndDateLBL" text="{i18n>End Date}" />
+            <DatePicker id="idEditLeaveEndDatePicker" value="{path:'leaveModel>/endDate',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {
+                                                    pattern: 'MMMM dd, yyyy'
+                                                }}" change="onLeaveEndDateChange"/>
+
+
+            
+             
+        </form:content>
+    </form:SimpleForm>
+   
+   
+
+
+             
+         
+            <upload:UploadSet id="idEditUploadSet" class="uploadDetailPage" instantUpload="true" showIcons="true" uploadEnabled="true" terminationEnabled="true"  maxFileNameLength="255" maxFileSize="200"  
+            afterItemRemoved="onFileDeleted"
+            afterItemAdded="onFileAdded" 
+            fileRenamed="onFileRenamed" 
+            attachFileRenamed="onFileEdited" 
+            visible="{= ${LocalViewModel>/uploadAttachment} === true ? true : false}">
+                <upload:toolbar>
+                            <OverflowToolbar>
+                                <Label text="Attachments" required="true"/>
+                                <core:Icon id="idInfoIconLeave" src="sap-icon://message-information" size="1rem" height="3rem" class="sapUiTinyMarginBegin"  tooltip="Please Upload File types (.png, .txt, pdf, docs and xls) and File size upto 250 MB" ></core:Icon>
+                                <ToolbarSpacer/>
+                            </OverflowToolbar>
+                        </upload:toolbar>
+                <upload:items>
+                    <upload:UploadSetItem id="idEditUploadSetItem" fileName="{attachmentModel>/fileName}" mediaType="{attachmentModel>/mimeType}" >
+                    </upload:UploadSetItem>
+                </upload:items>
+            </upload:UploadSet>
+      
+</core:FragmentDefinition>

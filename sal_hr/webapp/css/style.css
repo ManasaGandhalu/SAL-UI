@@ -1,0 +1,215 @@
+/* Enter your custom styles here */
+.page {
+    background-color: white !important;
+}
+.textDescription {
+    font-size: 11px !important;
+}
+
+
+
+
+
+
+.infoColor {
+	color : #800000 !important;
+
+}
+
+.redColor {
+    position: absolute;
+    top: 10px;
+    font-weight: 600;
+    color: red !important;
+ }
+
+
+.RaiseRequestButton .sapMBtnInner {
+    background-color: #6c1332;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+.dataPointsColor {
+	color : purple !important;
+    font-weight: 400;
+    font-size: 20px !important;
+
+}
+
+.dataValuePendingColor {
+	color : #FFBF00 !important;
+    font-weight: 400;
+    font-size: 20px !important;
+
+}
+.dataValueApprovedColor {
+	color : #107e3e !important;
+    font-weight: 400;
+    font-size: 20px !important;
+
+}
+.dataValueRejectColor {
+	color : #b00 !important;
+    font-weight: 400;
+    font-size: 20px !important;
+
+}
+.dataValueCancelledColor {
+    color : #808080 !important;
+    font-weight: 400;
+    font-size: 20px !important;
+
+}
+.dataValuePrimaryColor {
+    color : #5899da !important;
+    font-weight: 400;
+    font-size: 20px !important;
+
+}
+
+.dataPointsColorPending {
+	color : #ffba10 !important;
+   
+
+}
+
+.dataPointsColorApproved {
+	color : #107e3e !important;
+   
+
+}
+
+.dataPointsColorCancelled {
+	color : #b00 !important;
+    
+
+}
+
+
+.dataPointsColorRejected {
+	color : #b00 !important;
+    
+
+}
+
+
+
+
+
+
+
+.ListIcon {
+    color : #6c1332;
+    }
+
+.redColor {
+    position: absolute;
+    top: 10px;
+    font-weight: 600;
+    color: red !important;
+}
+
+.buttonInfo{
+    width: 2px;
+}
+
+.sapMITBTextOnly .sapMITBFilterDefault.sapMITBSelected .sapMITBText {
+    color: #6c1332;
+    font-weight: 500;
+}
+
+.sapMITBSelected .sapMITBContentArrow::after {
+    background: #6c1332;
+}
+
+.uploadDetailPage .sapMUSProgressBox {
+    min-width: 0px;
+}
+@media only screen and (max-width: 600px) {
+    .uploadBox .sapMListUl {
+        max-width: 295px !important;
+    }
+
+    .uploadBox .sapMUSProgressBox{
+        min-width: 0px !important;
+    }
+}
+
+
+.strikeOutCss
+{
+    color: #999;
+    text-decoration: line-through;
+}
+
+.wfPendingData .sapFGLI {
+	background: transparent !important;
+	box-shadow: none !important;
+}
+
+.wfPendingData .sapMListHdrText {
+	background-color: transparent !important;
+}
+
+.wfPendingData .sapFGridListGroup>.sapMLIB.sapMGHLI {
+    padding-left: 0px;
+}
+
+.wfPendingData .sapMFlexItemAlignAuto {
+	margin: 0px !important;
+}
+
+.sapUiVlt {
+	padding: 5px;
+}
+
+.sapUiVlt.sapUiNoContentPadding{
+	width: 100%;
+}
+
+.ticketProcessFlow .sapSuiteUiCommonsMicroProcessFlowItem {
+    font-size: 0.75rem;
+    color: white;
+}
+
+.ticketProcessFlow .sapSuiteUiCommonsMicroProcessFlowItemInformation {
+    border-color: #0a6ed1;
+    background-color: #0a6ed1;
+}
+
+.ticketProcessFlow .sapSuiteUiCommonsMicroProcessFlowItemInformation:hover {
+    background-color: #286eb4;
+    border-color: #286eb4;
+}
+
+.ticketProcessFlow .sapSuiteUiCommonsMicroProcessFlowItemNone {
+    border-color: #6a6d70;
+    background-color: #f4f4f4;
+    color: #6a6d70;
+}
+
+.ticketProcessFlow .sapSuiteUiCommonsMicroProcessFlowItemPressed:hover .sapSuiteUiCommonsMicroProcessFlowItemWarning.sapSuiteUiCommonsMicroProcessFlowItem {
+	border-color: #df6e0c;
+    background-color: #df6e0c;
+}
+
+.ticketProcessFlow .sapSuiteUiCommonsMicroProcessFlowItemPressed:hover .sapSuiteUiCommonsMicroProcessFlowItemError.sapSuiteUiCommonsMicroProcessFlowItem {
+	border-color: #b00;
+    background-color: #b00;
+}
+
+.ticketProcessFlow .sapSuiteUiCommonsMicroProcessFlowItemPressed:hover .sapSuiteUiCommonsMicroProcessFlowItemSuccess.sapSuiteUiCommonsMicroProcessFlowItem {
+	border-color: #107e3e;
+    background-color: #107e3e;
+}
+
+.ticketProcessFlow .sapSuiteUiCommonsMicroProcessFlowItemPressed:hover .sapSuiteUiCommonsMicroProcessFlowItemInformation.sapSuiteUiCommonsMicroProcessFlowItem {
+	border-color: #0a6ed1;
+    background-color: #0a6ed1;
+}
+
+.ticketProcessFlow .sapSuiteUiCommonsMicroProcessFlowItemPressed:hover .sapSuiteUiCommonsMicroProcessFlowItemNone.sapSuiteUiCommonsMicroProcessFlowItem {
+	border-color: #6a6d70;
+    background-color: #f4f4f4;
+}

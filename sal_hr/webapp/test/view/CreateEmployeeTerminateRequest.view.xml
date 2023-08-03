@@ -1,0 +1,113 @@
+<mvc:View controllerName="com.sal.salhr.controller.CreateEmployeeTerminateRequest"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:l="sap.ui.layout"
+    xmlns:core="sap.ui.core"
+    xmlns:fm="sap.ui.layout.form" height="100%">
+    <f:DynamicPage id="dynamicPageId" headerExpanded="true" showFooter="true">
+        <!-- DynamicPage Title -->
+        <f:title>
+            <f:DynamicPageTitle id="idDynamicPageTitle">
+                <f:heading>
+                    <Title id="idPageTitle" text="New Employee Terminate Request" class="sapUiSmallMarginBegin"/>
+                </f:heading>
+                <f:breadcrumbs>
+                    <Breadcrumbs id="idBreadcrumbs" currentLocationText="New Employee Terminate Request" class="sapUiSmallMarginBegin">
+                        <Link id="idHumanResourceLink" text="{i18n>HumanResource}" press="onCreateCancelPress"/>
+                    </Breadcrumbs>
+                </f:breadcrumbs>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:content>
+            <l:VerticalLayout class="sapUiNoMargin sapUiNoContentPadding">
+                <l:content>
+                  <!--  Employee Name for Manager App Tile -->
+                    <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
+                        <Label text="{i18n>EmployeeName}" required="true" visible="{EmpInfoModel>/IsUserManager}"/>
+                        <Input id="idEmployeeNameTerrminateRequestINP" required="true" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpRequest" visible="{EmpInfoModel>/IsUserManager}"/>
+                    </fm:SimpleForm>
+                    <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
+
+                        <Label id="idDateLBL" required="false" text="{i18n>ResignationDate}" />
+                        <DatePicker id="idResignationDate" value="{path:'LocalViewModel>/currentDate', type:'sap.ui.model.type.Date', formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}" change="handleChange"/>
+
+
+
+                        <Label id="idLblCreateType" required="true" text="{i18n>TerminationDate}" />
+                        <DatePicker id="idTerminationDate" value="{path:'LocalViewModel>/currentDate', type:'sap.ui.model.type.Date', formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}" change="handleChange"/>
+                    </fm:SimpleForm>
+
+                    <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
+                        <Label required="true" id="idBValueLBL" text="{i18n>TerminationReason}"/>
+                        <!-- <Input type="Text" liveChange="OnLiveChangeValue" /> -->
+
+                        <!-- <Select id="idTerminationReasonINP" items="{ path: '/SF_FOEventReason'}">
+                        <core:Item key="{externalCode}" text="{name}" />
+                        </Select> -->
+
+
+                        <ComboBox id="idTerminationReasonINP" items="{ path: '/SF_FOEventReason',
+                                                            filters: [
+                                                                        {
+                                                                             path: 'externalCode',
+                                                                             operator: 'StartsWith',
+                                                                             value1: 'TER'
+                                                                         },
+                                                                          {
+                                                                             path: 'status',
+                                                                             operator: 'EQ',
+                                                                             value1: 'A'
+                                                                         }
+                                                                        
+                                                                     ],
+                                                         sorter : {
+                                                             path : 'name' 
+                                                        } }">
+                            <core:Item key="{externalCode}" text="{name}"/>
+                        </ComboBox>
+
+                        <Label required="false" id="idCurrencyCodeLBL" text="{i18n>OKTORetire}"/>
+                        <RadioButtonGroup id="idOKToRetire" columns="2" select="onRbChnageMain" selectedIndex="">
+                            <buttons>
+                                <RadioButton text="Yes"/>
+                                <RadioButton text="No"/>
+                            </buttons>
+                        </RadioButtonGroup>
+                    </fm:SimpleForm>
+                    <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
+                        <Label id="idALTCostCenterLBL" text="{i18n>EligibleforEOSBenefit}"/>
+                        <RadioButtonGroup columns="2" id="idEOSBenefit" select="onRbChnageMain" selectedIndex="">
+                            <buttons>
+                                <RadioButton text="Yes"/>
+                                <RadioButton text="No"/>
+                            </buttons>
+                        </RadioButtonGroup>
+                        <Label text="{i18n>Notes}"/>
+                        <Input id="idNotes" />
+                        <Label text="{i18n>BonusPayExpirationDate}"/>
+                        <DatePicker id="idBonusExpDateDate" value="{path:'LocalViewModel>/currentDate', type:'sap.ui.model.type.Date', formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}" change="handleChange"/>
+
+
+
+                    </fm:SimpleForm>
+                </l:content>
+            </l:VerticalLayout>
+        </f:content>
+        <!-- DynamicPage Footer -->
+        <f:footer>
+            <OverflowToolbar id="idOverflowToolbar" visible="true">
+                <ToolbarSpacer id="idToolbarSpacer"/>
+                <Button id="idResetBTN" text="{i18n>Reset}" type="Ghost" press="onResetPress"/>
+                <Button id="idCancelBTN" text="{i18n>Cancel}" type="Ghost" press="onCreateCancelPress"/>
+                <Button id="idRaiseRequestBTN" text="{i18n>RaiseRequest}" press="onRaiseRequestPress" class="RaiseRequestButton"/>
+            </OverflowToolbar>
+        </f:footer>
+    </f:DynamicPage>
+</mvc:View>

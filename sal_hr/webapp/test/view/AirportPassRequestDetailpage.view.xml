@@ -1,0 +1,101 @@
+<mvc:View controllerName="com.sal.salhr.controller.AirportPassRequestDetailpage"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:layout="sap.ui.layout"
+    xmlns:core="sap.ui.core" height="100%">
+    <f:DynamicPage id="dynamicPageId" headerExpanded="true" showFooter="true" stickySubheaderProvider="iconTabBar" class="sapUiNoContentPadding">
+        <!-- DynamicPage Title -->
+        <f:title>
+            <f:DynamicPageTitle id="idDynamicPageTitle">
+                <f:heading>
+                    <Title id="idPageTitle" text="{LocalViewModel>/PageTitle}"/>
+                </f:heading>
+                <f:breadcrumbs>
+                    <Breadcrumbs id="idBreadcrumbs" currentLocationText="{i18n>Request} {headerModel>/ticketCode}">
+                        <Link id="idHumanResourceLink" text="{LocalViewModel>/PageTitle}" press="onBreadCrumbNavPress"/>
+                    </Breadcrumbs>
+                </f:breadcrumbs>
+                <!-- <f:expandedContent>
+                    <Label text="{i18n>Request} {headerModel>/ticketCode}"/>
+                </f:expandedContent> -->
+
+                <!--Modify and Withdraw not be visible for Manager Tile -->
+          <f:actions>
+                    <HBox visible="{= ${headerModel>/status} === 'PENDING' ? false : ${headerModel>/status} === 'APPROVED' ? true : ${headerModel>/status} === 'CANCELLED' ? true: ${headerModel>/status} === 'REJECTED' ? true : false }">
+                        <Button text="Modify" type="Emphasized" press="onEditPress" visible="{parts: [{path: 'LocalViewModel>/EditMode'}, {path:'EmpInfoModel>/IsUserManager}'}], formatter:'.formatter.fnSetModifyVisibilty'}"/>
+                    </HBox>
+
+                    <Button text="Withdraw" type="Emphasized" press="onWithdrawPress" visible="{parts: [{path: 'LocalViewModel>/EditMode'}, {path:'EmpInfoModel>/IsUserManager}'}, {path: 'headerModel>/externalStatus'}], formatter:'.formatter.fnSetWithdrawtVisibilty'}"/>
+                </f:actions>
+
+                <!--Approve and Reject visible for Manager Tile -->
+                <f:actions>
+                    <Button text="Approve" icon="sap-icon://accept" type="Accept" press="onApprovePress" visible="{parts: [{path: 'headerModel>/status'}, {path:'headerModel>/workflowRequestId'}, {path:'headerModel>/approverId'}], formatter:'.formatter.setApproveVisibility'}"/>
+                     
+                    <Button text="Reject" icon="sap-icon://decline" type="Reject" press="onRejectPress" visible="{parts: [{path: 'headerModel>/status'}, {path:'headerModel>/workflowRequestId'}, {path:'headerModel>/approverId'}], formatter:'.formatter.setRejectVisibility'}"/>
+                   
+                </f:actions>
+
+                <f:navigationActions>
+                    <Button id="idFullScreenBTN" icon="sap-icon://full-screen" press="handleFullScreen" type="Transparent" />
+                    <Button icon="sap-icon://decline" type="Transparent" press="handleClose" />
+                </f:navigationActions>
+            </f:DynamicPageTitle>
+        </f:title>
+        <!-- DynamicPage Header Content -->
+        <f:header>
+            <f:DynamicPageHeader pinnable="true">
+                <layout:HorizontalLayout allowWrapping="true">
+                    <layout:VerticalLayout class="sapUiMediumMarginEnd">
+                        <ObjectAttribute title="{i18n>Status}"/>
+                        <ObjectStatus text="{path:'headerModel>/status',formatter:'.formatter.ticketStatusText'}" state="{path:'headerModel>/status',formatter:'.formatter.ticketStatus'}"/>
+                    </layout:VerticalLayout>
+                     <layout:VerticalLayout class="sapUiMediumMarginEnd">
+                       <ObjectAttribute title="{i18n>RequestedBy}"/>
+         <!-- <ObjectAttribute text="{EmpInfoModel>/EmpFullName}({headerModel>/externalCreatedBy})"/> -->
+                     <ObjectAttribute text="{headerModel>/externalCreatedByName} ({headerModel>/externalCreatedBy})"/>
+                    </layout:VerticalLayout>
+                       <layout:VerticalLayout class="sapUiMediumMarginEnd">
+                         <ObjectAttribute title="{i18n>RequestedFor}"/>
+                        <ObjectAttribute text="{headerModel>/employeeName} ({headerModel>/employeeId})"/>
+                    </layout:VerticalLayout>
+                    <layout:VerticalLayout>
+                        <ObjectAttribute title="{i18n>DateofCreation}"/>
+                        <ObjectAttribute text="{path:'headerModel>/requestDate',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}"/>
+                    </layout:VerticalLayout>
+                </layout:HorizontalLayout>
+            </f:DynamicPageHeader>
+        </f:header>
+        <!-- DynamicPage Content -->
+        <f:content>
+            <VBox id="idContentVBox" width="100%">
+                <IconTabBar id="idAirportPassRequesticonTabBar">
+                    <items>
+                        <IconTabFilter id="idAirportPassRequestDisplayDetailsITB" text="{i18n>Details}" visible="{= ${LocalViewModel>/EditMode} === true ? false : true }">
+                            <core:Fragment fragmentName="com.sal.salhr.Fragments.AirportTravelPassModule.DisplayAirportPassRequest" type="XML"/>
+                        </IconTabFilter>
+                        <IconTabFilter id="idAirportPassRequestEditDetailsITB" text="{i18n>Details}" visible="{= ${LocalViewModel>/EditMode} === true ? true : false }">
+                            <core:Fragment fragmentName="com.sal.salhr.Fragments.AirportTravelPassModule.EditAirportPassRequest" type="XML"/>
+                        </IconTabFilter>
+
+                        <IconTabFilter text="{i18n>History}">
+                            <core:Fragment fragmentName="com.sal.salhr.Fragments.AirportTravelPassModule.HistoryTab" type="XML"/>
+                        </IconTabFilter>
+                    </items>
+                </IconTabBar>
+            </VBox>
+        </f:content>
+        <f:footer>
+            <OverflowToolbar id="idOverflowToolbar" visible="{= ${LocalViewModel>/EditMode} === true ? true : false }">
+                <ToolbarSpacer id="idToolbarSpacer"/>
+                <Button id="idSaveBTN" text="{i18n>Save}" type="Emphasized" press="onSavePress"/>
+                <Button id="idCancelBTN" text="{i18n>Cancel}" type="Ghost" press="onCancelPress"/>
+            </OverflowToolbar>
+        </f:footer>
+    </f:DynamicPage>
+</mvc:View>

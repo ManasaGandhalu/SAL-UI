@@ -1,0 +1,41 @@
+<core:FragmentDefinition xmlns="sap.m"
+   xmlns:fm="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns:upload="sap.m.upload">
+     
+           <fm:SimpleForm title="Compensation Information" layout="ColumnLayout" class="style-RemoveTitleHeight" columnsM="2" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+        
+            <Label text="Pay Group" required="true" />
+            <Select editable="false" items="{ path: '/SF_FOPayGroup'}" selectedKey="{DisplayCompInfoModel>/payGroup}" >
+                            <core:Item key="{externalCode}" text="{name}"/>
+            </Select>
+
+          
+            <Label text="is Eligible for Car" />
+        
+              <RadioButtonGroup editable="false" columns="2"  select="onRbChnageMain" selectedIndex="{= ${DisplayCompInfoModel>/isEligibleForCar}  ? 0 : 1 }">
+                                <buttons>
+                                    <RadioButton text="Yes"/>
+                                    <RadioButton text="No"/>
+                                </buttons>
+                            </RadioButtonGroup>
+           
+            <Label text="Monthly Basic" />
+            <Input id="idEditMonthlyBasic" type="Number" value="{DisplayCompInfoModel>/customDouble1}" />
+
+            <Label text="Country" required="true" />
+            <Input editable="false" id="idCompCountry" value="{DisplayCompInfoModel>/customString2}"/>
+
+            <Label text="Pay Type" />
+            <Input editable="false" value="{DisplayCompInfoModel>/payType}" />
+
+            <Label text="Scheme Change Date" />
+           <DatePicker id="idEditSchemeDate" value="{path:'DisplayCompInfoModel>/customDate1', type:'sap.ui.model.type.Date', formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}" minDate="{LocalViewModel>/currentDate}"/>
+            
+            <Label text="Change from Commision to Variable" required="true" />
+            <Input editable="false" id="idCommision" value="{DisplayCompInfoModel>/customString3}"/>
+         </fm:SimpleForm> 
+ 
+</core:FragmentDefinition>

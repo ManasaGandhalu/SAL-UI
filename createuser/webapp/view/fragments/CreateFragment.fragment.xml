@@ -1,0 +1,99 @@
+
+
+
+
+<core:FragmentDefinition xmlns="sap.m"   xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+	<Dialog title="Manage User Details" id="idCreate" class="sapUiSmallMargin">
+		<content>
+		
+		
+				 <f:SimpleForm  class="sapUiSizeCompact" editable="false" layout="ColumnLayout"	title="{i18n>BasicDetails}" columnsM="2" columnsL="3" columnsXL="4">
+        <f:toolbar>
+			<Toolbar>
+               
+				<ToolbarSpacer />
+		    	
+			</Toolbar>
+		</f:toolbar>
+        <f:content>
+            <Label text="Name" required="true"/>
+            <Input 
+                change="onVendorCodeChange"
+                name="Name"
+                required="false"
+                maxLength="30"
+                value="{
+                    path: 'CreateUserViewModel>/name',
+                    type: 'sap.ui.model.type.String',
+                    constraints: {
+                        minLength: 1,
+                        maxLength: 30
+                    }
+                }"
+                enabled="{= ${objectViewModel>/EditMode} === true ? false : true}"/>
+            <Label text="Email" />
+            <Input 
+                maxLength="50"
+                value="{
+                    path: 'CreateUserViewModel>/email',
+                    type: 'sap.ui.model.type.String',
+                    constraints: {
+                        maxLength: 50
+                    }
+                }"/>
+            <Label text="SF UserID"/>
+            <Input
+                maxLength="50" 
+                value="{
+                    path: 'CreateUserViewModel>/sfUserId',
+                    type: 'sap.ui.model.type.String',
+                    constraints: {
+                        maxLength: 50
+                    }
+                }"/>
+            <Label text="ITSM UserID"/>
+            <Input 
+                maxLength="50"
+                value="{
+                    path: 'CreateUserViewModel>/itsmUserID',
+                    type: 'sap.ui.model.type.String',
+                    constraints: {
+                        maxLength: 50
+                    }
+                }"/>
+            <Label text="S4 UserID"/>
+            <Input 
+                maxLength="50"
+                value="{
+                    path: 'CreateUserViewModel>/s4UserId',
+                    type: 'sap.ui.model.type.String',
+                    constraints: {
+                        maxLength: 50
+                    }
+                }"/>
+
+
+                  <Label text="Role"/>
+
+                 <Select id="idRole" items="{ path: '/MasterRole'}" selectedKey="{CreateUserViewModel>/roleID}">
+                            <core:Item key="{ID}" text="{roleName}"/>
+                        </Select>
+           
+            
+            
+        </f:content>
+
+   
+        
+    </f:SimpleForm>
+    
+			
+		</content>
+		<beginButton>
+			<Button text="{i18n>Confirm}" press="onPressCreateUser" type="Emphasized" enabled="{boqCreationModel>/isConfirmButtonEnabled}"></Button>
+		</beginButton>
+		<endButton>
+			<Button text="{i18n>Cancel}" press="onCancelCreateUser"></Button>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

@@ -1,0 +1,107 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns:upload="sap.m.upload">
+    <form:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="2" columnsXL="2" singleContainerFullSize="false" class="style-RemoveTitleHeight" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+        <Label text="{i18n>whenWouldYouLiketoText}?"/>
+        <Text id="idDisplayeffectiveStartDate" text="{path:'DisplayEditAirpassModel>/effectiveStartDate',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {
+                                                     pattern: 'MM/dd/yyyy'
+                                                }}"/>
+
+    </form:SimpleForm>
+    <form:SimpleForm title="{i18n>AirportPassDetails}" layout="ColumnLayout" class="style-RemoveTitleHeight" columnsM="2" columnsL="2" columnsXL="2" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+        <Label text="{i18n>TypeOfPass}" />
+        <Text id="idDisplayTypeofPass" text="{LocalViewModel>/TypeOfPassDesc} ({LocalViewModel>/TypeOfPassId})"/>
+
+        <Label text="{i18n>NationalID}" />
+        <Text id="idDisplayNationalID" text="{DisplayEditAirpassModel>/cust_toAirportPassItem/cust_nationalID}"/>
+
+        <Label text="{i18n>DateofBith}"/>
+        <Text id="idDisplayDateofBith" text="{path:'DisplayEditAirpassModel>/cust_toAirportPassItem/cust_dateOfBirth',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {
+                                                     pattern: 'MM/dd/yyyy'
+                                                }}"/>
+
+        <Label text="{i18n>MobileNumber}"/>
+        <Text id="idDisplayMobileNumber" text="{DisplayEditAirpassModel>/cust_toAirportPassItem/cust_mobileNumber}"/>
+
+        <Label text="{i18n>Nationality}"/>
+        <Text id="idDisplayNationality" text="{DisplayEditAirpassModel>/cust_toAirportPassItem/cust_nationality}" />
+
+        <Label text="{i18n>AirportLocation}"/>
+        <Text id="idDisplayAirportLoc" text="{LocalViewModel>/AirPortLocatoDesc} ({LocalViewModel>/AirPortLocatonId})"/>
+
+        <Label text="{i18n>DomesticStationName}" visible="{= ${DisplayEditAirpassModel>/cust_toAirportPassItem/cust_airportLoc} === 'Loc05' ? true : false}"/>
+        <Text id="iDisplayDomasticStation" visible="{= ${DisplayEditAirpassModel>/cust_toAirportPassItem/cust_airportLoc} === 'Loc05' ? true : false}" text="{DisplayEditAirpassModel>/cust_toAirportPassItem/cust_domStationName}"/>
+
+        <Label text="{i18n>PermitDate}"/>
+        <Text id="idDisplayPermitDate" text="{path:'DisplayEditAirpassModel>/cust_toAirportPassItem/cust_permitDate',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {
+                                                     pattern: 'MM/dd/yyyy'
+                                                }}"/>
+
+        <Label text="{i18n>PurposeofPermit}"/>
+        <Text id="idDisplayPurposeofPermitInp" text="{DisplayEditAirpassModel>/cust_toAirportPassItem/cust_permitPurpose}"/>
+    </form:SimpleForm>
+
+    <upload:UploadSet id="idDisplayUploadSetPersonalIDCopy" uploadButtonInvisible="true" class="sapUiSmallMarginBeginEnd" instantUpload="false" showIcons="true" uploadEnabled="false" terminationEnabled="false" maxFileNameLength="30" maxFileSize="200" fileTypes="pdf,doc,docx,docm,ppt,pptx,xls,xlsx,jpg,jpeg,png" mode="None" >
+        <upload:toolbar>
+            <OverflowToolbar>
+                <Label text="{i18n>PersonalIDCopy}"/>
+                <ToolbarSpacer/>
+                <Button text="Download Attachment" press="onDownLoadPress"/>
+            </OverflowToolbar>
+        </upload:toolbar>
+        <upload:items>
+            <upload:UploadSetItem visibleEdit="false" visibleRemove="false" fileName="{AttachmentModel>/PersonalIdAttachment/fileName}" mediaType="{AttachmentModel>/PersonalIdAttachment/mimeType}"/>
+        </upload:items>
+    </upload:UploadSet>
+
+    <upload:UploadSet id="idDisplayUploadSetPersonalPhoto" uploadButtonInvisible="true" class="sapUiSmallMarginBeginEnd" instantUpload="false" showIcons="true" uploadEnabled="false" terminationEnabled="false" maxFileNameLength="30" maxFileSize="200" mode="None" >
+        <upload:toolbar>
+            <OverflowToolbar>
+                <Label text="{i18n>PersonalPhoto}"/>
+                <ToolbarSpacer/>
+                <Button text="Download Attachment" press="onDownLoadPress"/>
+            </OverflowToolbar>
+        </upload:toolbar>
+        <upload:items>
+            <upload:UploadSetItem visibleEdit="false" visibleRemove="false" fileName="{AttachmentModel>/PersonalPhotoAttachment/fileName}" mediaType="{AttachmentModel>/PersonalIdAttachment/mimeType}"/>
+        </upload:items>
+    </upload:UploadSet>
+
+
+    <upload:UploadSet id="idDisplayUploadSetPassportcopy" uploadButtonInvisible="true" class="sapUiSmallMarginBeginEnd" instantUpload="false" showIcons="true" uploadEnabled="false" terminationEnabled="false" maxFileNameLength="30" maxFileSize="200" mode="None" >
+        <upload:toolbar>
+            <OverflowToolbar>
+                <Label text="{i18n>PassportCopyfornonnationals}" required="false"/>
+                <ToolbarSpacer/>
+                <Button id="idDisplayPassportcopyDownloadBtn" text="Download Attachment" press="onDownLoadPress"/>
+            </OverflowToolbar>
+        </upload:toolbar>
+    </upload:UploadSet>
+
+    <upload:UploadSet id="idDisplayUploadSetCompanyIDCopy" uploadButtonInvisible="true" class="sapUiSmallMarginBeginEnd" instantUpload="false" showIcons="true" uploadEnabled="false" terminationEnabled="false" maxFileNameLength="30" maxFileSize="200" mode="None" >
+        <upload:toolbar>
+            <OverflowToolbar>
+                <Label text="{i18n>CompanyIDCopy}"/>
+                <ToolbarSpacer/>
+                <Button text="Download Attachment" press="onDownLoadPress"/>
+            </OverflowToolbar>
+        </upload:toolbar>
+        <upload:items>
+            <upload:UploadSetItem visibleEdit="false" visibleRemove="false" fileName="{AttachmentModel>/CompanyIdAttachment/fileName}" mediaType="{AttachmentModel>/PersonalIdAttachment/mimeType}"/>
+        </upload:items>
+    </upload:UploadSet>
+
+    <form:SimpleForm layout="ColumnLayout" columnsM="1" columnsL="2" columnsXL="2" singleContainerFullSize="false" class="style-RemoveTitleHeight" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+        <Label text="{i18n>AcknowledgeText1}"/>
+        <Text id="idDisplayAcknowledgeText1" text="{= ${DisplayEditAirpassModel>/cust_toAirportPassItem/cust_acknowledge1} === true ? 'Yes' : 'No'}"/>
+        <Label text="{i18n>AcknowledgeText2}" class="sapUiSmallMarginBottom"/>
+        <Text id="idDisplayAcknowledgeText2" text="{= ${DisplayEditAirpassModel>/cust_toAirportPassItem/cust_acknowledge2} === true ? 'Yes' : 'No'}"/>
+    </form:SimpleForm>
+</core:FragmentDefinition>

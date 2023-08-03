@@ -1,0 +1,985 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+        <edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="Capabilities"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Namespace="Org.OData.Core.V1" Alias="Core"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="com.sal.employee_portal.HumanResourceService">
+            <EntityType Name="MasterSubModules">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="name" Type="Edm.String" MaxLength="100"/>
+                <Property Name="description" Type="Edm.String" MaxLength="100"/>
+                <Property Name="masterModuleId" Type="Edm.Int32"/>
+                <Property Name="totalRequests" Type="Edm.Int32"/>
+                <Property Name="totalPending" Type="Edm.Int32"/>
+                <Property Name="totalApproved" Type="Edm.Int32"/>
+                <Property Name="totalRejected" Type="Edm.Int32"/>
+                <Property Name="totalCancelled" Type="Edm.Int32"/>
+                <NavigationProperty Name="tickets" Type="Collection(com.sal.employee_portal.HumanResourceService.Tickets)"/>
+            </EntityType>
+            <EntityType Name="Tickets">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                    <PropertyRef Name="IsActiveEntity"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="isArchived" Type="Edm.Boolean" DefaultValue="false"/>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="moduleId" Type="Edm.Int32"/>
+                <Property Name="subModuleId" Type="Edm.Int32"/>
+                <Property Name="ticketCode" Type="Edm.String" MaxLength="16"/>
+                <Property Name="externalCode" Type="Edm.String" MaxLength="36"/>
+                <Property Name="status" Type="Edm.String" DefaultValue="Pending" MaxLength="30"/>
+                <Property Name="requestDate" Type="Edm.Date"/>
+                <Property Name="workflowRequestId" Type="Edm.String" MaxLength="36"/>
+                <Property Name="isApprovalRequired" Type="Edm.Boolean" DefaultValue="false"/>
+                <Property Name="employeeId" Type="Edm.String" MaxLength="255"/>
+                <Property Name="externalCreatedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="externalCreatedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="externalModifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="externalModifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="statusValue" Type="Edm.Int32"/>
+                <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+                <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+                <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+                <NavigationProperty Name="subModule" Type="com.sal.employee_portal.HumanResourceService.MasterSubModules">
+                    <ReferentialConstraint Property="subModuleId" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <NavigationProperty Name="DraftAdministrativeData" Type="com.sal.employee_portal.HumanResourceService.DraftAdministrativeData" ContainsTarget="true"/>
+                <NavigationProperty Name="SiblingEntity" Type="com.sal.employee_portal.HumanResourceService.Tickets"/>
+            </EntityType>
+            <EntityType Name="SFLeave">
+                <Key>
+                    <PropertyRef Name="externalCode"/>
+                </Key>
+                <Property Name="externalCode" Type="Edm.String" Nullable="false" MaxLength="128"/>
+                <Property Name="approvalStatus" Type="Edm.String" MaxLength="255"/>
+                <Property Name="cancellationWorkflowRequestId" Type="Edm.Int64"/>
+                <Property Name="comment" Type="Edm.String" MaxLength="4000"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="cust_KronosPayCodeEditID" Type="Edm.String" MaxLength="255"/>
+                <Property Name="deductionQuantity" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="displayQuantity" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="editable" Type="Edm.Boolean"/>
+                <Property Name="endDate" Type="Edm.Date"/>
+                <Property Name="endTime" Type="Edm.TimeOfDay"/>
+                <Property Name="entityUUID" Type="Edm.String" MaxLength="255"/>
+                <Property Name="flexibleRequesting" Type="Edm.Boolean"/>
+                <Property Name="fractionQuantity" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="loaActualReturnDate" Type="Edm.Date"/>
+                <Property Name="loaEndJobInfoId" Type="Edm.Int64"/>
+                <Property Name="loaExpectedReturnDate" Type="Edm.Date"/>
+                <Property Name="loaStartJobInfoId" Type="Edm.Int64"/>
+                <Property Name="mdfSystemRecordStatus" Type="Edm.String" MaxLength="255"/>
+                <Property Name="originalQuantityInDays" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="physicalEndDate" Type="Edm.Date"/>
+                <Property Name="physicalStartDate" Type="Edm.Date"/>
+                <Property Name="quantityInDays" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="quantityInHours" Type="Edm.Decimal" Scale="variable"/>
+                <Property Name="recurrenceGroup" Type="Edm.String" MaxLength="128"/>
+                <Property Name="startDate" Type="Edm.Date"/>
+                <Property Name="startTime" Type="Edm.TimeOfDay"/>
+                <Property Name="timeRecordOrigin" Type="Edm.String" MaxLength="255"/>
+                <Property Name="timeType" Type="Edm.String" MaxLength="128"/>
+                <Property Name="undeterminedEndDate" Type="Edm.Boolean"/>
+                <Property Name="userId" Type="Edm.String" MaxLength="100"/>
+                <Property Name="workflowInitiatedByAdmin" Type="Edm.Boolean"/>
+                <Property Name="workflowRequestId" Type="Edm.Int64"/>
+                <NavigationProperty Name="approvalStatusNav" Type="com.sal.employee_portal.HumanResourceService.SFLeave_MDFEnumValue"/>
+                <NavigationProperty Name="createdByNav" Type="com.sal.employee_portal.HumanResourceService.SFLeave_User"/>
+                <NavigationProperty Name="cust_attachmentNav" Type="com.sal.employee_portal.HumanResourceService.SFLeave_Attachment"/>
+                <NavigationProperty Name="lastModifiedByNav" Type="com.sal.employee_portal.HumanResourceService.SFLeave_User"/>
+                <NavigationProperty Name="mdfSystemRecordStatusNav" Type="com.sal.employee_portal.HumanResourceService.SFLeave_MDFEnumValue"/>
+                <NavigationProperty Name="timeRecordOriginNav" Type="com.sal.employee_portal.HumanResourceService.SFLeave_MDFEnumValue"/>
+                <NavigationProperty Name="timeTypeNav" Type="com.sal.employee_portal.HumanResourceService.SFLeave_TimeType"/>
+                <NavigationProperty Name="userIdNav" Type="com.sal.employee_portal.HumanResourceService.SFLeave_User"/>
+                <NavigationProperty Name="wfRequestNav" Type="Collection(com.sal.employee_portal.HumanResourceService.SFLeave_WfRequest)"/>
+            </EntityType>
+            <EntityType Name="SFLeave_TimeType">
+                <Key>
+                    <PropertyRef Name="externalCode"/>
+                </Key>
+                <Property Name="externalCode" Type="Edm.String" Nullable="false" MaxLength="128"/>
+                <Property Name="category" Type="Edm.String" MaxLength="255"/>
+                <Property Name="externalName_defaultValue" Type="Edm.String" MaxLength="255"/>
+                <Property Name="externalName_localized" Type="Edm.String" MaxLength="255"/>
+            </EntityType>
+            <EntityType Name="SFLeave_Attachment">
+                <Key>
+                    <PropertyRef Name="attachmentId"/>
+                </Key>
+                <Property Name="attachmentId" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="country" Type="Edm.String" MaxLength="256"/>
+                <Property Name="createdDate" Type="Edm.DateTimeOffset"/>
+                <Property Name="deletable" Type="Edm.Boolean"/>
+                <Property Name="deprecable" Type="Edm.Boolean"/>
+                <Property Name="description" Type="Edm.String" MaxLength="4000"/>
+                <Property Name="documentCategory" Type="Edm.String" MaxLength="256"/>
+                <Property Name="documentEntityId" Type="Edm.String" MaxLength="256"/>
+                <Property Name="documentEntityType" Type="Edm.String" MaxLength="256"/>
+                <Property Name="documentType" Type="Edm.String" MaxLength="256"/>
+                <Property Name="externalId" Type="Edm.Int64"/>
+                <Property Name="fileContent" Type="Edm.Binary"/>
+                <Property Name="fileExtension" Type="Edm.String" MaxLength="5"/>
+                <Property Name="fileName" Type="Edm.String" MaxLength="256"/>
+                <Property Name="fileSize" Type="Edm.Int32"/>
+                <Property Name="imageConvertInProgress" Type="Edm.Boolean"/>
+                <Property Name="language" Type="Edm.String" MaxLength="256"/>
+                <Property Name="lastAccessed" Type="Edm.DateTimeOffset"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="mimeType" Type="Edm.String" MaxLength="256"/>
+                <Property Name="module" Type="Edm.String" MaxLength="100"/>
+                <Property Name="moduleCategory" Type="Edm.String" MaxLength="100"/>
+                <Property Name="ownerId" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ownerIdType" Type="Edm.String" MaxLength="100"/>
+                <Property Name="piiFlag" Type="Edm.Int32"/>
+                <Property Name="searchable" Type="Edm.Boolean"/>
+                <Property Name="softDelete" Type="Edm.Boolean"/>
+                <Property Name="userId" Type="Edm.String" MaxLength="100"/>
+                <Property Name="viewable" Type="Edm.Boolean"/>
+                <NavigationProperty Name="userNav" Type="com.sal.employee_portal.HumanResourceService.SFLeave_User"/>
+            </EntityType>
+            <EntityType Name="SFLeave_User">
+                <Key>
+                    <PropertyRef Name="userId"/>
+                </Key>
+                <Property Name="userId" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="empId" Type="Edm.String" MaxLength="255"/>
+                <Property Name="username" Type="Edm.String" MaxLength="100"/>
+                <Property Name="firstName" Type="Edm.String" MaxLength="128"/>
+                <Property Name="middleName" Type="Edm.String" MaxLength="128"/>
+                <Property Name="lastName" Type="Edm.String" MaxLength="128"/>
+                <Property Name="email" Type="Edm.String" MaxLength="100"/>
+                <Property Name="gender" Type="Edm.String"/>
+                <Property Name="title" Type="Edm.String" MaxLength="255"/>
+                <Property Name="jobCode" Type="Edm.String" MaxLength="128"/>
+                <Property Name="division" Type="Edm.String" MaxLength="128"/>
+                <Property Name="city" Type="Edm.String" MaxLength="255"/>
+                <Property Name="country" Type="Edm.String" MaxLength="255"/>
+            </EntityType>
+            <EntityType Name="SFLeave_MDFEnumValue">
+                <Key>
+                    <PropertyRef Name="key"/>
+                    <PropertyRef Name="value"/>
+                </Key>
+                <Property Name="key" Type="Edm.String" Nullable="false"/>
+                <Property Name="value" Type="Edm.String" Nullable="false"/>
+                <Property Name="ar_SA" Type="Edm.String"/>
+                <Property Name="en_DEBUG" Type="Edm.String"/>
+                <Property Name="en_US" Type="Edm.String"/>
+                <Property Name="localized" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="SFLeave_WfRequest">
+                <Key>
+                    <PropertyRef Name="wfRequestId"/>
+                </Key>
+                <Property Name="wfRequestId" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="createdOn" Type="Edm.Date"/>
+                <Property Name="currentStepNum" Type="Edm.Int32"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="lastModifiedOn" Type="Edm.Date"/>
+                <Property Name="module" Type="Edm.String" MaxLength="128"/>
+                <Property Name="parentWfRequestId" Type="Edm.Int64"/>
+                <Property Name="reminderSentDate" Type="Edm.Date"/>
+                <Property Name="status" Type="Edm.String" MaxLength="30"/>
+                <Property Name="totalSteps" Type="Edm.Int32"/>
+                <Property Name="url" Type="Edm.String"/>
+                <NavigationProperty Name="parentWfRequestNav" Type="com.sal.employee_portal.HumanResourceService.SFLeave_WfRequest"/>
+            </EntityType>
+            <EntityType Name="cust_dutyTravelMain">
+                <Key>
+                    <PropertyRef Name="effectiveStartDate"/>
+                    <PropertyRef Name="externalCode"/>
+                </Key>
+                <Property Name="effectiveStartDate" Type="Edm.Date" Nullable="false"/>
+                <Property Name="externalCode" Type="Edm.String" Nullable="false" MaxLength="100"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="externalName" Type="Edm.String" MaxLength="128"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="100"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset"/>
+                <Property Name="mdfSystemEffectiveEndDate" Type="Edm.Date"/>
+                <Property Name="mdfSystemRecordStatus" Type="Edm.String" MaxLength="255"/>
+            </EntityType>
+            <EntityType Name="DraftAdministrativeData">
+                <Key>
+                    <PropertyRef Name="DraftUUID"/>
+                </Key>
+                <Property Name="DraftUUID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="CreationDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="CreatedByUser" Type="Edm.String" MaxLength="256"/>
+                <Property Name="DraftIsCreatedByMe" Type="Edm.Boolean"/>
+                <Property Name="LastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="LastChangedByUser" Type="Edm.String" MaxLength="256"/>
+                <Property Name="InProcessByUser" Type="Edm.String" MaxLength="256"/>
+                <Property Name="DraftIsProcessedByMe" Type="Edm.Boolean"/>
+            </EntityType>
+            <Action Name="draftPrepare" EntitySetPath="in" IsBound="true">
+                <Parameter Name="in" Type="com.sal.employee_portal.HumanResourceService.Tickets"/>
+                <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+                <ReturnType Type="com.sal.employee_portal.HumanResourceService.Tickets"/>
+            </Action>
+            <Action Name="draftActivate" EntitySetPath="in" IsBound="true">
+                <Parameter Name="in" Type="com.sal.employee_portal.HumanResourceService.Tickets"/>
+                <ReturnType Type="com.sal.employee_portal.HumanResourceService.Tickets"/>
+            </Action>
+            <Action Name="draftEdit" EntitySetPath="in" IsBound="true">
+                <Parameter Name="in" Type="com.sal.employee_portal.HumanResourceService.Tickets"/>
+                <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+                <ReturnType Type="com.sal.employee_portal.HumanResourceService.Tickets"/>
+            </Action>
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="MasterSubModules" EntityType="com.sal.employee_portal.HumanResourceService.MasterSubModules">
+                    <NavigationPropertyBinding Path="tickets" Target="Tickets"/>
+                </EntitySet>
+                <EntitySet Name="Tickets" EntityType="com.sal.employee_portal.HumanResourceService.Tickets">
+                    <NavigationPropertyBinding Path="subModule" Target="MasterSubModules"/>
+                    <NavigationPropertyBinding Path="SiblingEntity" Target="Tickets"/>
+                </EntitySet>
+                <EntitySet Name="SFLeave" EntityType="com.sal.employee_portal.HumanResourceService.SFLeave">
+                    <NavigationPropertyBinding Path="approvalStatusNav" Target="SFLeave_MDFEnumValue"/>
+                    <NavigationPropertyBinding Path="createdByNav" Target="SFLeave_User"/>
+                    <NavigationPropertyBinding Path="cust_attachmentNav" Target="SFLeave_Attachment"/>
+                    <NavigationPropertyBinding Path="lastModifiedByNav" Target="SFLeave_User"/>
+                    <NavigationPropertyBinding Path="mdfSystemRecordStatusNav" Target="SFLeave_MDFEnumValue"/>
+                    <NavigationPropertyBinding Path="timeRecordOriginNav" Target="SFLeave_MDFEnumValue"/>
+                    <NavigationPropertyBinding Path="timeTypeNav" Target="SFLeave_TimeType"/>
+                    <NavigationPropertyBinding Path="userIdNav" Target="SFLeave_User"/>
+                    <NavigationPropertyBinding Path="wfRequestNav" Target="SFLeave_WfRequest"/>
+                </EntitySet>
+                <EntitySet Name="SFLeave_TimeType" EntityType="com.sal.employee_portal.HumanResourceService.SFLeave_TimeType"/>
+                <EntitySet Name="SFLeave_Attachment" EntityType="com.sal.employee_portal.HumanResourceService.SFLeave_Attachment">
+                    <NavigationPropertyBinding Path="userNav" Target="SFLeave_User"/>
+                </EntitySet>
+                <EntitySet Name="SFLeave_User" EntityType="com.sal.employee_portal.HumanResourceService.SFLeave_User"/>
+                <EntitySet Name="SFLeave_MDFEnumValue" EntityType="com.sal.employee_portal.HumanResourceService.SFLeave_MDFEnumValue"/>
+                <EntitySet Name="SFLeave_WfRequest" EntityType="com.sal.employee_portal.HumanResourceService.SFLeave_WfRequest">
+                    <NavigationPropertyBinding Path="parentWfRequestNav" Target="SFLeave_WfRequest"/>
+                </EntitySet>
+                <EntitySet Name="cust_dutyTravelMain" EntityType="com.sal.employee_portal.HumanResourceService.cust_dutyTravelMain"/>
+            </EntityContainer>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.MasterSubModules">
+                <Annotation Term="UI.HeaderInfo">
+                    <Record Type="UI.HeaderInfoType">
+                        <PropertyValue Property="TypeName">
+                            <String>Type</String>
+                        </PropertyValue>
+                        <PropertyValue Property="TypeNamePlural">
+                            <String>Type</String>
+                        </PropertyValue>
+                        <PropertyValue Property="Title">
+                            <Record Type="UI.DataField">
+                                <PropertyValue Property="Value">
+                                    <Path>name</Path>
+                                </PropertyValue>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.HeaderFacets">
+                    <Collection>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Label">
+                                <String>Total Requests</String>
+                            </PropertyValue>
+                            <PropertyValue Property="ID">
+                                <String>TotalRequests</String>
+                            </PropertyValue>
+                            <PropertyValue Property="Target">
+                                <AnnotationPath>@UI.DataPoint#TOTAL_REQUESTS</AnnotationPath>
+                            </PropertyValue>
+                        </Record>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Label">
+                                <String>Pending</String>
+                            </PropertyValue>
+                            <PropertyValue Property="ID">
+                                <String>Pending</String>
+                            </PropertyValue>
+                            <PropertyValue Property="Target">
+                                <AnnotationPath>@UI.DataPoint#PENDING</AnnotationPath>
+                            </PropertyValue>
+                        </Record>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Label">
+                                <String>Approved</String>
+                            </PropertyValue>
+                            <PropertyValue Property="ID">
+                                <String>Approved</String>
+                            </PropertyValue>
+                            <PropertyValue Property="Target">
+                                <AnnotationPath>@UI.DataPoint#APPROVED</AnnotationPath>
+                            </PropertyValue>
+                        </Record>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Label">
+                                <String>Rejected</String>
+                            </PropertyValue>
+                            <PropertyValue Property="ID">
+                                <String>Rejected</String>
+                            </PropertyValue>
+                            <PropertyValue Property="Target">
+                                <AnnotationPath>@UI.DataPoint#REJECTED</AnnotationPath>
+                            </PropertyValue>
+                        </Record>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Label">
+                                <String>Cancelled</String>
+                            </PropertyValue>
+                            <PropertyValue Property="ID">
+                                <String>Cancelled</String>
+                            </PropertyValue>
+                            <PropertyValue Property="Target">
+                                <AnnotationPath>@UI.DataPoint#CANCELLED</AnnotationPath>
+                            </PropertyValue>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.DataPoint" Qualifier="TOTAL_REQUESTS">
+                    <Record Type="UI.DataPointType">
+                        <PropertyValue Property="Title">
+                            <String>Total Requests</String>
+                        </PropertyValue>
+                        <PropertyValue Property="Value">
+                            <Path>totalRequests</Path>
+                        </PropertyValue>
+                        <PropertyValue Property="Criticality">
+                            <EnumMember>UI.CriticalityType/Negative</EnumMember>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.DataPoint" Qualifier="PENDING">
+                    <Record Type="UI.DataPointType">
+                        <PropertyValue Property="Title">
+                            <String>Pending</String>
+                        </PropertyValue>
+                        <PropertyValue Property="Value">
+                            <Path>totalPending</Path>
+                        </PropertyValue>
+                        <PropertyValue Property="Criticality">
+                            <EnumMember>UI.CriticalityType/Negative</EnumMember>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.DataPoint" Qualifier="APPROVED">
+                    <Record Type="UI.DataPointType">
+                        <PropertyValue Property="Title">
+                            <String>Approved</String>
+                        </PropertyValue>
+                        <PropertyValue Property="Value">
+                            <Path>totalApproved</Path>
+                        </PropertyValue>
+                        <PropertyValue Property="Criticality">
+                            <EnumMember>UI.CriticalityType/Negative</EnumMember>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.DataPoint" Qualifier="REJECTED">
+                    <Record Type="UI.DataPointType">
+                        <PropertyValue Property="Title">
+                            <String>Rejected</String>
+                        </PropertyValue>
+                        <PropertyValue Property="Value">
+                            <Path>totalRejected</Path>
+                        </PropertyValue>
+                        <PropertyValue Property="Criticality">
+                            <EnumMember>UI.CriticalityType/Negative</EnumMember>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.DataPoint" Qualifier="CANCELLED">
+                    <Record Type="UI.DataPointType">
+                        <PropertyValue Property="Title">
+                            <String>Cancelled</String>
+                        </PropertyValue>
+                        <PropertyValue Property="Value">
+                            <Path>totalCancelled</Path>
+                        </PropertyValue>
+                        <PropertyValue Property="Criticality">
+                            <EnumMember>UI.CriticalityType/Negative</EnumMember>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value">
+                                <Path>name</Path>
+                            </PropertyValue>
+                            <PropertyValue Property="Label">
+                                <String>Type</String>
+                            </PropertyValue>
+                            <PropertyValue Property="IconUrl">
+                                <String>sap-icon://general-leave-request</String>
+                            </PropertyValue>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.Facets">
+                    <Collection>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="ID">
+                                <String>TicketList</String>
+                            </PropertyValue>
+                            <PropertyValue Property="Target">
+                                <AnnotationPath>tickets/@UI.LineItem</AnnotationPath>
+                            </PropertyValue>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.EntityContainer/MasterSubModules">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable">
+                            <Bool>false</Bool>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable">
+                            <Bool>false</Bool>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable">
+                            <Bool>false</Bool>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.MasterSubModules/createdAt">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Immutable">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Created On</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.MasterSubModules/createdBy">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Immutable">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Created By</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.MasterSubModules/modifiedAt">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Changed On</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.MasterSubModules/modifiedBy">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Changed By</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.MasterSubModules/ID">
+                <Annotation Term="UI.Hidden">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.MasterSubModules/name">
+                <Annotation Term="Common.Label">
+                    <String>Submodule</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.MasterSubModules/description">
+                <Annotation Term="Common.Label">
+                    <String>Description</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.MasterSubModules/masterModuleId">
+                <Annotation Term="Common.FieldControl">
+                    <EnumMember>Common.FieldControlType/Mandatory</EnumMember>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.MasterSubModules/totalRequests">
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.MasterSubModules/totalPending">
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.MasterSubModules/totalApproved">
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.MasterSubModules/totalRejected">
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.MasterSubModules/totalCancelled">
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.Tickets">
+                <Annotation Term="UI.HeaderInfo">
+                    <Record Type="UI.HeaderInfoType">
+                        <PropertyValue Property="TypeName">
+                            <String>Ticket</String>
+                        </PropertyValue>
+                        <PropertyValue Property="TypeNamePlural">
+                            <String>Tickets</String>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.SelectionFields">
+                    <Collection>
+                        <PropertyPath>employeeId</PropertyPath>
+                        <PropertyPath>ticketCode</PropertyPath>
+                        <PropertyPath>externalCode</PropertyPath>
+                        <PropertyPath>requestDate</PropertyPath>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value">
+                                <Path>ticketCode</Path>
+                            </PropertyValue>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value">
+                                <Path>requestDate</Path>
+                            </PropertyValue>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value">
+                                <Path>externalCode</Path>
+                            </PropertyValue>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value">
+                                <Path>employeeId</Path>
+                            </PropertyValue>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value">
+                                <Path>isApprovalRequired</Path>
+                            </PropertyValue>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value">
+                                <Path>status</Path>
+                            </PropertyValue>
+                            <PropertyValue Property="Criticality">
+                                <Path>statusValue</Path>
+                            </PropertyValue>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.Facets">
+                    <Collection>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="ID">
+                                <String>LeaveInformation</String>
+                            </PropertyValue>
+                            <PropertyValue Property="Label">
+                                <String>Leave Details</String>
+                            </PropertyValue>
+                            <PropertyValue Property="Target">
+                                <AnnotationPath>@UI.FieldGroup#Leave</AnnotationPath>
+                            </PropertyValue>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.FieldGroup" Qualifier="Leave">
+                    <Record Type="UI.FieldGroupType">
+                        <PropertyValue Property="Data">
+                            <Collection>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value">
+                                        <Path>ticketCode</Path>
+                                    </PropertyValue>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value">
+                                        <Path>requestDate</Path>
+                                    </PropertyValue>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value">
+                                        <Path>externalCode</Path>
+                                    </PropertyValue>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value">
+                                        <Path>employeeId</Path>
+                                    </PropertyValue>
+                                </Record>
+                                <Record Type="UI.DataField">
+                                    <PropertyValue Property="Value">
+                                        <Path>isApprovalRequired</Path>
+                                    </PropertyValue>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.EntityContainer/Tickets">
+                <Annotation Term="Common.DraftRoot">
+                    <Record Type="Common.DraftRootType">
+                        <PropertyValue Property="ActivationAction">
+                            <String>com.sal.employee_portal.HumanResourceService.draftActivate</String>
+                        </PropertyValue>
+                        <PropertyValue Property="EditAction">
+                            <String>com.sal.employee_portal.HumanResourceService.draftEdit</String>
+                        </PropertyValue>
+                        <PropertyValue Property="PreparationAction">
+                            <String>com.sal.employee_portal.HumanResourceService.draftPrepare</String>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.Tickets/createdAt">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Immutable">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Created On</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.Tickets/createdBy">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Immutable">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Created By</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.Tickets/modifiedAt">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Changed On</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.Tickets/modifiedBy">
+                <Annotation Term="UI.HiddenFilter">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Changed By</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.Tickets/isArchived">
+                <Annotation Term="Common.Label">
+                    <String>Archived</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.Tickets/ID">
+                <Annotation Term="UI.Hidden">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.Tickets/moduleId">
+                <Annotation Term="Common.Label">
+                    <String>Module ID</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.Tickets/subModuleId">
+                <Annotation Term="Common.Label">
+                    <String>Submodule ID</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.Tickets/ticketCode">
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Job Card ID</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.Tickets/externalCode">
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>SAP Ticket ID</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.Tickets/status">
+                <Annotation Term="Core.Computed">
+                    <Bool>false</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Status</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.Tickets/requestDate">
+                <Annotation Term="Common.Label">
+                    <String>Request Date</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.Tickets/workflowRequestId">
+                <Annotation Term="Common.Label">
+                    <String>Workflow Request ID</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.Tickets/isApprovalRequired">
+                <Annotation Term="Common.Label">
+                    <String>Approval Required</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.Tickets/employeeId">
+                <Annotation Term="Common.Label">
+                    <String>User ID</String>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.Tickets/externalCreatedAt">
+                <Annotation Term="Common.Label">
+                    <String>SAP Created At</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.Tickets/externalCreatedBy">
+                <Annotation Term="Common.Label">
+                    <String>SAP Created By</String>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.Tickets/externalModifiedAt">
+                <Annotation Term="Common.Label">
+                    <String>SAP Modified At</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.Tickets/externalModifiedBy">
+                <Annotation Term="Common.Label">
+                    <String>SAP Modified By</String>
+                </Annotation>
+                <Annotation Term="Core.Description">
+                    <String>A user's unique ID</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.Tickets/statusValue">
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.Tickets/IsActiveEntity">
+                <Annotation Term="UI.Hidden">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.Tickets/HasActiveEntity">
+                <Annotation Term="UI.Hidden">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.Tickets/HasDraftEntity">
+                <Annotation Term="UI.Hidden">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.Tickets/DraftAdministrativeData">
+                <Annotation Term="UI.Hidden">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.SFLeave/externalCode">
+                <Annotation Term="UI.Hidden">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>External Code</String>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.SFLeave/approvalStatus">
+                <Annotation Term="Common.Label">
+                    <String>Approval Status</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.SFLeave/comment">
+                <Annotation Term="Common.Label">
+                    <String>Comment</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.SFLeave/endDate">
+                <Annotation Term="Common.Label">
+                    <String>End Date</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.SFLeave/quantityInDays">
+                <Annotation Term="Common.Label">
+                    <String>Taken (Days)</String>
+                </Annotation>
+                <Annotation Term="Core.Computed">
+                    <Bool>true</Bool>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.SFLeave/startDate">
+                <Annotation Term="Common.Label">
+                    <String>Start Date</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.SFLeave/timeType">
+                <Annotation Term="Common.Label">
+                    <String>Time Type</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.SFLeave_TimeType/externalName_localized">
+                <Annotation Term="Common.Label">
+                    <String>Type of Leave</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.DraftAdministrativeData">
+                <Annotation Term="Common.Label">
+                    <String>Draft Administrative Data</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.DraftAdministrativeData/DraftUUID">
+                <Annotation Term="UI.Hidden">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Draft (Technical ID)</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.DraftAdministrativeData/CreationDateTime">
+                <Annotation Term="Common.Label">
+                    <String>Draft Created On</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.DraftAdministrativeData/CreatedByUser">
+                <Annotation Term="Common.Label">
+                    <String>Draft Created By</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.DraftAdministrativeData/DraftIsCreatedByMe">
+                <Annotation Term="UI.Hidden">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Draft Created By Me</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.DraftAdministrativeData/LastChangeDateTime">
+                <Annotation Term="Common.Label">
+                    <String>Draft Last Changed On</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.DraftAdministrativeData/LastChangedByUser">
+                <Annotation Term="Common.Label">
+                    <String>Draft Last Changed By</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.DraftAdministrativeData/InProcessByUser">
+                <Annotation Term="Common.Label">
+                    <String>Draft In Process By</String>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="com.sal.employee_portal.HumanResourceService.DraftAdministrativeData/DraftIsProcessedByMe">
+                <Annotation Term="UI.Hidden">
+                    <Bool>true</Bool>
+                </Annotation>
+                <Annotation Term="Common.Label">
+                    <String>Draft In Process By Me</String>
+                </Annotation>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

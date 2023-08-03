@@ -1,0 +1,100 @@
+<mvc:View controllerName="com.sal.salhr.controller.CreateLeaveRequest"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:l="sap.ui.layout"
+    xmlns:core="sap.ui.core"
+    xmlns:fm="sap.ui.layout.form"
+    xmlns:upload="sap.m.upload" height="100%">
+    <f:DynamicPage id="dynamicPageId" headerExpanded="true" showFooter="true">
+        <!-- DynamicPage Title -->
+        <f:title>
+            <f:DynamicPageTitle id="idDynamicPageTitle">
+                <f:heading>
+                    <Title id="idPageTitle" text="New Leave Request" class="sapUiSmallMarginBegin"/>
+                </f:heading>
+                <f:breadcrumbs>
+                    <Breadcrumbs id="idBreadcrumbs" currentLocationText="New Leave Request" class="sapUiSmallMarginBegin">
+                        <Link id="idHumanResourceLink" text="{i18n>HumanResource}" press="onCreateCancelPress"/>
+                    </Breadcrumbs>
+                </f:breadcrumbs>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:content>
+            <l:VerticalLayout class="sapUiNoMargin sapUiNoContentPadding">
+                <l:content>
+                    <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
+
+                        <Label text="{i18n>LeaveApplicationFor}" required="true" visible="{EmpInfoModel>/IsUserManager}"/>
+                        <Input id="idLeaveApplicationForINP" required="true" width="100%" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpRequest" visible="{EmpInfoModel>/IsUserManager}"/>
+
+                        <Label text="Time Type" required="true"/>
+                        <Select id="idTimeType" items="{ path: '/SF_Leave_TimeType',
+                                                            filters: [
+                                                                        {
+                                                                             path: 'category',
+                                                                             operator: 'EQ',
+                                                                             value1: 'ABSENCE'
+                                                                         }
+                                                                     ],
+                                                         sorter : {
+                                                             path : 'externalName_defaultValue' 
+                                                        } }" change="onTimeTyeChange">
+                            <core:Item key="{externalCode}" text="{externalName_defaultValue}"/>
+                        </Select>
+
+                        <Label id="idAvailBal" text="Available Balance" visible="{= ${LocalViewModel>/availBal} === true ? true : false }"/>
+                        <Input id="idAvailBalValue" value="{LeaveBalModel>/balance}" enabled="false" width="40%" visible="{= ${LocalViewModel>/availBal} === true ? true : false }">
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M4 S4"/>
+                            </layoutData>
+                        </Input>
+                    </fm:SimpleForm>
+
+                    <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="true" class="style-RemoveTitleHeight">
+
+                        <Label text="Start Date" required="true"/>
+                        <DatePicker id="idStartDate" value="{path:'LocalViewModel>/startDate', type:'sap.ui.model.type.Date', formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}" change="onLeaveStartDatChange"/>
+
+                        <Label text="End Date" required="true"/>
+                        <DatePicker id="idEndDate" value="{path:'LocalViewModel>/endDate', type:'sap.ui.model.type.Date', formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}" editable="{= ${LocalViewModel>/halfDayType} === true ? false : true }" change="onLeaveEndDateChange"/>
+                    </fm:SimpleForm>
+
+                    <fm:SimpleForm id="idReqMeetingForm" visible="{= ${LocalViewModel>/meetingType} === true ? true : false }" layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
+                        <Label id="idReq" text="Requesting" required="true"/>
+                        <TimePicker id="TP1" valueFormat="HH:mm" displayFormat="HH:mm" maskMode="On" change="handleTimeChange"/>
+                    </fm:SimpleForm>
+                    <fm:SimpleForm id="idReqHalfDay" visible="{= ${LocalViewModel>/halfDayType} === true ? true : false }" layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
+                        <Label id="idHalfDayReq" text="Requesting"/>
+                        <Input id="idHafDay" value="0.5 days" editable="false"/>
+                    </fm:SimpleForm>
+
+                    <VBox class="uploadBox sapUiSmallMarginBeginEnd">
+                        <upload:UploadSet id="UploadSet" instantUpload="true" showIcons="true" uploadEnabled="true" terminationEnabled="true" maxFileNameLength="255" maxFileSize="200" afterItemRemoved="onFileDeleted" fileRenamed="onFileRenamed" afterItemAdded="onFileAdded" visible="{LocalViewModel>/uploadAttachment}">
+                            <upload:toolbar>
+                                <OverflowToolbar>
+                                    <Label text="Attachments" required="true"/>
+                                    <core:Icon id="idInfoIconLeave" src="sap-icon://message-information" size="1rem" height="3rem" tooltip="Please Upload File types (.png, .txt, pdf, docs and xls) and File size upto 250 MB"></core:Icon>
+                                    <ToolbarSpacer/>
+                                </OverflowToolbar>
+                            </upload:toolbar>
+                        </upload:UploadSet>
+                    </VBox>
+                </l:content>
+            </l:VerticalLayout>
+        </f:content>
+        <!-- DynamicPage Footer -->
+        <f:footer>
+            <OverflowToolbar id="idOverflowToolbar" visible="true">
+                <ToolbarSpacer id="idToolbarSpacer"/>
+                <Button id="idResetBTN" text="{i18n>Reset}" type="Ghost" press="onResetPress"/>
+                <Button id="idCancelBTN" text="{i18n>Cancel}" type="Ghost" press="onCreateCancelPress"/>
+                <Button id="idRaiseRequestBTN" text="{i18n>RaiseRequest}" press="onRaiseRequestPress" class="RaiseRequestButton"/>
+            </OverflowToolbar>
+        </f:footer>
+    </f:DynamicPage>
+</mvc:View>

@@ -1,0 +1,40 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:tnt="sap.tnt" xmlns:fm="sap.ui.layout.form" xmlns:core="sap.ui.core">
+    	      
+      
+               <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
+                        
+
+                        <Label id="idDateLBL"  required="false" text="{i18n>ResignationDate}" />
+                        <DatePicker id="idResignationDate"  value="{path:'LocalViewModel>/currentDate', type:'sap.ui.model.type.Date', formatOptions: { style: 'medium', strictParsing: true,UTC: true}}"  change="handleChange"/>
+
+
+                        
+                        <Label id="idLblCreateType" required="false" text="{i18n>TerminationDate}" />
+                       <DatePicker id="idTerminationDate"  value="{path:'LocalViewModel>/currentDate', type:'sap.ui.model.type.Date', formatOptions: { style: 'medium', strictParsing: true,UTC: true}}"  change="handleChange"/>
+                        </fm:SimpleForm>
+
+                          <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
+                        <Label required="false" id="idBValueLBL" text="{i18n>TerminationReason}"/>
+                        <Input  type="Number" liveChange="OnLiveChangeValue" id="idTerminationReasonINP"  />
+
+                        <Label required="false" id="idCurrencyCodeLBL" text="{i18n>OKTORetire}"/>
+                       <RadioButtonGroup  columns="2" select="onRbChnageMain" selectedIndex="">
+                                <buttons>
+                                    <RadioButton text="Yes"/>
+                                    <RadioButton text="No"/>
+                                </buttons>
+                            </RadioButtonGroup>
+                         </fm:SimpleForm>
+                            <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
+                        <Label id="idALTCostCenterLBL" text="{i18n>EligibleforEOSBenefit}"/>
+                      <RadioButtonGroup  columns="2" select="onRbChnageMain" selectedIndex="">
+                                <buttons>
+                                    <RadioButton text="Yes"/>
+                                    <RadioButton text="No"/>
+                                </buttons>
+                            </RadioButtonGroup>
+                     </fm:SimpleForm>
+        
+
+
+</core:FragmentDefinition>

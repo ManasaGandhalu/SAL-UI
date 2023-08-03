@@ -1,0 +1,107 @@
+<mvc:View controllerName="com.sal.salhr.controller.CreateBusinessTripRequest" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:f="sap.f" xmlns:core="sap.ui.core" xmlns:form="sap.ui.layout.form" xmlns:upload="sap.m.upload" height="100%">
+    <f:DynamicPage id="dynamicPageId" headerExpanded="true" showFooter="true">
+        <!-- DynamicPage Title -->
+        <f:title>
+            <f:DynamicPageTitle id="idDynamicPageTitle">
+                <f:heading>
+                    <Title id="idPageTitle" text="{i18n>NewBusinessTripRequest}" class="sapUiSmallMarginBegin" />
+                </f:heading>
+                <f:breadcrumbs>
+                    <Breadcrumbs id="idBreadcrumbs" currentLocationText="{i18n>NewBusinessTripRequest}" class="sapUiSmallMarginBegin">
+                        <Link id="idHumanResourceLink" text="{i18n>HumanResource}" press="onCreateCancelPress" />
+                    </Breadcrumbs>
+                </f:breadcrumbs>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:content>
+            <VBox>
+                <form:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="2" columnsXL="2" singleContainerFullSize="false" class="style-RemoveTitleHeight" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+                    <Label text="When would you like your changes to take effect? " required="true" />
+
+                    <DatePicker enabled="false" id="idEffectDatePicker" value="{path:'LocalViewModel>/currentDate', type:'sap.ui.model.type.Date', formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}" />
+                </form:SimpleForm>
+
+                <Table id="idBusinessTripTable" growing="true" growingThreshold="10" items="{BusinessTripTableModel>/}">
+                    <headerToolbar>
+                        <OverflowToolbar>
+                            <Title text="{i18n>Details}" level="H4" />
+                            <content>
+                                <ToolbarSpacer />
+                                <Button text="Add Business Trip" icon="sap-icon://add" press="onAddBusinessTripPress" />
+                            </content>
+                        </OverflowToolbar>
+                    </headerToolbar>
+                    <columns>
+                    <Column demandPopin="true" minScreenWidth="Tablet">
+                            <Label text="Trip Category" />
+                        </Column>
+                        <Column demandPopin="true" minScreenWidth="Tablet">
+                            <Label text="Travel Date" />
+                        </Column>
+                        <Column demandPopin="true" minScreenWidth="Tablet">
+                            <Label text="Return Date" />
+                        </Column>
+                        <Column demandPopin="true" minScreenWidth="Tablet">
+                            <Label text="Destination Country" />
+                        </Column>
+                          <Column demandPopin="true" minScreenWidth="Tablet">
+                            <Label text="City" />
+                        </Column>
+                        <Column demandPopin="true" minScreenWidth="Tablet">
+                            <Label text="Total Travel Amount" />
+                        </Column>
+
+                        <Column demandPopin="true" minScreenWidth="Tablet">
+                            <Label text="Employee Name" />
+                        </Column>
+                        <Column demandPopin="true" minScreenWidth="Tablet">
+                            <Label text="Cost Center" />
+                        </Column>
+                        <Column demandPopin="true" minScreenWidth="Tablet">
+                            <Label text="Pay Grade" />
+                        </Column>
+                         <Column demandPopin="true" width="3rem" minScreenWidth="Tablet">
+                           
+                        </Column>
+                         <Column demandPopin="true" width="3rem" minScreenWidth="Tablet">
+                            
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem id="idBusinessTripColumns">
+                            <cells>
+                                <Text text="{=${BusinessTripTableModel>cust_tripCategory}==='B' ? 'Business Trip' : 'Training Trip'}" />                 
+                                <Text text="{path:'BusinessTripTableModel>cust_assignStartDate',formatter:'.formatter.formatBusinessDates'}" />
+                                <Text text="{path:'BusinessTripTableModel>cust_assignEndDate',formatter:'.formatter.formatBusinessDates'}"  />
+                                <Text text="{BusinessTripTableModel>cust_destination}" />
+                                <HBox>
+                                 <Text text="{BusinessTripTableModel>cust_city}" visible="{=${BusinessTripTableModel>cust_destination}==='SAU'}" />
+                                <Text text="{BusinessTripTableModel>cust_cityAll}" visible="{=${BusinessTripTableModel>cust_destination}!=='SAU'}" />
+                                </HBox>
+                               
+                                <Text text="{BusinessTripTableModel>cust_totalAmount}" />
+                                <Text text="{BusinessTripTableModel>cust_empName}" />
+                                <Text text="{BusinessTripTableModel>cust_costCenter}" />
+                                <Text text="{BusinessTripTableModel>cust_payGrade}" />
+                                 
+                                <Button icon="sap-icon://edit" press="onEditItemPress" type="Transparent" /> 
+                                <Button icon="sap-icon://delete" press="onDeleteItemPress" type="Transparent" />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </VBox>
+        </f:content>
+        <!-- DynamicPage Footer -->
+        <f:footer>
+            <OverflowToolbar id="idOverflowToolbar" visible="true">
+                <ToolbarSpacer id="idToolbarSpacer" />
+                <Button id="idResetBTN" text="{i18n>Reset}" type="Ghost" press="onResetPress" />
+                <Button id="idCancelBTN" text="{i18n>Cancel}" type="Ghost" press="onCreateCancelPress" />
+                <Button id="idRaiseRequestBTN" text="{i18n>RaiseRequest}" press="onRaiseRequestPress" class="RaiseRequestButton" />
+            </OverflowToolbar>
+        </f:footer>
+    </f:DynamicPage>
+</mvc:View>

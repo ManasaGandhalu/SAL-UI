@@ -1,0 +1,136 @@
+<mvc:View controllerName="com.sal.salhr.controller.LetterRequestDetailPage"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:layout="sap.ui.layout"
+    xmlns:ui="sap.suite.ui.commons"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form" height="100%">
+    <f:DynamicPage id="dynamicPageId" headerExpanded="true" showFooter="true" stickySubheaderProvider="iconTabBar" class="sapUiNoContentPadding">
+        <!-- DynamicPage Title -->
+        <f:title>
+            <f:DynamicPageTitle id="idDynamicPageTitle">
+                <f:heading>
+                    <Title id="idPageTitle" text="Letter Request"/>
+                </f:heading>
+                <f:breadcrumbs>
+                    <Breadcrumbs id="idBreadcrumbs" currentLocationText="Request {headerModel>/ticketCode}">
+                        <Link id="idHumanResourceLink" text="{LocalViewModel>/PageTitle}" press="handleClose"/>
+                    </Breadcrumbs>
+                </f:breadcrumbs>
+                <!-- <f:expandedContent>
+                    <Label text="Request {headerModel>/ticketCode}"/>
+                </f:expandedContent> -->
+
+                <!--Approve and Reject visible for Manager Tile -->
+          <f:actions>
+                    <Button text="Approve" icon="sap-icon://accept" type="Accept" press="onApprovePress" visible="{parts: [{path: 'headerModel>/status'}, {path:'headerModel>/workflowRequestId'}, {path:'headerModel>/approverId'}], formatter:'.formatter.setApproveVisibility'}"/>
+                     
+                    <Button text="Reject" icon="sap-icon://decline" type="Reject" press="onRejectPress" visible="{parts: [{path: 'headerModel>/status'}, {path:'headerModel>/workflowRequestId'}, {path:'headerModel>/approverId'}], formatter:'.formatter.setRejectVisibility'}"/>
+                   
+                </f:actions>
+				
+              
+                <f:navigationActions>
+                   
+                    <Button id="idFullScreenBTN" icon="sap-icon://full-screen" press="handleFullScreen" type="Transparent" />
+                    <Button icon="sap-icon://decline" type="Transparent" press="handleClose" />
+                </f:navigationActions>
+            </f:DynamicPageTitle>
+        </f:title>
+        <!-- DynamicPage Header Content -->
+        <f:header>
+            <f:DynamicPageHeader pinnable="true">
+                <layout:HorizontalLayout allowWrapping="true">
+                    <layout:VerticalLayout class="sapUiMediumMarginEnd">
+                        <ObjectAttribute title="{i18n>Status}"/>
+                      
+                         <ObjectStatus text="{path:'headerModel>/status',formatter:'.formatter.ticketStatusText'}" state="{path:'headerModel>/status',formatter:'.formatter.ticketStatus'}" />
+                    </layout:VerticalLayout>
+                    <layout:VerticalLayout class="sapUiMediumMarginEnd">
+                       <ObjectAttribute title="{i18n>RequestedBy}"/>
+        
+                   
+                    <ObjectAttribute text="{headerModel>/externalCreatedByName} ({headerModel>/externalCreatedBy})"/>
+                     </layout:VerticalLayout>
+                       <layout:VerticalLayout class="sapUiMediumMarginEnd">
+                         <ObjectAttribute title="{i18n>RequestedFor}"/>
+                        <ObjectAttribute text="{headerModel>/employeeName} ({headerModel>/employeeId})"/>
+                    </layout:VerticalLayout>
+                     <layout:VerticalLayout class="sapUiMediumMarginEnd">
+                        <ObjectAttribute title="{i18n>DateofCreation}"/>
+                        <ObjectAttribute text="{path:'headerModel>/requestDate',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}"/>
+                    </layout:VerticalLayout>
+                    <layout:VerticalLayout>
+                        <ObjectAttribute title="Timeline"/>
+                       	<ui:MicroProcessFlow class="ticketProcessFlow" content="{headerModel>/ticketWorkflowParticipants/results}">
+		                    <ui:content>
+			                    <ui:MicroProcessFlowItem title="{headerModel>status}" state="{path: 'headerModel>status', formatter:'.formatter.ticketStatus'}" press="itemPress" />
+                            </ui:content>
+	                    </ui:MicroProcessFlow>
+
+                    </layout:VerticalLayout>
+                </layout:HorizontalLayout>
+            </f:DynamicPageHeader>
+        </f:header>
+        <!-- DynamicPage Content -->
+     <f:content>
+          
+    <form:SimpleForm id="idNewDisplayTripRquestSimpleForm" visible="{= ${LocalViewModel>/EditMode} === true ? false : true }" layout="ResponsiveGridLayout" columnsM="3" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+        <form:content>
+            <Title text="{i18n>Request Details}" titleStyle="H5" level="H5"/>
+
+            <Label text="Created At" />
+            <Text text="{path:'DisplayLetterModel>/cust_LetterDetails/createdAt',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}"/>
+           <Label text="Created By"  />
+            <Text text="{DisplayLetterModel>/cust_LetterDetails/createdBy}"/>
+            <Label text="Modified At"  />
+            <Text text="{path:'DisplayLetterModel>/cust_LetterDetails/modifiedAt',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}"/>
+             <Label text="Modified By"  />
+            <Text text="{DisplayLetterModel>/cust_LetterDetails/modifiedBy}"/>
+
+
+
+
+             <Label text="Country"  />               
+            <Text text="{DisplayLetterModel>/cust_LetterDetails/country}"/>
+
+            <Label text="Language"  />
+               <Text text="{DisplayLetterModel>/cust_LetterDetails/language}"/>
+            <Label text="Type"  />
+           <Text text="{DisplayLetterModel>/cust_LetterDetails/type}"/>
+            <Label text="Description"  />
+                <Text text="{DisplayLetterModel>/cust_LetterDetails/description}"/>
+
+
+             
+          
+        </form:content>
+
+   
+        
+        
+        
+    </form:SimpleForm>
+        </f:content>
+        <f:footer>
+            <OverflowToolbar id="idOverflowToolbar" visible="{= ${LocalViewModel>/EditMode} === true ? true : false }">
+                <ToolbarSpacer id="idToolbarSpacer"/>
+                <Button id="idSaveBTN" text="{i18n>Save}" type="Emphasized" press="onSavePress"/>
+                <Button id="idCancelBTN" text="{i18n>Cancel}" type="Ghost" press="onCancelPress"/>
+            </OverflowToolbar>
+        </f:footer>
+    </f:DynamicPage>
+</mvc:View>

@@ -1,0 +1,370 @@
+<mvc:View controllerName="com.sal.salhr.controller.CreateSalaryIncrementRequest" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:f="sap.f" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:fm="sap.ui.layout.form" xmlns:upload="sap.m.upload" height="100%">
+    <f:DynamicPage id="dynamicPageId" headerExpanded="true" showFooter="true">
+        <!-- DynamicPage Title -->
+        <f:title>
+            <f:DynamicPageTitle id="idDynamicPageTitle">
+                <f:heading>
+                    <Title id="idPageTitle" text="New Job and Compensation Information Request" class="sapUiSmallMarginBegin" />
+                </f:heading>
+                <f:breadcrumbs>
+                    <Breadcrumbs id="idBreadcrumbs" currentLocationText="New Job and Compensation Information Request" class="sapUiSmallMarginBegin">
+                        <Link id="idSalaryLink" text="{i18n>HumanResource}" press="onCreateCancelPress" />
+                    </Breadcrumbs>
+                </f:breadcrumbs>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:content>
+            <!-- <l:VerticalLayout class="sapUiNoMargin sapUiNoContentPadding">
+                <l:content>  -->
+            <VBox>
+                <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" class="style-RemoveTitleHeight">
+                    <Label text="When would you like your changes to take effect? " required="true" />
+                    <DatePicker id="idStartDate" value="{path:'LocalViewModel>/currentDate', type:'sap.ui.model.type.Date', formatOptions: {
+                        pattern: 'MM/dd/yyyy'
+                            }}" minDate="{LocalViewModel>/minDate}" />
+
+                    <Label text="PRN" required="true" />
+                    <Input id="idSalIncPRN" required="true" width="100%" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onValueHelpRequest" />
+                </fm:SimpleForm>
+                <VBox visible="{= ${LocalViewModel>/checkBoxVisible} ? true : false }">
+                    <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+                        <Label text="Choose what you want to change" />
+                        <CheckBox id="idJobInfo" select="onSelectJobInfo" text="Job Information" />
+                        <CheckBox width="25rem" id="idCompensationInfo" select="onSelectCompensation" text="Compensation Information" />
+                    </fm:SimpleForm>
+                </VBox>
+
+                <Panel visible="{= ${LocalViewModel>/jobInfoVisible} ? true : false }">
+                    <fm:SimpleForm title="Position Information" layout="ColumnLayout" class="style-RemoveTitleHeight" columnsM="2" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+                        <Label text="Position" />
+                        <!-- <Input id="idPosition" width="100%" valueHelpOnly="true" value="{ parts : [{ path: 'jobModel>/positionNav/externalName_defaultValue'}, {path: 'jobModel>/position'} ], formatter: '.formatter.formatLabel' }" showValueHelp="true" valueHelpRequest="onPositionRequest" /> -->
+                        
+
+                          <!-- <Select id="idPosition" items="{ path: '/SF_Position', -->
+                                                            <!-- sorter : {path : 'externalName_defaultValue' }, -->
+                                                            <!-- parameters : { -->
+                <!-- expand : 'businessUnitNav, companyNav, costCenterNav, cust_locationGroupNav, cust_sectionNav, departmentNav, divisionNav, jobCodeNav, jobLevelNav, locationNav, payGradeNav, payRangeNav'}}" change="onPositionConfirm" selectedKey="{jobModel>/position}"> -->
+                            <!-- <core:Item key="{code}" text="{externalName_defaultValue} ({code})" /> -->
+                        <!-- </Select> -->
+
+                        
+                        <Select id="idPosition" items="{PositionModel>/}" selectedKey="{jobModel>/position}" change="onPositionConfirm">
+                            <core:Item key="{PositionModel>code}" text="{PositionModel>externalName_defaultValue} ({PositionModel>code})"/>
+                        </Select>
+                        
+                        <Label text="Time in Position" />
+                        <Input enabled="false" value="{path : 'jobModel>/startDate', formatter: '.formatter.formatTimeInPosition' }" />
+                    </fm:SimpleForm>
+                    <fm:SimpleForm title="Organization Information" layout="ColumnLayout" class="style-RemoveTitleHeight" columnsM="2" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+                        <Label text="Company" required="true" />
+                        <Input id="idCompany" value="{jobModel>/companyNav/name} ({jobModel>/companyNav/externalCode})" editable="false" />
+
+                        <Label text="Business Unit" />
+                        <Input id="idBU" value="{jobModel>/businessUnitNav/name_en_US} ({jobModel>/businessUnitNav/externalCode})" editable="false" />
+
+                        <Label text="Division" />
+                        <Input id="idDivision" value="{jobModel>/divisionNav/name_en_US} ({jobModel>/divisionNav/externalCode})" editable="false" />
+
+                        <Label text="Department" />
+                        <Input id="idDepartment" value="{jobModel>/departmentNav/name_en_US} ({jobModel>/departmentNav/externalCode})" editable="false" />
+
+                        <Label text="Section" />
+                        <Input id="idSection" value="{jobModel>/customString10Nav/externalName} ({jobModel>/customString10Nav/externalCode})" editable="false" />
+
+                        <Label text="Location Group" />
+                        <Input id="idLocationGroup" value="{jobModel>/customString12Nav/name} ({jobModel>/customString12Nav/externalCode})" editable="false" />
+
+                        <Label text="Location" required="true" />
+                        <Input id="idLocation" value="{jobModel>/locationNav/name} ({jobModel>/locationNav/externalCode})" editable="false" />
+
+                        <Label text="Time Zone" />
+                        <ComboBox id="idTimezone" enabled="false" items="{TimezonesModel>/}" selectedKey="{jobModel>/timezone}" editable="false">
+                            <core:Item key="{TimezonesModel>value}" text="{TimezonesModel>label}" />
+                        </ComboBox>
+
+                        <Label text="Cost Center" />
+                        <Input id="idCostCenter" width="100%" valueHelpOnly="true" value="{ parts : [{ path: 'jobModel>/costCenterNav/name'}, {path: 'jobModel>/costCenter'} ], formatter: '.formatter.formatLabel' }" showValueHelp="true" valueHelpRequest="onCostCenterRequest" editable="false" />
+                    </fm:SimpleForm>
+
+                    <fm:SimpleForm title="Job Information" layout="ColumnLayout" class="style-RemoveTitleHeight" columnsM="2" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+                        <Label text="Direct Manager" required="true" />
+                       
+                        <Input id="idDirectManager" required="true" width="100%" value="{ parts : [{ path: 'jobModel>/managerUserNav/defaultFullName'}, {path: 'jobModel>/managerId'} ], formatter: '.formatter.formatLabel' }"
+                                valueHelpOnly="true" showValueHelp="true" valueHelpRequest="onDirectMngrValueHelpRequest" editable="true"/>
+
+                       <Label text="Job Classification" />
+                        <Input id="idJobclassification" required="true" width="100%" 
+                            value="{ parts : [{ path: 'jobModel>/jobCodeNav/name'}, {path: 'jobModel>/jobCode'} ], formatter: '.formatter.formatLabel' }"
+                             editable="false"/>
+
+                        <Label text="Job Title" />
+                        <Input id="idJobTitle" value="{jobModel>/jobTitle}" editable="true" />
+
+                        <Label text="Pay Grade" />
+                        <ComboBox id="idPayGrade" change="onPayGradeChange" items="{ path: '/SF_FOPayGrade', sorter : {
+                                path : 'name' 
+                            } }" selectedKey="{jobModel>/payGrade}" editable="true">
+                            <core:Item key="{externalCode}" text="{name} ({externalCode})" />
+                        </ComboBox>
+
+                        <Label text="Pay Range" />
+                        <Input id="idPayRange" editable="false" value="{jobModel>/payGrade} ({jobModel>/payGradeFlx})" />
+
+                        <Label text="IK/OOK" />
+                        <ComboBox
+                            id="idIKOOK"
+                            items="{ path: '/SF_PicklistOption',sorter : {
+                                path : 'picklistLabels/label' 
+                            }, filters: [{ path: 'picklist/picklistId', operator: 'EQ', value1: 'regular-temp' }] }"
+                            selectedKey="{jobModel>/regularTemporary}"
+                            editable="false"
+                        >
+                            <core:Item key="{id}" text="{localeLabel}" />
+                        </ComboBox>
+
+                        <Label text="Is Full Time Employee" />
+                        <ComboBox id="idFullTimeEmp" selectedKey="{jobModel>/isFulltimeEmployee}" editable="false">
+                            <core:Item key="true" text="Yes" />
+                            <core:Item key="false" text="No" />
+                        </ComboBox>
+
+                        <Label text="Employee Class" />
+                         <Input id="idEmployeeClass" value="{jobModel>/employeeClassNav/name}" editable="false" />
+
+                        <Label text="Notes" />
+                        <Input id="idNotes" value="{jobModel>/notes}" editable="false" />
+
+                        <Label text="Pay Group" />
+                        <Input id="idPayGroup" value="{jobModel>/payGroupNav/name} ({jobModel>/payGroupNav/externalCode})" editable="false" />
+
+
+                        <Label text="Probationary Period End Date" />
+                        <DatePicker id="idProbationaryDate" value="{path:'jobModel>/probationPeriodEndDate', type:'sap.ui.model.type.Date',  formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}"
+                            editable="false"
+                        />
+
+                        <Label text="Country" />
+                        <ComboBox enabled="false" id="idJobCountry" items="{ path: '/SF_Country', filters: [
+                                                                        {
+                                                                             path: 'code',
+                                                                             operator: 'NE',
+                                                                             value1: 'ISR'
+                                                                         }
+                                                                     ],       sorter : {
+                                path : 'externalName_defaultValue' 
+                            } }" selectedKey="{jobModel>/countryOfCompany}" visible="false">
+                            <core:Item key="{code}" text="{externalName_defaultValue} ({code})" />
+                        </ComboBox>
+
+                        <Label text="Employee Type" />
+                        <ComboBox id="idEmployeeType" enabled="{= ${LocalViewModel>/empTypeEnabled} ? true : false }" change="onLoca" items="{EmployeeTypeModel>/}" selectedKey="{jobModel>/employeeType}" editable="false">
+                            <core:Item key="{EmployeeTypeModel>id}" text="{EmployeeTypeModel>localeLabel}" />
+                        </ComboBox>
+
+                        <Label text="Employment Type" />
+                        <ComboBox
+                            id="idEmploymentType"
+                            items="{ path: '/SF_PicklistOption',sorter : {
+                                path : 'picklistLabels/label' 
+                            }, filters: [{ path: 'picklist/picklistId', operator: 'EQ', value1: 'employmentType' }] }"
+                            selectedKey="{jobModel>/employmentType}"
+                            editable="false"
+                        >
+                            <core:Item key="{id}" text="{localeLabel}" />
+                        </ComboBox>
+
+                        <Label text="Pay Scale Type" required="true" />
+                        <Input id="idPayScaleType" value="{jobModel>/payScaleTypeNav/externalName_defaultValue} ({jobModel>/payScaleTypeNav/code})" editable="false" />
+
+                        <Label text="Pay Scale Area" required="true" />
+                         <Input id="idPayScaleArea" value="{jobModel>/payScaleAreaNav/externalName_defaultValue} ({jobModel>/payScaleAreaNav/code})" editable="false" />
+
+                        <Label text="Pay Scale Group" />
+                        <Input id="idPayScaleGroup" value="{jobModel>/payScaleGroupNav/externalName_defaultValue} ({jobModel>/payScaleGroupNav/code})" editable="false" />
+
+                        <Label text="Pay Scale Level" />
+                         <Input id="idPayScaleLevel" value="{jobModel>/payScaleLevelNav/externalName_defaultValue} ({jobModel>/payScaleLevelNav/code})" editable="false" />
+
+                        <Label text="Employee Notice Period" />
+                        <ComboBox
+                            id="idEmployeeNoticePeriod"
+                            items="{ path: '/SF_PicklistOption',sorter : {
+                                path : 'picklistLabels/label' 
+                            }, filters: [{ path: 'picklist/picklistId', operator: 'EQ', value1: 'EENoticePeriod' }] }"
+                            selectedKey="{jobModel>/employeeNoticePeriod}"
+                            editable="false"
+                        >
+                            <core:Item key="{id}" text="{localeLabel}" />
+                        </ComboBox>
+
+                        <Label text="Contract Type" required="true" />
+                        <ComboBox
+                            id="idContractType"
+                            items="{ path: '/SF_PicklistOption',sorter : {
+                                path : 'picklistLabels/label' 
+                            }, filters: [{ path: 'picklist/picklistId', operator: 'EQ', value1: 'contractType' }] }"
+                            selectedKey="{jobModel>/contractType}"
+                            editable="false"
+                        >
+                            <!-- <core:Item key="{ parts : [{ path: 'picklistLabels'}, {value: 'optionId'} ], formatter: '.formatter.formatPicklistOptions' }" text="{ parts : [{ path: 'picklistLabels'}, {value: 'label'} ], formatter: '.formatter.formatPicklistOptions' }"/> -->
+                            <core:Item key="{id}" text="{localeLabel} ({id})" />
+                        </ComboBox>
+
+                        <Label text="Duration" />
+                        <ComboBox id="idDuration" items="{ path: '/SF_PicklistOption', filters: [{ path: 'picklist/picklistId', operator: 'EQ', value1: 'duraition' }] }" selectedKey="{jobModel>/customString13}" editable="false">
+                            <core:Item key="{id}" text="{localeLabel}" />
+                        </ComboBox>
+
+                        <Label text="Contract End Date" />
+                        <DatePicker value="{path:'jobModel>/contractEndDate', type:'sap.ui.model.type.Date',  formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}" editable="false" />
+
+                        <Label text="Auto Renewal" />
+                        <ComboBox
+                            id="idAutoRenewal"
+                            items="{ path: '/SF_PicklistOption',sorter : {
+                                path : 'picklistLabels/label' 
+                            }, filters: [{ path: 'picklist/picklistId', operator: 'EQ', value1: 'yesNo' }] }"
+                            selectedKey="{jobModel>/customString11}"
+                            editable="false"
+                        >
+                            <core:Item key="{id}" text="{localeLabel}" />
+                        </ComboBox>
+
+                        <Label text="Job Family" />
+                        <Input value="{jobModel>/jobGroup}" editable="false" />
+
+                        <Label text="Initial Entry" />
+                        <DatePicker value="{path:'jobModel>/initialEntryDate', type:'sap.ui.model.type.Date',  formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}" editable="false" />
+
+                        <Label text="Entry into Group" />
+                        <DatePicker value="{path:'jobModel>/entryIntoGroup', type:'sap.ui.model.type.Date',  formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}" editable="false" />
+                    </fm:SimpleForm>
+                </Panel>
+                <Panel visible="{= ${LocalViewModel>/componesationInfoVisible} ? true : false }">
+                    <fm:SimpleForm title="Compensation Information" layout="ColumnLayout" class="style-RemoveTitleHeight" columnsM="2" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+                        <Label text="Company" required="true" visible="false" />
+
+                        <Label text="Pay Group" required="true" visible="false" />
+                        <ComboBox id="idCompPayGroup" enabled="{= ${LocalViewModel>/payGroupEnabled} ? true : false }" items="{PayGroupModel>/}" selectedKey="{compensationModel>/payGroup}" visible="false">
+                            <core:Item key="{PayGroupModel>externalCode}" text="{PayGroupModel>name} ({PayGroupModel>externalCode})" />
+                        </ComboBox>
+
+                        <Label text="is Eligible for Car" visible="false" />
+                        <ComboBox id="idEligibleForCar" enabled="false" selectedKey="{compensationModel>/isEligibleForCar}" visible="false">
+                            <core:Item key="true" text="Yes" />
+                            <core:Item key="false" text="No" />
+                        </ComboBox>
+                        <!-- <RadioButtonGroup  editable="false" columns="2"  Select="onRbChnageMain" SelectedIndex="{= ${compensationModel>/isEligibleForCar}  ? 0 : 1 }">
+                            <buttons>
+                                <RadioButton text="Yes"/>
+                                <RadioButton text="No"/>
+                            </buttons>
+                        </RadioButtonGroup> -->
+
+                        <Label text="Monthly Basic" />
+                        <Input id="idMonthlyBasic" value="{compensationModel>/customDouble1}" type="Number"/>
+
+                        <Label text="Country" required="true" visible="false" />
+                        <ComboBox id="idCompCountry" items="{ path: '/SF_Country',filters: [
+                                                                        {
+                                                                             path: 'code',
+                                                                             operator: 'NE',
+                                                                             value1: 'ISR'
+                                                                         }
+                                                                     ]       }" selectedKey="{compensationModel>/customString2}" visible="false">
+                            <core:Item key="{numericCountryCode}" text="{externalName_defaultValue}" />
+                        </ComboBox>
+
+                        <Label text="Pay Type" visible="false" />
+                        <ComboBox
+                            items="{ path: '/SF_PicklistOption',sorter : {
+                                path : 'picklistLabels/label' 
+                            }, filters: [{ path: 'picklist/picklistId', operator: 'EQ', value1: 'PayType' }] }"
+                            selectedKey="{compensationModel>/payType}"
+                            visible="false"
+                        >
+                            <core:Item key="{id}" text="{localeLabel}" />
+                        </ComboBox>
+
+                        <Label text="Scheme Change Date" visible="false" />
+                        <DatePicker id="idSchemeChangeDate" value="{path:'compensationModel>/customDate1', type:'sap.ui.model.type.Date', formatOptions: {
+                                                  pattern: 'MM/dd/yyyy'
+                                                }}" visible="false" />
+
+                        <Label text="Change from Commision to Variable" required="true" visible="false" />
+                        <Input id="idCommision" value="{compensationModel>/customString3}" visible="false" />
+                    </fm:SimpleForm>
+                    <!-- <VBox>
+                       <Table id="idConsumedTable" growing="true" growingThreshold="10">
+                            <headerToolbar>
+                                <OverflowToolbar>
+                                       <Title text="{i18n>Compensation}" level="H4" />
+                            <content>
+                                <ToolbarSpacer></ToolbarSpacer>
+                               
+                            </content>
+                                </OverflowToolbar>
+                            </headerToolbar>
+                            <columns>
+                                <Column demandPopin="true" minScreenWidth="Tablet">
+                                 <Label text="Pay Component" required="true" />
+                                </Column>
+                                <Column demandPopin="true" minScreenWidth="Tablet">
+                                   <Label text="Amount" required="false" />
+                                </Column>
+                                <Column demandPopin="true" minScreenWidth="Tablet">
+                                   <Label text="Currency" required="true" />
+                                </Column>
+                                <Column demandPopin="true" minScreenWidth="Tablet">
+                                  <Label text="Frequency" required="true" />
+                                </Column>
+                                <Column demandPopin="true" minScreenWidth="Tablet">
+                                  <Label text="Payment-End-Date" required="true" />
+                                </Column>
+                                 <Column demandPopin="true" minScreenWidth="Tablet">
+                                      <Label text="" required="false" />
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem id="idBOQItems">
+                                    <cells>
+                                             <Input value="{jobModel>/payComponent}"/>
+                                            <Input value="{jobModel>/paycompvalue}"/>
+                                            <Input value="{jobModel>/currencyCode}"/>
+                                            
+                                              <ComboBox id="idFrequency" items="{ path: '/SF_FOFrequency'}" selectedKey="{jobModel>/frequency}">
+                                               <core:Item key="{externalCode}" text="{description}"/>
+                                                </ComboBox>
+                                              <DatePicker value="{path:'jobModel>/endDate', type:'sap.ui.model.type.Date', formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}" />
+                                               <Button icon="sap-icon://delete" press="onDeleteItemPress" type="Transparent"/>
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </VBox> -->
+                </Panel>
+                <!-- </l:content>
+            </l:VerticalLayout> -->
+            </VBox>
+        </f:content>
+        <!-- DynamicPage Footer -->
+        <f:footer>
+            <OverflowToolbar id="idOverflowToolbar" visible="true">
+                <ToolbarSpacer id="idToolbarSpacer" />
+                <Button id="idResetBTN" text="{i18n>Reset}" type="Ghost" press="onResetPress" />
+                <Button id="idCancelBTN" text="{i18n>Cancel}" type="Ghost" press="onCreateCancelPress" />
+                <Button id="idRaiseRequestBTN" enabled="{= ${LocalViewModel>/jobInfoVisible} ? true : ${LocalViewModel>/componesationInfoVisible} ? true : false }" text="{i18n>RaiseRequest}" press="onRaiseRequestPress" class="RaiseRequestButton" />
+            </OverflowToolbar>
+        </f:footer>
+    </f:DynamicPage>
+</mvc:View>

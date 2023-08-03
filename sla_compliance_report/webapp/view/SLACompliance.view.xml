@@ -1,0 +1,81 @@
+<mvc:View controllerName="com.sal.reports.slacompliancereport.controller.SLACompliance"
+    xmlns="sap.m"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:layout="sap.ui.layout"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+    xmlns:viz.data="sap.viz.ui5.data"
+    xmlns:commons="sap.suite.ui.commons"
+    xmlns:core="sap.ui.core">
+    <Shell id="shell">
+        <App id="app">
+            <pages>
+                <Page id="page" title="{i18n>title}" showHeader="false">
+                    <VBox>
+                        <HBox class="reportsManagerView">
+                            <Label text="Choose the Report you want to see :" design="Bold" class="sapUiTinyMarginTop sapUiTinyMarginBegin" visible="{= ${EmpInfoModel>/IsUserManager} === true ? true : false }"/>
+                            <Select id="idRequestType"  change="onSelectionChange" class="sapUiTinyMarginBegin" visible="{= ${EmpInfoModel>/IsUserManager} === true ? true : false }" >
+                                <core:Item key="Myself" text="Myself" />
+                                <core:Item key="MyTeam" text="MyTeam" />
+
+                            </Select>
+   
+                            <HBox>
+ <DateRangeSelection class="DateRangeCss" id="DRS2" width="20rem" change="onFilterDateChange" dateValue="{LocalViewModel>/FromDate}" secondDateValue="{LocalViewModel>/ToDate}"/>
+   </HBox>
+
+                        </HBox>    
+                        <commons:ChartContainer showFullScreen="true" showZoom="true">
+                            <commons:content>
+                                <commons:ChartContainerContent id="idChartContainerContent">
+                                    <commons:content>
+                                        <!-- <viz:Popover id="idSLAPopOver"/> -->
+                                        <viz:VizFrame id="idVizFrame" height="300px" width="100%" vizType='column'>
+                                            <viz:dataset>
+                                                <viz.data:FlattenedDataset data="{path: 'SLAComplianceDataModel>/'}">
+                                                    <viz.data:dimensions>
+                                                        <viz.data:DimensionDefinition name="Name" value="{SLAComplianceDataModel>name}"/>
+                                                    </viz.data:dimensions>
+                                                    <viz.data:measures>
+                                                        <!-- Stacked Column chart Items -->
+                                                        <!-- <viz.data:MeasureDefinition group="1" name="Total SLA" value="{SLAComplianceDataModel>totalRequests}"/> -->
+                                                        <viz.data:MeasureDefinition id="idPercentage" group="1" name="SLA Compliance Score" value="{SLAComplianceDataModel>displayPercentage}"/>
+                                                    </viz.data:measures>
+                                                </viz.data:FlattenedDataset>
+                                            </viz:dataset>
+                                            <viz:feeds>
+                                                <viz.feeds:FeedItem id='valueAxisFeed' uid="valueAxis" type="Measure" values="SLA Compliance Score"/>
+                                                <viz.feeds:FeedItem id='categoryAxisFeed' uid="categoryAxis" type="Dimension" values="Name"/>
+                                            </viz:feeds>
+                                        </viz:VizFrame>
+                                    </commons:content>
+                                </commons:ChartContainerContent>
+                            </commons:content>
+                        </commons:ChartContainer>
+                        <commons:ChartContainer showFullScreen="true" autoAdjustHeight="false" title="{i18n>SLACompliance}">
+                            <commons:content>
+                                <commons:ChartContainerContent>
+                                    <commons:content>
+                                        <Table items="{ path:'SLAComplianceDataModel>/',factory:'.fnSLAItemsFactory'}">
+                                            <columns>
+                                                <Column width="40%" >
+                                                    <Label design="Bold" text="{i18n>ModuleName}"/>
+                                                </Column>
+                                                <Column  demandPopin="true" hAlign="Center" width="35%">
+                                                    <Label design="Bold" text="{i18n>ComplianceScore}"/>
+                                                </Column>
+                                                <Column  demandPopin="true" width="25%">
+                                                    <Label design="Bold" text="{i18n>Rating}"/>
+                                                </Column>
+                                            </columns>
+                                        </Table>
+                                    </commons:content>
+                                </commons:ChartContainerContent>
+                            </commons:content>
+                        </commons:ChartContainer>
+                    </VBox>
+                </Page>
+            </pages>
+        </App>
+    </Shell>
+</mvc:View>

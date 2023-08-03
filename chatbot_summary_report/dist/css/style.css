@@ -1,0 +1,16 @@
+/* Enter your custom styles here */
+.customNoPaddingSimpleForm>.sapUiForm>.sapUiFormResGrid>.sapUiRespGrid{
+    padding: 0rem !important;
+}
+
+.customNoPaddingSimpleForm>.sapUiForm>.sapUiFormResGrid>.sapUiRespGrid>.sapUiRespGridBreak{
+    padding: 4px 1px !important;
+}
+
+.CustomWidth100{
+    width: 100% !important;
+}
+
+.sapUxAPObjectPageSubSection {
+    padding: 0rem !important;
+}

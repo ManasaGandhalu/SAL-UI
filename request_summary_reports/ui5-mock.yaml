@@ -1,0 +1,39 @@
+specVersion: '2.4'
+metadata:
+  name: 'request_summary_reports'
+type: application
+server:
+  customMiddleware:
+  - name: fiori-tools-proxy
+    afterMiddleware: compression
+    configuration:
+      ignoreCertError: false # If set to true, certificate errors will be ignored. E.g. self-signed certificates will be accepted
+      backend:
+      - path: /odata
+        url: https://saudi-airlines-cargo-company-sal-btp-cf-dev-8glkufj3-de3438ae57.cfapps.eu10.hana.ondemand.com
+        destination: human-resource-srv
+      ui5:
+        path: 
+        - /resources
+        - /test-resources
+        url: https://ui5.sap.com
+  - name: sap-fe-mockserver
+    beforeMiddleware: fiori-tools-proxy
+    configuration:
+      service:
+        urlBasePath: /odata/v2/HumanResourceService
+        name: ''
+        metadataXmlPath: ./webapp/localService/metadata.xml
+        mockdataRootPath: ./webapp/localService/mockdata
+        generateMockData: true
+  - name: fiori-tools-appreload
+    afterMiddleware: compression
+    configuration:
+     port: 35729
+     path: webapp
+     delay: 300
+  - name: fiori-tools-preview
+    afterMiddleware: fiori-tools-appreload
+    configuration:
+      component: com.sal.reports.requests.requestsummaryreports
+      ui5Theme: sap_fiori_3

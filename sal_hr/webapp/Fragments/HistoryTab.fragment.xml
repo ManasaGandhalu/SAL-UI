@@ -1,0 +1,46 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core">
+     <VBox>
+              <Table growing="true" growingThreshold="10"  items="{DisplayHealthInsuranceModel>/cust_healthInsuranceDetails}">
+                            <headerToolbar>
+                                <OverflowToolbar>
+                            <Title text="{i18n>Details}" level="H4" />
+                            <content>
+                                <ToolbarSpacer></ToolbarSpacer>
+                            </content>
+                                </OverflowToolbar>
+                            </headerToolbar>
+                            <columns>
+                              <Column demandPopin="true" minScreenWidth="Tablet">
+                                 <Label text="Request Date" required="false" />
+                                </Column>
+                                <Column demandPopin="true" minScreenWidth="Tablet">
+                                   <Label text="Time" required="false" />
+                                </Column>
+                                <Column demandPopin="true" minScreenWidth="Tablet">
+                                   <Label text="Event" required="false" />
+                                </Column>
+                                <Column demandPopin="true" minScreenWidth="Tablet">
+                                  <Label text="Action Performed by" required="false" />
+                                </Column>
+                                 <Column demandPopin="true" minScreenWidth="Tablet">
+                                      <Label text="Reason" required="false" />
+                                </Column>
+                                 
+                            </columns>
+                            <items>
+                                <ColumnListItem >
+                                    <cells>
+                                              <Text text="{DisplayHealthInsuranceModel>cust_relationshipNav/results/0/label_defaultValue}"/>
+                                             <Text text="{DisplayHealthInsuranceModel>cust_dependentName}"/>
+                                    <Text text="{DisplayHealthInsuranceModel>cust_genderNav/results/0/label_defaultValue}"/>
+                                             <Text text="{DisplayHealthInsuranceModel>cust_nationalID}"/>
+                                              	<ExpandableText maxCharacters="10" overflowMode="Popover" class="sapUiTinyMarginBottom sapUiTinyMarginTop" text="{DisplayHealthInsuranceModel>cust_address}"  />
+                                       
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                        </VBox>
+</core:FragmentDefinition>

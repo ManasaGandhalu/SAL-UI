@@ -1,0 +1,23 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<SelectDialog
+		id="mySelectDialog"
+	
+		title="{FragmetModel>/titleName}"
+		search=".onSearch"
+		confirm=".onConfirmDoneRequest"
+		cancel=".onDialogClose1"
+        items="{path: 'FragmetModel>/',
+                sorter: {
+				path: 'subModule/name',
+				descending: false,
+				group: true
+			}}"
+		>
+		<StandardListItem
+        	title="ID: {FragmetModel>ticketCode}"
+			description="Summary: {FragmetModel>summary}"
+			 />
+	</SelectDialog>
+</core:FragmentDefinition>

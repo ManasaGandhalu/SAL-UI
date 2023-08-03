@@ -1,0 +1,41 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:f="sap.f" xmlns:l="sap.ui.layout" xmlns:ui="sap.suite.ui.commons" xmlns:core="sap.ui.core" controllerName="com.sal.feedbackform.controller.feedbackform" height="100%">
+  <f:DynamicPage id="dynamicPageId" showFooter="true">
+    <!-- DynamicPage Title -->
+    <f:title>
+      <f:DynamicPageTitle id="idDynamicPageTitle">
+        <f:heading>
+        
+        </f:heading>
+      </f:DynamicPageTitle>
+    </f:title>
+    <!-- DynamicPage Header Content -->
+    <f:header>
+        </f:header>
+    <!-- DynamicPage Content -->
+    <f:content>
+      <l:VerticalLayout class="sapUiContentPadding" width="100%">
+        <Label  design="Bold" class="TextClass" text="Q1: How do you describe your experience with SAL Portal? Give me a Rating"/>
+        <RadioButtonGroup id="idRating" columns="3" Select="onRbChnageMain">
+          <buttons>
+            <RadioButton class="radiobtnClass" text="Excellent"/>
+            <RadioButton class="radiobtnClass" text="Neutral"/>
+            <RadioButton class="radiobtnClass" text="Needs Improvement"/>
+          </buttons>
+        </RadioButtonGroup>
+        <Label design="Bold" class="TextClass" text="Q2: Please enter your suggestion"/>
+        <TextArea maxlength="40" height="15rem" id="idSuggestion" value="" width="100%"/>
+
+        <Label design="Bold" class="TextClass" text="Q3: Do you have any Complains?"/>
+        <TextArea maxlength="40" height="10rem" id="idComplains" value="" width="100%"/>
+      </l:VerticalLayout>
+    </f:content>
+    <f:footer>
+      <OverflowToolbar id="idOverflowToolbar">
+        <ToolbarSpacer id="idToolbarSpacer"/>
+         <Button text="Reset" type="Emphasized" press="onResetPress"/>
+          <Button text="Cancel" type="Emphasized" press="onCancelPress"/>
+        <Button text="Submit" type="Emphasized" press="onSubmitPress"/>
+      </OverflowToolbar>
+    </f:footer>
+  </f:DynamicPage>
+</mvc:View>

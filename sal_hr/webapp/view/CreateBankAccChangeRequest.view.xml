@@ -1,0 +1,58 @@
+<mvc:View controllerName="com.sal.salhr.controller.CreateBankAccChangeRequest"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:l="sap.ui.layout"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    height="100%">
+    <f:DynamicPage id="dynamicPageId" headerExpanded="true" showFooter="true">
+        <!-- DynamicPage Title -->
+        <f:title>
+            <f:DynamicPageTitle id="idDynamicPageTitle">
+                <f:heading>
+                    <Title id="idPageTitle" text="New Bank Account Change Request" class="sapUiSmallMarginBegin"/>
+                </f:heading>
+                <f:breadcrumbs>
+                    <Breadcrumbs id="idBreadcrumbs" currentLocationText="New Bank Account Change Request" class="sapUiSmallMarginBegin">
+                        <Link id="idHumanResourceLink" press="onCreateCancelPress" text="{i18n>HumanResource}"/>
+                    </Breadcrumbs>
+                </f:breadcrumbs>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:content>
+            <l:VerticalLayout class="sapUiNoMargin sapUiNoContentPadding">
+                <l:content>
+                       <form:SimpleForm id="idCreatebankRequestSimpleForm" layout="ResponsiveGridLayout" 
+                 columnsM="3" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+                   <form:content>
+                        <Title id="idSpecifyDetailsTTL" text="{i18n>BankDetails}" titleStyle="H6" level="H6"/>
+
+                        <Label id="idDateLBL" text="{i18n>whenWouldYouLiketoText}" />
+                        <DatePicker id="idFromDatePicker" enabled="false" value="{path:'LocalViewModel>/currentDate', type:'sap.ui.model.type.Date', formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}"  change="handleChange"/>
+
+
+                        
+                        <Label id="idIBANLBL" text="{i18n>IBAN}" />
+                        <Input liveChange="onChangeInpIBAN" id="idIBANINP"  />
+                        <Label id="idBankNameLBL" text="{i18n>BankName}"/>
+                        <Input liveChange="onChangeInpBankName" id="idBankNameINP"  />
+
+                    </form:content>
+                   </form:SimpleForm>
+                </l:content>
+            </l:VerticalLayout>
+        </f:content>
+        <!-- DynamicPage Footer -->
+        <f:footer>
+            <OverflowToolbar id="idOverflowToolbar" visible="true">
+                <ToolbarSpacer id="idToolbarSpacer"/>
+                <Button id="idResetBTN" text="{i18n>Reset}" type="Ghost" press="onResetPress"/>
+                <Button id="idCancelBTN" text="{i18n>Cancel}" type="Ghost" press="onCreateCancelPress"/>
+                <Button id="idRaiseRequestBTN" text="{i18n>RaiseRequest}" press="onRaiseRequestPress" class="RaiseRequestButton"/>
+            </OverflowToolbar>
+        </f:footer>
+    </f:DynamicPage>
+</mvc:View>

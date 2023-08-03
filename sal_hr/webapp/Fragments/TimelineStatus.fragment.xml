@@ -1,0 +1,39 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout">
+	<ResponsivePopover
+        id="idTimelinestatus"
+		title="Step {TicketWorkFlowParticipantModel>/stepNumber}"
+		class="sapUiContentPadding"
+		placement="Bottom" >
+        <content>
+            <VBox alignContent="Center">
+                <VBox>
+                    <Label text="Status:" labelFor="idStatus" />
+                    <ObjectStatus id="idStatus" text="{TicketWorkFlowParticipantModel>/status}" state="{path: 'TicketWorkFlowParticipantModel>/status', formatter:'.formatter.ticketStatus'}" />
+                </VBox>
+                <VBox>
+                    <Label text="Approver:" labelFor="idWorkflowApprover"/>
+                    <Text id="idWorkflowApprover" text="{TicketWorkFlowParticipantModel>/approver}" />
+                </VBox>
+                <VBox>
+                    <Label text="SLA Target Date:" labelFor="idWorkflowTargetDate"/>
+                    <Text id="idWorkflowTargetDate" text="{TicketWorkFlowParticipantModel>/targetDate}" />
+                </VBox>
+                <VBox>
+                    <Label text="SLA Actual Date:" labelFor="idWorkflowActualDate"/>
+                    <Text id="idWorkflowActualDate" text="{TicketWorkFlowParticipantModel>/actualDate}" />
+                </VBox>
+                <VBox>
+                    <Label text="SLA Violated:" labelFor="idWorkflowViolated"/>
+                    <Text id="idWorkflowViolated" text="{TicketWorkFlowParticipantModel>/violated}" />
+                </VBox>
+            </VBox>
+        </content>
+		<endButton>
+			<Button text="Close" press="handleCloseButton" />
+		</endButton>
+		
+	</ResponsivePopover>
+</core:FragmentDefinition>

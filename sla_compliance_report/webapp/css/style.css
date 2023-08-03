@@ -1,0 +1,32 @@
+/* Enter your custom styles here */
+.ExcellentEmoji::before {
+    content: "\01F929";
+    margin-right: 0.5rem;
+  }
+
+  .GoodEmoji::before {
+    content: "\01F60A	";
+    margin-right: 0.5rem;
+  }
+
+  .BadEmoji::before {
+    content: "\01F641	";
+    margin-right: 0.5rem;
+  }
+
+  .NAEmoji::before {
+    content: "\01F615	";
+    margin-right: 0.5rem;
+  }
+
+  .reportsManagerView {
+    position: absolute;
+    margin-top: 8px ;
+    margin-left: 8px ;
+    z-index: 1;
+    } 
+
+   .DateRangeCss
+   {
+    margin-left: 750px ;
+   } 

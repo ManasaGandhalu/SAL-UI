@@ -1,0 +1,325 @@
+<mvc:View controllerName="com.sal.salhr.controller.CreateBusinessTripRequest"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:upload="sap.m.upload" height="100%">
+    <f:DynamicPage id="dynamicPageId" headerExpanded="true" showFooter="true">
+        <!-- DynamicPage Title -->
+        <f:title>
+            <f:DynamicPageTitle id="idDynamicPageTitle">
+                <f:heading>
+                    <Title id="idPageTitle" text="{i18n>NewBusinessTripRequest}" class="sapUiSmallMarginBegin"/>
+                </f:heading>
+                <f:breadcrumbs>
+                    <Breadcrumbs id="idBreadcrumbs" currentLocationText="{i18n>NewBusinessTripRequest}" class="sapUiSmallMarginBegin">
+                        <Link id="idHumanResourceLink" text="{i18n>HumanResource}" press="onCreateCancelPress"/>
+                    </Breadcrumbs>
+                </f:breadcrumbs>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:content>
+            <VBox>
+                <form:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="2" columnsXL="2" singleContainerFullSize="false" class="style-RemoveTitleHeight" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+                    <Label text="When would you like your changes to take effect? " required="true" />
+                    <!-- <DatePicker id="idEffectDatePicker" value="{path:'CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_dutyTravelMain_effectiveStartDate', type:'sap.ui.model.type.Date', formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}" minDate="{LocalViewModel>/currentDate}"/> -->
+                    <!-- <DatePicker enabled="false" id="idEffectDatePicker" value="{path:'CreateBusinessTripModel>/effectiveStartDate', type:'sap.ui.model.type.Date', formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}" minDate="{LocalViewModel>/currentDate}"/>                 -->
+                         <DatePicker enabled="false" id="idEffectDatePicker" value="{path:'LocalViewModel>/currentDate', type:'sap.ui.model.type.Date', formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}"/>                        
+                </form:SimpleForm>
+                <form:SimpleForm title="{i18n>BusinessTravelDetails}" layout="ColumnLayout" class="style-RemoveTitleHeight" columnsM="2" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+                    <Label text="{i18n>RequestType}" required="true"/>
+                    <Select id="idReqType" selectedKey="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_requestType}" change="onReqTypeChange" items="{ path: '/SF_PickListValueV2',
+                                sorter : {
+                                    path : 'label_defaultValue' 
+                                },
+                                filters : [ { path : 'PickListV2_id', operator : 'EQ', value1 : 'dutyTravelReqType'} ]
+                                       }">
+                        <core:ListItem key="{externalCode}" text="{label_defaultValue}" additionalText="{externalCode}"/>
+
+                    </Select>
+
+                    <Label text="{i18n>PerDiemPayComponent}" required="true"/>
+                    <Input id="idPayComp" value="Business Trip Per-Diem Off Cycle" enabled="false"/>
+
+                    <Label text="{i18n>TotalTravelAmount}" required="true" />
+                    <Input id="idTravelAmt" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_totalAmount}" type="Number" enabled="false"/>
+
+
+                </form:SimpleForm>
+                <form:SimpleForm title="{i18n>TravelRequest}" layout="ColumnLayout" class="style-RemoveTitleHeight" columnsM="2" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+                    <Label text="{i18n>TripCategory}" required="true"/>
+                    <Select id="idTripCategory" change="onTripCategoryChange" items="{ path: '/SF_PickListValueV2',
+                                sorter : {
+                                    path : 'label_defaultValue' 
+                                },
+                                filters : [ { path : 'PickListV2_id', operator : 'EQ', value1 : 'dutyTravelTripCat'} ]
+                                       }" selectedKey="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_tripCategory}">
+                        <core:ListItem key="{externalCode}" text="{label_defaultValue}" additionalText="{externalCode}"/>
+                    </Select>
+
+                    <Label text="{i18n>AirlinetickettobebookedbyHR}?" required="true"/>
+                    <Select id="idHRBook" change="onHRBookChange" >
+                        <core:Item key="true" text="Yes" />
+                        <core:Item key="false" text="No" />
+                    </Select>
+
+                    <Label text="{i18n>HotelBookingRequired}?" />
+                    <Select id="idHotlBook" change="onHotelBookChange" selectedKey="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_hotelBooking}">
+                        <core:Item key="true" text="Yes" />
+                        <core:Item key="false" text="No" />
+                    </Select>
+
+                    <Label text="{i18n>ExpenseTypeBusinessTravel}" visible="{= ${LocalViewModel>/businessTravel} === true ? true : false }" />
+                    <Select id="idBusinessExpense" change="onBusinessExpenseChange" visible="{= ${LocalViewModel>/businessTravel} === true ? true : false }" items="{ path: '/SF_PickListValueV2',
+                                sorter : {
+                                    path : 'label_defaultValue' 
+                                },
+                                filters : [ { path : 'PickListV2_id', operator : 'EQ', value1 : 'dutyTravelExpTypeTravel'} ]
+                                       }">
+                        <core:ListItem key="{externalCode}" text="{label_defaultValue}" additionalText="{externalCode}"/>
+                    </Select>
+
+                    <Label text="{i18n>ExpenseTypeTrainingTravel}" visible="{= ${LocalViewModel>/trainingTravel} === true ? true : false }"/>
+                    <Select id="idTrainingExpense" change="onTrainingExpenseChange" visible="{= ${LocalViewModel>/trainingTravel} === true ? true : false }" items="{ path: '/SF_PickListValueV2',
+                                sorter : {
+                                    path : 'label_defaultValue' 
+                                },
+                                filters : [ { path : 'PickListV2_id', operator : 'EQ', value1 : 'dutyTravelExpTypeTraining'} ]
+                                       }">
+                        <core:ListItem key="{externalCode}" text="{label_defaultValue}" additionalText="{externalCode}"/>
+                    </Select>
+
+                    <Label text="{i18n>TravelBusinessJustification}" required="true"/>
+                    <TextArea id="idTravelJustification" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_assignJustification}"></TextArea>
+
+                </form:SimpleForm>
+                <form:SimpleForm title="{i18n>TravelInformation}" layout="ColumnLayout" class="style-RemoveTitleHeight" columnsM="2" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+                    <Label text="{i18n>TravelDate}" required="true"/>
+                    <DatePicker id="idTravelDate" value="{path:'CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_assignStartDate', type:'sap.ui.model.type.Date', formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}" change="onTravelDateChange"></DatePicker>
+
+                    <Label text="{i18n>ReturnDate}" required="true"/>
+                    <DatePicker id="idReturnDate" value="{path:'CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_assignEndDate', type:'sap.ui.model.type.Date', formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}" change="onReturnDateChange"></DatePicker>
+
+                    <Label text="{i18n>DesiredAirlineTicketTravelTime}"/>
+                    <!-- <TimePicker id="idAirlineTicket" value="{path:'CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_travelTime', type:'sap.ui.model.type.Date', formatOptions: { style: 'medium', strictParsing: true, UTC: true}}"></TimePicker> -->
+                    <TimePicker id="idAirlineTicket" valueFormat="HH:mm" displayFormat="HH:mm" maskMode="On" value="{path:'CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_travelTime'}" />
+
+                    <Label text="{i18n>DestinationCountry}" required="true"/>
+                    <Select id="idDestCountry" selectedKey="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_destination}" items="{path: '/SF_Country',                                          
+                                                         sorter : {
+                                                             path : 'externalName_defaultValue' 
+                                                        } }" change="onDestCountryChange">
+                        <core:Item key="{code}" text="{externalName_defaultValue}" />
+                    </Select>
+
+                    <Label visible="{= ${LocalViewModel>/cityVisible} === true ? true : false }" text="{i18n>CitySaudi}"/>
+                    <Select visible="{= ${LocalViewModel>/cityVisible} === true ? true : false }" id="idCity" selectedKey="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_SAUotherCity}" change="onCitySaudiChange" items="{ path: '/SF_PickListValueV2',
+                                                            filters: [
+                                                                        {
+                                                                             path: 'PickListV2_id',
+                                                                             operator: 'EQ',
+                                                                             value1: 'SAU_CITY'
+                                                                         }
+                                                                     ],
+                                                         sorter : {
+                                                             path : 'label_defaultValue' 
+                                                        } }">
+
+                        <core:Item key="{externalCode}" text="{label_defaultValue}" />
+                    </Select>
+
+
+
+                    <Label visible="{= ${LocalViewModel>/otherCityVisible} === true ? true : false }" text="{i18n>OtherCity}" />
+                    <Input visible="{= ${LocalViewModel>/otherCityVisible} === true ? true : false }" id="idOtherCity" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_city}" />
+
+                    <Label visible="{= ${LocalViewModel>/cityOtherCountry} === true ? true : false }" text="{i18n>CityOtherCountry}" />
+                    <Input  visible="{= ${LocalViewModel>/cityOtherCountry} === true ? true : false }" id="idCityCountry" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_cityAll}" />
+
+                    <Label text="{i18n>InsideOtsideKingdom}" required="true" />
+                    <Input id="idInsOutKingdom" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_inOutKingdom}" enabled="false" />
+
+                    <Label text="{i18n>PerDiem}" />
+                    <Input id="idPerDiem" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_perDiem}" enabled="false"/>
+
+                    <Label text="{i18n>TotalPerDiem}" />
+                    <Input id="idTotalPErDiem" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_totalPerDiem}" enabled="false" />
+
+              
+
+                </form:SimpleForm>
+                <!-- # Trip Category Business form  -->
+
+                <!-- Flight and Visa Details should be visible only for Return and Closure -->
+                   
+                  <VBox visible="{= ${LocalViewModel>/FlightVisaPanelShow} === true ? true : false }">
+
+                <form:SimpleForm title="{i18n>FlightDeatils}" layout="ColumnLayout" class="style-RemoveTitleHeight" columnsM="2" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" visible="{= ${LocalViewModel>/businessCategory} === true ? true : false }">
+                    <Label text="{i18n>BusinessTravelDate}" />
+                    <DatePicker id="idFlightTravelDate" value="{path:'CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_businessTravelDate', type:'sap.ui.model.type.Date', formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}"></DatePicker>
+
+         
+
+                    <Label text="{i18n>TravelTo}"/>
+                    <Input id="idTravelTo" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_businessTravelTo}"/>
+
+                    <Label text="{i18n>FlightNumber}" />
+                    <Input id="idFlightNum" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_businessTravelFlightNum}" />
+
+                    <Label text="{i18n>DepartureTime}"/>
+                    <Input id="idDepTime" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_businessTravelDepTime}"/>
+
+                    <Label text="{i18n>ArrivalTime}" />
+                    <Input id="idArrivalTime" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_businessTravelArrTime}" />
+
+                    <Label text="{i18n>PayComponent}"/>
+                    <Input id="idPayCom" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_businessTravelPayComp}" enabled="false"/>
+
+                    <Label text="{i18n>TicketAmount}" />
+                    <Input id="idTicketAmt" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_ticketAmount}" change="fnCalculateTotalPerDiem"/>
+
+                </form:SimpleForm>
+
+                <!-- # Trip Category Training form  -->
+                <form:SimpleForm title="{i18n>FlightDeatils}" layout="ColumnLayout" class="style-RemoveTitleHeight" columnsM="2" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" visible="{= ${LocalViewModel>/trainingCategory} === true ? true : false }">
+                    <Label text="{i18n>TrainingTravelDate}" required="true"/>
+                    <DatePicker id="idTrainingFlightTravelDate" value="{path:'CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_trainingTravelDate', type:'sap.ui.model.type.Date', formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}"></DatePicker>
+
+                    <!-- <Label text="Travel From"/>
+                    <Input id="idTrainingTravelFrom" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_trainingTravelFrom}"/> -->
+
+                    <Label text="{i18n>TravelTo}"/>
+                    <Input id="idTrainingTravelTo" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_trainingTravelTo}"/>
+
+                    <Label text="{i18n>FlightNumber}" />
+                    <Input id="idTrainingFlightNum" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_trainingTravelFlightNum}" />
+
+                    <Label text="{i18n>DepartureTime}"/>
+                    <Input id="idTrainingDepTime" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_trainingTravelDepTime}"/>
+
+                    <Label text="{i18n>ArrivalTime}" />
+                    <Input id="idTrainingArrivalTime" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_trainingTravelArrTime}" />
+
+                    <Label text="{i18n>PayComponent}"/>
+                    <Input id="idTrainingPayCom" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_trainingTravelPayComp}" enabled="false"/>
+
+                    <Label text="{i18n>TicketAmount}" />
+                    <Input id="idTrainingTicketAmt" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_ticketAmount}" type="Number" change="fnCalculateTotalPerDiem"/>
+
+                </form:SimpleForm>
+
+
+
+                <VBox class="uploadBox sapUiSmallMarginBeginEnd">
+                    <Label text="{i18n>AttachBoardingPass}" />
+                    <upload:UploadSet id="UploadBoardingPass" instantUpload="true" showIcons="true" uploadEnabled="true" terminationEnabled="true" maxFileNameLength="255" maxFileSize="200" afterItemRemoved="onFileDeleted" afterItemAdded="onFileAdded" visible="{LocalViewModel>/uploadAttachment}">
+                        <upload:toolbar>
+                            <OverflowToolbar>
+                                <Label text="{i18n>Attachments}"/>
+                                <core:Icon id="idInfoIconBoarding" src="sap-icon://message-information" size="1rem" height="3rem" class="sapUiTinyMarginBegin" tooltip="Please Upload File types (.png, .txt, pdf, docs and xls) and File size upto 250 MB"></core:Icon>
+                                <ToolbarSpacer/>
+                            </OverflowToolbar>
+                        </upload:toolbar>
+
+                    </upload:UploadSet>
+                </VBox>
+
+                <form:SimpleForm title="{i18n>VisaInformation}" layout="ColumnLayout" class="style-RemoveTitleHeight" columnsM="2" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+                    <Label text="{i18n>VisaType}" />
+                    <Select id="idVisaType" change="onVisaTypeChange" items="{ path: '/SF_PickListValueV2',
+                                                            filters: [
+                                                                        {
+                                                                             path: 'PickListV2_id',
+                                                                             operator: 'EQ',
+                                                                             value1: 'dutyTravelExpTypeVisa'
+                                                                         }
+                                                                     ] }">
+                        <core:ListItem key="{externalCode}" text="{label_defaultValue}" />
+                    </Select>
+
+                    <Label text="{i18n>PayComponentVisa}"/>
+                    <Input id="idPayCompVisa" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_visaFeePayComp}" enabled="false"/>
+
+                    <Label text="{i18n>VisaAmount}"/>
+                    <Input id="idVisaAmt" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_visaFeeExpenseAmount}" type="Number" change="fnCalculateTotalPerDiem"/>
+
+
+                </form:SimpleForm>
+                <VBox class="uploadBox sapUiSmallMarginBeginEnd">
+                    <Label text="{i18n>AttachVisaCopy}" />
+                    <upload:UploadSet id="UploadVisaCopy" instantUpload="true" showIcons="true" uploadEnabled="false" terminationEnabled="true" maxFileNameLength="255" maxFileSize="200" afterItemRemoved="onFileDeleted" afterItemAdded="onFileAdded">
+                        <upload:toolbar>
+                            <OverflowToolbar>
+                                <Label text="{i18n>Attachments}" required="{= ${LocalViewModel>/visaFee} === true ? true : false }"/>
+                                
+                                <core:Icon id="idInfoIconVisa" src="sap-icon://message-information" size="1rem" height="3rem" class="sapUiTinyMarginBegin" tooltip="Please Upload File types (.png, .txt, pdf, docs and xls) and File size upto 250 MB"></core:Icon>
+                                <ToolbarSpacer/>
+                            </OverflowToolbar>
+                        </upload:toolbar>
+
+                    </upload:UploadSet>
+                </VBox>
+                <VBox class="uploadBox sapUiSmallMarginBeginEnd">
+                    <Label text="{i18n>AttachEmbassyReceipt}" class="sapUiTinyMarginTop"/>
+                    <upload:UploadSet id="UploadEmbassy" instantUpload="true" showIcons="true" uploadEnabled="true" terminationEnabled="true" maxFileNameLength="255" maxFileSize="200" afterItemRemoved="onFileDeleted" afterItemAdded="onFileAdded" visible="{LocalViewModel>/uploadAttachment}">
+                        <upload:toolbar>
+                            <OverflowToolbar>
+                                <Label text="{i18n>Attachments}"  required="{= ${LocalViewModel>/visaFee} === true ? true : false }"/>
+                                
+                                <core:Icon id="idInfoIconEmbassy" src="sap-icon://message-information" size="1rem" height="3rem" class="sapUiTinyMarginBegin" tooltip="Please Upload File types (.png, .txt, pdf, docs and xls) and File size upto 250 MB"></core:Icon>
+                                <ToolbarSpacer/>
+                            </OverflowToolbar>
+                        </upload:toolbar>
+
+                    </upload:UploadSet>
+                </VBox>
+               
+               
+               </VBox> 
+               
+                <form:SimpleForm title="{i18n>EmployeeInformation}" layout="ColumnLayout" class="style-RemoveTitleHeight" columnsM="2" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+                    <Label text="{i18n>EmployeeName}" required="true" />
+                    <Input id="idCustEmpName" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_empName}" enabled="false"></Input>
+
+
+
+                    <Label text="{i18n>PayGrade}" required="true"/>
+                    <Input id="idPayGrade" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_payGrade}" enabled="false"/>
+
+                    <Label text="{i18n>CostCenter}" required="true" />
+                    <Input id="idCostCenter" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_costCenter}" enabled="false"/>
+
+                    <Label text="{i18n>EmergencyPhoneNumber}" />
+                    <Input id="idEmergencyPhn" value="{CreateBusinessTripModel>/cust_toDutyTravelItem/0/cust_emerPhoneNum}" />
+
+                </form:SimpleForm>
+
+
+            </VBox>
+        </f:content>
+        <!-- DynamicPage Footer -->
+        <f:footer>
+            <OverflowToolbar id="idOverflowToolbar" visible="true">
+                <ToolbarSpacer id="idToolbarSpacer"/>
+                <Button id="idResetBTN" text="{i18n>Reset}" type="Ghost" press="onResetPress"/>
+                <Button id="idCancelBTN" text="{i18n>Cancel}" type="Ghost" press="onCreateCancelPress"/>
+                <Button id="idRaiseRequestBTN" text="{i18n>RaiseRequest}" press="onRaiseRequestPress" class="RaiseRequestButton"/>
+            </OverflowToolbar>
+        </f:footer>
+    </f:DynamicPage>
+</mvc:View>

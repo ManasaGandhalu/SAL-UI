@@ -1,0 +1,1334 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<edmx:Edmx xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" Version="1.0" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:Reference xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+        <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+    </edmx:Reference>
+    <edmx:Reference xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:Reference xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+        <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+    </edmx:Reference>
+    <edmx:DataServices m:DataServiceVersion="1.0" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
+        <Schema Namespace="HumanResourceService" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="MasterModules">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="isArchived" Type="Edm.Boolean"/>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="name" Type="Edm.String" MaxLength="100"/>
+                <Property Name="description" Type="Edm.String" MaxLength="100"/>
+                <Property Name="totalRequests" Type="Edm.Int32"/>
+                <Property Name="totalPending" Type="Edm.Int32"/>
+                <Property Name="totalApproved" Type="Edm.Int32"/>
+                <Property Name="totalRejected" Type="Edm.Int32"/>
+                <Property Name="totalCancelled" Type="Edm.Int32"/>
+                <Property Name="slaPerformance" Type="Edm.Int32"/>
+                <Property Name="myGoals" Type="Edm.Int32"/>
+            </EntityType>
+            <EntityType Name="MasterSubModules">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="isArchived" Type="Edm.Boolean"/>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="name" Type="Edm.String" MaxLength="100"/>
+                <Property Name="description" Type="Edm.String" MaxLength="100"/>
+                <Property Name="masterModuleId" Type="Edm.Int32"/>
+                <Property Name="totalRequests" Type="Edm.Int32"/>
+                <Property Name="totalPending" Type="Edm.Int32"/>
+                <Property Name="totalApproved" Type="Edm.Int32"/>
+                <Property Name="totalRejected" Type="Edm.Int32"/>
+                <Property Name="totalCancelled" Type="Edm.Int32"/>
+                <NavigationProperty Name="masterModule" Relationship="HumanResourceService.MasterSubModules_masterModule" FromRole="MasterSubModules" ToRole="MasterModules"/>
+                <NavigationProperty Name="tickets" Relationship="HumanResourceService.MasterSubModules_tickets" FromRole="MasterSubModules" ToRole="Tickets"/>
+            </EntityType>
+            <EntityType Name="Tickets">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                    <PropertyRef Name="IsActiveEntity"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="isArchived" Type="Edm.Boolean"/>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="moduleId" Type="Edm.Int32"/>
+                <Property Name="subModuleId" Type="Edm.Int32"/>
+                <Property Name="ticketCode" Type="Edm.String" MaxLength="16"/>
+                <Property Name="externalCode" Type="Edm.String" MaxLength="36"/>
+                <Property Name="status" Type="Edm.String" MaxLength="30"/>
+                <Property Name="requestDate" Type="Edm.DateTime" sap:display-format="Date"/>
+                <Property Name="workflowRequestId" Type="Edm.String" MaxLength="36"/>
+                <Property Name="isApprovalRequired" Type="Edm.Boolean"/>
+                <Property Name="employeeId" Type="Edm.String" MaxLength="255"/>
+                <Property Name="externalCreatedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="externalCreatedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="externalModifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="externalModifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="statusValue" Type="Edm.Int32"/>
+                <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false"/>
+                <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false"/>
+                <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false"/>
+                <Property Name="DraftAdministrativeData_DraftUUID" Type="Edm.Guid"/>
+                <NavigationProperty Name="module" Relationship="HumanResourceService.Tickets_module" FromRole="Tickets" ToRole="MasterModules"/>
+                <NavigationProperty Name="subModule" Relationship="HumanResourceService.Tickets_subModule" FromRole="Tickets" ToRole="MasterSubModules"/>
+                <NavigationProperty Name="DraftAdministrativeData" Relationship="HumanResourceService.Tickets_DraftAdministrativeData" FromRole="Tickets" ToRole="DraftAdministrativeData"/>
+                <NavigationProperty Name="SiblingEntity" Relationship="HumanResourceService.Tickets_SiblingEntity" FromRole="Tickets" ToRole="Tickets1"/>
+            </EntityType>
+            <EntityType Name="SF_Attachment" sap:label="Attachment" sap:upsertable="true">
+                <Key>
+                    <PropertyRef Name="attachmentId"/>
+                </Key>
+                <Property Name="attachmentId" Type="Edm.Int64" Nullable="false" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="attachmentId"/>
+                <Property Name="country" Type="Edm.String" MaxLength="256" sap:required="false" sap:creatable="true" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="true" sap:label="country"/>
+                <Property Name="createdDate" Type="Edm.DateTimeOffset" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="createdDate"/>
+                <Property Name="deletable" Type="Edm.Boolean" sap:required="false" sap:creatable="true" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="true" sap:label="deletable"/>
+                <Property Name="deprecable" Type="Edm.Boolean" sap:required="false" sap:creatable="true" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="true" sap:label="deprecable"/>
+                <Property Name="description" Type="Edm.String" MaxLength="4000" sap:required="false" sap:creatable="true" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="true" sap:label="description"/>
+                <Property Name="documentCategory" Type="Edm.String" MaxLength="256" sap:required="false" sap:creatable="true" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="true" sap:label="documentCategory"/>
+                <Property Name="documentEntityId" Type="Edm.String" MaxLength="256" sap:required="false" sap:creatable="true" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="true" sap:label="documentEntityId"/>
+                <Property Name="documentEntityType" Type="Edm.String" MaxLength="256" sap:required="false" sap:creatable="true" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="true" sap:label="documentEntityType"/>
+                <Property Name="documentType" Type="Edm.String" MaxLength="256" sap:required="false" sap:creatable="true" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="true" sap:label="documentType"/>
+                <Property Name="externalId" Type="Edm.Int64" sap:required="false" sap:creatable="true" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="externalId"/>
+                <Property Name="fileContent" Type="Edm.Binary" sap:required="true" sap:creatable="true" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="fileContent"/>
+                <Property Name="fileExtension" Type="Edm.String" MaxLength="5" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="fileExtension"/>
+                <Property Name="fileName" Type="Edm.String" MaxLength="256" sap:required="true" sap:creatable="true" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="fileName"/>
+                <Property Name="fileSize" Type="Edm.Int32" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="fileSize"/>
+                <Property Name="imageConvertInProgress" Type="Edm.Boolean" sap:required="false" sap:creatable="true" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="true" sap:label="imageConvertInProgress"/>
+                <Property Name="language" Type="Edm.String" MaxLength="256" sap:required="false" sap:creatable="true" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="true" sap:label="language"/>
+                <Property Name="lastAccessed" Type="Edm.DateTimeOffset" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="lastAccessed"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="lastModifiedDateTime"/>
+                <Property Name="mimeType" Type="Edm.String" MaxLength="256" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="mimeType"/>
+                <Property Name="module" Type="Edm.String" MaxLength="100" sap:required="true" sap:creatable="true" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="module"/>
+                <Property Name="moduleCategory" Type="Edm.String" MaxLength="100" sap:required="false" sap:creatable="true" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="moduleCategory"/>
+                <Property Name="ownerId" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="true" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="ownerId"/>
+                <Property Name="ownerIdType" Type="Edm.String" MaxLength="100" sap:required="false" sap:creatable="true" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="ownerIdType"/>
+                <Property Name="piiFlag" Type="Edm.Int32" sap:required="false" sap:creatable="true" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="piiFlag"/>
+                <Property Name="searchable" Type="Edm.Boolean" sap:required="false" sap:creatable="true" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="true" sap:label="searchable"/>
+                <Property Name="softDelete" Type="Edm.Boolean" sap:required="false" sap:creatable="true" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="true" sap:label="softDelete"/>
+                <Property Name="userId" Type="Edm.String" MaxLength="100" sap:required="false" sap:creatable="true" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="userId"/>
+                <Property Name="viewable" Type="Edm.Boolean" sap:required="false" sap:creatable="true" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="true" sap:label="viewable"/>
+                <NavigationProperty Name="userNav" Relationship="HumanResourceService.SF_Attachment_userNav" FromRole="SF_Attachment" ToRole="SF_User" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="userNav"/>
+            </EntityType>
+            <EntityType Name="SF_User" sap:label="User" sap:upsertable="true">
+                <Key>
+                    <PropertyRef Name="userId"/>
+                </Key>
+                <Property Name="userId" Type="Edm.String" Nullable="false" MaxLength="100" sap:required="true" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:field-control="userPermissionsNav/userId" sap:label="User ID"/>
+                <Property Name="empId" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:field-control="userPermissionsNav/empId" sap:label="Employee Id"/>
+                <Property Name="username" Type="Edm.String" MaxLength="100" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:field-control="userPermissionsNav/username" sap:label="Username"/>
+                <Property Name="firstName" Type="Edm.String" MaxLength="128" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:field-control="userPermissionsNav/firstName" sap:label="First Name"/>
+                <Property Name="middleName" Type="Edm.String" MaxLength="128" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:field-control="userPermissionsNav/mi" sap:label="Father Name"/>
+                <Property Name="lastName" Type="Edm.String" MaxLength="128" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:field-control="userPermissionsNav/lastName" sap:label="Last Name"/>
+                <Property Name="email" Type="Edm.String" MaxLength="100" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:field-control="userPermissionsNav/email" sap:label="Email"/>
+                <Property Name="gender" Type="Edm.String" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:field-control="userPermissionsNav/gender" sap:label="gender"/>
+                <Property Name="title" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:field-control="userPermissionsNav/title" sap:label="Title"/>
+                <Property Name="jobCode" Type="Edm.String" MaxLength="128" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:field-control="userPermissionsNav/jobCode" sap:label="Job Code"/>
+                <Property Name="division" Type="Edm.String" MaxLength="128" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:field-control="userPermissionsNav/division" sap:label="Division"/>
+                <Property Name="city" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:field-control="userPermissionsNav/city" sap:label="City"/>
+                <Property Name="country" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:field-control="userPermissionsNav/country" sap:label="Country"/>
+            </EntityType>
+            <EntityType Name="SF_MDFEnumValue" sap:label="MDFEnumValue" sap:upsertable="false">
+                <Key>
+                    <PropertyRef Name="key"/>
+                    <PropertyRef Name="value"/>
+                </Key>
+                <Property Name="key" Type="Edm.String" Nullable="false" sap:required="true" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="key"/>
+                <Property Name="value" Type="Edm.String" Nullable="false" sap:required="true" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="value"/>
+                <Property Name="ar_SA" Type="Edm.String" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="ar_SA"/>
+                <Property Name="en_DEBUG" Type="Edm.String" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="en_DEBUG"/>
+                <Property Name="en_US" Type="Edm.String" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="en_US"/>
+                <Property Name="localized" Type="Edm.String" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="localized"/>
+            </EntityType>
+            <EntityType Name="SF_WfRequest" sap:label="WfRequest" sap:upsertable="false">
+                <Key>
+                    <PropertyRef Name="wfRequestId"/>
+                </Key>
+                <Property Name="wfRequestId" Type="Edm.Int64" Nullable="false" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="WfRequest Id"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="100" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Created By"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Created Date Time"/>
+                <Property Name="createdOn" Type="Edm.DateTime" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:display-format="Date" sap:label="Created On"/>
+                <Property Name="currentStepNum" Type="Edm.Int32" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="true" sap:label="Current Step Number"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="100" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Last Modified By"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Last Modified Date Time"/>
+                <Property Name="lastModifiedOn" Type="Edm.DateTime" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:display-format="Date" sap:label="Last Modified On"/>
+                <Property Name="module" Type="Edm.String" MaxLength="128" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Module"/>
+                <Property Name="parentWfRequestId" Type="Edm.Int64" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Parent WfRequest Id"/>
+                <Property Name="reminderSentDate" Type="Edm.DateTime" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:display-format="Date" sap:label="Reminder Sent Date"/>
+                <Property Name="status" Type="Edm.String" MaxLength="30" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Status"/>
+                <Property Name="totalSteps" Type="Edm.Int32" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Total Steps"/>
+                <Property Name="url" Type="Edm.String" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="URL"/>
+                <NavigationProperty Name="parentWfRequestNav" Relationship="HumanResourceService.SF_WfRequest_parentWfRequestNav" FromRole="SF_WfRequest" ToRole="SF_WfRequest1" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="parentWfRequestNav"/>
+            </EntityType>
+            <EntityType Name="SF_PickListValueV2" sap:label="Picklist Value" sap:upsertable="true">
+                <Key>
+                    <PropertyRef Name="PickListV2_effectiveStartDate"/>
+                    <PropertyRef Name="PickListV2_id"/>
+                    <PropertyRef Name="externalCode"/>
+                </Key>
+                <Property Name="PickListV2_effectiveStartDate" Type="Edm.DateTime" Nullable="false" sap:required="true" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:display-format="Date" sap:label="Picklist_Effective Start Date"/>
+                <Property Name="PickListV2_id" Type="Edm.String" Nullable="false" MaxLength="128" sap:required="true" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Picklist_Code"/>
+                <Property Name="externalCode" Type="Edm.String" Nullable="false" MaxLength="128" sap:required="true" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="External Code"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="createdBy"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="createdDate"/>
+                <Property Name="externalStandardizedCode" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="External Standardized Code"/>
+                <Property Name="lValue" Type="Edm.Int64" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Sort Order (L Value)"/>
+                <Property Name="label_ar_SA" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Label"/>
+                <Property Name="label_defaultValue" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Label"/>
+                <Property Name="label_en_DEBUG" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Label"/>
+                <Property Name="label_en_US" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Label"/>
+                <Property Name="label_localized" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Label"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="lastModifiedBy"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="lastModifiedDate"/>
+                <Property Name="legacyStatus" Type="Edm.Int64" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Status(legacy)"/>
+                <Property Name="maxVal" Type="Edm.Decimal" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Max value" sap:variable-scale="true"/>
+                <Property Name="mdfSystemRecordStatus" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Record Status"/>
+                <Property Name="minVal" Type="Edm.Decimal" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Min value" sap:variable-scale="true"/>
+                <Property Name="nonUniqueExternalCode" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Non-unique External Code"/>
+                <Property Name="optValue" Type="Edm.Decimal" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Value" sap:variable-scale="true"/>
+                <Property Name="optionId" Type="Edm.Int64" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Option ID"/>
+                <Property Name="parentPickListValue" Type="Edm.String" MaxLength="128" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Parent Picklist Value"/>
+                <Property Name="rValue" Type="Edm.Int64" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="R Value"/>
+                <Property Name="status" Type="Edm.String" MaxLength="255" sap:required="true" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Status"/>
+                <NavigationProperty Name="createdByNav" Relationship="HumanResourceService.SF_PickListValueV2_createdByNav" FromRole="SF_PickListValueV2" ToRole="SF_User" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="createdBy"/>
+                <NavigationProperty Name="lastModifiedByNav" Relationship="HumanResourceService.SF_PickListValueV2_lastModifiedByNav" FromRole="SF_PickListValueV2" ToRole="SF_User" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="lastModifiedBy"/>
+                <NavigationProperty Name="mdfSystemRecordStatusNav" Relationship="HumanResourceService.SF_PickListValueV2_mdfSystemRecordStatusNav" FromRole="SF_PickListValueV2" ToRole="SF_MDFEnumValue" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Record Status"/>
+                <NavigationProperty Name="parentPickListValueNav" Relationship="HumanResourceService.SF_PickListValueV2_parentPickListValueNav" FromRole="SF_PickListValueV2" ToRole="SF_PickListValueV21" sap:required="false" sap:creatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:field-control="PickListValueV2FieldControlsNav/parentPickListValueNav" sap:label="Parent Picklist Value"/>
+                <NavigationProperty Name="statusNav" Relationship="HumanResourceService.SF_PickListValueV2_statusNav" FromRole="SF_PickListValueV2" ToRole="SF_MDFEnumValue" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Status"/>
+            </EntityType>
+            <EntityType Name="SF_Country" sap:label="Country/Region" sap:upsertable="true">
+                <Key>
+                    <PropertyRef Name="code"/>
+                    <PropertyRef Name="effectiveStartDate"/>
+                </Key>
+                <Property Name="code" Type="Edm.String" Nullable="false" MaxLength="128" sap:required="true" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Country/Region Code (3 char)"/>
+                <Property Name="effectiveStartDate" Type="Edm.DateTime" Nullable="false" sap:required="true" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:display-format="Date" sap:label="Effective as of"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="100" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Created By"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Created On"/>
+                <Property Name="currency" Type="Edm.String" MaxLength="128" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Currency"/>
+                <Property Name="effectiveEndDate" Type="Edm.DateTime" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:display-format="Date" sap:label="Effective until"/>
+                <Property Name="externalName_ar_SA" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Country/Region"/>
+                <Property Name="externalName_defaultValue" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Country/Region"/>
+                <Property Name="externalName_en_DEBUG" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Country/Region"/>
+                <Property Name="externalName_en_US" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Country/Region"/>
+                <Property Name="externalName_localized" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Country/Region"/>
+                <Property Name="isDRMEnabled" Type="Edm.Boolean" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Data Retention Enabled"/>
+                <Property Name="isSetByMigrate" Type="Edm.Boolean" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="isSetByMigrate"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="100" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Last Modified By"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Last Modified Date"/>
+                <Property Name="mdfSystemRecordStatus" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Record Status"/>
+                <Property Name="numericCountryCode" Type="Edm.Int64" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Country/Region Code (numeric-3)"/>
+                <Property Name="status" Type="Edm.String" MaxLength="255" sap:required="true" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Status"/>
+                <Property Name="territoryId" Type="Edm.Int64" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="territoryId"/>
+                <Property Name="twoCharCountryCode" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Country/Region Code (2 char)"/>
+                <NavigationProperty Name="createdByNav" Relationship="HumanResourceService.SF_Country_createdByNav" FromRole="SF_Country" ToRole="SF_User" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Created By"/>
+                <NavigationProperty Name="lastModifiedByNav" Relationship="HumanResourceService.SF_Country_lastModifiedByNav" FromRole="SF_Country" ToRole="SF_User" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Last Modified By"/>
+                <NavigationProperty Name="mdfSystemRecordStatusNav" Relationship="HumanResourceService.SF_Country_mdfSystemRecordStatusNav" FromRole="SF_Country" ToRole="SF_MDFEnumValue" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Record Status"/>
+                <NavigationProperty Name="statusNav" Relationship="HumanResourceService.SF_Country_statusNav" FromRole="SF_Country" ToRole="SF_MDFEnumValue" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Status"/>
+                <NavigationProperty Name="wfRequestNav" Relationship="HumanResourceService.SF_Country_wfRequestNav" FromRole="SF_Country" ToRole="SF_WfRequest" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="wfRequestNav"/>
+            </EntityType>
+            <EntityType Name="SF_FOPayComponent" sap:label="Pay Component" sap:upsertable="true">
+                <Key>
+                    <PropertyRef Name="externalCode"/>
+                    <PropertyRef Name="startDate"/>
+                </Key>
+                <Property Name="externalCode" Type="Edm.String" Nullable="false" MaxLength="10" sap:required="true" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Pay Component ID"/>
+                <Property Name="startDate" Type="Edm.DateTime" Nullable="false" sap:required="true" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:display-format="Date" sap:label="Start Date"/>
+                <Property Name="basePayComponentGroup" Type="Edm.String" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Base Pay Component Group"/>
+                <Property Name="canOverride" Type="Edm.Boolean" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Can Override"/>
+                <Property Name="companyFlx" Type="Edm.String" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="false" sap:sortable="false" sap:filterable="false" sap:label="companyFlx"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="100" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Created By"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Created Date Time"/>
+                <Property Name="createdOn" Type="Edm.DateTime" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:display-format="Date" sap:label="Created On"/>
+                <Property Name="currency" Type="Edm.String" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Currency"/>
+                <Property Name="description" Type="Edm.String" MaxLength="128" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Description"/>
+                <Property Name="displayOnSelfService" Type="Edm.Boolean" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="true" sap:label="Display on Self Service"/>
+                <Property Name="endDate" Type="Edm.DateTime" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:display-format="Date" sap:label="End Date"/>
+                <Property Name="frequencyCode" Type="Edm.String" sap:required="true" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Frequency"/>
+                <Property Name="isEarning" Type="Edm.Boolean" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Is Earning"/>
+                <Property Name="isEndDatedPayment" Type="Edm.Boolean" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="isEndDatedPayment"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="100" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Last Modified By"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Last Modified Date Time"/>
+                <Property Name="lastModifiedOn" Type="Edm.DateTime" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:display-format="Date" sap:label="Last Modified On"/>
+                <Property Name="maxFractionDigits" Type="Edm.Int64" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Maximum Decimal Places"/>
+                <Property Name="name" Type="Edm.String" MaxLength="32" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Name"/>
+                <Property Name="payComponentType" Type="Edm.String" MaxLength="32" sap:required="true" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Pay Component Type"/>
+                <Property Name="payComponentValue" Type="Edm.Double" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Pay Component Value"/>
+                <Property Name="recurring" Type="Edm.Boolean" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="true" sap:label="Recurring"/>
+                <Property Name="selfServiceDescription" Type="Edm.String" MaxLength="32" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Self Service Description"/>
+                <Property Name="status" Type="Edm.String" sap:required="true" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Status"/>
+                <Property Name="target" Type="Edm.Boolean" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="true" sap:label="Target"/>
+                <Property Name="taxTreatment" Type="Edm.String" MaxLength="32" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:picklist="TAXTREATMENT" sap:label="Tax Treatment"/>
+                <Property Name="usedForCompPlanning" Type="Edm.String" MaxLength="32" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Used for Comp Planning"/>
+            </EntityType>
+            <EntityType Name="SF_FOCostCenter" sap:label="Cost Center" sap:upsertable="true">
+                <Key>
+                    <PropertyRef Name="externalCode"/>
+                    <PropertyRef Name="startDate"/>
+                </Key>
+                <Property Name="externalCode" Type="Edm.String" Nullable="false" MaxLength="20" sap:required="true" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Code"/>
+                <Property Name="startDate" Type="Edm.DateTime" Nullable="false" sap:required="true" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:display-format="Date" sap:label="Effective as of"/>
+                <Property Name="costcenterExternalObjectID" Type="Edm.String" MaxLength="40" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="costCenterExternalObjectId"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="100" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="createdBy"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="createdDate"/>
+                <Property Name="createdOn" Type="Edm.DateTime" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:display-format="Date" sap:label="createdDate"/>
+                <Property Name="description" Type="Edm.String" MaxLength="128" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Description"/>
+                <Property Name="description_ar_SA" Type="Edm.String" MaxLength="128" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Description"/>
+                <Property Name="description_defaultValue" Type="Edm.String" MaxLength="128" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Description"/>
+                <Property Name="description_en_DEBUG" Type="Edm.String" MaxLength="128" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Description"/>
+                <Property Name="description_en_US" Type="Edm.String" MaxLength="128" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Description"/>
+                <Property Name="description_localized" Type="Edm.String" MaxLength="128" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Description"/>
+                <Property Name="endDate" Type="Edm.DateTime" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:display-format="Date" sap:label="effectiveEndDate"/>
+                <Property Name="entityUUID" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="mdfSystemEntityId"/>
+                <Property Name="glStatementCode" Type="Edm.String" MaxLength="32" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="GL Statement Code"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="100" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="lastModifiedBy"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="lastModifiedDate"/>
+                <Property Name="lastModifiedOn" Type="Edm.DateTime" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:display-format="Date" sap:label="lastModifiedDate"/>
+                <Property Name="name" Type="Edm.String" MaxLength="90" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Name"/>
+                <Property Name="name_ar_SA" Type="Edm.String" MaxLength="90" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Name"/>
+                <Property Name="name_defaultValue" Type="Edm.String" MaxLength="90" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Name"/>
+                <Property Name="name_en_DEBUG" Type="Edm.String" MaxLength="90" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Name"/>
+                <Property Name="name_en_US" Type="Edm.String" MaxLength="90" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Name"/>
+                <Property Name="name_localized" Type="Edm.String" MaxLength="90" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Name"/>
+                <Property Name="status" Type="Edm.String" MaxLength="255" sap:required="true" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Status"/>
+                <NavigationProperty Name="createdByNav" Relationship="HumanResourceService.SF_FOCostCenter_createdByNav" FromRole="SF_FOCostCenter" ToRole="SF_User" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="createdBy"/>
+                <NavigationProperty Name="lastModifiedByNav" Relationship="HumanResourceService.SF_FOCostCenter_lastModifiedByNav" FromRole="SF_FOCostCenter" ToRole="SF_User" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="lastModifiedBy"/>
+                <NavigationProperty Name="statusNav" Relationship="HumanResourceService.SF_FOCostCenter_statusNav" FromRole="SF_FOCostCenter" ToRole="SF_MDFEnumValue" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Status"/>
+            </EntityType>
+            <EntityType Name="SF_FOPayGrade" sap:label="Pay Grade" sap:upsertable="true">
+                <Key>
+                    <PropertyRef Name="externalCode"/>
+                    <PropertyRef Name="startDate"/>
+                </Key>
+                <Property Name="externalCode" Type="Edm.String" Nullable="false" MaxLength="32" sap:required="true" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Pay Grade ID"/>
+                <Property Name="startDate" Type="Edm.DateTime" Nullable="false" sap:required="true" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:display-format="Date" sap:label="Start Date"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="100" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Created By"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Created Date Time"/>
+                <Property Name="createdOn" Type="Edm.DateTime" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:display-format="Date" sap:label="Created On"/>
+                <Property Name="description" Type="Edm.String" MaxLength="128" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Description"/>
+                <Property Name="endDate" Type="Edm.DateTime" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:display-format="Date" sap:label="End Date"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="100" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Last Modified By"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Last Modified Date Time"/>
+                <Property Name="lastModifiedOn" Type="Edm.DateTime" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:display-format="Date" sap:label="Last Modified On"/>
+                <Property Name="name" Type="Edm.String" MaxLength="42" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Name"/>
+                <Property Name="paygradeLevel" Type="Edm.Int64" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Pay Grade Level"/>
+                <Property Name="status" Type="Edm.String" sap:required="true" sap:creatable="false" sap:updatable="false" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Status"/>
+            </EntityType>
+            <EntityType Name="SF_UpsertResult" sap:label="UpsertResult" sap:upsertable="true">
+                <Key>
+                    <PropertyRef Name="key"/>
+                </Key>
+                <Property Name="key" Type="Edm.String" Nullable="false" sap:label="key"/>
+                <Property Name="editStatus" Type="Edm.String" sap:label="editStatus"/>
+                <Property Name="httpCode" Type="Edm.Int32" sap:label="httpCode"/>
+                <Property Name="index" Type="Edm.Int32" sap:label="index"/>
+                <Property Name="message" Type="Edm.String" sap:label="message"/>
+                <Property Name="status" Type="Edm.String" sap:label="status"/>
+            </EntityType>
+            <EntityType Name="SF_Leave" sap:label="Time Off Requests" sap:upsertable="true">
+                <Key>
+                    <PropertyRef Name="externalCode"/>
+                </Key>
+                <Property Name="externalCode" Type="Edm.String" Nullable="false" MaxLength="128" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="External Code"/>
+                <Property Name="approvalStatus" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Approval Status"/>
+                <Property Name="cancellationWorkflowRequestId" Type="Edm.Int64" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Cancellation Workflow Request"/>
+                <Property Name="comment" Type="Edm.String" MaxLength="4000" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Comment"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Created By"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Created On"/>
+                <Property Name="cust_KronosPayCodeEditID" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Kronos PayCode Edit ID"/>
+                <Property Name="deductionQuantity" Type="Edm.Decimal" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Deduction Quantity" sap:variable-scale="true"/>
+                <Property Name="displayQuantity" Type="Edm.Decimal" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="displayQuantity" sap:variable-scale="true"/>
+                <Property Name="editable" Type="Edm.Boolean" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Editable"/>
+                <Property Name="endDate" Type="Edm.DateTime" sap:required="true" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:display-format="Date" sap:label="End Date"/>
+                <Property Name="endTime" Type="Edm.Time" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="End Time"/>
+                <Property Name="entityUUID" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Entity UUID"/>
+                <Property Name="flexibleRequesting" Type="Edm.Boolean" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Flexible Requesting"/>
+                <Property Name="fractionQuantity" Type="Edm.Decimal" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Fraction Quantity" sap:variable-scale="true"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Last Modified By"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Last Modified On"/>
+                <Property Name="loaActualReturnDate" Type="Edm.DateTime" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:display-format="Date" sap:label="Actual Return Date"/>
+                <Property Name="loaEndJobInfoId" Type="Edm.Int64" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Leave Of Absence Job Info ID (Return To Work)"/>
+                <Property Name="loaExpectedReturnDate" Type="Edm.DateTime" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:display-format="Date" sap:label="Expected Return Date"/>
+                <Property Name="loaStartJobInfoId" Type="Edm.Int64" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Leave Of Absence Job Info ID (Start)"/>
+                <Property Name="mdfSystemRecordStatus" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Record Status"/>
+                <Property Name="originalQuantityInDays" Type="Edm.Decimal" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Original Number of Days" sap:variable-scale="true"/>
+                <Property Name="physicalEndDate" Type="Edm.DateTime" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:display-format="Date" sap:label="Physical End Date"/>
+                <Property Name="physicalStartDate" Type="Edm.DateTime" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:display-format="Date" sap:label="Physical Start Date"/>
+                <Property Name="quantityInDays" Type="Edm.Decimal" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Number Of Days" sap:variable-scale="true"/>
+                <Property Name="quantityInHours" Type="Edm.Decimal" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Number Of Hours" sap:variable-scale="true"/>
+                <Property Name="recurrenceGroup" Type="Edm.String" MaxLength="128" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Recurrence Group"/>
+                <Property Name="startDate" Type="Edm.DateTime" sap:required="true" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:display-format="Date" sap:label="Start Date"/>
+                <Property Name="startTime" Type="Edm.Time" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Start Time"/>
+                <Property Name="timeRecordOrigin" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Time Record Origin"/>
+                <Property Name="timeType" Type="Edm.String" MaxLength="128" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Time Type"/>
+                <Property Name="undeterminedEndDate" Type="Edm.Boolean" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Undetermined End Date"/>
+                <Property Name="userId" Type="Edm.String" MaxLength="100" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="User"/>
+                <Property Name="workflowInitiatedByAdmin" Type="Edm.Boolean" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Workflow Initiated By Admin"/>
+                <Property Name="workflowRequestId" Type="Edm.Int64" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Workflow Request"/>
+                <NavigationProperty Name="approvalStatusNav" Relationship="HumanResourceService.SF_Leave_approvalStatusNav" FromRole="SF_Leave" ToRole="SF_MDFEnumValue" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:field-control="EmployeeTimeFieldControlsNav/approvalStatusNav" sap:label="Approval Status"/>
+                <NavigationProperty Name="createdByNav" Relationship="HumanResourceService.SF_Leave_createdByNav" FromRole="SF_Leave" ToRole="SF_User" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Created By"/>
+                <NavigationProperty Name="cust_attachmentNav" Relationship="HumanResourceService.SF_Leave_cust_attachmentNav" FromRole="SF_Leave" ToRole="SF_Attachment" sap:required="true" sap:creatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:field-control="EmployeeTimeFieldControlsNav/cust_attachmentNav" sap:label="Attachment"/>
+                <NavigationProperty Name="lastModifiedByNav" Relationship="HumanResourceService.SF_Leave_lastModifiedByNav" FromRole="SF_Leave" ToRole="SF_User" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Last Modified By"/>
+                <NavigationProperty Name="mdfSystemRecordStatusNav" Relationship="HumanResourceService.SF_Leave_mdfSystemRecordStatusNav" FromRole="SF_Leave" ToRole="SF_MDFEnumValue" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Record Status"/>
+                <NavigationProperty Name="timeRecordOriginNav" Relationship="HumanResourceService.SF_Leave_timeRecordOriginNav" FromRole="SF_Leave" ToRole="SF_MDFEnumValue" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:field-control="EmployeeTimeFieldControlsNav/timeRecordOriginNav" sap:label="Time Record Origin"/>
+                <NavigationProperty Name="timeTypeNav" Relationship="HumanResourceService.SF_Leave_timeTypeNav" FromRole="SF_Leave" ToRole="SF_Leave_TimeType" sap:required="true" sap:creatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:field-control="EmployeeTimeFieldControlsNav/timeTypeNav" sap:label="Time Type"/>
+                <NavigationProperty Name="userIdNav" Relationship="HumanResourceService.SF_Leave_userIdNav" FromRole="SF_Leave" ToRole="SF_User" sap:required="true" sap:creatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:field-control="EmployeeTimeFieldControlsNav/userIdNav" sap:label="User"/>
+                <NavigationProperty Name="wfRequestNav" Relationship="HumanResourceService.SF_Leave_wfRequestNav" FromRole="SF_Leave" ToRole="SF_WfRequest" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="wfRequestNav"/>
+            </EntityType>
+            <EntityType Name="SF_Leave_TimeType" sap:label="Time Type" sap:upsertable="false">
+                <Key>
+                    <PropertyRef Name="externalCode"/>
+                </Key>
+                <Property Name="externalCode" Type="Edm.String" Nullable="false" MaxLength="128" sap:required="true" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="External Code"/>
+                <Property Name="absenceClass" Type="Edm.String" MaxLength="255" sap:required="true" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Absence Class"/>
+                <Property Name="absenceRetentionGroup" Type="Edm.String" MaxLength="128" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Absence Retention Group"/>
+                <Property Name="accrualRecalculationRelevance" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Accrual Recalculation Relevance"/>
+                <Property Name="activateCancellationWorkflow" Type="Edm.Boolean" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Activate Cancellation Workflow"/>
+                <Property Name="adminWorkflow" Type="Edm.String" MaxLength="32" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Admin Workflow Configuration"/>
+                <Property Name="allocationStrategy" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Allocation Strategy"/>
+                <Property Name="allowedFractionsUnitDay" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Permitted Fractions For Unit Day"/>
+                <Property Name="allowedFractionsUnitHour" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Permitted Fractions For Unit Hour"/>
+                <Property Name="allowedRequestingIncrement" Type="Edm.Int64" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Allow Requests In Increments Of [Minutes]"/>
+                <Property Name="balanceCalculationSetting" Type="Edm.String" MaxLength="255" sap:required="true" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Balance Calculation Setting"/>
+                <Property Name="calculationMethod" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Duration Display According To"/>
+                <Property Name="category" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Classification"/>
+                <Property Name="collisionGrouping" Type="Edm.String" MaxLength="128" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Collision Grouping"/>
+                <Property Name="countingMethod" Type="Edm.String" MaxLength="128" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Counting Method"/>
+                <Property Name="country" Type="Edm.String" MaxLength="128" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Country/Region"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Created By"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Created On"/>
+                <Property Name="entityUUID" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Entity UUID"/>
+                <Property Name="externalName_ar_SA" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="External Name"/>
+                <Property Name="externalName_defaultValue" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="External Name"/>
+                <Property Name="externalName_en_DEBUG" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="External Name"/>
+                <Property Name="externalName_en_US" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="External Name"/>
+                <Property Name="externalName_localized" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="External Name"/>
+                <Property Name="flexibleRequestingAllowed" Type="Edm.Boolean" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Flexible Requesting Allowed"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Last Modified By"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Last Modified On"/>
+                <Property Name="loaEndEventReason" Type="Edm.String" MaxLength="32" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Leave of Absence Event Reason (Return To Work)"/>
+                <Property Name="loaStartEventReason" Type="Edm.String" MaxLength="32" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Leave of Absence Event Reason (Plan)"/>
+                <Property Name="maximumDurationInMonths" Type="Edm.Int64" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Maximum Duration in Months"/>
+                <Property Name="mdfSystemRecordStatus" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Record Status"/>
+                <Property Name="notToCountAsTimeInService" Type="Edm.Boolean" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Not to Count as Time in Service"/>
+                <Property Name="postingOrder" Type="Edm.String" MaxLength="128" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Posting Order"/>
+                <Property Name="postingPriority" Type="Edm.String" MaxLength="128" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Posting Priority"/>
+                <Property Name="requestingOnNonWorkingDaysAllowed" Type="Edm.Boolean" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Requesting on Non-Working Days Allowed"/>
+                <Property Name="undeterminedEndDateAllowed" Type="Edm.Boolean" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Undetermined End Date Allowed"/>
+                <Property Name="unit" Type="Edm.String" MaxLength="255" sap:required="true" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Unit"/>
+                <Property Name="workflowConfiguration" Type="Edm.String" MaxLength="32" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Workflow Configuration"/>
+                <NavigationProperty Name="absenceClassNav" Relationship="HumanResourceService.SF_Leave_TimeType_absenceClassNav" FromRole="SF_Leave_TimeType" ToRole="SF_MDFEnumValue" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:field-control="TimeTypeFieldControlsNav/absenceClassNav" sap:label="Absence Class"/>
+                <NavigationProperty Name="accrualRecalculationRelevanceNav" Relationship="HumanResourceService.SF_Leave_TimeType_accrualRecalculationRelevanceNav" FromRole="SF_Leave_TimeType" ToRole="SF_MDFEnumValue" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:field-control="TimeTypeFieldControlsNav/accrualRecalculationRelevanceNav" sap:label="Accrual Recalculation Relevance"/>
+                <NavigationProperty Name="allocationStrategyNav" Relationship="HumanResourceService.SF_Leave_TimeType_allocationStrategyNav" FromRole="SF_Leave_TimeType" ToRole="SF_MDFEnumValue" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:field-control="TimeTypeFieldControlsNav/allocationStrategyNav" sap:label="Allocation Strategy"/>
+                <NavigationProperty Name="allowedFractionsUnitDayNav" Relationship="HumanResourceService.SF_Leave_TimeType_allowedFractionsUnitDayNav" FromRole="SF_Leave_TimeType" ToRole="SF_MDFEnumValue" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:field-control="TimeTypeFieldControlsNav/allowedFractionsUnitDayNav" sap:label="Permitted Fractions For Unit Day"/>
+                <NavigationProperty Name="allowedFractionsUnitHourNav" Relationship="HumanResourceService.SF_Leave_TimeType_allowedFractionsUnitHourNav" FromRole="SF_Leave_TimeType" ToRole="SF_MDFEnumValue" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:field-control="TimeTypeFieldControlsNav/allowedFractionsUnitHourNav" sap:label="Permitted Fractions For Unit Hour"/>
+                <NavigationProperty Name="balanceCalculationSettingNav" Relationship="HumanResourceService.SF_Leave_TimeType_balanceCalculationSettingNav" FromRole="SF_Leave_TimeType" ToRole="SF_MDFEnumValue" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:field-control="TimeTypeFieldControlsNav/balanceCalculationSettingNav" sap:label="Balance Calculation Setting"/>
+                <NavigationProperty Name="calculationMethodNav" Relationship="HumanResourceService.SF_Leave_TimeType_calculationMethodNav" FromRole="SF_Leave_TimeType" ToRole="SF_MDFEnumValue" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:field-control="TimeTypeFieldControlsNav/calculationMethodNav" sap:label="Duration Display According To"/>
+                <NavigationProperty Name="categoryNav" Relationship="HumanResourceService.SF_Leave_TimeType_categoryNav" FromRole="SF_Leave_TimeType" ToRole="SF_MDFEnumValue" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:field-control="TimeTypeFieldControlsNav/categoryNav" sap:label="Classification"/>
+                <NavigationProperty Name="countryNav" Relationship="HumanResourceService.SF_Leave_TimeType_countryNav" FromRole="SF_Leave_TimeType" ToRole="SF_Country" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:field-control="TimeTypeFieldControlsNav/countryNav" sap:label="Country/Region"/>
+                <NavigationProperty Name="createdByNav" Relationship="HumanResourceService.SF_Leave_TimeType_createdByNav" FromRole="SF_Leave_TimeType" ToRole="SF_User" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Created By"/>
+                <NavigationProperty Name="lastModifiedByNav" Relationship="HumanResourceService.SF_Leave_TimeType_lastModifiedByNav" FromRole="SF_Leave_TimeType" ToRole="SF_User" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Last Modified By"/>
+                <NavigationProperty Name="mdfSystemRecordStatusNav" Relationship="HumanResourceService.SF_Leave_TimeType_mdfSystemRecordStatusNav" FromRole="SF_Leave_TimeType" ToRole="SF_MDFEnumValue" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Record Status"/>
+                <NavigationProperty Name="postingOrderNav" Relationship="HumanResourceService.SF_Leave_TimeType_postingOrderNav" FromRole="SF_Leave_TimeType" ToRole="SF_MDFEnumValue" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:field-control="TimeTypeFieldControlsNav/postingOrderNav" sap:label="Posting Order"/>
+                <NavigationProperty Name="postingPriorityNav" Relationship="HumanResourceService.SF_Leave_TimeType_postingPriorityNav" FromRole="SF_Leave_TimeType" ToRole="SF_MDFEnumValue" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:field-control="TimeTypeFieldControlsNav/postingPriorityNav" sap:label="Posting Priority"/>
+                <NavigationProperty Name="unitNav" Relationship="HumanResourceService.SF_Leave_TimeType_unitNav" FromRole="SF_Leave_TimeType" ToRole="SF_MDFEnumValue" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:field-control="TimeTypeFieldControlsNav/unitNav" sap:label="Unit"/>
+                <NavigationProperty Name="wfRequestNav" Relationship="HumanResourceService.SF_Leave_TimeType_wfRequestNav" FromRole="SF_Leave_TimeType" ToRole="SF_WfRequest" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="wfRequestNav"/>
+            </EntityType>
+            <EntityType Name="SF_Leave_AccountBalance" sap:label="EmpTimeAccountBalance" sap:upsertable="false">
+                <Key>
+                    <PropertyRef Name="timeAccount"/>
+                </Key>
+                <Property Name="timeAccount" Type="Edm.String" Nullable="false" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Time Account"/>
+                <Property Name="accountClosed" Type="Edm.Boolean" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Account Closed"/>
+                <Property Name="balance" Type="Edm.Decimal" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Balance" sap:variable-scale="true"/>
+                <Property Name="timeAccountType" Type="Edm.String" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="true" sap:label="Time Account Type"/>
+                <Property Name="timeUnit" Type="Edm.String" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Time Unit"/>
+                <Property Name="userId" Type="Edm.String" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="true" sap:label="User Id"/>
+            </EntityType>
+            <EntityType Name="CancelLeaveRequest" sap:label="Time Off Requests" sap:upsertable="true">
+                <Key>
+                    <PropertyRef Name="externalCode"/>
+                </Key>
+                <Property Name="externalCode" Type="Edm.String" Nullable="false" MaxLength="128" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="External Code"/>
+                <Property Name="approvalStatus" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Approval Status"/>
+            </EntityType>
+            <EntityType Name="SF_DutyTravelMain" sap:label="Duty Travel Main" sap:upsertable="true">
+                <Key>
+                    <PropertyRef Name="externalCode"/>
+                </Key>
+                <Property Name="effectiveStartDate" Type="Edm.DateTime" sap:required="true" sap:creatable="true" sap:updatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:display-format="Date" sap:label="Effective As Of"/>
+                <Property Name="externalCode" Type="Edm.String" Nullable="false" MaxLength="128"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="100" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Created By"/>
+                <Property Name="createdDateTime" Type="Edm.DateTimeOffset" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Created On"/>
+                <Property Name="externalName" Type="Edm.String" MaxLength="128" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="externalName"/>
+                <Property Name="lastModifiedBy" Type="Edm.String" MaxLength="100" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Last Modified By"/>
+                <Property Name="lastModifiedDateTime" Type="Edm.DateTimeOffset" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Last Modified Date"/>
+                <Property Name="mdfSystemEffectiveEndDate" Type="Edm.DateTime" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:display-format="Date" sap:label="Effective End Date"/>
+                <Property Name="mdfSystemRecordStatus" Type="Edm.String" MaxLength="255" sap:required="false" sap:creatable="false" sap:updatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Record Status"/>
+                <NavigationProperty Name="createdByNav" Relationship="HumanResourceService.SF_DutyTravelMain_createdByNav" FromRole="SF_DutyTravelMain" ToRole="SF_User" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Created By"/>
+                <NavigationProperty Name="externalCodeNav" Relationship="HumanResourceService.SF_DutyTravelMain_externalCodeNav" FromRole="SF_DutyTravelMain" ToRole="SF_User" sap:required="false" sap:creatable="true" sap:upsertable="true" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Employee"/>
+                <NavigationProperty Name="lastModifiedByNav" Relationship="HumanResourceService.SF_DutyTravelMain_lastModifiedByNav" FromRole="SF_DutyTravelMain" ToRole="SF_User" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="Last Modified By"/>
+                <NavigationProperty Name="mdfSystemRecordStatusNav" Relationship="HumanResourceService.SF_DutyTravelMain_mdfSystemRecordStatusNav" FromRole="SF_DutyTravelMain" ToRole="SF_MDFEnumValue" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="false" sap:filterable="false" sap:label="Record Status"/>
+                <NavigationProperty Name="wfRequestNav" Relationship="HumanResourceService.SF_DutyTravelMain_wfRequestNav" FromRole="SF_DutyTravelMain" ToRole="SF_WfRequest" sap:required="false" sap:creatable="false" sap:upsertable="false" sap:visible="true" sap:sortable="true" sap:filterable="true" sap:label="wfRequestNav"/>
+            </EntityType>
+            <EntityType Name="DraftAdministrativeData">
+                <Key>
+                    <PropertyRef Name="DraftUUID"/>
+                </Key>
+                <Property Name="DraftUUID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="CreationDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="CreatedByUser" Type="Edm.String" MaxLength="256"/>
+                <Property Name="DraftIsCreatedByMe" Type="Edm.Boolean"/>
+                <Property Name="LastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="LastChangedByUser" Type="Edm.String" MaxLength="256"/>
+                <Property Name="InProcessByUser" Type="Edm.String" MaxLength="256"/>
+                <Property Name="DraftIsProcessedByMe" Type="Edm.Boolean"/>
+            </EntityType>
+            <Association Name="MasterSubModules_masterModule">
+                <End Type="HumanResourceService.MasterSubModules" Multiplicity="*" Role="MasterSubModules"/>
+                <End Type="HumanResourceService.MasterModules" Multiplicity="0..1" Role="MasterModules"/>
+                <ReferentialConstraint>
+                    <Principal Role="MasterModules">
+                        <PropertyRef Name="ID"/>
+                    </Principal>
+                    <Dependent Role="MasterSubModules">
+                        <PropertyRef Name="masterModuleId"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="MasterSubModules_tickets">
+                <End Type="HumanResourceService.MasterSubModules" Multiplicity="*" Role="MasterSubModules"/>
+                <End Type="HumanResourceService.Tickets" Multiplicity="*" Role="Tickets"/>
+            </Association>
+            <Association Name="Tickets_module">
+                <End Type="HumanResourceService.Tickets" Multiplicity="*" Role="Tickets"/>
+                <End Type="HumanResourceService.MasterModules" Multiplicity="0..1" Role="MasterModules"/>
+                <ReferentialConstraint>
+                    <Principal Role="MasterModules">
+                        <PropertyRef Name="ID"/>
+                    </Principal>
+                    <Dependent Role="Tickets">
+                        <PropertyRef Name="moduleId"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="Tickets_subModule">
+                <End Type="HumanResourceService.Tickets" Multiplicity="*" Role="Tickets"/>
+                <End Type="HumanResourceService.MasterSubModules" Multiplicity="0..1" Role="MasterSubModules"/>
+                <ReferentialConstraint>
+                    <Principal Role="MasterSubModules">
+                        <PropertyRef Name="ID"/>
+                    </Principal>
+                    <Dependent Role="Tickets">
+                        <PropertyRef Name="subModuleId"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="Tickets_DraftAdministrativeData">
+                <End Type="HumanResourceService.Tickets" Multiplicity="*" Role="Tickets"/>
+                <End Type="HumanResourceService.DraftAdministrativeData" Multiplicity="0..1" Role="DraftAdministrativeData"/>
+                <ReferentialConstraint>
+                    <Principal Role="DraftAdministrativeData">
+                        <PropertyRef Name="DraftUUID"/>
+                    </Principal>
+                    <Dependent Role="Tickets">
+                        <PropertyRef Name="DraftAdministrativeData_DraftUUID"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="Tickets_SiblingEntity">
+                <End Type="HumanResourceService.Tickets" Multiplicity="*" Role="Tickets"/>
+                <End Type="HumanResourceService.Tickets" Multiplicity="0..1" Role="Tickets1"/>
+            </Association>
+            <Association Name="SF_Attachment_userNav">
+                <End Type="HumanResourceService.SF_Attachment" Multiplicity="*" Role="SF_Attachment"/>
+                <End Type="HumanResourceService.SF_User" Multiplicity="0..1" Role="SF_User"/>
+            </Association>
+            <Association Name="SF_WfRequest_parentWfRequestNav">
+                <End Type="HumanResourceService.SF_WfRequest" Multiplicity="*" Role="SF_WfRequest"/>
+                <End Type="HumanResourceService.SF_WfRequest" Multiplicity="0..1" Role="SF_WfRequest1"/>
+            </Association>
+            <Association Name="SF_PickListValueV2_createdByNav">
+                <End Type="HumanResourceService.SF_PickListValueV2" Multiplicity="*" Role="SF_PickListValueV2"/>
+                <End Type="HumanResourceService.SF_User" Multiplicity="0..1" Role="SF_User"/>
+            </Association>
+            <Association Name="SF_PickListValueV2_lastModifiedByNav">
+                <End Type="HumanResourceService.SF_PickListValueV2" Multiplicity="*" Role="SF_PickListValueV2"/>
+                <End Type="HumanResourceService.SF_User" Multiplicity="0..1" Role="SF_User"/>
+            </Association>
+            <Association Name="SF_PickListValueV2_mdfSystemRecordStatusNav">
+                <End Type="HumanResourceService.SF_PickListValueV2" Multiplicity="*" Role="SF_PickListValueV2"/>
+                <End Type="HumanResourceService.SF_MDFEnumValue" Multiplicity="0..1" Role="SF_MDFEnumValue"/>
+            </Association>
+            <Association Name="SF_PickListValueV2_parentPickListValueNav">
+                <End Type="HumanResourceService.SF_PickListValueV2" Multiplicity="*" Role="SF_PickListValueV2"/>
+                <End Type="HumanResourceService.SF_PickListValueV2" Multiplicity="*" Role="SF_PickListValueV21"/>
+            </Association>
+            <Association Name="SF_PickListValueV2_statusNav">
+                <End Type="HumanResourceService.SF_PickListValueV2" Multiplicity="*" Role="SF_PickListValueV2"/>
+                <End Type="HumanResourceService.SF_MDFEnumValue" Multiplicity="0..1" Role="SF_MDFEnumValue"/>
+            </Association>
+            <Association Name="SF_Country_createdByNav">
+                <End Type="HumanResourceService.SF_Country" Multiplicity="*" Role="SF_Country"/>
+                <End Type="HumanResourceService.SF_User" Multiplicity="0..1" Role="SF_User"/>
+            </Association>
+            <Association Name="SF_Country_lastModifiedByNav">
+                <End Type="HumanResourceService.SF_Country" Multiplicity="*" Role="SF_Country"/>
+                <End Type="HumanResourceService.SF_User" Multiplicity="0..1" Role="SF_User"/>
+            </Association>
+            <Association Name="SF_Country_mdfSystemRecordStatusNav">
+                <End Type="HumanResourceService.SF_Country" Multiplicity="*" Role="SF_Country"/>
+                <End Type="HumanResourceService.SF_MDFEnumValue" Multiplicity="0..1" Role="SF_MDFEnumValue"/>
+            </Association>
+            <Association Name="SF_Country_statusNav">
+                <End Type="HumanResourceService.SF_Country" Multiplicity="*" Role="SF_Country"/>
+                <End Type="HumanResourceService.SF_MDFEnumValue" Multiplicity="0..1" Role="SF_MDFEnumValue"/>
+            </Association>
+            <Association Name="SF_Country_wfRequestNav">
+                <End Type="HumanResourceService.SF_Country" Multiplicity="*" Role="SF_Country"/>
+                <End Type="HumanResourceService.SF_WfRequest" Multiplicity="*" Role="SF_WfRequest"/>
+            </Association>
+            <Association Name="SF_FOCostCenter_createdByNav">
+                <End Type="HumanResourceService.SF_FOCostCenter" Multiplicity="*" Role="SF_FOCostCenter"/>
+                <End Type="HumanResourceService.SF_User" Multiplicity="0..1" Role="SF_User"/>
+            </Association>
+            <Association Name="SF_FOCostCenter_lastModifiedByNav">
+                <End Type="HumanResourceService.SF_FOCostCenter" Multiplicity="*" Role="SF_FOCostCenter"/>
+                <End Type="HumanResourceService.SF_User" Multiplicity="0..1" Role="SF_User"/>
+            </Association>
+            <Association Name="SF_FOCostCenter_statusNav">
+                <End Type="HumanResourceService.SF_FOCostCenter" Multiplicity="*" Role="SF_FOCostCenter"/>
+                <End Type="HumanResourceService.SF_MDFEnumValue" Multiplicity="0..1" Role="SF_MDFEnumValue"/>
+            </Association>
+            <Association Name="SF_Leave_approvalStatusNav">
+                <End Type="HumanResourceService.SF_Leave" Multiplicity="*" Role="SF_Leave"/>
+                <End Type="HumanResourceService.SF_MDFEnumValue" Multiplicity="0..1" Role="SF_MDFEnumValue"/>
+            </Association>
+            <Association Name="SF_Leave_createdByNav">
+                <End Type="HumanResourceService.SF_Leave" Multiplicity="*" Role="SF_Leave"/>
+                <End Type="HumanResourceService.SF_User" Multiplicity="0..1" Role="SF_User"/>
+            </Association>
+            <Association Name="SF_Leave_cust_attachmentNav">
+                <End Type="HumanResourceService.SF_Leave" Multiplicity="*" Role="SF_Leave"/>
+                <End Type="HumanResourceService.SF_Attachment" Multiplicity="0..1" Role="SF_Attachment"/>
+            </Association>
+            <Association Name="SF_Leave_lastModifiedByNav">
+                <End Type="HumanResourceService.SF_Leave" Multiplicity="*" Role="SF_Leave"/>
+                <End Type="HumanResourceService.SF_User" Multiplicity="0..1" Role="SF_User"/>
+            </Association>
+            <Association Name="SF_Leave_mdfSystemRecordStatusNav">
+                <End Type="HumanResourceService.SF_Leave" Multiplicity="*" Role="SF_Leave"/>
+                <End Type="HumanResourceService.SF_MDFEnumValue" Multiplicity="0..1" Role="SF_MDFEnumValue"/>
+            </Association>
+            <Association Name="SF_Leave_timeRecordOriginNav">
+                <End Type="HumanResourceService.SF_Leave" Multiplicity="*" Role="SF_Leave"/>
+                <End Type="HumanResourceService.SF_MDFEnumValue" Multiplicity="0..1" Role="SF_MDFEnumValue"/>
+            </Association>
+            <Association Name="SF_Leave_timeTypeNav">
+                <End Type="HumanResourceService.SF_Leave" Multiplicity="*" Role="SF_Leave"/>
+                <End Type="HumanResourceService.SF_Leave_TimeType" Multiplicity="0..1" Role="SF_Leave_TimeType"/>
+            </Association>
+            <Association Name="SF_Leave_userIdNav">
+                <End Type="HumanResourceService.SF_Leave" Multiplicity="*" Role="SF_Leave"/>
+                <End Type="HumanResourceService.SF_User" Multiplicity="0..1" Role="SF_User"/>
+            </Association>
+            <Association Name="SF_Leave_wfRequestNav">
+                <End Type="HumanResourceService.SF_Leave" Multiplicity="*" Role="SF_Leave"/>
+                <End Type="HumanResourceService.SF_WfRequest" Multiplicity="*" Role="SF_WfRequest"/>
+            </Association>
+            <Association Name="SF_Leave_TimeType_absenceClassNav">
+                <End Type="HumanResourceService.SF_Leave_TimeType" Multiplicity="*" Role="SF_Leave_TimeType"/>
+                <End Type="HumanResourceService.SF_MDFEnumValue" Multiplicity="0..1" Role="SF_MDFEnumValue"/>
+            </Association>
+            <Association Name="SF_Leave_TimeType_accrualRecalculationRelevanceNav">
+                <End Type="HumanResourceService.SF_Leave_TimeType" Multiplicity="*" Role="SF_Leave_TimeType"/>
+                <End Type="HumanResourceService.SF_MDFEnumValue" Multiplicity="0..1" Role="SF_MDFEnumValue"/>
+            </Association>
+            <Association Name="SF_Leave_TimeType_allocationStrategyNav">
+                <End Type="HumanResourceService.SF_Leave_TimeType" Multiplicity="*" Role="SF_Leave_TimeType"/>
+                <End Type="HumanResourceService.SF_MDFEnumValue" Multiplicity="0..1" Role="SF_MDFEnumValue"/>
+            </Association>
+            <Association Name="SF_Leave_TimeType_allowedFractionsUnitDayNav">
+                <End Type="HumanResourceService.SF_Leave_TimeType" Multiplicity="*" Role="SF_Leave_TimeType"/>
+                <End Type="HumanResourceService.SF_MDFEnumValue" Multiplicity="0..1" Role="SF_MDFEnumValue"/>
+            </Association>
+            <Association Name="SF_Leave_TimeType_allowedFractionsUnitHourNav">
+                <End Type="HumanResourceService.SF_Leave_TimeType" Multiplicity="*" Role="SF_Leave_TimeType"/>
+                <End Type="HumanResourceService.SF_MDFEnumValue" Multiplicity="0..1" Role="SF_MDFEnumValue"/>
+            </Association>
+            <Association Name="SF_Leave_TimeType_balanceCalculationSettingNav">
+                <End Type="HumanResourceService.SF_Leave_TimeType" Multiplicity="*" Role="SF_Leave_TimeType"/>
+                <End Type="HumanResourceService.SF_MDFEnumValue" Multiplicity="0..1" Role="SF_MDFEnumValue"/>
+            </Association>
+            <Association Name="SF_Leave_TimeType_calculationMethodNav">
+                <End Type="HumanResourceService.SF_Leave_TimeType" Multiplicity="*" Role="SF_Leave_TimeType"/>
+                <End Type="HumanResourceService.SF_MDFEnumValue" Multiplicity="0..1" Role="SF_MDFEnumValue"/>
+            </Association>
+            <Association Name="SF_Leave_TimeType_categoryNav">
+                <End Type="HumanResourceService.SF_Leave_TimeType" Multiplicity="*" Role="SF_Leave_TimeType"/>
+                <End Type="HumanResourceService.SF_MDFEnumValue" Multiplicity="0..1" Role="SF_MDFEnumValue"/>
+            </Association>
+            <Association Name="SF_Leave_TimeType_countryNav">
+                <End Type="HumanResourceService.SF_Leave_TimeType" Multiplicity="*" Role="SF_Leave_TimeType"/>
+                <End Type="HumanResourceService.SF_Country" Multiplicity="*" Role="SF_Country"/>
+            </Association>
+            <Association Name="SF_Leave_TimeType_createdByNav">
+                <End Type="HumanResourceService.SF_Leave_TimeType" Multiplicity="*" Role="SF_Leave_TimeType"/>
+                <End Type="HumanResourceService.SF_User" Multiplicity="0..1" Role="SF_User"/>
+            </Association>
+            <Association Name="SF_Leave_TimeType_lastModifiedByNav">
+                <End Type="HumanResourceService.SF_Leave_TimeType" Multiplicity="*" Role="SF_Leave_TimeType"/>
+                <End Type="HumanResourceService.SF_User" Multiplicity="0..1" Role="SF_User"/>
+            </Association>
+            <Association Name="SF_Leave_TimeType_mdfSystemRecordStatusNav">
+                <End Type="HumanResourceService.SF_Leave_TimeType" Multiplicity="*" Role="SF_Leave_TimeType"/>
+                <End Type="HumanResourceService.SF_MDFEnumValue" Multiplicity="0..1" Role="SF_MDFEnumValue"/>
+            </Association>
+            <Association Name="SF_Leave_TimeType_postingOrderNav">
+                <End Type="HumanResourceService.SF_Leave_TimeType" Multiplicity="*" Role="SF_Leave_TimeType"/>
+                <End Type="HumanResourceService.SF_MDFEnumValue" Multiplicity="0..1" Role="SF_MDFEnumValue"/>
+            </Association>
+            <Association Name="SF_Leave_TimeType_postingPriorityNav">
+                <End Type="HumanResourceService.SF_Leave_TimeType" Multiplicity="*" Role="SF_Leave_TimeType"/>
+                <End Type="HumanResourceService.SF_MDFEnumValue" Multiplicity="0..1" Role="SF_MDFEnumValue"/>
+            </Association>
+            <Association Name="SF_Leave_TimeType_unitNav">
+                <End Type="HumanResourceService.SF_Leave_TimeType" Multiplicity="*" Role="SF_Leave_TimeType"/>
+                <End Type="HumanResourceService.SF_MDFEnumValue" Multiplicity="0..1" Role="SF_MDFEnumValue"/>
+            </Association>
+            <Association Name="SF_Leave_TimeType_wfRequestNav">
+                <End Type="HumanResourceService.SF_Leave_TimeType" Multiplicity="*" Role="SF_Leave_TimeType"/>
+                <End Type="HumanResourceService.SF_WfRequest" Multiplicity="*" Role="SF_WfRequest"/>
+            </Association>
+            <Association Name="SF_DutyTravelMain_createdByNav">
+                <End Type="HumanResourceService.SF_DutyTravelMain" Multiplicity="*" Role="SF_DutyTravelMain"/>
+                <End Type="HumanResourceService.SF_User" Multiplicity="0..1" Role="SF_User"/>
+            </Association>
+            <Association Name="SF_DutyTravelMain_externalCodeNav">
+                <End Type="HumanResourceService.SF_DutyTravelMain" Multiplicity="*" Role="SF_DutyTravelMain"/>
+                <End Type="HumanResourceService.SF_User" Multiplicity="0..1" Role="SF_User"/>
+            </Association>
+            <Association Name="SF_DutyTravelMain_lastModifiedByNav">
+                <End Type="HumanResourceService.SF_DutyTravelMain" Multiplicity="*" Role="SF_DutyTravelMain"/>
+                <End Type="HumanResourceService.SF_User" Multiplicity="0..1" Role="SF_User"/>
+            </Association>
+            <Association Name="SF_DutyTravelMain_mdfSystemRecordStatusNav">
+                <End Type="HumanResourceService.SF_DutyTravelMain" Multiplicity="*" Role="SF_DutyTravelMain"/>
+                <End Type="HumanResourceService.SF_MDFEnumValue" Multiplicity="0..1" Role="SF_MDFEnumValue"/>
+            </Association>
+            <Association Name="SF_DutyTravelMain_wfRequestNav">
+                <End Type="HumanResourceService.SF_DutyTravelMain" Multiplicity="*" Role="SF_DutyTravelMain"/>
+                <End Type="HumanResourceService.SF_WfRequest" Multiplicity="*" Role="SF_WfRequest"/>
+            </Association>
+            <EntityContainer Name="EntityContainer" m:IsDefaultEntityContainer="true">
+                <EntitySet Name="MasterModules" EntityType="HumanResourceService.MasterModules"/>
+                <EntitySet Name="MasterSubModules" EntityType="HumanResourceService.MasterSubModules"/>
+                <EntitySet Name="Tickets" EntityType="HumanResourceService.Tickets"/>
+                <EntitySet Name="SF_Attachment" EntityType="HumanResourceService.SF_Attachment" sap:label="Attachment" sap:creatable="true" sap:updatable="false" sap:deletable="true"/>
+                <EntitySet Name="SF_User" EntityType="HumanResourceService.SF_User" sap:label="User" sap:creatable="true" sap:updatable="true" sap:deletable="false"/>
+                <EntitySet Name="SF_MDFEnumValue" EntityType="HumanResourceService.SF_MDFEnumValue" sap:label="MDFEnumValue" sap:creatable="false" sap:updatable="false" sap:deletable="false"/>
+                <EntitySet Name="SF_WfRequest" EntityType="HumanResourceService.SF_WfRequest" sap:label="WfRequest" sap:creatable="false" sap:updatable="false" sap:deletable="false"/>
+                <EntitySet Name="SF_PickListValueV2" EntityType="HumanResourceService.SF_PickListValueV2" sap:label="Picklist Value" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+                <EntitySet Name="SF_Country" EntityType="HumanResourceService.SF_Country" sap:label="Country/Region" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+                <EntitySet Name="SF_FOPayComponent" EntityType="HumanResourceService.SF_FOPayComponent" sap:label="Pay Component" sap:creatable="false" sap:updatable="false" sap:deletable="false"/>
+                <EntitySet Name="SF_FOCostCenter" EntityType="HumanResourceService.SF_FOCostCenter" sap:label="Cost Center" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+                <EntitySet Name="SF_FOPayGrade" EntityType="HumanResourceService.SF_FOPayGrade" sap:label="Pay Grade" sap:creatable="false" sap:updatable="false" sap:deletable="false"/>
+                <EntitySet Name="SF_UpsertResult" EntityType="HumanResourceService.SF_UpsertResult" sap:label="UpsertResult" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+                <EntitySet Name="SF_Leave" EntityType="HumanResourceService.SF_Leave" sap:label="Time Off Requests" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+                <EntitySet Name="SF_Leave_TimeType" EntityType="HumanResourceService.SF_Leave_TimeType" sap:label="Time Type" sap:creatable="false" sap:updatable="false" sap:deletable="false"/>
+                <EntitySet Name="SF_Leave_AccountBalance" EntityType="HumanResourceService.SF_Leave_AccountBalance" sap:label="EmpTimeAccountBalance" sap:creatable="false" sap:updatable="false" sap:deletable="false"/>
+                <EntitySet Name="CancelLeaveRequest" EntityType="HumanResourceService.CancelLeaveRequest" sap:label="Time Off Requests" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+                <EntitySet Name="SF_DutyTravelMain" EntityType="HumanResourceService.SF_DutyTravelMain" sap:label="Duty Travel Main" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+                <EntitySet Name="DraftAdministrativeData" EntityType="HumanResourceService.DraftAdministrativeData"/>
+                <AssociationSet Name="MasterSubModules_masterModule" Association="HumanResourceService.MasterSubModules_masterModule">
+                    <End EntitySet="MasterSubModules" Role="MasterSubModules"/>
+                    <End EntitySet="MasterModules" Role="MasterModules"/>
+                </AssociationSet>
+                <AssociationSet Name="MasterSubModules_tickets" Association="HumanResourceService.MasterSubModules_tickets">
+                    <End EntitySet="MasterSubModules" Role="MasterSubModules"/>
+                    <End EntitySet="Tickets" Role="Tickets"/>
+                </AssociationSet>
+                <AssociationSet Name="Tickets_module" Association="HumanResourceService.Tickets_module">
+                    <End EntitySet="Tickets" Role="Tickets"/>
+                    <End EntitySet="MasterModules" Role="MasterModules"/>
+                </AssociationSet>
+                <AssociationSet Name="Tickets_subModule" Association="HumanResourceService.Tickets_subModule">
+                    <End EntitySet="Tickets" Role="Tickets"/>
+                    <End EntitySet="MasterSubModules" Role="MasterSubModules"/>
+                </AssociationSet>
+                <AssociationSet Name="Tickets_DraftAdministrativeData" Association="HumanResourceService.Tickets_DraftAdministrativeData">
+                    <End EntitySet="Tickets" Role="Tickets"/>
+                    <End EntitySet="DraftAdministrativeData" Role="DraftAdministrativeData"/>
+                </AssociationSet>
+                <AssociationSet Name="Tickets_SiblingEntity" Association="HumanResourceService.Tickets_SiblingEntity">
+                    <End EntitySet="Tickets" Role="Tickets"/>
+                    <End EntitySet="Tickets" Role="Tickets1"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Attachment_userNav" Association="HumanResourceService.SF_Attachment_userNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_Attachment" Role="SF_Attachment"/>
+                    <End EntitySet="SF_User" Role="SF_User"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_WfRequest_parentWfRequestNav" Association="HumanResourceService.SF_WfRequest_parentWfRequestNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_WfRequest" Role="SF_WfRequest"/>
+                    <End EntitySet="SF_WfRequest" Role="SF_WfRequest1"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_PickListValueV2_createdByNav" Association="HumanResourceService.SF_PickListValueV2_createdByNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_PickListValueV2" Role="SF_PickListValueV2"/>
+                    <End EntitySet="SF_User" Role="SF_User"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_PickListValueV2_lastModifiedByNav" Association="HumanResourceService.SF_PickListValueV2_lastModifiedByNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_PickListValueV2" Role="SF_PickListValueV2"/>
+                    <End EntitySet="SF_User" Role="SF_User"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_PickListValueV2_mdfSystemRecordStatusNav" Association="HumanResourceService.SF_PickListValueV2_mdfSystemRecordStatusNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_PickListValueV2" Role="SF_PickListValueV2"/>
+                    <End EntitySet="SF_MDFEnumValue" Role="SF_MDFEnumValue"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_PickListValueV2_parentPickListValueNav" Association="HumanResourceService.SF_PickListValueV2_parentPickListValueNav" sap:creatable="true" sap:updatable="true">
+                    <End EntitySet="SF_PickListValueV2" Role="SF_PickListValueV2"/>
+                    <End EntitySet="SF_PickListValueV2" Role="SF_PickListValueV21"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_PickListValueV2_statusNav" Association="HumanResourceService.SF_PickListValueV2_statusNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_PickListValueV2" Role="SF_PickListValueV2"/>
+                    <End EntitySet="SF_MDFEnumValue" Role="SF_MDFEnumValue"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Country_createdByNav" Association="HumanResourceService.SF_Country_createdByNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_Country" Role="SF_Country"/>
+                    <End EntitySet="SF_User" Role="SF_User"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Country_lastModifiedByNav" Association="HumanResourceService.SF_Country_lastModifiedByNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_Country" Role="SF_Country"/>
+                    <End EntitySet="SF_User" Role="SF_User"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Country_mdfSystemRecordStatusNav" Association="HumanResourceService.SF_Country_mdfSystemRecordStatusNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_Country" Role="SF_Country"/>
+                    <End EntitySet="SF_MDFEnumValue" Role="SF_MDFEnumValue"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Country_statusNav" Association="HumanResourceService.SF_Country_statusNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_Country" Role="SF_Country"/>
+                    <End EntitySet="SF_MDFEnumValue" Role="SF_MDFEnumValue"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Country_wfRequestNav" Association="HumanResourceService.SF_Country_wfRequestNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_Country" Role="SF_Country"/>
+                    <End EntitySet="SF_WfRequest" Role="SF_WfRequest"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_FOCostCenter_createdByNav" Association="HumanResourceService.SF_FOCostCenter_createdByNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_FOCostCenter" Role="SF_FOCostCenter"/>
+                    <End EntitySet="SF_User" Role="SF_User"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_FOCostCenter_lastModifiedByNav" Association="HumanResourceService.SF_FOCostCenter_lastModifiedByNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_FOCostCenter" Role="SF_FOCostCenter"/>
+                    <End EntitySet="SF_User" Role="SF_User"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_FOCostCenter_statusNav" Association="HumanResourceService.SF_FOCostCenter_statusNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_FOCostCenter" Role="SF_FOCostCenter"/>
+                    <End EntitySet="SF_MDFEnumValue" Role="SF_MDFEnumValue"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Leave_approvalStatusNav" Association="HumanResourceService.SF_Leave_approvalStatusNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_Leave" Role="SF_Leave"/>
+                    <End EntitySet="SF_MDFEnumValue" Role="SF_MDFEnumValue"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Leave_createdByNav" Association="HumanResourceService.SF_Leave_createdByNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_Leave" Role="SF_Leave"/>
+                    <End EntitySet="SF_User" Role="SF_User"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Leave_cust_attachmentNav" Association="HumanResourceService.SF_Leave_cust_attachmentNav" sap:creatable="true" sap:updatable="true">
+                    <End EntitySet="SF_Leave" Role="SF_Leave"/>
+                    <End EntitySet="SF_Attachment" Role="SF_Attachment"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Leave_lastModifiedByNav" Association="HumanResourceService.SF_Leave_lastModifiedByNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_Leave" Role="SF_Leave"/>
+                    <End EntitySet="SF_User" Role="SF_User"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Leave_mdfSystemRecordStatusNav" Association="HumanResourceService.SF_Leave_mdfSystemRecordStatusNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_Leave" Role="SF_Leave"/>
+                    <End EntitySet="SF_MDFEnumValue" Role="SF_MDFEnumValue"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Leave_timeRecordOriginNav" Association="HumanResourceService.SF_Leave_timeRecordOriginNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_Leave" Role="SF_Leave"/>
+                    <End EntitySet="SF_MDFEnumValue" Role="SF_MDFEnumValue"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Leave_timeTypeNav" Association="HumanResourceService.SF_Leave_timeTypeNav" sap:creatable="true" sap:updatable="true">
+                    <End EntitySet="SF_Leave" Role="SF_Leave"/>
+                    <End EntitySet="SF_Leave_TimeType" Role="SF_Leave_TimeType"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Leave_userIdNav" Association="HumanResourceService.SF_Leave_userIdNav" sap:creatable="true" sap:updatable="true">
+                    <End EntitySet="SF_Leave" Role="SF_Leave"/>
+                    <End EntitySet="SF_User" Role="SF_User"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Leave_wfRequestNav" Association="HumanResourceService.SF_Leave_wfRequestNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_Leave" Role="SF_Leave"/>
+                    <End EntitySet="SF_WfRequest" Role="SF_WfRequest"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Leave_TimeType_absenceClassNav" Association="HumanResourceService.SF_Leave_TimeType_absenceClassNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_Leave_TimeType" Role="SF_Leave_TimeType"/>
+                    <End EntitySet="SF_MDFEnumValue" Role="SF_MDFEnumValue"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Leave_TimeType_accrualRecalculationRelevanceNav" Association="HumanResourceService.SF_Leave_TimeType_accrualRecalculationRelevanceNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_Leave_TimeType" Role="SF_Leave_TimeType"/>
+                    <End EntitySet="SF_MDFEnumValue" Role="SF_MDFEnumValue"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Leave_TimeType_allocationStrategyNav" Association="HumanResourceService.SF_Leave_TimeType_allocationStrategyNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_Leave_TimeType" Role="SF_Leave_TimeType"/>
+                    <End EntitySet="SF_MDFEnumValue" Role="SF_MDFEnumValue"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Leave_TimeType_allowedFractionsUnitDayNav" Association="HumanResourceService.SF_Leave_TimeType_allowedFractionsUnitDayNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_Leave_TimeType" Role="SF_Leave_TimeType"/>
+                    <End EntitySet="SF_MDFEnumValue" Role="SF_MDFEnumValue"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Leave_TimeType_allowedFractionsUnitHourNav" Association="HumanResourceService.SF_Leave_TimeType_allowedFractionsUnitHourNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_Leave_TimeType" Role="SF_Leave_TimeType"/>
+                    <End EntitySet="SF_MDFEnumValue" Role="SF_MDFEnumValue"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Leave_TimeType_balanceCalculationSettingNav" Association="HumanResourceService.SF_Leave_TimeType_balanceCalculationSettingNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_Leave_TimeType" Role="SF_Leave_TimeType"/>
+                    <End EntitySet="SF_MDFEnumValue" Role="SF_MDFEnumValue"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Leave_TimeType_calculationMethodNav" Association="HumanResourceService.SF_Leave_TimeType_calculationMethodNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_Leave_TimeType" Role="SF_Leave_TimeType"/>
+                    <End EntitySet="SF_MDFEnumValue" Role="SF_MDFEnumValue"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Leave_TimeType_categoryNav" Association="HumanResourceService.SF_Leave_TimeType_categoryNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_Leave_TimeType" Role="SF_Leave_TimeType"/>
+                    <End EntitySet="SF_MDFEnumValue" Role="SF_MDFEnumValue"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Leave_TimeType_countryNav" Association="HumanResourceService.SF_Leave_TimeType_countryNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_Leave_TimeType" Role="SF_Leave_TimeType"/>
+                    <End EntitySet="SF_Country" Role="SF_Country"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Leave_TimeType_createdByNav" Association="HumanResourceService.SF_Leave_TimeType_createdByNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_Leave_TimeType" Role="SF_Leave_TimeType"/>
+                    <End EntitySet="SF_User" Role="SF_User"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Leave_TimeType_lastModifiedByNav" Association="HumanResourceService.SF_Leave_TimeType_lastModifiedByNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_Leave_TimeType" Role="SF_Leave_TimeType"/>
+                    <End EntitySet="SF_User" Role="SF_User"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Leave_TimeType_mdfSystemRecordStatusNav" Association="HumanResourceService.SF_Leave_TimeType_mdfSystemRecordStatusNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_Leave_TimeType" Role="SF_Leave_TimeType"/>
+                    <End EntitySet="SF_MDFEnumValue" Role="SF_MDFEnumValue"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Leave_TimeType_postingOrderNav" Association="HumanResourceService.SF_Leave_TimeType_postingOrderNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_Leave_TimeType" Role="SF_Leave_TimeType"/>
+                    <End EntitySet="SF_MDFEnumValue" Role="SF_MDFEnumValue"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Leave_TimeType_postingPriorityNav" Association="HumanResourceService.SF_Leave_TimeType_postingPriorityNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_Leave_TimeType" Role="SF_Leave_TimeType"/>
+                    <End EntitySet="SF_MDFEnumValue" Role="SF_MDFEnumValue"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Leave_TimeType_unitNav" Association="HumanResourceService.SF_Leave_TimeType_unitNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_Leave_TimeType" Role="SF_Leave_TimeType"/>
+                    <End EntitySet="SF_MDFEnumValue" Role="SF_MDFEnumValue"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_Leave_TimeType_wfRequestNav" Association="HumanResourceService.SF_Leave_TimeType_wfRequestNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_Leave_TimeType" Role="SF_Leave_TimeType"/>
+                    <End EntitySet="SF_WfRequest" Role="SF_WfRequest"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_DutyTravelMain_createdByNav" Association="HumanResourceService.SF_DutyTravelMain_createdByNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_DutyTravelMain" Role="SF_DutyTravelMain"/>
+                    <End EntitySet="SF_User" Role="SF_User"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_DutyTravelMain_externalCodeNav" Association="HumanResourceService.SF_DutyTravelMain_externalCodeNav" sap:creatable="true" sap:updatable="true">
+                    <End EntitySet="SF_DutyTravelMain" Role="SF_DutyTravelMain"/>
+                    <End EntitySet="SF_User" Role="SF_User"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_DutyTravelMain_lastModifiedByNav" Association="HumanResourceService.SF_DutyTravelMain_lastModifiedByNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_DutyTravelMain" Role="SF_DutyTravelMain"/>
+                    <End EntitySet="SF_User" Role="SF_User"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_DutyTravelMain_mdfSystemRecordStatusNav" Association="HumanResourceService.SF_DutyTravelMain_mdfSystemRecordStatusNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_DutyTravelMain" Role="SF_DutyTravelMain"/>
+                    <End EntitySet="SF_MDFEnumValue" Role="SF_MDFEnumValue"/>
+                </AssociationSet>
+                <AssociationSet Name="SF_DutyTravelMain_wfRequestNav" Association="HumanResourceService.SF_DutyTravelMain_wfRequestNav" sap:creatable="false" sap:updatable="false">
+                    <End EntitySet="SF_DutyTravelMain" Role="SF_DutyTravelMain"/>
+                    <End EntitySet="SF_WfRequest" Role="SF_WfRequest"/>
+                </AssociationSet>
+                <FunctionImport Name="Tickets_draftPrepare" ReturnType="HumanResourceService.Tickets" EntitySet="Tickets" m:HttpMethod="POST" sap:action-for="HumanResourceService.Tickets">
+                    <Parameter Name="ID" Type="Edm.Guid" Mode="In" Nullable="false"/>
+                    <Parameter Name="IsActiveEntity" Type="Edm.Boolean" Mode="In" Nullable="false"/>
+                    <Parameter Name="SideEffectsQualifier" Type="Edm.String" Mode="In" Nullable="true"/>
+                </FunctionImport>
+                <FunctionImport Name="Tickets_draftActivate" ReturnType="HumanResourceService.Tickets" EntitySet="Tickets" m:HttpMethod="POST" sap:action-for="HumanResourceService.Tickets">
+                    <Parameter Name="ID" Type="Edm.Guid" Mode="In" Nullable="false"/>
+                    <Parameter Name="IsActiveEntity" Type="Edm.Boolean" Mode="In" Nullable="false"/>
+                </FunctionImport>
+                <FunctionImport Name="Tickets_draftEdit" ReturnType="HumanResourceService.Tickets" EntitySet="Tickets" m:HttpMethod="POST" sap:action-for="HumanResourceService.Tickets">
+                    <Parameter Name="ID" Type="Edm.Guid" Mode="In" Nullable="false"/>
+                    <Parameter Name="IsActiveEntity" Type="Edm.Boolean" Mode="In" Nullable="false"/>
+                    <Parameter Name="PreserveChanges" Type="Edm.Boolean" Mode="In" Nullable="true"/>
+                </FunctionImport>
+            </EntityContainer>
+            <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.EntityContainer/MasterModules">
+                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Capabilities.DeleteRestrictions">
+                    <Record xmlns="http://docs.oasis-open.org/odata/ns/edm" Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue xmlns="http://docs.oasis-open.org/odata/ns/edm" Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Capabilities.InsertRestrictions">
+                    <Record xmlns="http://docs.oasis-open.org/odata/ns/edm" Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue xmlns="http://docs.oasis-open.org/odata/ns/edm" Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Capabilities.UpdateRestrictions">
+                    <Record xmlns="http://docs.oasis-open.org/odata/ns/edm" Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue xmlns="http://docs.oasis-open.org/odata/ns/edm" Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.MasterModules/createdAt">
+                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Immutable" Bool="true"/>
+                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="{i18n>CreatedAt}"/>
+                </Annotations>
+                <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.MasterModules/createdBy">
+                    <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="UI.HiddenFilter" Bool="true"/>
+                    <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Immutable" Bool="true"/>
+                    <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                    <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Description" String="{i18n>UserID.Description}"/>
+                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="{i18n>CreatedBy}"/>
+                        </Annotations>
+                        <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.MasterModules/modifiedAt">
+                            <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="UI.HiddenFilter" Bool="true"/>
+                            <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                            <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="{i18n>ChangedAt}"/>
+                            </Annotations>
+                            <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.MasterModules/modifiedBy">
+                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="UI.HiddenFilter" Bool="true"/>
+                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                    <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="{i18n>ChangedBy}"/>
+                                    </Annotations>
+                                    <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.MasterModules/isArchived">
+                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="Archived"/>
+                                    </Annotations>
+                                    <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.MasterModules/ID">
+                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="UI.Hidden" Bool="true"/>
+                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                                    </Annotations>
+                                    <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.MasterModules/name">
+                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="Module"/>
+                                    </Annotations>
+                                    <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.MasterModules/description">
+                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="Description"/>
+                                    </Annotations>
+                                    <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.MasterModules/totalRequests">
+                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                                    </Annotations>
+                                    <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.MasterModules/totalPending">
+                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                                    </Annotations>
+                                    <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.MasterModules/totalApproved">
+                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                                    </Annotations>
+                                    <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.MasterModules/totalRejected">
+                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                                    </Annotations>
+                                    <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.MasterModules/totalCancelled">
+                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                                    </Annotations>
+                                    <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.MasterModules/slaPerformance">
+                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                                    </Annotations>
+                                    <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.MasterModules/myGoals">
+                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                                    </Annotations>
+                                    <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.EntityContainer/MasterSubModules">
+                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Capabilities.DeleteRestrictions">
+                                            <Record xmlns="http://docs.oasis-open.org/odata/ns/edm" Type="Capabilities.DeleteRestrictionsType">
+                                                <PropertyValue xmlns="http://docs.oasis-open.org/odata/ns/edm" Property="Deletable" Bool="false"/>
+                                            </Record>
+                                        </Annotation>
+                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Capabilities.InsertRestrictions">
+                                            <Record xmlns="http://docs.oasis-open.org/odata/ns/edm" Type="Capabilities.InsertRestrictionsType">
+                                                <PropertyValue xmlns="http://docs.oasis-open.org/odata/ns/edm" Property="Insertable" Bool="false"/>
+                                            </Record>
+                                        </Annotation>
+                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Capabilities.UpdateRestrictions">
+                                            <Record xmlns="http://docs.oasis-open.org/odata/ns/edm" Type="Capabilities.UpdateRestrictionsType">
+                                                <PropertyValue xmlns="http://docs.oasis-open.org/odata/ns/edm" Property="Updatable" Bool="false"/>
+                                            </Record>
+                                        </Annotation>
+                                    </Annotations>
+                                    <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.MasterSubModules/createdAt">
+                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="UI.HiddenFilter" Bool="true"/>
+                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Immutable" Bool="true"/>
+                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="{i18n>CreatedAt}"/>
+                                        </Annotations>
+                                        <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.MasterSubModules/createdBy">
+                                            <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="UI.HiddenFilter" Bool="true"/>
+                                            <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Immutable" Bool="true"/>
+                                            <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                                            <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="{i18n>CreatedBy}"/>
+                                                </Annotations>
+                                                <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.MasterSubModules/modifiedAt">
+                                                    <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="UI.HiddenFilter" Bool="true"/>
+                                                    <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                                                    <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="{i18n>ChangedAt}"/>
+                                                    </Annotations>
+                                                    <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.MasterSubModules/modifiedBy">
+                                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="UI.HiddenFilter" Bool="true"/>
+                                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                            <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="{i18n>ChangedBy}"/>
+                                                            </Annotations>
+                                                            <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.MasterSubModules/isArchived">
+                                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="Archived"/>
+                                                            </Annotations>
+                                                            <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.MasterSubModules/ID">
+                                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="UI.Hidden" Bool="true"/>
+                                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                                                            </Annotations>
+                                                            <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.MasterSubModules/name">
+                                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="Submodule"/>
+                                                            </Annotations>
+                                                            <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.MasterSubModules/description">
+                                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="Description"/>
+                                                            </Annotations>
+                                                            <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.MasterSubModules/masterModuleId">
+                                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+                                                            </Annotations>
+                                                            <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.MasterSubModules/totalRequests">
+                                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                                                            </Annotations>
+                                                            <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.MasterSubModules/totalPending">
+                                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                                                            </Annotations>
+                                                            <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.MasterSubModules/totalApproved">
+                                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                                                            </Annotations>
+                                                            <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.MasterSubModules/totalRejected">
+                                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                                                            </Annotations>
+                                                            <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.MasterSubModules/totalCancelled">
+                                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                                                            </Annotations>
+                                                            <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.Tickets">
+                                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="UI.HeaderInfo">
+                                                                    <Record xmlns="http://docs.oasis-open.org/odata/ns/edm" Type="UI.HeaderInfoType">
+                                                                        <PropertyValue xmlns="http://docs.oasis-open.org/odata/ns/edm" Property="TypeName" String="Ticket"/>
+                                                                        <PropertyValue xmlns="http://docs.oasis-open.org/odata/ns/edm" Property="TypeNamePlural" String="Tickets"/>
+                                                                    </Record>
+                                                                </Annotation>
+                                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="UI.SelectionFields">
+                                                                    <Collection xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                                                                        <PropertyPath xmlns="http://docs.oasis-open.org/odata/ns/edm">employeeId</PropertyPath>
+                                                                        <PropertyPath xmlns="http://docs.oasis-open.org/odata/ns/edm">ticketCode</PropertyPath>
+                                                                        <PropertyPath xmlns="http://docs.oasis-open.org/odata/ns/edm">externalCode</PropertyPath>
+                                                                        <PropertyPath xmlns="http://docs.oasis-open.org/odata/ns/edm">requestDate</PropertyPath>
+                                                                    </Collection>
+                                                                </Annotation>
+                                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="UI.LineItem">
+                                                                    <Collection xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                                                                        <Record xmlns="http://docs.oasis-open.org/odata/ns/edm" Type="UI.DataField">
+                                                                            <PropertyValue xmlns="http://docs.oasis-open.org/odata/ns/edm" Property="Value" Path="ticketCode"/>
+                                                                        </Record>
+                                                                        <Record xmlns="http://docs.oasis-open.org/odata/ns/edm" Type="UI.DataField">
+                                                                            <PropertyValue xmlns="http://docs.oasis-open.org/odata/ns/edm" Property="Value" Path="requestDate"/>
+                                                                        </Record>
+                                                                        <Record xmlns="http://docs.oasis-open.org/odata/ns/edm" Type="UI.DataField">
+                                                                            <PropertyValue xmlns="http://docs.oasis-open.org/odata/ns/edm" Property="Value" Path="externalCode"/>
+                                                                        </Record>
+                                                                        <Record xmlns="http://docs.oasis-open.org/odata/ns/edm" Type="UI.DataField">
+                                                                            <PropertyValue xmlns="http://docs.oasis-open.org/odata/ns/edm" Property="Value" Path="employeeId"/>
+                                                                        </Record>
+                                                                        <Record xmlns="http://docs.oasis-open.org/odata/ns/edm" Type="UI.DataField">
+                                                                            <PropertyValue xmlns="http://docs.oasis-open.org/odata/ns/edm" Property="Value" Path="isApprovalRequired"/>
+                                                                        </Record>
+                                                                        <Record xmlns="http://docs.oasis-open.org/odata/ns/edm" Type="UI.DataField">
+                                                                            <PropertyValue xmlns="http://docs.oasis-open.org/odata/ns/edm" Property="Value" Path="status"/>
+                                                                            <PropertyValue xmlns="http://docs.oasis-open.org/odata/ns/edm" Property="Criticality" Path="statusValue"/>
+                                                                        </Record>
+                                                                    </Collection>
+                                                                </Annotation>
+                                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="UI.Facets">
+                                                                    <Collection xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                                                                        <Record xmlns="http://docs.oasis-open.org/odata/ns/edm" Type="UI.ReferenceFacet">
+                                                                            <PropertyValue xmlns="http://docs.oasis-open.org/odata/ns/edm" Property="ID" String="LeaveInformation"/>
+                                                                            <PropertyValue xmlns="http://docs.oasis-open.org/odata/ns/edm" Property="Label" String="Leave Details"/>
+                                                                            <PropertyValue xmlns="http://docs.oasis-open.org/odata/ns/edm" Property="Target" AnnotationPath="@UI.FieldGroup#Leave"/>
+                                                                        </Record>
+                                                                    </Collection>
+                                                                </Annotation>
+                                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="UI.FieldGroup" Qualifier="Leave">
+                                                                    <Record xmlns="http://docs.oasis-open.org/odata/ns/edm" Type="UI.FieldGroupType">
+                                                                        <PropertyValue xmlns="http://docs.oasis-open.org/odata/ns/edm" Property="Data">
+                                                                            <Collection xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                                                                                <Record xmlns="http://docs.oasis-open.org/odata/ns/edm" Type="UI.DataField">
+                                                                                    <PropertyValue xmlns="http://docs.oasis-open.org/odata/ns/edm" Property="Value" Path="ticketCode"/>
+                                                                                </Record>
+                                                                                <Record xmlns="http://docs.oasis-open.org/odata/ns/edm" Type="UI.DataField">
+                                                                                    <PropertyValue xmlns="http://docs.oasis-open.org/odata/ns/edm" Property="Value" Path="requestDate"/>
+                                                                                </Record>
+                                                                                <Record xmlns="http://docs.oasis-open.org/odata/ns/edm" Type="UI.DataField">
+                                                                                    <PropertyValue xmlns="http://docs.oasis-open.org/odata/ns/edm" Property="Value" Path="externalCode"/>
+                                                                                </Record>
+                                                                                <Record xmlns="http://docs.oasis-open.org/odata/ns/edm" Type="UI.DataField">
+                                                                                    <PropertyValue xmlns="http://docs.oasis-open.org/odata/ns/edm" Property="Value" Path="employeeId"/>
+                                                                                </Record>
+                                                                                <Record xmlns="http://docs.oasis-open.org/odata/ns/edm" Type="UI.DataField">
+                                                                                    <PropertyValue xmlns="http://docs.oasis-open.org/odata/ns/edm" Property="Value" Path="isApprovalRequired"/>
+                                                                                </Record>
+                                                                            </Collection>
+                                                                        </PropertyValue>
+                                                                    </Record>
+                                                                </Annotation>
+                                                            </Annotations>
+                                                            <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.EntityContainer/Tickets">
+                                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.DraftRoot">
+                                                                    <Record xmlns="http://docs.oasis-open.org/odata/ns/edm" Type="Common.DraftRootType">
+                                                                        <PropertyValue xmlns="http://docs.oasis-open.org/odata/ns/edm" Property="ActivationAction" String="HumanResourceService.EntityContainer/Tickets_draftActivate"/>
+                                                                        <PropertyValue xmlns="http://docs.oasis-open.org/odata/ns/edm" Property="EditAction" String="HumanResourceService.EntityContainer/Tickets_draftEdit"/>
+                                                                        <PropertyValue xmlns="http://docs.oasis-open.org/odata/ns/edm" Property="PreparationAction" String="HumanResourceService.EntityContainer/Tickets_draftPrepare"/>
+                                                                    </Record>
+                                                                </Annotation>
+                                                            </Annotations>
+                                                            <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.Tickets/createdAt">
+                                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="UI.HiddenFilter" Bool="true"/>
+                                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Immutable" Bool="true"/>
+                                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="{i18n>CreatedAt}"/>
+                                                                </Annotations>
+                                                                <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.Tickets/createdBy">
+                                                                    <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="UI.HiddenFilter" Bool="true"/>
+                                                                    <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Immutable" Bool="true"/>
+                                                                    <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                                                                    <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="{i18n>CreatedBy}"/>
+                                                                        </Annotations>
+                                                                        <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.Tickets/modifiedAt">
+                                                                            <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="UI.HiddenFilter" Bool="true"/>
+                                                                            <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                                                                            <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="{i18n>ChangedAt}"/>
+                                                                            </Annotations>
+                                                                            <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.Tickets/modifiedBy">
+                                                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="UI.HiddenFilter" Bool="true"/>
+                                                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                                                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                                                    <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="{i18n>ChangedBy}"/>
+                                                                                    </Annotations>
+                                                                                    <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.Tickets/isArchived">
+                                                                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="Archived"/>
+                                                                                    </Annotations>
+                                                                                    <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.Tickets/ID">
+                                                                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="UI.Hidden" Bool="true"/>
+                                                                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                                                                                    </Annotations>
+                                                                                    <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.Tickets/moduleId">
+                                                                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="Module ID"/>
+                                                                                    </Annotations>
+                                                                                    <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.Tickets/subModuleId">
+                                                                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="Submodule ID"/>
+                                                                                    </Annotations>
+                                                                                    <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.Tickets/ticketCode">
+                                                                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                                                                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="Job Card ID"/>
+                                                                                    </Annotations>
+                                                                                    <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.Tickets/externalCode">
+                                                                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                                                                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="SAP Ticket ID"/>
+                                                                                    </Annotations>
+                                                                                    <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.Tickets/status">
+                                                                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="false"/>
+                                                                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="Status"/>
+                                                                                    </Annotations>
+                                                                                    <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.Tickets/requestDate">
+                                                                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="Request Date"/>
+                                                                                    </Annotations>
+                                                                                    <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.Tickets/workflowRequestId">
+                                                                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="Workflow Request ID"/>
+                                                                                    </Annotations>
+                                                                                    <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.Tickets/isApprovalRequired">
+                                                                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="Approval Required"/>
+                                                                                    </Annotations>
+                                                                                    <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.Tickets/employeeId">
+                                                                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="User ID"/>
+                                                                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                                                        </Annotations>
+                                                                                        <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.Tickets/externalCreatedAt">
+                                                                                            <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="SAP Created At"/>
+                                                                                        </Annotations>
+                                                                                        <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.Tickets/externalCreatedBy">
+                                                                                            <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="SAP Created By"/>
+                                                                                            <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                                                            </Annotations>
+                                                                                            <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.Tickets/externalModifiedAt">
+                                                                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="SAP Modified At"/>
+                                                                                            </Annotations>
+                                                                                            <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.Tickets/externalModifiedBy">
+                                                                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="SAP Modified By"/>
+                                                                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                                                                </Annotations>
+                                                                                                <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.Tickets/statusValue">
+                                                                                                    <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                                                                                                </Annotations>
+                                                                                                <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.Tickets/IsActiveEntity">
+                                                                                                    <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="UI.Hidden" Bool="true"/>
+                                                                                                </Annotations>
+                                                                                                <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.Tickets/HasActiveEntity">
+                                                                                                    <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="UI.Hidden" Bool="true"/>
+                                                                                                </Annotations>
+                                                                                                <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.Tickets/HasDraftEntity">
+                                                                                                    <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="UI.Hidden" Bool="true"/>
+                                                                                                </Annotations>
+                                                                                                <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.Tickets/DraftAdministrativeData">
+                                                                                                    <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="UI.Hidden" Bool="true"/>
+                                                                                                </Annotations>
+                                                                                                <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.Tickets/DraftAdministrativeData_DraftUUID">
+                                                                                                    <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="UI.Hidden" Bool="true"/>
+                                                                                                </Annotations>
+                                                                                                <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.SF_DutyTravelMain/externalCode">
+                                                                                                    <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="UI.Hidden" Bool="true"/>
+                                                                                                    <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="External Code"/>
+                                                                                                    <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Core.Computed" Bool="true"/>
+                                                                                                </Annotations>
+                                                                                                <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.DraftAdministrativeData">
+                                                                                                    <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="{i18n>Draft_DraftAdministrativeData}"/>
+                                                                                                    </Annotations>
+                                                                                                    <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.DraftAdministrativeData/DraftUUID">
+                                                                                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="UI.Hidden" Bool="true"/>
+                                                                                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="{i18n>Draft_DraftUUID}"/>
+                                                                                                        </Annotations>
+                                                                                                        <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.DraftAdministrativeData/CreationDateTime">
+                                                                                                            <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="{i18n>Draft_CreationDateTime}"/>
+                                                                                                            </Annotations>
+                                                                                                            <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.DraftAdministrativeData/CreatedByUser">
+                                                                                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="{i18n>Draft_CreatedByUser}"/>
+                                                                                                                </Annotations>
+                                                                                                                <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.DraftAdministrativeData/DraftIsCreatedByMe">
+                                                                                                                    <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="UI.Hidden" Bool="true"/>
+                                                                                                                    <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="{i18n>Draft_DraftIsCreatedByMe}"/>
+                                                                                                                    </Annotations>
+                                                                                                                    <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.DraftAdministrativeData/LastChangeDateTime">
+                                                                                                                        <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="{i18n>Draft_LastChangeDateTime}"/>
+                                                                                                                        </Annotations>
+                                                                                                                        <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.DraftAdministrativeData/LastChangedByUser">
+                                                                                                                            <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="{i18n>Draft_LastChangedByUser}"/>
+                                                                                                                            </Annotations>
+                                                                                                                            <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.DraftAdministrativeData/InProcessByUser">
+                                                                                                                                <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="{i18n>Draft_InProcessByUser}"/>
+                                                                                                                                </Annotations>
+                                                                                                                                <Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="HumanResourceService.DraftAdministrativeData/DraftIsProcessedByMe">
+                                                                                                                                    <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="UI.Hidden" Bool="true"/>
+                                                                                                                                    <Annotation xmlns="http://docs.oasis-open.org/odata/ns/edm" Term="Common.Label" String="{i18n>Draft_DraftIsProcessedByMe}"/>
+                                                                                                                                    </Annotations>
+                                                                                                                                </Schema>
+                                                                                                                            </edmx:DataServices>
+                                                                                                                        </edmx:Edmx>

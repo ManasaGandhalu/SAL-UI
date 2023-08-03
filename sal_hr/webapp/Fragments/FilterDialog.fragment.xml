@@ -1,0 +1,26 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <ViewSettingsDialog reset="onReset" confirm="handleFilterDialogConfirm">
+        <filterItems>
+            <ViewSettingsFilterItem text="Status" key="Status" multiSelect="false">
+                <items>
+
+                    <ViewSettingsItem text="Appproved" key="APPROVED"/>
+
+                    <ViewSettingsItem text="Rejected" key="REJECTED"/>
+
+                    <ViewSettingsItem text="Pending" key="PENDING"/>
+                    <ViewSettingsItem text="Cancelled" key="CANCELLED"/>
+
+                </items>
+
+            </ViewSettingsFilterItem>
+            <ViewSettingsCustomItem id="idCustomFilterItem" text="Date of Creation" key="requestDate">
+                <customControl>
+                    <DatePicker value="{path:'LocalViewModel>/endDate', type:'sap.ui.model.type.Date', formatOptions: { style: 'medium', strictParsing: true,UTC: true}}" />
+                </customControl>
+            </ViewSettingsCustomItem>
+        </filterItems>
+    </ViewSettingsDialog>
+</core:FragmentDefinition>

@@ -1,0 +1,534 @@
+_schema-version: "3.2"
+ID: employee-portal-web
+version: 0.0.1
+modules:
+- name: employee-portal-destination-content
+  type: com.sap.application.content
+  requires:
+  - name: employee-portal-dest-srv
+    parameters:
+      content-target: true
+  - name: employee-portal-repo-host
+    parameters:
+      service-key:
+        name: employee-portal-html5-key
+  - name: employee-portal-uaa
+    parameters:
+      service-key:
+        name: employee-portal-uaa-key
+  parameters:
+    content:
+      subaccount:
+        destinations:
+        - Name: employee_portal_service_repo_host
+          ServiceInstanceName: employee-portal-html5-srv
+          ServiceKeyName: employee-portal-html5-key
+          sap.cloud.service: employee_portal_service
+        - Authentication: OAuth2UserTokenExchange
+          Name: employee_portal_service_fiori_uaa
+          ServiceInstanceName: employee-portal-uaa-srv
+          ServiceKeyName: employee-portal-uaa-key
+          sap.cloud.service: employee_portal_service
+        existing_destinations_policy: update
+  build-parameters:
+    no-source: true
+- name: employee-portal-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: employee-portal-repo-host
+    parameters:
+      content-target: true
+      config:
+       sizeLimit: 4
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - comsalsalhr.zip
+      name: comsalsalhr
+      target-path: resources/
+    - artifacts:
+      - comsalcardsinprocessrequestcardtile.zip
+      name: comsalcardsinprocessrequestcardtile
+      target-path: resources/
+    - artifacts:
+      - comsalmyrequestinprocessmyrequestinprocess.zip
+      name: comsalmyrequestinprocessmyrequestinprocess
+      target-path: resources/
+    - artifacts:
+      - comsaldonerequestcardtiledonerequestcardtile.zip
+      name: comsaldonerequestcardtiledonerequestcardtile
+      target-path: resources/
+    - artifacts:
+      - comsalmyrequestdonemyrequestdone.zip
+      name: comsalmyrequestdonemyrequestdone
+      target-path: resources/
+    - artifacts:
+      - comsalopenrequestcardtileopenrequestcardtile.zip
+      name: comsalopenrequestcardtileopenrequestcardtile
+      target-path: resources/
+    - artifacts:
+      - comsalmyrequestopenmyrequestopen.zip
+      name: comsalmyrequestopenmyrequestopen
+      target-path: resources/
+    - artifacts:
+      - comsalsummarytileshrrequestssummarytile.zip
+      name: comsalsummarytileshrrequestssummarytile
+      target-path: resources/
+    - artifacts:
+      - comsalhrrequestsummary.zip
+      name: comsalhrrequestsummary
+      target-path: resources/
+    - artifacts:
+      - comsalsummarytilesprocurementrequestssummarytile.zip
+      name: comsalsummarytilesprocurementrequestssummarytile
+      target-path: resources/
+    - artifacts:
+      - comsalprocurementrequestssummary.zip
+      name: comsalprocurementrequestssummary
+      target-path: resources/
+    - artifacts:
+      - comsalitsrvmgmtrequestssummarytile.zip
+      name: comsalitsrvmgmtrequestssummarytile
+      target-path: resources/
+    - artifacts:
+      - comsalitsrvmgmtrequestssummary.zip
+      name: comsalitsrvmgmtrequestssummary
+      target-path: resources/
+    - artifacts:
+      - comsalplantmaintenancereqsummarytile.zip
+      name: comsalplantmaintenancereqsummarytile
+      target-path: resources/
+    - artifacts:
+      - comsalplantmaintenancereqsummary.zip
+      name: comsalplantmaintenancereqsummary
+      target-path: resources/
+    - artifacts:
+      - comsalchatbotview.zip
+      name: comsalchatbotview
+      target-path: resources/
+    - artifacts:
+      - chat.zip
+      name: chat
+      target-path: resources/
+    - artifacts:
+      - comsalreportsticketssummaryreport.zip
+      name: comsalreportsticketssummaryreport
+      target-path: resources/
+    - artifacts:
+      - comsalreportsrequestsrequestsummaryreports.zip
+      name: comsalreportsrequestsrequestsummaryreports
+      target-path: resources/
+    - artifacts:
+      - comsalreportsslacompliancereport.zip
+      name: comsalreportsslacompliancereport
+      target-path: resources/
+    - artifacts:
+      - comsalchatbotsummaryreport.zip
+      name: comsalchatbotsummaryreport
+      target-path: resources/
+    - artifacts:
+      - comsalsalhrcreateuser.zip
+      name: comsalsalhrcreateuser
+      target-path: resources/
+    - artifacts:
+      - comsaltasksummaryreport.zip
+      name: comsaltasksummaryreport
+      target-path: resources/
+    - artifacts:
+      - comsalrequestsummaryreportsmanager.zip
+      name: comsalrequestsummaryreportsmanager
+      target-path: resources/
+    - artifacts:
+      - comsalsummarytileshrrequestssummarymanagertile.zip
+      name: comsalsummarytileshrrequestssummarymanagertile
+      target-path: resources/
+    - artifacts:
+      - comsalitsrvmgmtrequestssummarymanagertile.zip
+      name: comsalitsrvmgmtrequestssummarymanagertile
+      target-path: resources/
+    - artifacts:
+      - comsalhrrequestsummarymanager.zip
+      name: comsalhrrequestsummarymanager
+      target-path: resources/
+    - artifacts:
+      - comsalitsrvmgmtrequestssummarymanager.zip
+      name: comsalitsrvmgmtrequestssummarymanager
+      target-path: resources/
+    - artifacts:
+      - comsalfeedbacktile.zip
+      name: comsalfeedbacktile
+      target-path: resources/
+    - artifacts:
+      - comsalfeedbacktilecontainer.zip
+      name: comsalfeedbacktilecontainer
+      target-path: resources/
+    - artifacts:
+      - comsalfeedbackform.zip
+      name: comsalfeedbackform
+      target-path: resources/
+    - artifacts:
+      - comsalfeedbackreport.zip
+      name: comsalfeedbackreport
+      target-path: resources/
+- name: comsalsalhr
+  type: html5
+  path: sal_hr
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsalcardsinprocessrequestcardtile
+  type: html5
+  path: inprocessrequestcardtile
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsalmyrequestinprocessmyrequestinprocess
+  type: html5
+  path: myrequestinprocess
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsaldonerequestcardtiledonerequestcardtile
+  type: html5
+  path: donerequestcardtile
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsalmyrequestdonemyrequestdone
+  type: html5
+  path: myrequestdone
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsalopenrequestcardtileopenrequestcardtile
+  type: html5
+  path: openrequestcardtile
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsalmyrequestopenmyrequestopen
+  type: html5
+  path: myrequestopen
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsalsummarytileshrrequestssummarytile
+  type: html5
+  path: hrrequestssummarytile
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsalhrrequestsummary
+  type: html5
+  path: hrrequestsummary
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsalsummarytilesprocurementrequestssummarytile
+  type: html5
+  path: procurementrequestssummarytile
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsalprocurementrequestssummary
+  type: html5
+  path: procurementrequestssummary
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsalitsrvmgmtrequestssummarytile
+  type: html5
+  path: itsrvmgmtrequestssummarytile
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsalitsrvmgmtrequestssummary
+  type: html5
+  path: itsrvmgmtrequestssummary
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsalplantmaintenancereqsummarytile
+  type: html5
+  path: plantmaintenancereqsummarytile
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsalplantmaintenancereqsummary
+  type: html5
+  path: plantmaintenancereqsummary
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsalchatbotview
+  type: html5
+  path: chatbotview
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: chat
+  type: html5
+  path: chat
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsalreportsticketssummaryreport
+  type: html5
+  path: tickets_summary_report
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsalreportsrequestsrequestsummaryreports
+  type: html5
+  path: request_summary_reports
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsalreportsslacompliancereport
+  type: html5
+  path: sla_compliance_report
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsalchatbotsummaryreport
+  type: html5
+  path: chatbotsummary_report
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsalsalhrcreateuser
+  type: html5
+  path: createuser
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsaltasksummaryreport
+  type: html5
+  path: task_summary_report
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsalrequestsummaryreportsmanager
+  type: html5
+  path: request_summary_reports_manager
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsalsummarytileshrrequestssummarymanagertile
+  type: html5
+  path: hrrequestssummarymanagertile
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsalitsrvmgmtrequestssummarymanagertile
+  type: html5
+  path: itsrvmgmtrequestssummarymanagertile
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsalhrrequestsummarymanager
+  type: html5
+  path: hrrequestsummarymanager
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsalitsrvmgmtrequestssummarymanager
+  type: html5
+  path: itsrvmgmtrequestssummarymanager
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsalfeedbacktile
+  type: html5
+  path: feedbacktile
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsalfeedbacktilecontainer
+  type: html5
+  path: feedbacktilecontainer
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsalfeedbackform
+  type: html5
+  path: feedbackform
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comsalfeedbackreport
+  type: html5
+  path: feedbackreport
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+- name: employee-portal-dest-srv
+  type: org.cloudfoundry.existing-service
+  parameters:
+    service: destination
+    service-name: employee-portal-dest-srv
+    service-plan: lite
+- name: employee-portal-uaa
+  type: org.cloudfoundry.existing-service
+  parameters:
+    service: xsuaa
+    service-name: employee-portal-uaa-srv
+    service-plan: application
+- name: employee-portal-repo-host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: employee-portal-html5-srv
+    service-plan: app-host
+- name: employee-portal-web-dest-srv
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: false
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-name: employee-portal-web-dest-srv
+    service-plan: lite
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true

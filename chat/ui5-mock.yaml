@@ -1,0 +1,39 @@
+specVersion: '2.4'
+metadata:
+  name: 'chat'
+type: application
+server:
+  customMiddleware:
+  - name: fiori-tools-proxy
+    afterMiddleware: compression
+    configuration:
+      ignoreCertError: false # If set to true, certificate errors will be ignored. E.g. self-signed certificates will be accepted
+      backend:
+      - path: /odata
+        url: https://saudi-airlines-cargo-company-sal-btp-cf-dev-8glkufj3-de3438ae57.cfapps.eu10.hana.ondemand.com
+      ui5:
+        path: 
+        - /resources
+        - /test-resources
+        url: https://ui5.sap.com
+        version: 1.98.0 # The UI5 version, for instance, 1.78.1. Empty means latest version
+  - name: sap-fe-mockserver
+    beforeMiddleware: fiori-tools-proxy
+    configuration:
+      service:
+        urlBasePath: /odata/v4/HumanResourceService
+        name: ''
+        metadataXmlPath: ./webapp/localService/metadata.xml
+        mockdataRootPath: ./webapp/localService/mockdata
+        generateMockData: true
+  - name: fiori-tools-appreload
+    afterMiddleware: compression
+    configuration:
+     port: 35729
+     path: webapp
+     delay: 300
+  - name: fiori-tools-preview
+    afterMiddleware: fiori-tools-appreload
+    configuration:
+      component: chat
+      ui5Theme: sap_fiori_3

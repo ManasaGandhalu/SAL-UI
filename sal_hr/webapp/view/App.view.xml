@@ -1,0 +1,21 @@
+<mvc:View
+    controllerName="com.sal.salhr.controller.App"
+   	displayBlock="true"
+	height="100%"
+    xmlns:m="sap.m"
+	xmlns="sap.f"
+	xmlns:mvc="sap.ui.core.mvc"
+>
+    <m:App>
+        <m:pages>
+    	<FlexibleColumnLayout
+		id="flexibleColumnLayout"
+		stateChange=".onStateChanged"
+		backgroundDesign="Solid"
+        layout="{layoutModel>/layout}"
+		/>
+        </m:pages>
+    </m:App>
+
+
+</mvc:View>

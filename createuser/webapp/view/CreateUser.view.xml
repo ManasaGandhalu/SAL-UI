@@ -1,0 +1,111 @@
+<mvc:View controllerName="com.sal.salhr.createuser.controller.CreateUser" height="100%"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:layout="sap.ui.layout"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:vm="sap.ui.comp.variants">
+    <f:DynamicPage headerExpanded="true" stickySubheaderProvider="idIconTabBar" class="sapUiContentPadding">
+        <f:header>
+            <f:DynamicPageHeader pinnable="true">
+                <f:content>
+                    <fb:FilterBar id="filterbar" showRestoreOnFB="true" reset="onReset" search="onSearch" useToolbar="false" showGoOnFB="true">
+                        <fb:filterGroupItems>
+                         
+                            <fb:FilterGroupItem groupName="__$INTERNAL$" name="Offer Type" label="Name" visibleInFilterBar="true">
+                                <fb:control>
+                                    <Input placeholder="Name" value="{oModelControl>/filterBar/Name}" />
+                                </fb:control>
+                            </fb:FilterGroupItem>
+                       
+                            <fb:FilterGroupItem groupName="__$INTERNAL$" name="EndDate" label="SF User ID" visibleInFilterBar="true">
+                                <fb:control>
+                                    <Input value="{oModelControl>/filterBar/sfuserID}" placeholder="SF UserID" />
+                                </fb:control>
+                            </fb:FilterGroupItem>
+                          
+                           
+                           
+                           
+                        </fb:filterGroupItems>
+                    </fb:FilterBar>
+                </f:content>
+            </f:DynamicPageHeader>
+        </f:header>
+
+        <!-- DynamicPage Content -->
+        <f:content>
+            <Table id="idCreateUserTable" width="auto" items="{path: '/SALUser',sorter:{path:'createdAt',descending:true},parameters:{expand:'masterRole' }}" noDataText="No Data Found" growing="true" growingScrollToLoad="false" growingThreshold="10" updateFinished="onUpdateFinished">
+
+                <headerToolbar>
+                    <OverflowToolbar>
+                     
+                           <Title text="{worklistView>/TableTitle}" />
+                        <ToolbarSpacer />
+                        <Button icon="sap-icon://add" text="Add User"  tooltip="Add User" type="Emphasized" press="onPressAdd"/>
+                     
+                    </OverflowToolbar>
+                </headerToolbar>
+
+                <columns>
+                    <Column>
+                        <Text text="Name"/>
+                    </Column>
+                    <Column>
+                        <Text text="Email"/>
+                    </Column>
+
+                     <Column>
+                        <Text text="User ID"/>
+                    </Column>
+                      <Column minScreenWidth="Tablet" demandPopin="true">
+                        <Text text="SF User ID"/>
+                    </Column>
+                    <Column minScreenWidth="Tablet" demandPopin="true">
+                        <Text text="ITSM User ID"/>
+                    </Column>
+
+                    <Column minScreenWidth="Tablet" demandPopin="true">
+                        <Text text="Reporting To"/>
+                    </Column>
+                       <Column minScreenWidth="Tablet" demandPopin="true">
+                        <Text text="Created At"/>
+                    </Column>
+                      <Column minScreenWidth="Tablet" demandPopin="true">
+                        <Text text="Created By"/>
+                    </Column>
+                     <Column minScreenWidth="Tablet" demandPopin="true">
+                        <Text text=""/>
+                    </Column>
+                   
+                </columns>
+
+                <items>
+                    <ColumnListItem >
+                        <cells>
+                            <ObjectIdentifier tooltip="{name}" title="{name}" titleActive="true"/>
+                            <Text text="{email}"/>
+                             <Text text="{ID}"/>
+                            <Text text="{sfUserId}"/>
+                             <Text text="{itsmUserId}"/>
+                            <Text text="{reportingTo}"/>
+
+
+                             
+                           
+                            <Text text="{path:'createdAt',type :'sap.ui.model.type.Date',formatOptions:{pattern:'dd/MM/yyyy'} }"/>
+                              <Text text="{createdBy}"/>
+                            
+                            <HBox justifyContent="Center">
+                                <Button  tooltip="{i18n>Edit}" icon="sap-icon://edit" type="Transparent" press="onEditUser"></Button>
+                                <Button icon="sap-icon://delete" type="Transparent" press="onDeleteUser"></Button>
+                            </HBox>
+
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>

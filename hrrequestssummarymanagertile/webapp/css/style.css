@@ -1,0 +1,4 @@
+/* zCustomTitleWidth class is used to set the width of title label's in microcharts */
+.zCustomTitleWidth>.sapSuiteCpMCVerticalAlignmentContainer>.sapSuiteCpMCChartItem>.sapSuiteCpMCChartItemTitle{
+    width: 65px !important;
+}

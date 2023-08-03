@@ -1,0 +1,8 @@
+/* Enter your custom styles here */
+
+.reportsManagerView {
+    position: absolute;
+    margin-top: 8px ;
+    margin-left: 8px ;
+    z-index: 1;
+    } 

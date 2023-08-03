@@ -1,0 +1,52 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:tnt="sap.tnt" xmlns:form="sap.ui.layout.form" xmlns:core="sap.ui.core">
+    	      
+      
+                   <form:SimpleForm id="idDisplaybankRequestSimpleForm" layout="ResponsiveGridLayout" 
+                 columnsM="3" columnsL="3" columnsXL="3" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+                   <form:content>
+                        <Title id="idDisplaySpecifyDetailsTTL" text="{i18n>EmployeeTerminateDetails}" titleStyle="H6" level="H6"/>
+
+                        <Label id="idDisplayResigDateLBL" text="{i18n>ResignationDate}" />
+
+                        <Text text="{path:'customDate6',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}"/>
+                      <Label id="idTerminationDateLBL" text="{i18n>TerminationDate}" />
+
+                        <Text text="{path:'endDate',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}"/>
+
+
+                        
+                        <Label id="idDisplayTerminationRsnLBL" text="{i18n>TerminationReason}" />
+                        <Text id="idDisplayTerminationRsnINP" text="{EventReasonNameText}"  />
+                         <Label id="idDisplayIBAN" text="{i18n>OKTORetire}" />
+                        <Text id="idDisplay" text="{= ${okToRehire} === true ? 'Yes' : 'No' }"  />
+                        <Label id="idDisplayElligibleEOSLBL" text="{i18n>EligibleforEOSBenefit}"/>
+                        <Text id="idDisplayEligibleEOSINP" text="{= ${eligibleForSalContinuation} === true ? 'Yes' : 'No' }"  />
+
+                         <Label  text="{i18n>Notes}"/>
+                        <Text  text="{notes}"  />
+
+                         <Label  text="{i18n>BonusPayExpirationDate}"/>
+                       <Text text="{path:'bonusPayExpirationDate',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}"/>
+                      
+
+                        
+
+                    </form:content>
+                   </form:SimpleForm>
+           
+        
+
+
+</core:FragmentDefinition>

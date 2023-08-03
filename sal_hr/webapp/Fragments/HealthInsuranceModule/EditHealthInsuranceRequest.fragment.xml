@@ -1,0 +1,131 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:tnt="sap.tnt"  
+    xmlns:unified="sap.ui.unified"
+    xmlns:l="sap.ui.layout"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:layout="sap.ui.layout"
+       xmlns:f="sap.f"
+     xmlns:fm="sap.ui.layout.form" xmlns:core="sap.ui.core" height="100%">
+                                 <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
+
+
+                      
+                        
+
+                        <Label id="idDateLBL"  required="false" text="{i18n>whenWouldYouLiketoText}" />
+                        <DatePicker id ="idEditEffectiveStartDate" required="true" enabled="false"  value="{path:'DisplayHealthInsuranceModel>/effectiveStartDate', type:'sap.ui.model.type.Date', formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}"  change="handleChange"/>         
+                        </fm:SimpleForm>        
+                       <VBox>
+                       <Table  id="idConsumedTable" growing="true" growingThreshold="10" items="{DisplayHealthInsuranceModel>/cust_healthInsuranceDetails}">
+                            <headerToolbar>
+                                <OverflowToolbar>
+                                       <Title text="{i18n>Details}" level="H4" />
+                            <content>
+                                <ToolbarSpacer></ToolbarSpacer>
+                                <Button text="Add Details" icon="sap-icon://add" press="onAddDetailsItemsPress"></Button>
+                            </content>
+                                </OverflowToolbar>
+                            </headerToolbar>
+                            <columns>
+                               
+                                <Column demandPopin="true" minScreenWidth="Tablet">
+                                 <Label text="Relationship" required="true" />
+                                   
+                                </Column>
+                                <Column demandPopin="true" minScreenWidth="Tablet">
+                                   <Label text="Name " required="true" />
+                                </Column>
+                                <Column demandPopin="true" minScreenWidth="Tablet">
+                                   <Label text="Gender" required="true" />
+                                </Column>
+                                <Column demandPopin="true" minScreenWidth="Tablet">
+                                  <Label text="National ID" required="true" />
+                                </Column>
+                                 <Column demandPopin="true" minScreenWidth="Tablet">
+                                      <Label text="Address" required="true" />
+                                </Column>
+                                  <Column demandPopin="true" minScreenWidth="Tablet">
+                                      <Label text="Date of Birth" required="true" />
+                                </Column>
+                                  <Column demandPopin="true" minScreenWidth="Tablet">
+                                      <Label text="Location" required="true" />
+                                </Column>
+
+                               <Column demandPopin="true" minScreenWidth="Tablet">
+                                      <Label text="Scheme" required="false" />
+                                </Column>
+                                <Column demandPopin="true" minScreenWidth="Tablet">
+                                      <Label text="Attachment 1" required="false" />
+                                </Column>
+                                <Column demandPopin="true" minScreenWidth="Tablet">
+                                      <Label text="Attachment 2" required="false" />
+                                </Column>
+                                <Column demandPopin="true" minScreenWidth="Tablet">
+                                      <Label text="Attachment 3" required="false" />
+                                </Column>
+                                 <Column demandPopin="true" minScreenWidth="Tablet">
+                                      <Label text="" required="false" />
+                                </Column>
+
+                                
+                            </columns>
+                            <items>
+                                <ColumnListItem id="idBOQItems">
+                                    <cells>
+                                   
+
+
+
+                                             <ComboBox  selectedKey="{DisplayHealthInsuranceModel>Relationship}" items="{ path: '/SF_PickListValueV2',
+                                                sorter : {  
+                                                 path : 'label_defaultValue'},
+                                                filters : [{ path : 'PickListV2_id', operator : 'EQ', value1 : 'ESS_personRelationshipType'}]}" change="onTimeTyeChange">
+                                              <core:Item key="{externalCode}" text="{label_defaultValue}" />
+                                            </ComboBox>
+                                           
+                                            <Input value="{DisplayHealthInsuranceModel>DependentName}"/>
+                                            <ComboBox  selectedKey="{DisplayHealthInsuranceModel>DependentGender}" items="{ path: '/SF_PickListValueV2',
+                                                sorter : {  
+                                                 path : 'label_defaultValue'},
+                                                filters : [{ path : 'PickListV2_id', operator : 'EQ', value1 : 'Gender'}]}" change="onTimeTyeChange">
+                                              <core:Item key="{externalCode}" text="{label_defaultValue}" />
+                                            </ComboBox>
+                                              <Input type="Number" value="{DisplayHealthInsuranceModel>NationalID}"/>
+                                             <Input value="{DisplayHealthInsuranceModel>DependentNationalAddress}"/>
+                                           
+
+            
+
+                                       <DatePicker   value="{path:'DisplayHealthInsuranceModel>DependentDOB', type:'sap.ui.model.type.Date', formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}"  />
+                                              <Input value="{DisplayHealthInsuranceModel>DeliveryLoc}"/>
+                                              <Input value="{DisplayHealthInsuranceModel>Scheme}"/>
+                                          
+
+                                              <VBox>
+                                               <Link  tooltip="Download(1)" text="Download" press="onDownLoadPress" visible="{path:'DisplayHealthInsuranceModel>attachment1FileContent',formatter:'.formatter.viewFileNames'}"/>
+                                               
+                                                <unified:FileUploader  buttonOnly="true" buttonText="{i18n>Upload}"  sameFilenameAllowed="true" multiple="false" style="Emphasized" change="onAttach1FileSelectedForUpload" visible="{path:'Attachments',formatter:'.formatter.viewItemsFileUploader'}" />
+                                            </VBox>
+                                            <VBox>
+                                               
+                                               <Link tooltip="Download(2)"  text="Download" press="onDownLoadPress" visible="{path:'DisplayHealthInsuranceModel>attachment2FileContent',formatter:'.formatter.viewFileNames'}"/>
+                                                <unified:FileUploader  buttonOnly="true" buttonText="{i18n>Upload}"  sameFilenameAllowed="true" multiple="false" style="Emphasized" change="onAttach2FileSelectedForUpload" visible="{path:'Attachments',formatter:'.formatter.viewItemsFileUploader'}" />
+                                            </VBox>
+                                            <VBox>
+                                               
+                                                <Link  tooltip="Download(3)" text="Download" press="onDownLoadPress" visible="{path:'DisplayHealthInsuranceModel>attachment3FileContent',formatter:'.formatter.viewFileNames'}"/>
+                                               
+                                                <unified:FileUploader  buttonOnly="true" buttonText="{i18n>Upload}"  sameFilenameAllowed="true" multiple="false" style="Emphasized" change="onAttach3FileSelectedForUpload" visible="{path:'Attachments',formatter:'.formatter.viewItemsFileUploader'}" />
+                                            </VBox>
+                                            
+                                               <Button icon="sap-icon://delete" press="onDeleteItemPress" type="Transparent"/>
+                                       
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                        </VBox>
+</core:FragmentDefinition>

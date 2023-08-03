@@ -1,0 +1,107 @@
+<mvc:View controllerName="com.sal.salhr.controller.CreateBusinessCardRequest"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:l="sap.ui.layout"
+    xmlns:core="sap.ui.core"
+    xmlns:fm="sap.ui.layout.form"
+     height="100%">
+    <f:DynamicPage id="dynamicPageId" headerExpanded="true" showFooter="true">
+        <!-- DynamicPage Title -->
+        <f:title>
+            <f:DynamicPageTitle id="idDynamicPageTitle">
+                <f:heading>
+                    <Title id="idPageTitle" text="New Business Card Request" class="sapUiSmallMarginBegin"/>
+                </f:heading>
+                <f:breadcrumbs>
+                    <Breadcrumbs id="idBreadcrumbs" currentLocationText="New Business Card Request" class="sapUiSmallMarginBegin">
+                        <Link id="idHumanResourceLink" text="{i18n>HumanResource}" press="onCreateCancelPress"/>
+                    </Breadcrumbs>
+                </f:breadcrumbs>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:content>
+            <l:VerticalLayout class="sapUiNoMargin sapUiNoContentPadding">
+                <l:content>
+                    <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
+                        <Label text="Job Title" />
+                        <Input editable="false" liveChange="onLiveChangeJobTitle" id="idCreateJobTitle" value="{CreateBusinessCardModel>/sJobTitle}">
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M4 S4" />
+                            </layoutData>
+                        </Input>
+
+                        
+
+                        <Label text="Division" required="false" />
+                        <Input editable="false" id="idCreateDivision" value="{CreateBusinessCardModel>/sDivison}">
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M4 S4" />
+                            </layoutData>
+                        </Input>
+
+
+
+                    </fm:SimpleForm>
+                    <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
+                        <Label text="Mobile" />
+                         <Input type="Number" editable="false" liveChange="onChangeMobile" id="idCreateMobile" value="{CreateBusinessCardModel>/sMobile}">
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M4 S4" />
+                            </layoutData>
+                        </Input>
+                         <Label required="false" text="Office Number" />
+                        <Input  id="idCreateOfficeNo" editable="false" value="{CreateBusinessCardModel>/sOfficeNo}">
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M4 S4" />
+                            </layoutData>
+                        </Input>
+                    </fm:SimpleForm>
+                    <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
+                        <Label text="Email" />
+                         <Input type="Email" editable="false" liveChange="onEmailChange" id="idCreateEmail" value="{CreateBusinessCardModel>/sEmail}">
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M4 S4" />
+                            </layoutData>
+                        </Input>
+
+                        <Label id="idDateLBL" text="P.O BOX" />
+                        <Input  id="idCreatePOBOX" value="">
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M4 S4" />
+                            </layoutData>
+                        </Input>
+                        
+                    </fm:SimpleForm>
+                    <fm:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" singleContainerFullSize="false" class="style-RemoveTitleHeight">
+                       
+
+
+                        <Label text="Location" required="false" />
+                        <Input editable="true" id="idCreateLocation"  value="">
+                            <layoutData>
+                                <l:GridData span="XL2 L3 M4 S4" />
+                            </layoutData>
+                        </Input>
+
+                        <Label text="{i18n>whenWouldYouLiketoText}"/>
+                        <DatePicker id="idIncidentStartDate" enabled="false" value="{path:'LocalViewModel>/currentDate', type:'sap.ui.model.type.Date', formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}" change="onLeaveStartDatChange"/>
+                                                
+                    </fm:SimpleForm>
+
+                </l:content>
+            </l:VerticalLayout>
+        </f:content>
+        <!-- DynamicPage Footer -->
+        <f:footer>
+            <OverflowToolbar id="idOverflowToolbar" visible="true">
+                <ToolbarSpacer id="idToolbarSpacer"/>
+                <Button id="idResetBTN" text="{i18n>Reset}" type="Ghost" press="onResetPress"/>
+                <Button id="idCancelBTN" text="{i18n>Cancel}" type="Ghost" press="onCreateCancelPress"/>
+                <Button id="idRaiseRequestBTN" text="{i18n>RaiseRequest}" press="onRaiseRequestPress" class="RaiseRequestButton"/>
+            </OverflowToolbar>
+        </f:footer>
+    </f:DynamicPage>
+</mvc:View>

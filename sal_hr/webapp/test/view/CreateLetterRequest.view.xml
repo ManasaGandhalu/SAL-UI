@@ -1,0 +1,72 @@
+<mvc:View controllerName="com.sal.salhr.controller.CreateLetterRequest"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:l="sap.ui.layout"
+    xmlns:core="sap.ui.core"
+    xmlns:fm="sap.ui.layout.form"
+    xmlns:upload="sap.m.upload" height="100%">
+    <f:DynamicPage id="dynamicPageId" headerExpanded="true" showFooter="true">
+        <!-- DynamicPage Title -->
+        <f:title>
+            <f:DynamicPageTitle id="idDynamicPageTitle">
+                <f:heading>
+                    <Title id="idPageTitle" text="New Letter Request" class="sapUiSmallMarginBegin"/>
+                </f:heading>
+                <f:breadcrumbs>
+                    <Breadcrumbs id="idBreadcrumbs" currentLocationText="New Letter Request" class="sapUiSmallMarginBegin">
+                        <Link id="idHumanResourceLink" text="{i18n>HumanResource}" press="onCreateCancelPress"/>
+                    </Breadcrumbs>
+                </f:breadcrumbs>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:content>
+         <l:VerticalLayout class="sapUiNoMargin sapUiNoContentPadding" >
+                <l:content> 
+                    <fm:SimpleForm layout="ColumnLayout" columnsM="1" columnsL="1" columnsXL="1" singleContainerFullSize="false" class="style-RemoveTitleHeight" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+                        <Label text="As of Date" />
+                        <DatePicker id="idLetterEffectDatePicker" value="{path:'LocalViewModel>/currentDate', type:'sap.ui.model.type.Date', formatOptions: {
+                                                    pattern: 'MM/dd/yyyy'
+                                                }}" minDate="{LocalViewModel>/currentDate}" />
+                    </fm:SimpleForm>
+
+                    <fm:SimpleForm title="Generate Document" layout="ColumnLayout" class="style-RemoveTitleHeight" columnsM="1" columnsL="1" columnsXL="1" singleContainerFullSize="false" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12">
+            <Label text="Country Region" required="true"/>
+            <Input id="idLetterCountry" value="Saudi Arabia" enabled= "false"/>
+
+            <Label text="Language" />
+            <Input id="idLanguage" value="English US" enabled= "false"/>
+
+             <Label text="Templates" required="true"/>
+             <Select id="idLetterTemplate" change="onTemplateTypeChange" items="{ path: '/LetterTemplate'}">
+                        <core:ListItem key="{ID}" text="{template}" />
+
+                    </Select>
+
+             <Label text="Template Description" />
+            <Input id="idDescription" value="" enabled= "false"/>
+             
+            
+
+
+                 </fm:SimpleForm>
+
+         
+         
+
+                    
+                   
+                </l:content>
+            </l:VerticalLayout>
+        </f:content>
+        <!-- DynamicPage Footer -->
+        <f:footer>
+            <OverflowToolbar id="idOverflowToolbar" visible="true">
+                <ToolbarSpacer id="idToolbarSpacer"/>
+                <!-- <Button id="idResetBTN" text="{i18n>Reset}" type="Ghost" press="onResetPress"/> -->
+                <Button id="idCancelBTN" text="{i18n>Cancel}" type="Ghost" press="onCreateCancelPress"/>
+                <Button id="idDownloadBTN" text="Download" press="onRaiseRequestPress" class="RaiseRequestButton"/>
+            </OverflowToolbar>
+        </f:footer>
+    </f:DynamicPage>
+</mvc:View>
