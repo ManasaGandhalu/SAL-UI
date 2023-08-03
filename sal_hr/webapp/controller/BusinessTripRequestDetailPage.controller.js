@@ -1710,7 +1710,7 @@ sap.ui.define([
                    }
                  }
 
-                //    oBusinessTripItems[i].cust_travelTime = null;
+                   oBusinessTripItems[i].cust_travelTime = null;
                    delete oBusinessTripItems[i].cust_TravelPayComp2Nav;
                    delete oBusinessTripItems[i].cust_TravelPayComp1Nav;
                    delete oBusinessTripItems[i].cust_businessTravelPayCompNav;

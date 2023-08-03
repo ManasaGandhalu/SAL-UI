@@ -3,10 +3,11 @@ sap.ui.define([
     "sap/ui/Device",
     "com/sal/salhr/model/models",
     "sap/ui/model/json/JSONModel",
-    "sap/f/library"
+    "sap/f/library",
+    "sap/ushell/services/Role"
    
 ],
-    function (UIComponent, Device, models, JSONModel, fioriLibrary) {
+    function (UIComponent, Device, models, JSONModel, fioriLibrary,Role) {
         "use strict";
 
         return UIComponent.extend("com.sal.salhr.Component", {
@@ -46,6 +47,25 @@ sap.ui.define([
 
                 // Set the user model
                 this.fnGetLoggedInEmpInfo(bIsUserManager);
+
+            //    ******************** delete this code *************************
+            debugger;
+            
+            var oRoleService = new Role();
+
+            var sRoleId = "EP_HR_MANAGER";
+
+            oRoleService.getAssignedApps(sRoleId).done(function(aApps){
+
+                console.log(aApps);
+            });
+
+            // *********************************************************
+
+
+
+
+
                 
             },
 
